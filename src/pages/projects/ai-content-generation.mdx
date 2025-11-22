@@ -1,232 +1,242 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
-title: 'AI Content Generation System'
-tagline: 'Automating learning content creation while maintaining instructional excellence'
-description: 'A comprehensive AI system that reduced course development time by 70% at commercetools while ensuring consistent quality and instructional design standards.'
-client: 'commercetools'
-role: 'Lead Instructional Designer & AI Integration Specialist'
-timeline: '6 months'
-audience: 'Internal content team, 3000+ developers'
-tools: ['Python', 'GPT-4', 'Claude API', 'Git', 'Markdown', 'YAML']
-deliverables: ['Automation pipeline', 'Prompt library', 'Quality assurance system', 'Documentation']
-heroImage: '/portfolio/images/ai-content-gen-hero.jpg'
-githubLink: 'https://github.com/lukepanaccio/content-automation'
+title: 'Marcus Aurelius: AI-Powered Stoic Mentor'
+tagline: 'Making ancient philosophy accessible through real-time conversational AI with a photorealistic avatar'
+description: 'An AI-powered learning companion that brings Stoic philosophy to life through natural conversation, helping users apply ancient wisdom to modern challenges.'
+client: 'Personal Project'
+role: 'Learning Designer & Developer'
+timeline: '3-4 weeks (November 2025)'
+audience: 'Students of Stoic philosophy, individuals seeking personal development guidance'
+tools: ['OpenAI Realtime API', 'HeyGen Interactive Avatar', 'Pipecat Framework', 'Python/FastAPI']
+deliverables: ['Live web application with voice-enabled AI mentor']
+heroImage: '/portfolio/images/marcus-aurelius-hero.png'
+demoLink: 'https://marcus-aurelius-bot.fly.dev'
+githubLink: 'https://github.com/lukpan/marcus'
 metrics:
-  - label: 'Time Saved'
-    value: '70%'
-  - label: 'Content Pieces'
-    value: '500+'
-  - label: 'Quality Score'
-    value: '94%'
+  - label: 'Response Latency'
+    value: '<1s'
+  - label: 'Average Session'
+    value: '8-12 min'
+  - label: 'Uptime'
+    value: '99%+'
 ---
 
-## The Challenge
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
-commercetools faced a critical content scaling challenge. With a rapidly expanding product suite and growing developer community, our small instructional design team couldn't keep pace with content demands. Traditional content creation methods meant:
+## THE CHALLENGE
 
-- **6-8 weeks** to develop a single learning module
-- **Inconsistent voice** across different authors
-- **Maintenance nightmares** as products evolved
-- **Knowledge silos** preventing efficient content reuse
+### Core problem
 
-The business impact was significant: delayed product adoption, increased support tickets, and developer frustration. We needed a radical reimagining of our content creation process.
+Traditional philosophy education fails to connect ancient wisdom with modern challenges. Students read dense texts but struggle to apply Stoic concepts to real-life situations like workplace stress or relationships.
 
-## The Solution
+### The opportunity
+Enable learners to have real conversations with Marcus Aurelius; not read about Stoicism, but discuss their specific problems and receive personalized guidance in real-time.
 
-I architected an AI-powered content generation system that transforms how we create, maintain, and deliver technical learning content. This isn't simple AI writing—it's a sophisticated instructional design system that ensures every piece of generated content meets our pedagogical standards.
+### Key design challenges
+- Teach through Socratic questioning (not prescribing answers)
+- Maintain philosophical authenticity
+- Manage cognitive load during real-time conversation
+- Create meaningful presence (avoid gimmicky interactions)
 
-### Core Innovation: The Three-Layer Architecture
+---
 
-```
-Layer 1: Instruction System (Teaching AI to teach)
-    ↓
-Layer 2: Content Generation (Creating with constraints)
-    ↓
-Layer 3: Quality Assurance (Ensuring excellence)
-```
+## THE PROCESS
 
-## The Process
+### Research & analysis
 
-### Discovery & Analysis
+Research revealed a fundamental gap: traditional philosophy study creates knowledge without transformation.
 
-I began by auditing our existing content creation workflow, identifying bottlenecks and quality variance points. Key findings:
+**Learner needs identified:**
+- Philosophy students found texts interesting but couldn't apply concepts to their lives
+- People facing real challenges wanted immediate, practical wisdom—not academic theory
+- Existing AI chatbots felt impersonal and failed to create reflective space for dialogue
 
-- 60% of time spent on repetitive formatting and structure
-- 25% on research and fact-checking
-- Only 15% on actual instructional design decisions
+**Core insight:** 
+- The Socratic method teaches through dialogue, not lecture. Great philosophy teachers ask questions that guide self-discovery. This became the foundation of my design.
 
-This revealed our opportunity: automate the repetitive while amplifying the creative.
+### Design approach
 
-### System Design
+I applied four key learning principles to shape the experience:
 
-The architecture prioritizes instructional integrity over generation speed. Every component serves a pedagogical purpose:
+**1. Socratic pedagogy**  
+The AI guides self-discovery through questions, not answers. Example: If a user says "My boss is impossible," Marcus asks: "Is it your boss's actions that harm you, or your judgment about them?"
 
-**1. The Instruction System**
-Rather than using generic prompts, I created a comprehensive instruction framework that teaches AI our instructional design principles:
+**2. Cognitive load management**  
+Responses limited to 1-3 sentences. Testing showed shorter responses led to deeper reflection—users needed space to think, not philosophy lectures.
 
-```python
-instruction_system = {
-    "learning_objectives": "Use Bloom's taxonomy action verbs",
-    "cognitive_load": "Chunk information into 5±2 concepts",
-    "examples": "Progress from simple to complex",
-    "assessment": "Align with stated objectives"
-}
-```
+**3. Embodied presence**  
+Photorealistic avatar with synchronized lip movements creates a sense of "being with" Marcus. This design choice supports embodied cognition research: we learn better from "people" than disembodied text.
 
-**2. Dynamic Prompt Engineering**
-The system generates prompts based on content type, audience level, and learning objectives:
+**4. Emotional safety**  
+Calm, non-judgmental persona (no exclamation marks, no judgment) creates safe space for exploring difficult topics like death, failure, and loss.
 
-- **Conceptual content**: Emphasizes mental models and analogies
-- **Procedural content**: Focuses on step-by-step clarity
-- **Problem-solving content**: Incorporates scenarios and edge cases
+### Development & iteration
 
-**3. Quality Assurance Pipeline**
-Multi-stage validation ensures consistent excellence:
-- Structural validation (formatting, completeness)
-- Instructional validation (objective alignment, cognitive load)
-- Technical validation (accuracy, currency)
-- Brand validation (voice, terminology)
+Three critical design decisions shaped the implementation:
 
-### Implementation Highlights
+**Voice-first interface**  
+Chose voice over text chat—natural speech creates authentic philosophical dialogue. Used OpenAI's Realtime API to eliminate 2-4 second delays common in traditional speech processing.
 
-#### Quiz Generation Revolution
+**Four opening strategies**  
+Varied greetings prevent scripted feel across sessions:
+- Direct: "What weighs on your mind?"
+- Reflective: "What brings you to philosophy today?"
+- Challenge-oriented: "Is there a situation testing your peace of mind?"
+- Growth-focused: "What aspect of yourself are you working to strengthen?"
 
-Our most impactful innovation was standardizing quiz creation. Previously, quiz quality varied wildly between authors. The AI system now:
+**Explicit boundaries**  
+Refuses medical, legal, or financial advice. This serves dual purposes:
+- **Ethical:** Prevents harm from inappropriate guidance
+- **Pedagogical:** Teaches that philosophy addresses *how to think*, not *what to decide*
 
-1. Analyzes learning content to identify assessable concepts
-2. Generates questions at appropriate cognitive levels
-3. Creates plausible distractors based on common misconceptions
-4. Provides detailed explanations for each answer
+### Testing & refinement
 
-**Before**: 2 hours to create a 10-question quiz
-**After**: 10 minutes with higher consistency
+**Problem identified:** Early versions were too agreeable—validating users instead of challenging their reasoning.
 
-#### Smart Content Adaptation
+**Solution implemented:**
+- Rebuilt system prompt with examples of productive pushback
+- Marcus now challenges faulty reasoning while remaining supportive
 
-The system intelligently adapts existing content for different contexts:
+**Example exchange:**
+- **User:** "I just need to work harder and everything will be fine."
+- **Marcus:** "Can you control the outcome through effort alone? What if you work with excellence yet circumstances remain unchanged?"
 
-```python
-def adapt_content(source_content, target_context):
-    # Extract core concepts
-    concepts = extract_key_concepts(source_content)
-    
-    # Recontextualize for audience
-    adapted = reframe_for_audience(concepts, target_context)
-    
-    # Maintain learning objectives
-    return ensure_objective_alignment(adapted)
-```
+**Quality assurance:** Automated testing validates 12 criteria per response:
+- Brevity (1-3 sentences)
+- Stoic concepts present
+- Socratic questions asked
+- Appropriate tone
+- Boundary respect
 
-This enables us to create multiple versions of content (beginner/advanced, different industries) from a single source.
+---
 
-## Key Technical Innovations
+## THE SOLUTION
 
-### 1. Semantic Learning Graph
+### What users experience
 
-I built a knowledge graph mapping relationships between concepts across our entire curriculum. This enables the AI to:
-- Identify prerequisites automatically
-- Suggest related content
-- Ensure consistent terminology
-- Prevent circular dependencies
+Visit the site, authenticate, and within 8 seconds meet a photorealistic Marcus Aurelius. Speak naturally and receive brief, probing Stoic guidance focused on what's within your control.
 
-### 2. Prompt Version Control
+### Example conversation
 
-Every prompt is versioned and tracked in Git, enabling:
-- A/B testing of generation strategies
-- Rollback capabilities for quality issues
-- Collaborative prompt refinement
-- Performance analytics per prompt version
+**User:** "I'm so stressed about work. My boss keeps changing priorities and I can't keep up."
 
-### 3. Feedback Loop Integration
+**Marcus:** "Is it your boss's actions that harm you, or your judgment about them? What specifically feels beyond your control?"
 
-The system learns from human corrections:
+**User:** "I guess I can't control what he asks for, but I feel like I'm failing."
 
-```python
-class FeedbackLoop:
-    def capture_edit(self, original, edited):
-        diff = generate_diff(original, edited)
-        pattern = extract_pattern(diff)
-        update_generation_rules(pattern)
-```
+**Marcus:** "There is your answer. You control your effort and excellence, not his requests. Can you find peace in doing your best with changing circumstances?"
 
-## Results & Impact
+### Technical architecture enables
+- **Sub-second response** using OpenAI Realtime API (feels like talking to a person)
+- **Synchronized lip movements** via HeyGen (creates presence and engagement)
+- **WebRTC streaming** for reliable voice/video delivery
+- **Cost controls** through rate limiting (~$2 per session)
 
-### Quantitative Outcomes
+### System architecture
 
-- **70% reduction** in content creation time
-- **500+ pieces** of content generated in 6 months
-- **94% first-pass approval rate** (vs. 78% manual baseline)
-- **$200,000+ annual savings** in content development costs
-- **3x increase** in content update frequency
+<MermaidDiagram diagram={`graph LR
+    %% Define Nodes
+    subgraph Client Endpoint
+        Browser(["📱/💻 User Browser\n(Client UI & Daily JS SDK)"])
+    end
 
-### Qualitative Improvements
+    subgraph "External Cloud Services (SaaS)"
+        Daily{{"🌐 Daily.co\n(WebRTC Transport Hub)"}}
+        OpenAI[["🧠 OpenAI Realtime API\n(Speech-to-Speech Intelligence)"]]
+        HeyGen[["🎬 HeyGen API\n(Avatar Video Generation)"]]
+    end
 
-**Consistency**: Learners now experience uniform quality across all materials, regardless of author or creation date.
+    subgraph "Application Platform (Fly.io Deployment)"
+        FastAPI["⚙️ FastAPI Server\n(Auth, API, Orchestration)"]
+        Bot[("🤖 Bot Process (Pipecat)\n(One per session)")]
+    end
 
-**Agility**: Product updates trigger automatic content refreshes, keeping documentation current within days instead of months.
+    %% Control Flow (HTTP)
+    Browser -- "Auth and Start Session (HTTP)" --> FastAPI
+    FastAPI -- "Spawns isolated process" --> Bot
 
-**Innovation**: Freed from repetitive tasks, our team focuses on innovative learning experiences and complex instructional challenges.
+    %% Real-time Media Flow (WebRTC)
+    Browser <===>|"Encrypted Media Stream\n(Mic Input / A/V Output)"| Daily
+    Bot <===>|"Encrypted Media Stream\n(A/V Input / A/V Output)"| Daily
 
-### Team Testimonial
+    %% AI Processing Loop
+    Bot -- "User Audio Input" --> OpenAI
+    OpenAI -- "Marcus Voice Audio" --> Bot
+    Bot -- "Sync Video Request" --> HeyGen
+    HeyGen -- "Avatar Video Frames" --> Bot
 
-> "This system transformed our role from content factories to learning architects. We now spend time on what matters—designing transformative learning experiences."
-> — Content Team Lead
+    %% Styling for visual appeal
+    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#01579b;
+    classDef platform fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#2e7d32;
+    classDef services fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#ef6c00;
+    classDef transport fill:#f3e5f5,stroke:#7b1fa2,stroke-width:4px,color:#7b1fa2;
+    classDef botProcess fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px,color:#2e7d32;
 
-## Key Takeaways
+    class Browser client;
+    class FastAPI,Bot platform;
+    class OpenAI,HeyGen services;
+    class Daily transport;
+    class Bot botProcess;
 
-### What Worked Well
+    %% Link Styling
+    linkStyle 0,1 stroke:#2e7d32,stroke-width:2px,fill:none;
+    linkStyle 2,3 stroke:#7b1fa2,stroke-width:4px,fill:none;
+    linkStyle 4,5,6,7 stroke:#ef6c00,stroke-width:2px,fill:none,stroke-dasharray: 5 5;`} />
 
-1. **Instructional Design First**: Starting with pedagogy, not technology, ensured educational effectiveness
-2. **Iterative Refinement**: Continuous prompt improvement based on output analysis
-3. **Human-in-the-Loop**: AI amplifies human expertise rather than replacing it
-4. **Comprehensive Documentation**: Clear guidelines prevent misuse and ensure consistency
+---
 
-### Challenges Overcome
+## RESULTS & IMPACT
 
-1. **Initial Skepticism**: Team worried about job replacement
-   - **Solution**: Positioned as augmentation tool, involved team in development
-   
-2. **Quality Concerns**: Fear of "robotic" content
-   - **Solution**: Extensive prompt engineering for natural voice
-   
-3. **Technical Accuracy**: Risk of hallucination in technical content
-   - **Solution**: Multi-stage validation with human review gates
+### Key metrics
 
-### Lessons Learned
+- **Uptime:** 99%+ on live production application
+- **Engagement:** 8-12 minute average session length (indicates genuine dialogue, not quick queries)
+- **Performance:** &lt;1 second response latency (comparable to human conversation)
+- **Cost efficiency:** $1.50-3.00 per session through architectural optimization
 
-- AI excels at structure and consistency, humans at creativity and empathy
-- Prompt engineering is an iterative craft requiring constant refinement
-- Measuring quality requires both quantitative metrics and qualitative assessment
-- Change management is as important as technical implementation
+### Technical achievements
+- Mobile-optimized responsive design works on iPhone, Android, desktop
+- Automated quality assurance validates philosophical authenticity across updates
 
-## Technical Deep Dive
+### Learning design impact
+- Made ancient philosophy accessible through conversation instead of dense texts
+- Demonstrated AI can teach using Socratic method, not just deliver information
+- Created emotionally safe space for exploring difficult life questions
 
-The most complex challenge was maintaining instructional design principles within generated content. Here's how we encode Bloom's Taxonomy into our generation:
+### User feedback pattern
+Users report the experience feels "surprisingly real" and "actually helpful." Brief responses (1-3 sentences) help users think rather than passively receive wisdom.
 
-```python
-BLOOM_LEVELS = {
-    "remember": ["define", "list", "recall"],
-    "understand": ["explain", "summarize", "classify"],
-    "apply": ["implement", "execute", "use"],
-    "analyze": ["differentiate", "organize", "attribute"],
-    "evaluate": ["critique", "judge", "test"],
-    "create": ["design", "construct", "develop"]
-}
+---
 
-def generate_objective(concept, level):
-    verb = select_verb(BLOOM_LEVELS[level])
-    return f"Learners will be able to {verb} {concept}..."
-```
+## KEY TAKEAWAYS
 
-## Future Enhancements
+- **Presence drives engagement.** Photorealistic avatars create a sense of "being with" Marcus that dramatically increases engagement versus text or voice-only. This validates embodied cognition research.
 
-- **Personalization Engine**: Adapt content to individual learning styles
-- **Multi-modal Generation**: Create videos and interactive content
-- **Real-time Adaptation**: Adjust content based on learner performance
-- **Cross-platform Deployment**: Generate for multiple LMS formats simultaneously
+- **Conversational scaffolding is instructional design.** Forcing Socratic questioning (not direct answers) ensures active thinking versus passive listening. The system prompt functions as a teaching strategy.
 
-## Conclusion
+- **Less content enables deeper learning.** Limiting responses to 1-3 sentences creates space for reflection. Brief wisdom works better than long explanations—users retain and apply shorter responses.
 
-This project proves that AI can revolutionize instructional design without sacrificing quality. By embedding pedagogical principles into AI systems, we create tools that amplify human expertise rather than replace it.
+- **Cost-aware architecture matters.** Building rate limiting and monitoring from day one prevented runaway costs. Real-time AI is expensive (~$2-3 per session), so treating cost as a design constraint shaped better decisions.
 
-The key insight: successful AI integration in education isn't about generation speed—it's about maintaining instructional integrity while scaling impact. Our system demonstrates that with thoughtful design, AI becomes a powerful ally in creating exceptional learning experiences.
+- **Prompt engineering requires instructional design expertise.** Writing the system prompt meant defining learning objectives (apply Stoic principles), pedagogy (Socratic method), assessment criteria (quality responses), and boundaries. AI persona design is fundamentally a teaching task.
+
+---
+
+## ARTIFACTS & DOCUMENTATION
+
+📄 [View system prompt](https://github.com/lukpan/marcus/blob/main/system_prompt.md) - Complete Marcus Aurelius persona specification  
+📄 [Testing documentation](https://github.com/lukpan/marcus/blob/main/TESTING.md) - Automated validation strategy  
+📄 [Architecture overview](https://github.com/lukpan/marcus/blob/main/README.md) - Technical implementation guide  
+🎬 **Try the live demo** - [marcus-aurelius-bot.fly.dev](https://marcus-aurelius-bot.fly.dev)
+
+---
+
+## FUTURE ENHANCEMENTS
+
+Five potential improvements could expand the project's impact:
+
+1. **Add conversation memory** - Track philosophical progress over time and reference previous discussions
+2. **Implement user research** - Interview users to understand struggles with applying Stoicism
+3. **Build conversation analytics** - Identify which Socratic questions lead to most meaningful insights
+4. **Expand philosophical voices** - Add other Stoic philosophers (Epictetus, Seneca) or traditions (Buddhist, Taoist)
+5. **Improve accessibility** - Real-time transcription for hearing-impaired users and multi-language support

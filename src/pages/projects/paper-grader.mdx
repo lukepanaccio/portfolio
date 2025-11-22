@@ -1,303 +1,242 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
-title: 'Paper Grader Assistant'
-tagline: 'Privacy-first AI grading that saves time while improving feedback quality'
-description: 'An AI-powered grading system that saved 60-80 hours per semester while providing consistent, detailed feedback to students—all while maintaining complete data privacy.'
-client: 'Personal/Academic Use'
-role: 'Developer & Educational Technologist'
-timeline: '2 months'
-audience: 'Educators, 125+ students per semester'
-tools: ['Python', 'Claude API', 'Pandas', 'Git', 'Markdown']
-deliverables: ['CLI application', 'Grading rubrics', 'Feedback templates', 'Privacy documentation']
-heroImage: '/portfolio/images/paper-grader-hero.jpg'
-githubLink: 'https://github.com/lukepanaccio/paper-grader'
+title: 'Marcus Aurelius: AI-Powered Stoic Mentor'
+tagline: 'Making ancient philosophy accessible through real-time conversational AI with a photorealistic avatar'
+description: 'An AI-powered learning companion that brings Stoic philosophy to life through natural conversation, helping users apply ancient wisdom to modern challenges.'
+client: 'Personal Project'
+role: 'Learning Designer & Developer'
+timeline: '3-4 weeks (November 2025)'
+audience: 'Students of Stoic philosophy, individuals seeking personal development guidance'
+tools: ['OpenAI Realtime API', 'HeyGen Interactive Avatar', 'Pipecat Framework', 'Python/FastAPI']
+deliverables: ['Live web application with voice-enabled AI mentor']
+heroImage: '/portfolio/images/marcus-aurelius-hero.png'
+demoLink: 'https://marcus-aurelius-bot.fly.dev'
+githubLink: 'https://github.com/lukpan/marcus'
 metrics:
-  - label: 'Hours Saved'
-    value: '60-80'
-  - label: 'Papers Graded'
-    value: '125+'
-  - label: 'Cost per Paper'
-    value: '$0.18'
+  - label: 'Response Latency'
+    value: '<1s'
+  - label: 'Average Session'
+    value: '8-12 min'
+  - label: 'Uptime'
+    value: '99%+'
 ---
 
-## The Challenge
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
-Grading student papers is one of education's most time-consuming tasks. As a former high school computer science teacher, I spent 30-40 minutes per paper providing meaningful feedback. With 125+ students, grading consumed entire weekends and breaks.
+## THE CHALLENGE
 
-The real challenge wasn't just time—it was maintaining consistency and quality:
-- **Grading fatigue** led to less detailed feedback for papers graded later
-- **Inconsistent standards** crept in across grading sessions
-- **Delayed feedback** reduced learning impact
-- **Mental exhaustion** affected teaching quality
+### Core problem
 
-Most importantly, existing AI grading solutions required uploading student work to third-party servers, raising serious privacy concerns under FERPA and GDPR regulations.
+Traditional philosophy education fails to connect ancient wisdom with modern challenges. Students read dense texts but struggle to apply Stoic concepts to real-life situations like workplace stress or relationships.
 
-## The Solution
+### The opportunity
+Enable learners to have real conversations with Marcus Aurelius; not read about Stoicism, but discuss their specific problems and receive personalized guidance in real-time.
 
-I developed a privacy-first AI grading assistant that runs entirely locally, never transmitting student data to external servers. The system provides consistent, detailed feedback while preserving the human teacher's role in final evaluation.
+### Key design challenges
+- Teach through Socratic questioning (not prescribing answers)
+- Maintain philosophical authenticity
+- Manage cognitive load during real-time conversation
+- Create meaningful presence (avoid gimmicky interactions)
 
-### Key Innovation: Local Processing Pipeline
+---
 
-```
-Student Papers (Local) → Processing Engine → AI Analysis (API)
-         ↓                                          ↑
-    Privacy Layer          →          Anonymized Content Only
-```
+## THE PROCESS
 
-The system strips all identifying information before any API calls, ensuring complete student privacy while leveraging AI capabilities.
+### Research & analysis
 
-## The Process
+Research revealed a fundamental gap: traditional philosophy study creates knowledge without transformation.
 
-### Research & Requirements
+**Learner needs identified:**
+- Philosophy students found texts interesting but couldn't apply concepts to their lives
+- People facing real challenges wanted immediate, practical wisdom—not academic theory
+- Existing AI chatbots felt impersonal and failed to create reflective space for dialogue
 
-I interviewed fellow educators to understand their grading workflows and pain points:
+**Core insight:** 
+- The Socratic method teaches through dialogue, not lecture. Great philosophy teachers ask questions that guide self-discovery. This became the foundation of my design.
 
-- Teachers wanted to maintain control over final grades
-- Feedback quality mattered more than automated scoring
-- Privacy was non-negotiable for many institutions
-- Integration with existing workflows was essential
+### Design approach
 
-### Design Philosophy
+I applied four key learning principles to shape the experience:
 
-The system augments rather than replaces human judgment:
+**1. Socratic pedagogy**  
+The AI guides self-discovery through questions, not answers. Example: If a user says "My boss is impossible," Marcus asks: "Is it your boss's actions that harm you, or your judgment about them?"
 
-1. **Teacher-Defined Rubrics**: Educators create custom rubrics matching their standards
-2. **Suggested Feedback**: AI provides detailed suggestions, teachers make final decisions
-3. **Consistency Checking**: Flags potential inconsistencies for review
-4. **Learning Analytics**: Identifies class-wide patterns and struggles
+**2. Cognitive load management**  
+Responses limited to 1-3 sentences. Testing showed shorter responses led to deeper reflection—users needed space to think, not philosophy lectures.
 
-### Technical Architecture
+**3. Embodied presence**  
+Photorealistic avatar with synchronized lip movements creates a sense of "being with" Marcus. This design choice supports embodied cognition research: we learn better from "people" than disembodied text.
 
-#### Privacy-First Design
+**4. Emotional safety**  
+Calm, non-judgmental persona (no exclamation marks, no judgment) creates safe space for exploring difficult topics like death, failure, and loss.
 
-```python
-def process_paper(paper_content):
-    # Strip identifying information
-    anonymized = remove_pii(paper_content)
-    
-    # Generate temporary ID for tracking
-    temp_id = generate_session_id()
-    
-    # Process with AI (only anonymized content)
-    feedback = ai_analyze(anonymized, rubric)
-    
-    # Re-associate with student locally
-    return associate_feedback(temp_id, feedback)
-```
+### Development & iteration
 
-No student names, IDs, or identifying information ever leave the local machine.
+Three critical design decisions shaped the implementation:
 
-#### Intelligent Rubric Application
+**Voice-first interface**  
+Chose voice over text chat—natural speech creates authentic philosophical dialogue. Used OpenAI's Realtime API to eliminate 2-4 second delays common in traditional speech processing.
 
-The system translates rubric criteria into AI-understandable instructions:
+**Four opening strategies**  
+Varied greetings prevent scripted feel across sessions:
+- Direct: "What weighs on your mind?"
+- Reflective: "What brings you to philosophy today?"
+- Challenge-oriented: "Is there a situation testing your peace of mind?"
+- Growth-focused: "What aspect of yourself are you working to strengthen?"
 
-```python
-rubric = {
-    "thesis_clarity": {
-        "weight": 20,
-        "criteria": "Clear, arguable thesis statement",
-        "levels": {
-            "excellent": "Thesis is clear, specific, and arguable",
-            "good": "Thesis is clear but could be more specific",
-            "needs_work": "Thesis is unclear or too broad"
-        }
-    }
-}
-```
+**Explicit boundaries**  
+Refuses medical, legal, or financial advice. This serves dual purposes:
+- **Ethical:** Prevents harm from inappropriate guidance
+- **Pedagogical:** Teaches that philosophy addresses *how to think*, not *what to decide*
 
-#### Feedback Generation Pipeline
+### Testing & refinement
 
-1. **Content Analysis**: Evaluates structure, arguments, evidence
-2. **Rubric Alignment**: Maps observations to rubric criteria
-3. **Feedback Synthesis**: Generates specific, actionable suggestions
-4. **Tone Calibration**: Ensures encouraging, constructive language
+**Problem identified:** Early versions were too agreeable—validating users instead of challenging their reasoning.
 
-### Implementation Details
+**Solution implemented:**
+- Rebuilt system prompt with examples of productive pushback
+- Marcus now challenges faulty reasoning while remaining supportive
 
-#### Batch Processing Efficiency
+**Example exchange:**
+- **User:** "I just need to work harder and everything will be fine."
+- **Marcus:** "Can you control the outcome through effort alone? What if you work with excellence yet circumstances remain unchanged?"
 
-The system processes papers in intelligent batches:
+**Quality assurance:** Automated testing validates 12 criteria per response:
+- Brevity (1-3 sentences)
+- Stoic concepts present
+- Socratic questions asked
+- Appropriate tone
+- Boundary respect
 
-```python
-class BatchProcessor:
-    def __init__(self, papers, rubric):
-        self.papers = papers
-        self.rubric = rubric
-        self.context_memory = {}  # Maintain consistency
-    
-    def process_batch(self):
-        for paper in self.papers:
-            feedback = self.generate_feedback(paper)
-            self.update_context(feedback)
-            yield feedback
-```
+---
 
-This maintains grading consistency across the entire batch while optimizing API usage.
+## THE SOLUTION
 
-#### Feedback Quality Assurance
+### What users experience
 
-Multi-stage validation ensures helpful feedback:
+Visit the site, authenticate, and within 8 seconds meet a photorealistic Marcus Aurelius. Speak naturally and receive brief, probing Stoic guidance focused on what's within your control.
 
-1. **Specificity Check**: References specific passages, not generalities
-2. **Actionability Test**: Provides clear improvement suggestions
-3. **Tone Review**: Maintains encouraging, professional language
-4. **Alignment Validation**: Ensures feedback matches rubric criteria
+### Example conversation
 
-## Key Features
+**User:** "I'm so stressed about work. My boss keeps changing priorities and I can't keep up."
 
-### 1. Smart Feedback Templates
+**Marcus:** "Is it your boss's actions that harm you, or your judgment about them? What specifically feels beyond your control?"
 
-The system learns from teacher corrections to improve future feedback:
+**User:** "I guess I can't control what he asks for, but I feel like I'm failing."
 
-```python
-feedback_patterns = {
-    "weak_thesis": [
-        "Your thesis statement could be more specific by...",
-        "Consider narrowing your focus to...",
-        "To make your argument clearer, try..."
-    ]
-}
-```
+**Marcus:** "There is your answer. You control your effort and excellence, not his requests. Can you find peace in doing your best with changing circumstances?"
 
-### 2. Pattern Recognition
+### Technical architecture enables
+- **Sub-second response** using OpenAI Realtime API (feels like talking to a person)
+- **Synchronized lip movements** via HeyGen (creates presence and engagement)
+- **WebRTC streaming** for reliable voice/video delivery
+- **Cost controls** through rate limiting (~$2 per session)
 
-Identifies class-wide issues for targeted instruction:
+### System architecture
 
-- "70% of students struggled with evidence integration"
-- "Thesis statements need class-wide attention"
-- "Citation format consistently problematic"
+<MermaidDiagram diagram={`graph LR
+    %% Define Nodes
+    subgraph Client Endpoint
+        Browser(["📱/💻 User Browser\n(Client UI & Daily JS SDK)"])
+    end
 
-### 3. Progress Tracking
+    subgraph "External Cloud Services (SaaS)"
+        Daily{{"🌐 Daily.co\n(WebRTC Transport Hub)"}}
+        OpenAI[["🧠 OpenAI Realtime API\n(Speech-to-Speech Intelligence)"]]
+        HeyGen[["🎬 HeyGen API\n(Avatar Video Generation)"]]
+    end
 
-Monitors individual student improvement across assignments:
+    subgraph "Application Platform (Fly.io Deployment)"
+        FastAPI["⚙️ FastAPI Server\n(Auth, API, Orchestration)"]
+        Bot[("🤖 Bot Process (Pipecat)\n(One per session)")]
+    end
 
-```python
-def track_progress(student_id, assignment_scores):
-    trends = analyze_trends(assignment_scores)
-    improvements = identify_improvements(trends)
-    return generate_progress_report(improvements)
-```
+    %% Control Flow (HTTP)
+    Browser -- "Auth and Start Session (HTTP)" --> FastAPI
+    FastAPI -- "Spawns isolated process" --> Bot
 
-### 4. Customizable Workflows
+    %% Real-time Media Flow (WebRTC)
+    Browser <===>|"Encrypted Media Stream\n(Mic Input / A/V Output)"| Daily
+    Bot <===>|"Encrypted Media Stream\n(A/V Input / A/V Output)"| Daily
 
-Adapts to different grading philosophies:
-- **Holistic grading**: Overall impression with detailed comments
-- **Criterion-based**: Point-by-point rubric evaluation
-- **Developmental**: Focus on improvement from previous work
+    %% AI Processing Loop
+    Bot -- "User Audio Input" --> OpenAI
+    OpenAI -- "Marcus Voice Audio" --> Bot
+    Bot -- "Sync Video Request" --> HeyGen
+    HeyGen -- "Avatar Video Frames" --> Bot
 
-## Results & Impact
+    %% Styling for visual appeal
+    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#01579b;
+    classDef platform fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#2e7d32;
+    classDef services fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#ef6c00;
+    classDef transport fill:#f3e5f5,stroke:#7b1fa2,stroke-width:4px,color:#7b1fa2;
+    classDef botProcess fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px,color:#2e7d32;
 
-### Quantitative Outcomes
+    class Browser client;
+    class FastAPI,Bot platform;
+    class OpenAI,HeyGen services;
+    class Daily transport;
+    class Bot botProcess;
 
-- **60-80 hours saved** per semester
-- **125+ papers graded** with consistent quality
-- **$0.18 average cost** per paper (vs. $5-10 for human graders)
-- **24-hour turnaround** (vs. 1-2 weeks previously)
-- **95% feedback acceptance rate** from students
+    %% Link Styling
+    linkStyle 0,1 stroke:#2e7d32,stroke-width:2px,fill:none;
+    linkStyle 2,3 stroke:#7b1fa2,stroke-width:4px,fill:none;
+    linkStyle 4,5,6,7 stroke:#ef6c00,stroke-width:2px,fill:none,stroke-dasharray: 5 5;`} />
 
-### Qualitative Improvements
+---
 
-**Teacher Wellbeing**: Educators report less stress and more energy for actual teaching.
+## RESULTS & IMPACT
 
-**Student Satisfaction**: Faster, more detailed feedback improves learning outcomes.
+### Key metrics
 
-**Consistency**: Every paper receives equally thorough attention, regardless of grading order.
+- **Uptime:** 99%+ on live production application
+- **Engagement:** 8-12 minute average session length (indicates genuine dialogue, not quick queries)
+- **Performance:** &lt;1 second response latency (comparable to human conversation)
+- **Cost efficiency:** $1.50-3.00 per session through architectural optimization
 
-### User Testimonial
+### Technical achievements
+- Mobile-optimized responsive design works on iPhone, Android, desktop
+- Automated quality assurance validates philosophical authenticity across updates
 
-> "This tool gave me my weekends back. I can now focus on helping students improve rather than drowning in grading. The privacy-first approach was essential for our institution."
-> — High School English Teacher
+### Learning design impact
+- Made ancient philosophy accessible through conversation instead of dense texts
+- Demonstrated AI can teach using Socratic method, not just deliver information
+- Created emotionally safe space for exploring difficult life questions
 
-## Key Technical Innovations
+### User feedback pattern
+Users report the experience feels "surprisingly real" and "actually helpful." Brief responses (1-3 sentences) help users think rather than passively receive wisdom.
 
-### 1. Differential Privacy Implementation
+---
 
-Uses differential privacy techniques to prevent any possibility of student identification:
+## KEY TAKEAWAYS
 
-```python
-def add_noise(text_features):
-    # Add calibrated noise to feature vectors
-    epsilon = 1.0  # Privacy parameter
-    sensitivity = calculate_sensitivity(text_features)
-    noise = np.random.laplace(0, sensitivity/epsilon, size=text_features.shape)
-    return text_features + noise
-```
+- **Presence drives engagement.** Photorealistic avatars create a sense of "being with" Marcus that dramatically increases engagement versus text or voice-only. This validates embodied cognition research.
 
-### 2. Rubric Learning System
+- **Conversational scaffolding is instructional design.** Forcing Socratic questioning (not direct answers) ensures active thinking versus passive listening. The system prompt functions as a teaching strategy.
 
-The system improves through teacher feedback:
+- **Less content enables deeper learning.** Limiting responses to 1-3 sentences creates space for reflection. Brief wisdom works better than long explanations—users retain and apply shorter responses.
 
-```python
-class RubricLearner:
-    def update(self, ai_suggestion, teacher_correction):
-        diff = self.analyze_difference(ai_suggestion, teacher_correction)
-        self.adjust_weights(diff)
-        self.refine_criteria(diff)
-```
+- **Cost-aware architecture matters.** Building rate limiting and monitoring from day one prevented runaway costs. Real-time AI is expensive (~$2-3 per session), so treating cost as a design constraint shaped better decisions.
 
-### 3. Multi-Modal Feedback
+- **Prompt engineering requires instructional design expertise.** Writing the system prompt meant defining learning objectives (apply Stoic principles), pedagogy (Socratic method), assessment criteria (quality responses), and boundaries. AI persona design is fundamentally a teaching task.
 
-Generates different feedback types:
-- **Inline comments**: Specific text corrections
-- **Marginal notes**: Conceptual suggestions
-- **Summary feedback**: Overall strengths and improvements
-- **Action items**: Prioritized improvement list
+---
 
-## Key Takeaways
+## ARTIFACTS & DOCUMENTATION
 
-### What Worked Well
+📄 [View system prompt](https://github.com/lukpan/marcus/blob/main/system_prompt.md) - Complete Marcus Aurelius persona specification  
+📄 [Testing documentation](https://github.com/lukpan/marcus/blob/main/TESTING.md) - Automated validation strategy  
+📄 [Architecture overview](https://github.com/lukpan/marcus/blob/main/README.md) - Technical implementation guide  
+🎬 **Try the live demo** - [marcus-aurelius-bot.fly.dev](https://marcus-aurelius-bot.fly.dev)
 
-1. **Privacy-First Design**: Addressing privacy concerns upfront enabled institutional adoption
-2. **Teacher Control**: Maintaining educator authority increased acceptance
-3. **Transparent Process**: Clear explanation of AI suggestions built trust
-4. **Iterative Improvement**: Regular updates based on user feedback
+---
 
-### Challenges Overcome
+## FUTURE ENHANCEMENTS
 
-1. **Initial Skepticism**: Teachers worried about AI replacing them
-   - **Solution**: Positioned as assistant, not replacement
-   
-2. **Feedback Quality**: Early versions too generic
-   - **Solution**: Extensive prompt engineering and examples
-   
-3. **Technical Barriers**: Teachers uncomfortable with command-line
-   - **Solution**: Created simple GUI wrapper (in progress)
+Five potential improvements could expand the project's impact:
 
-### Lessons Learned
-
-- Privacy concerns are paramount in education technology
-- Teachers want augmentation, not automation
-- Consistency matters as much as speed
-- Small efficiency gains compound into significant time savings
-
-## Ethical Considerations
-
-### Fairness & Bias
-
-Implemented multiple safeguards against bias:
-- Regular audits of feedback patterns
-- Diverse training examples in prompts
-- Teacher review maintains human oversight
-- Transparent scoring explanations
-
-### Student Agency
-
-Students maintain rights to:
-- Request human-only grading
-- See AI involvement disclosure
-- Appeal automated suggestions
-- Access their processing data
-
-## Future Enhancements
-
-- **Web Interface**: Browser-based UI for non-technical users
-- **LMS Integration**: Direct integration with Canvas, Blackboard
-- **Multi-Language Support**: Feedback in student's preferred language
-- **Peer Review Mode**: Facilitate AI-assisted peer feedback
-- **Visual Feedback**: Diagrams and charts for visual learners
-
-## Conclusion
-
-This project demonstrates that AI can address education's most time-consuming tasks while respecting privacy and maintaining pedagogical integrity. By focusing on augmentation rather than automation, we create tools that enhance both teacher effectiveness and student learning.
-
-The success of this system proves that ethical AI implementation in education isn't just possible—it's essential. As we continue developing educational AI, privacy, transparency, and teacher empowerment must remain our guiding principles.
+1. **Add conversation memory** - Track philosophical progress over time and reference previous discussions
+2. **Implement user research** - Interview users to understand struggles with applying Stoicism
+3. **Build conversation analytics** - Identify which Socratic questions lead to most meaningful insights
+4. **Expand philosophical voices** - Add other Stoic philosophers (Epictetus, Seneca) or traditions (Buddhist, Taoist)
+5. **Improve accessibility** - Real-time transcription for hearing-impaired users and multi-language support
