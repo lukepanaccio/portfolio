@@ -1,0 +1,70 @@
+---
+layout: ../layouts/Layout.astro
+title: Mermaid Diagram Test
+description: Testing Mermaid diagram rendering
+---
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MermaidDiagram from '../components/MermaidDiagram.astro';
+
+<Header />
+
+<div class="max-w-6xl mx-auto px-6 py-20">
+  <h1 class="text-4xl font-bold text-gray-900 mb-8">Mermaid Diagram Test</h1>
+  
+  <div class="bg-white rounded-lg shadow-lg p-8">
+    <h2 class="text-2xl font-semibold mb-4">Marcus Aurelius AI System Architecture</h2>
+    
+    <MermaidDiagram diagram={`graph LR
+    %% Define Nodes
+    subgraph Client Endpoint
+        Browser(["📱/💻 User Browser\n(Client UI & Daily JS SDK)"])
+    end
+
+    subgraph "External Cloud Services (SaaS)"
+        Daily{{"🌐 Daily.co\n(WebRTC Transport Hub)"}}
+        OpenAI[["🧠 OpenAI Realtime API\n(Speech-to-Speech Intelligence)"]]
+        HeyGen[["🎬 HeyGen API\n(Avatar Video Generation)"]]
+    end
+
+    subgraph "Application Platform (Fly.io Deployment)"
+        FastAPI["⚙️ FastAPI Server\n(Auth, API, Orchestration)"]
+        Bot[("🤖 Bot Process (Pipecat)\n(One per session)")]
+    end
+
+    %% Control Flow (HTTP)
+    Browser -- "1. Auth & Start Session (HTTP)" --> FastAPI
+    FastAPI -- "2. Spawns isolated process" --> Bot
+
+    %% Real-time Media Flow (WebRTC)
+    Browser <===>|"3. Encrypted Media Stream\n(Mic Input / A/V Output)"| Daily
+    Bot <===>|"3. Encrypted Media Stream\n(A/V Input / A/V Output)"| Daily
+
+    %% AI Processing Loop
+    Bot -- "4. User Audio Input" --> OpenAI
+    OpenAI -- "5. Marcus Voice Audio" --> Bot
+    Bot -- "6. Sync Video Request" --> HeyGen
+    HeyGen -- "7. Avatar Video Frames" --> Bot
+
+    %% Styling for visual appeal
+    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#01579b;
+    classDef platform fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#2e7d32;
+    classDef services fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#ef6c00;
+    classDef transport fill:#f3e5f5,stroke:#7b1fa2,stroke-width:4px,color:#7b1fa2;
+    classDef botProcess fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px,color:#2e7d32;
+
+    class Browser client;
+    class FastAPI,Bot platform;
+    class OpenAI,HeyGen services;
+    class Daily transport;
+    class Bot botProcess;
+
+    %% Link Styling
+    linkStyle 0,1 stroke:#2e7d32,stroke-width:2px,fill:none;
+    linkStyle 2,3 stroke:#7b1fa2,stroke-width:4px,fill:none;
+    linkStyle 4,5,6,7 stroke:#ef6c00,stroke-width:2px,fill:none,stroke-dasharray: 5 5;`} />
+  </div>
+</div>
+
+<Footer />
