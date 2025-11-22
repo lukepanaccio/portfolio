@@ -25,6 +25,9 @@ export interface Props {
 }
 
 const { frontmatter } = Astro.props;
+
+// Pass through components prop for MDX support
+const components = Astro.props.components || {};
 ---
 
 <Layout title={`${frontmatter.title} - Luke Panaccio`} description={frontmatter.description}>
@@ -157,7 +160,18 @@ const { frontmatter } = Astro.props;
           
           <!-- Main Content -->
           <div class="md:col-span-3">
-            <article class="prose prose-lg max-w-none">
+            <article class="prose prose-lg max-w-none 
+              [&>h1]:mt-16 [&>h1]:mb-8
+              [&>h2]:mt-16 [&>h2]:mb-8 [&>h2]:text-3xl
+              [&>h3]:mt-12 [&>h3]:mb-6 [&>h3]:text-2xl
+              [&>h4]:mt-10 [&>h4]:mb-4
+              [&>p]:mb-8 [&>p]:leading-relaxed [&>p]:text-lg
+              [&>ul]:my-8 [&>ul]:list-disc [&>ul]:pl-6
+              [&>ol]:my-8 [&>ol]:list-decimal [&>ol]:pl-6
+              [&>ul>li]:my-3 [&>ul>li]:pl-2 [&>ul>li]:text-lg [&>ul>li]:font-normal
+              [&>ol>li]:my-3 [&>ol>li]:pl-2 [&>ol>li]:text-lg [&>ol>li]:font-normal
+              [&>blockquote]:my-10
+              [&>pre]:my-10">
               <slot />
             </article>
             
