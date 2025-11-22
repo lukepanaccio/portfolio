@@ -1,5 +1,6 @@
 ---
 const currentYear = new Date().getFullYear();
+const base = import.meta.env.BASE_URL;
 
 const socialLinks = [
   {
@@ -33,10 +34,10 @@ const socialLinks = [
       <div>
         <h3 class="text-white font-semibold mb-3">Quick Links</h3>
         <ul class="space-y-2 text-sm">
-          <li><a href="/#work" class="hover:text-white transition-colors">Projects</a></li>
-          <li><a href="/about" class="hover:text-white transition-colors">About</a></li>
-          <li><a href="/resume.pdf" class="hover:text-white transition-colors">Resume</a></li>
-          <li><a href="/#contact" class="hover:text-white transition-colors">Contact</a></li>
+          <li><a href={`${base}#work`} class="hover:text-white transition-colors">Projects</a></li>
+          <li><a href={`${base}/about/`} class="hover:text-white transition-colors">About</a></li>
+          <li><a href={`${base}/resume.pdf`} class="hover:text-white transition-colors">Resume</a></li>
+          <li><a href={`${base}#contact`} class="hover:text-white transition-colors">Contact</a></li>
         </ul>
       </div>
       
