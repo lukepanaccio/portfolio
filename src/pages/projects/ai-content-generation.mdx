@@ -1,42 +1,43 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
-title: 'Marcus Aurelius: AI-Powered Stoic Mentor'
-tagline: 'Making ancient philosophy accessible through real-time conversational AI with a photorealistic avatar'
-description: 'An AI-powered learning companion that brings Stoic philosophy to life through natural conversation, helping users apply ancient wisdom to modern challenges.'
-client: 'Personal Project'
-role: 'Learning Designer & Developer'
-timeline: '3-4 weeks (November 2025)'
-audience: 'Students of Stoic philosophy, individuals seeking personal development guidance'
-tools: ['OpenAI Realtime API', 'HeyGen Interactive Avatar', 'Pipecat Framework', 'Python/FastAPI']
-deliverables: ['Live web application with voice-enabled AI mentor']
-heroImage: '/portfolio/images/marcus-aurelius-hero.png'
-demoLink: 'https://marcus-aurelius-bot.fly.dev'
-githubLink: 'https://github.com/lukpan/marcus'
+title: 'AI-powered content generation system'
+tagline: 'Scaling instructional design expertise through context-aware AI workflows'
+description: 'An intelligent content generation system that embeds instructional design principles directly into AI prompts, enabling consistent, pedagogically sound technical learning content at scale.'
+client: 'commercetools'
+role: 'Lead Learning Designer & System Architect'
+timeline: '6 months (ongoing)'
+audience: 'Learning content developers, instructional designers, subject matter experts'
+tools: ['GitHub Copilot', 'Claude Sonnet 4.5', 'MDX', 'Moodle XML', 'TypeScript', 'VS Code']
+deliverables: ['18+ specialized content generation prompts', '33 instruction files', 'Automated quiz conversion system', '9 learning paths with 40+ modules']
+heroImage: '/portfolio/images/ai-content-gen-hero.png'
+githubLink: 'https://github.com/commercetools/commercetools-docs'
 metrics:
-  - label: 'Response Latency'
-    value: '<1s'
-  - label: 'Average Session'
-    value: '8-12 min'
-  - label: 'Uptime'
-    value: '99%+'
+  - label: 'Learning Paths'
+    value: '9 active'
+  - label: 'Modules Created'
+    value: '40+'
+  - label: 'Time Saved'
+    value: '60-70%'
+  - label: 'Format Consistency'
+    value: '100%'
 ---
-
-import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## THE CHALLENGE
 
-### Core problem
+### The scaling problem
 
-Traditional philosophy education fails to connect ancient wisdom with modern challenges. Students read dense texts but struggle to apply Stoic concepts to real-life situations like workplace stress or relationships.
+Creating high-quality technical learning content requires applying consistent instructional design principles across hundreds of pages while maintaining technical accuracy, pedagogical soundness, and LMS-compatible formatting. Manual content creation couldn't keep pace with commercetools' growing documentation needs.
+
+### Core design challenges
+
+- **Consistency at scale:** Maintain instructional design quality across 9 learning paths and 40+ modules
+- **Dual-audience complexity:** Content must serve both web readers and LMS integration (Moodle XML import)
+- **Persona alignment:** Every module must speak to "Alex Chen" (mid-to-senior software architects) with appropriate depth and tone
+- **Quality assurance:** Ensure AI-generated content meets both technical accuracy and pedagogical standards
 
 ### The opportunity
-Enable learners to have real conversations with Marcus Aurelius; not read about Stoicism, but discuss their specific problems and receive personalized guidance in real-time.
 
-### Key design challenges
-- Teach through Socratic questioning (not prescribing answers)
-- Maintain philosophical authenticity
-- Manage cognitive load during real-time conversation
-- Create meaningful presence (avoid gimmicky interactions)
+Build an AI system that doesn't just generate content—but generates *instructional design*. Embed learning theory, writing standards, and assessment principles directly into AI context so expertise scales automatically.
 
 ---
 
@@ -44,69 +45,69 @@ Enable learners to have real conversations with Marcus Aurelius; not read about 
 
 ### Research & analysis
 
-Research revealed a fundamental gap: traditional philosophy study creates knowledge without transformation.
+**Problem discovery:**
+Technical documentation teams struggled with three bottlenecks:
 
-**Learner needs identified:**
-- Philosophy students found texts interesting but couldn't apply concepts to their lives
-- People facing real challenges wanted immediate, practical wisdom—not academic theory
-- Existing AI chatbots felt impersonal and failed to create reflective space for dialogue
+1. **Inconsistent quality:** Different writers applied varying levels of instructional design rigor
+2. **Quiz formatting chaos:** Questions existed in 15+ different markdown formats, breaking LMS import
+3. **Slow iteration:** Creating a single learning module required 120-150 hours from outline to publication
 
-**Core insight:** 
-- The Socratic method teaches through dialogue, not lecture. Great philosophy teachers ask questions that guide self-discovery. This became the foundation of my design.
+**User needs identified:**
+- Content developers needed guardrails to ensure pedagogical quality without deep ID expertise
+- SMEs wanted to contribute content without learning complex formatting rules  
+- The LMS team needed standardized quiz formats for automated import
+
+**Core insight:**
+If instructional design principles could be codified into AI instructions, the system would apply expertise consistently across all content—turning every prompt into a teaching moment.
 
 ### Design approach
 
-I applied four key learning principles to shape the experience:
+Four key instructional design principles shaped the system architecture:
 
-**1. Socratic pedagogy**  
-The AI guides self-discovery through questions, not answers. Example: If a user says "My boss is impossible," Marcus asks: "Is it your boss's actions that harm you, or your judgment about them?"
-
-**2. Cognitive load management**  
-Responses limited to 1-3 sentences. Testing showed shorter responses led to deeper reflection—users needed space to think, not philosophy lectures.
-
-**3. Embodied presence**  
-Photorealistic avatar with synchronized lip movements creates a sense of "being with" Marcus. This design choice supports embodied cognition research: we learn better from "people" than disembodied text.
-
-**4. Emotional safety**  
-Calm, non-judgmental persona (no exclamation marks, no judgment) creates safe space for exploring difficult topics like death, failure, and loss.
+| Design Principle | Design Rationale |
+|-----------------|------------------|
+| **Layered context injection.** Instructions load automatically based on file type and pattern matching. | Mirrors how expert IDs shift frameworks based on task—scaffolding when needed, staying out of the way when not. |
+| **Multi-stage cognitive workflow.** Content follows explicit stages: Outline → Research → Draft → Critique → Refine. | Breaking work into discrete stages produces better outcomes than asking AI to "create everything." Each stage optimizes independently. |
+| **Persona-driven writing.** All instructions embed "Alex Chen" persona specifications for consistent voice. | Consistent voice requires enforcing *who you're writing for* at the system level, not just style guides. |
+| **Dual-format constraints.** Content must work as web pages AND convert cleanly to Moodle XML. | Strict markdown structure enables automated transformation, reducing errors and maintenance burden. |
 
 ### Development & iteration
 
-Three critical design decisions shaped the implementation:
+**Key technical implementation decisions:**
 
-**Voice-first interface**  
-Chose voice over text chat—natural speech creates authentic philosophical dialogue. Used OpenAI's Realtime API to eliminate 2-4 second delays common in traditional speech processing.
+**Context routing system**
+Used YAML frontmatter with glob patterns (`applyTo: 'websites/learning-*/src/content/**/*.mdx'`) to automatically load relevant instructions when files match patterns. No manual context switching required.
 
-**Four opening strategies**  
-Varied greetings prevent scripted feel across sessions:
-- Direct: "What weighs on your mind?"
-- Reflective: "What brings you to philosophy today?"
-- Challenge-oriented: "Is there a situation testing your peace of mind?"
-- Growth-focused: "What aspect of yourself are you working to strengthen?"
+**Prompt library architecture**
+Developed 18 specialized prompts organized by workflow stage:
+- `learning-1-generate-outline`: Creates persona-aware module structures with learning objectives
+- `learning-7-create-scenario-based-quiz-questions`: Generates assessments grounded in "Zen Electron" case study
+- `learning-15-standardize-quiz-format`: Transforms inconsistent quizzes into standard markdown
+- `learning-16-convert-to-moodle-xml`: Automates LMS-compatible XML generation
 
-**Explicit boundaries**  
-Refuses medical, legal, or financial advice. This serves dual purposes:
-- **Ethical:** Prevents harm from inappropriate guidance
-- **Pedagogical:** Teaches that philosophy addresses *how to think*, not *what to decide*
+**Quality validation integration**
+Built critique prompts that evaluate outputs against rubrics covering:
+- Semantic clarity (inverted pyramid structure, scannable content)
+- Structural consistency (heading hierarchy, list formatting)
+- Technical accuracy (API references, code examples)
+- Instructional design (learning objectives, knowledge checks, scenario grounding)
 
 ### Testing & refinement
 
-**Problem identified:** Early versions were too agreeable—validating users instead of challenging their reasoning.
+**Problem identified:** Early quiz questions were technically correct but pedagogically weak—testing recall instead of applied understanding.
 
 **Solution implemented:**
-- Rebuilt system prompt with examples of productive pushback
-- Marcus now challenges faulty reasoning while remaining supportive
+Rebuilt quiz generation prompt to enforce scenario-based assessment:
+- Every question starts with **Scenario:** describing a real situation at "Zen Electron" (fictional company)
+- Distractors must be plausible mistakes (not obviously wrong)
+- Feedback explains *why* the correct answer solves the scenario
 
-**Example exchange:**
-- **User:** "I just need to work harder and everything will be fine."
-- **Marcus:** "Can you control the outcome through effort alone? What if you work with excellence yet circumstances remain unchanged?"
-
-**Quality assurance:** Automated testing validates 12 criteria per response:
-- Brevity (1-3 sentences)
-- Stoic concepts present
-- Socratic questions asked
-- Appropriate tone
-- Boundary respect
+**Quality assurance approach:**
+Automated validation catches common errors before human review:
+- Heading format compliance (no gerunds, sentence case)
+- Terminology consistency (e.g., "commercetools" lowercase)
+- Quiz structure validation (numbered questions, required sections)
+- Frontmatter completeness
 
 ---
 
@@ -114,129 +115,139 @@ Refuses medical, legal, or financial advice. This serves dual purposes:
 
 ### What users experience
 
-Visit the site, authenticate, and within 8 seconds meet a photorealistic Marcus Aurelius. Speak naturally and receive brief, probing Stoic guidance focused on what's within your control.
+Content developers work in VS Code with GitHub Copilot. When they create a new learning module file, relevant instructions automatically load based on file path. They invoke prompts through Copilot chat to generate outlines, draft content, create quizzes, and validate formatting—all guided by embedded instructional design expertise.
 
-### Example conversation
+### System architecture enables
 
-**User:** "I'm so stressed about work. My boss keeps changing priorities and I can't keep up."
+**Intelligent context routing:**
+33 instruction files automatically apply based on glob patterns:
+```
+.github/instructions/
+├── learning-quiz-format.instructions.md          # For quiz files
+├── learning-markdown-content.instructions.md     # For learning content
+├── learning-config-object.instructions.md        # For configuration
+└── [30+ other specialized instruction files]
+```
 
-**Marcus:** "Is it your boss's actions that harm you, or your judgment about them? What specifically feels beyond your control?"
+**Multi-stage workflow prompts:**
+```
+.github/prompts/
+├── learning-1-generate-outline.prompt.md
+├── learning-2-perform-deep-research.prompt.md
+├── learning-3-generate-learning-draft.prompt.md
+├── learning-4-critique-draft.prompt.md
+├── learning-5-refine-draft.prompt.md
+├── learning-7-create-scenario-based-quiz-questions.prompt.md
+├── learning-15-standardize-quiz-format.prompt.md
+├── learning-16-convert-to-moodle-xml.prompt.md
+└── [10+ additional workflow prompts]
+```
 
-**User:** "I guess I can't control what he asks for, but I feel like I'm failing."
+**Automated quiz conversion:**
+Standardized markdown questions instantly transform to Moodle XML for rapid LMS import:
+- One-click conversion eliminates manual XML editing
+- Batch processing enables importing entire question banks in seconds
+- Proper CDATA wrapping and formatting ensure zero import errors
+- Direct upload to Moodle question bank without intermediate steps
+- Configurable point allocation (default: 50 points) maintains consistency
 
-**Marcus:** "There is your answer. You control your effort and excellence, not his requests. Can you find peace in doing your best with changing circumstances?"
+### Example workflow
 
-### Technical architecture enables
-- **Sub-second response** using OpenAI Realtime API (feels like talking to a person)
-- **Synchronized lip movements** via HeyGen (creates presence and engagement)
-- **WebRTC streaming** for reliable voice/video delivery
-- **Cost controls** through rate limiting (~$2 per session)
+**Creating a new learning module:**
 
-### System architecture
+1. Developer creates file: `websites/learning-implement-checkout/src/content/payment-integration.mdx`
+2. Instructions for learning content auto-load via pattern match
+3. Invoke prompts sequentially through Copilot:
+   - Generate outline with learning objectives
+   - Perform research using SME documents
+   - Generate draft with code examples
+   - Critique draft against instructional design rubric
+   - Refine based on critique feedback
+4. Add scenario-based quiz questions
+5. Validate formatting and technical accuracy
+6. Publish to documentation site
 
-<MermaidDiagram diagram={`graph LR
-    %% Define Nodes
-    subgraph Client Endpoint
-        Browser(["📱/💻 User Browser\n(Client UI & Daily JS SDK)"])
-    end
+**Standardizing existing quizzes:**
 
-    subgraph "External Cloud Services (SaaS)"
-        Daily{{"🌐 Daily.co\n(WebRTC Transport Hub)"}}
-        OpenAI[["🧠 OpenAI Realtime API\n(Speech-to-Speech Intelligence)"]]
-        HeyGen[["🎬 HeyGen API\n(Avatar Video Generation)"]]
-    end
-
-    subgraph "Application Platform (Fly.io Deployment)"
-        FastAPI["⚙️ FastAPI Server\n(Auth, API, Orchestration)"]
-        Bot[("🤖 Bot Process (Pipecat)\n(One per session)")]
-    end
-
-    %% Control Flow (HTTP)
-    Browser -- "Auth and Start Session (HTTP)" --> FastAPI
-    FastAPI -- "Spawns isolated process" --> Bot
-
-    %% Real-time Media Flow (WebRTC)
-    Browser <===>|"Encrypted Media Stream\n(Mic Input / A/V Output)"| Daily
-    Bot <===>|"Encrypted Media Stream\n(A/V Input / A/V Output)"| Daily
-
-    %% AI Processing Loop
-    Bot -- "User Audio Input" --> OpenAI
-    OpenAI -- "Marcus Voice Audio" --> Bot
-    Bot -- "Sync Video Request" --> HeyGen
-    HeyGen -- "Avatar Video Frames" --> Bot
-
-    %% Styling for visual appeal
-    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#01579b;
-    classDef platform fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#2e7d32;
-    classDef services fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#ef6c00;
-    classDef transport fill:#f3e5f5,stroke:#7b1fa2,stroke-width:4px,color:#7b1fa2;
-    classDef botProcess fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px,color:#2e7d32;
-
-    class Browser client;
-    class FastAPI,Bot platform;
-    class OpenAI,HeyGen services;
-    class Daily transport;
-    class Bot botProcess;
-
-    %% Link Styling
-    linkStyle 0,1 stroke:#2e7d32,stroke-width:2px,fill:none;
-    linkStyle 2,3 stroke:#7b1fa2,stroke-width:4px,fill:none;
-    linkStyle 4,5,6,7 stroke:#ef6c00,stroke-width:2px,fill:none,stroke-dasharray: 5 5;`} />
+1. Identify files with inconsistent quiz formats
+2. Apply standardization prompt to normalize structure
+3. Validate against checklist (numbered questions, scenario format, feedback structure)
+4. Convert to Moodle XML for LMS import
+5. Import into question bank
 
 ---
 
 ## RESULTS & IMPACT
 
-### Key metrics
+### Quantified outcomes
 
-- **Uptime:** 99%+ on live production application
-- **Engagement:** 8-12 minute average session length (indicates genuine dialogue, not quick queries)
-- **Performance:** &lt;1 second response latency (comparable to human conversation)
-- **Cost efficiency:** $1.50-3.00 per session through architectural optimization
+- **Scale achieved:** 9 active learning paths containing 40+ individual modules with consistent instructional quality
+- **Time efficiency:** 60-70% reduction in initial draft time (from ~12-15 hours to ~4-5 hours per module)
+- **Format consistency:** 100% of quiz questions follow standardized format enabling automated LMS import
+- **Writing quality:** All content enforces persona-driven writing style across 1000+ pages
 
-### Technical achievements
-- Mobile-optimized responsive design works on iPhone, Android, desktop
-- Automated quality assurance validates philosophical authenticity across updates
+### Process improvements
 
-### Learning design impact
-- Made ancient philosophy accessible through conversation instead of dense texts
-- Demonstrated AI can teach using Socratic method, not just deliver information
-- Created emotionally safe space for exploring difficult life questions
+**Before system implementation:**
+- 15+ different quiz formatting approaches across documentation
+- Manual checking for style guide compliance
+- Inconsistent application of instructional design principles
+- Quiz import required manual XML editing
 
-### User feedback pattern
-Users report the experience feels "surprisingly real" and "actually helpful." Brief responses (1-3 sentences) help users think rather than passively receive wisdom.
+**After system implementation:**
+- Single standardized quiz format with automated XML conversion
+- Automatic validation catches formatting errors pre-review
+- Instructional design principles embedded in every prompt
+- One-click Moodle import with zero manual editing
+
+### Scalability demonstrated
+
+The system successfully extended to 9 learning paths by following established patterns:
+- Create new `websites/learning-{topic}/` folder
+- Add config entry in TypeScript configuration
+- Register in learning catalogue
+- Existing instructions automatically apply via glob patterns
+
+Content types supported:
+- Learning modules with embedded assessments
+- API documentation with code examples
+- Release notes with impact analysis
+- Tutorials with step-by-step guidance
+- Study guides and certification prep materials
 
 ---
 
 ## KEY TAKEAWAYS
 
-- **Presence drives engagement.** Photorealistic avatars create a sense of "being with" Marcus that dramatically increases engagement versus text or voice-only. This validates embodied cognition research.
+**Constraints enable creativity.** Strict formatting rules initially felt limiting but ultimately freed cognitive energy for pedagogical quality. When format is standardized, focus shifts to learning design. This principle applies beyond AI—any system benefits from clear constraints.
 
-- **Conversational scaffolding is instructional design.** Forcing Socratic questioning (not direct answers) ensures active thinking versus passive listening. The system prompt functions as a teaching strategy.
+**Multi-stage workflows produce better outcomes.** Breaking content generation into explicit stages (outline → research → draft → critique → refine) mirrors how expert instructional designers actually work. AI performs significantly better when asked to execute discrete tasks sequentially rather than "create everything."
 
-- **Less content enables deeper learning.** Limiting responses to 1-3 sentences creates space for reflection. Brief wisdom works better than long explanations—users retain and apply shorter responses.
+**Context injection is educational scaffolding.** Just as learners need just-in-time support, AI needs context-specific guidance. The instruction system provides relevant frameworks based on what's being created—matching scaffolding principles from learning science.
 
-- **Cost-aware architecture matters.** Building rate limiting and monitoring from day one prevented runaway costs. Real-time AI is expensive (~$2-3 per session), so treating cost as a design constraint shaped better decisions.
+**Automation creates space for higher-order work.** By automating formatting, style consistency, and quiz conversion, instructional designers can focus on curriculum sequencing, assessment design quality, and pedagogical innovation. This reframes the role from "content creator" to "learning experience architect."
 
-- **Prompt engineering requires instructional design expertise.** Writing the system prompt meant defining learning objectives (apply Stoic principles), pedagogy (Socratic method), assessment criteria (quality responses), and boundaries. AI persona design is fundamentally a teaching task.
+**Codifying expertise scales impact.** The system makes instructional design knowledge explicit and reusable. Prompt libraries become organizational learning assets—capturing best practices that persist beyond individual team members.
 
 ---
 
 ## ARTIFACTS & DOCUMENTATION
 
-📄 [View system prompt](https://github.com/lukpan/marcus/blob/main/system_prompt.md) - Complete Marcus Aurelius persona specification  
-📄 [Testing documentation](https://github.com/lukpan/marcus/blob/main/TESTING.md) - Automated validation strategy  
-📄 [Architecture overview](https://github.com/lukpan/marcus/blob/main/README.md) - Technical implementation guide  
-🎬 **Try the live demo** - [marcus-aurelius-bot.fly.dev](https://marcus-aurelius-bot.fly.dev)
+📄 [View instruction system](https://github.com/commercetools/commercetools-docs/tree/main/.github/instructions) - 33 context-aware instruction files  
+📄 [Explore prompt library](https://github.com/commercetools/commercetools-docs/tree/main/.github/prompts) - 18+ specialized workflow prompts  
+📄 [Sample learning content](https://github.com/commercetools/commercetools-docs/tree/main/websites/learning-implement-checkout/src/content) - Generated modules with quizzes  
+📄 [System documentation](https://github.com/commercetools/commercetools-docs/blob/main/.github/instructions/README.md) - Architecture overview and usage guide
 
 ---
 
 ## FUTURE ENHANCEMENTS
 
-Five potential improvements could expand the project's impact:
+**Automated content refresh:** Develop prompts that detect outdated API references and auto-suggest updates when underlying systems change.
 
-1. **Add conversation memory** - Track philosophical progress over time and reference previous discussions
-2. **Implement user research** - Interview users to understand struggles with applying Stoicism
-3. **Build conversation analytics** - Identify which Socratic questions lead to most meaningful insights
-4. **Expand philosophical voices** - Add other Stoic philosophers (Epictetus, Seneca) or traditions (Buddhist, Taoist)
-5. **Improve accessibility** - Real-time transcription for hearing-impaired users and multi-language support
+**Interactive diagram generation:** Extend prompts to create Mermaid diagrams for architecture concepts with proper accessibility support.
+
+**Learning analytics integration:** Build prompts that analyze low-performing quiz questions in LMS and suggest rewrites to improve clarity.
+
+**Advanced assessment types:** Extend quiz converter to support matching questions, fill-in-blank, and code exercises in Moodle XML format.
+
+**Validation automation:** Create Vale linting rules or custom validators to catch common errors before human review—further reducing QA burden.

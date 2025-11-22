@@ -173,7 +173,11 @@ const components = Astro.props.components || {};
               [&>ul>li]:my-3 [&>ul>li]:pl-2 [&>ul>li]:text-lg [&>ul>li]:font-normal
               [&>ol>li]:my-3 [&>ol>li]:pl-2 [&>ol>li]:text-lg [&>ol>li]:font-normal
               [&>blockquote]:my-10
-              [&>pre]:my-10">
+              [&>pre]:my-10
+              [&>table]:my-12 [&>table]:w-full [&>table]:border-collapse
+              [&>table>thead>tr>th]:bg-gray-100 [&>table>thead>tr>th]:px-6 [&>table>thead>tr>th]:py-4 [&>table>thead>tr>th]:text-left [&>table>thead>tr>th]:font-semibold [&>table>thead>tr>th]:text-gray-900
+              [&>table>tbody>tr>td]:px-6 [&>table>tbody>tr>td]:py-5 [&>table>tbody>tr>td]:border-t [&>table>tbody>tr>td]:border-gray-200 [&>table>tbody>tr>td]:align-top [&>table>tbody>tr>td]:leading-relaxed
+              [&>table>tbody>tr:hover]:bg-gray-50">
               <slot />
             </article>
             
