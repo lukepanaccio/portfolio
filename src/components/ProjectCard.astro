@@ -11,42 +11,116 @@ export interface Props {
 const { title, description, image, href, tags = [], featured = false } = Astro.props;
 ---
 
-<article class={`group relative overflow-hidden rounded-xl bg-white shadow-sm hover:shadow-xl transition-all duration-300 ${featured ? 'md:col-span-2 md:row-span-2' : ''}`}>
-  <a href={href} class="block">
-    <div class={`aspect-video overflow-hidden bg-gray-100 ${featured ? 'md:aspect-[16/10]' : ''}`}>
+<article class={`group relative overflow-hidden rounded-xl bg-bg-elevated border border-border-medium hover:border-accent-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-accent-primary/10 hover:-translate-y-2 ${featured ? 'md:col-span-2 md:row-span-2' : ''}`}>
+  <!-- Glow effect on hover -->
+  <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+    <div class="absolute inset-0 bg-gradient-accent opacity-5 blur-xl"></div>
+  </div>
+  
+  <a href={href} class="block relative">
+    <!-- Image Container -->
+    <div class={`relative aspect-video overflow-hidden bg-bg-secondary ${featured ? 'md:aspect-[16/10]' : ''}`}>
+      <!-- Image overlay gradient -->
+      <div class="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-bg-primary/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500 z-10"></div>
+      
       <img
         src={image}
         alt={title}
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
         loading="lazy"
       />
+      
+      <!-- Featured badge -->
+      {featured && (
+        <div class="absolute top-4 right-4 z-20 px-3 py-1.5 bg-gradient-accent text-bg-primary text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
+          Featured
+        </div>
+      )}
     </div>
     
-    <div class={`p-6 ${featured ? 'md:p-8' : ''}`}>
-      <h3 class={`font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors ${featured ? 'text-2xl md:text-3xl' : 'text-xl'}`}>
+    <!-- Content Container -->
+    <div class={`relative p-6 ${featured ? 'md:p-8' : ''}`}>
+      <h3 class={`font-display font-bold text-text-primary mb-3 group-hover:text-accent-primary transition-colors duration-300 leading-tight ${featured ? 'text-2xl md:text-3xl' : 'text-xl'}`}>
         {title}
       </h3>
       
-      <p class={`text-gray-600 mb-4 ${featured ? 'text-base md:text-lg' : 'text-sm'}`}>
+      <p class={`text-text-secondary leading-relaxed mb-4 ${featured ? 'text-base md:text-lg' : 'text-sm'}`}>
         {description}
       </p>
       
+      <!-- Tags -->
       {tags.length > 0 && (
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-2 mb-4">
           {tags.map((tag) => (
-            <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded-md">
+            <span class="inline-flex items-center text-xs px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-tertiary rounded-md font-medium group-hover:border-accent-primary/30 group-hover:text-text-secondary transition-all duration-300">
               {tag}
             </span>
           ))}
         </div>
       )}
       
-      <div class="mt-4 flex items-center text-primary-600 text-sm font-medium">
-        View Case Study
-        <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      <!-- CTA -->
+      <div class="flex items-center text-accent-primary text-sm font-bold mt-6">
+        <span class="mr-2">View Case Study</span>
+        <svg class="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
         </svg>
       </div>
     </div>
   </a>
 </article>
+
+<style>
+  /* Custom utilities using CSS variables */
+  .bg-bg-primary {
+    background-color: var(--color-bg-primary);
+  }
+  
+  .bg-bg-secondary {
+    background-color: var(--color-bg-secondary);
+  }
+  
+  .bg-bg-elevated {
+    background-color: var(--color-bg-elevated);
+  }
+  
+  .bg-bg-hover {
+    background-color: var(--color-bg-hover);
+  }
+  
+  .bg-gradient-accent {
+    background: var(--gradient-accent);
+  }
+  
+  .text-text-primary {
+    color: var(--color-text-primary);
+  }
+  
+  .text-text-secondary {
+    color: var(--color-text-secondary);
+  }
+  
+  .text-text-tertiary {
+    color: var(--color-text-tertiary);
+  }
+  
+  .text-accent-primary {
+    color: var(--color-accent-primary);
+  }
+  
+  .text-bg-primary {
+    color: var(--color-bg-primary);
+  }
+  
+  .border-border-medium {
+    border-color: var(--color-border-medium);
+  }
+  
+  .border-border-subtle {
+    border-color: var(--color-border-subtle);
+  }
+  
+  .border-accent-primary {
+    border-color: var(--color-accent-primary);
+  }
+</style>

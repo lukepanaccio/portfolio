@@ -21,46 +21,150 @@ const socialLinks = [
 ];
 ---
 
-<footer class="bg-gray-900 text-gray-300">
-  <div class="max-w-6xl mx-auto px-6 py-12">
-    <div class="grid md:grid-cols-3 gap-8 mb-8">
+<footer class="relative bg-bg-secondary border-t border-border-subtle">
+  <!-- Subtle top glow -->
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-accent-primary/30 to-transparent"></div>
+  
+  <div class="max-w-7xl mx-auto px-6 py-16">
+    <div class="grid md:grid-cols-3 gap-12 mb-12">
+      <!-- Brand Column -->
       <div>
-        <h3 class="text-white font-semibold mb-3">Luke Panaccio</h3>
-        <p class="text-sm">
-          Instructional Designer creating AI-powered learning experiences at commercetools
+        <h3 class="font-display text-2xl font-bold text-text-primary mb-3">
+          Luke Panaccio
+        </h3>
+        <p class="text-text-secondary leading-relaxed">
+          Instructional Designer creating AI-powered learning experiences at <span class="text-accent-primary font-medium">commercetools</span>
         </p>
       </div>
       
+      <!-- Quick Links Column -->
       <div>
-        <h3 class="text-white font-semibold mb-3">Quick Links</h3>
-        <ul class="space-y-2 text-sm">
-          <li><a href={`${base}#work`} class="hover:text-white transition-colors">Projects</a></li>
-          <li><a href={`${base}/about/`} class="hover:text-white transition-colors">About</a></li>
-          <li><a href={`${base}/resume.pdf`} class="hover:text-white transition-colors">Resume</a></li>
-          <li><a href={`${base}#contact`} class="hover:text-white transition-colors">Contact</a></li>
+        <h4 class="text-sm font-bold text-accent-primary uppercase tracking-wider mb-4">
+          Quick Links
+        </h4>
+        <ul class="space-y-3">
+          <li>
+            <a 
+              href={`${base}#work`} 
+              class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors"
+            >
+              <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2"></span>
+              Projects
+            </a>
+          </li>
+          <li>
+            <a 
+              href={`${base}/about/`} 
+              class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors"
+            >
+              <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2"></span>
+              About
+            </a>
+          </li>
+          <li>
+            <a 
+              href={`${base}/resume.pdf`} 
+              class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors"
+            >
+              <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2"></span>
+              Resume
+            </a>
+          </li>
+          <li>
+            <a 
+              href={`${base}#contact`} 
+              class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors"
+            >
+              <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2"></span>
+              Contact
+            </a>
+          </li>
         </ul>
       </div>
       
+      <!-- Connect Column -->
       <div>
-        <h3 class="text-white font-semibold mb-3">Connect</h3>
-        <div class="flex space-x-4">
+        <h4 class="text-sm font-bold text-accent-primary uppercase tracking-wider mb-4">
+          Connect
+        </h4>
+        <div class="flex space-x-3">
           {socialLinks.map((link) => (
             <a
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              class="p-2 rounded-lg hover:bg-gray-800 transition-colors"
+              class="group p-3 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300 hover:scale-110"
               aria-label={link.name}
             >
-              <Fragment set:html={link.icon} />
+              <div class="text-text-secondary group-hover:text-accent-primary transition-colors">
+                <Fragment set:html={link.icon} />
+              </div>
             </a>
           ))}
         </div>
+        
+        <!-- Email CTA -->
+        <a
+          href="mailto:lukepanaccio@gmail.com"
+          class="group mt-6 inline-flex items-center text-sm font-semibold text-text-secondary hover:text-accent-primary transition-colors"
+        >
+          <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+          </svg>
+          lukepanaccio@gmail.com
+        </a>
       </div>
     </div>
     
-    <div class="pt-8 border-t border-gray-800 text-sm text-center">
-      <p>&copy; {currentYear} Luke Panaccio. All rights reserved.</p>
+    <!-- Bottom Bar -->
+    <div class="pt-8 border-t border-border-subtle">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-text-tertiary">
+        <p>
+          &copy; {currentYear} Luke Panaccio. All rights reserved.
+        </p>
+        <p class="text-xs">
+          Built with <span class="text-accent-primary">Astro</span> · Designed with purpose
+        </p>
+      </div>
     </div>
   </div>
 </footer>
+
+<style>
+  /* Custom utilities using CSS variables */
+  .bg-bg-secondary {
+    background-color: var(--color-bg-secondary);
+  }
+  
+  .bg-bg-elevated {
+    background-color: var(--color-bg-elevated);
+  }
+  
+  .bg-bg-hover {
+    background-color: var(--color-bg-hover);
+  }
+  
+  .text-text-primary {
+    color: var(--color-text-primary);
+  }
+  
+  .text-text-secondary {
+    color: var(--color-text-secondary);
+  }
+  
+  .text-text-tertiary {
+    color: var(--color-text-tertiary);
+  }
+  
+  .text-accent-primary {
+    color: var(--color-accent-primary);
+  }
+  
+  .border-border-subtle {
+    border-color: var(--color-border-subtle);
+  }
+  
+  .border-accent-primary {
+    border-color: var(--color-accent-primary);
+  }
+</style>

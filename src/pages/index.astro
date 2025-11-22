@@ -66,86 +66,107 @@ const skills = {
   
   <main>
     <!-- Hero Section -->
-    <section class="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-      <div class="max-w-6xl mx-auto px-6 py-20 md:py-32">
-        <div class="max-w-3xl">
-          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            <span class="text-primary-600">Where learning design meets AI innovation</span>
+    <section class="relative overflow-hidden bg-bg-primary">
+      <!-- Atmospheric background effects -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-0 right-1/4 w-[600px] h-[600px] bg-accent-primary/15 rounded-full blur-[120px] animate-glow"></div>
+        <div class="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-accent-secondary/10 rounded-full blur-[100px]" style="animation: glow 10s ease-in-out infinite; animation-delay: 2s;"></div>
+      </div>
+      
+      <div class="relative max-w-7xl mx-auto px-6 py-24 md:py-40">
+        <div class="max-w-4xl stagger-children">
+          <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-text-primary mb-8 leading-[1.1]">
+            <span class="block">Where learning design</span>
+            <span class="block text-accent-primary">meets AI innovation</span>
           </h1>
           
-          <p class="text-lg md:text-xl text-gray-600 mb-8">
+          <p class="text-xl md:text-2xl text-text-secondary mb-12 leading-relaxed max-w-3xl">
             I design and build intelligent learning experiences that scale. From AI mentors to automated content systems, I create tools that make education more personal and powerful.
           </p>
           
           <div class="flex flex-col sm:flex-row gap-4">
             <a
               href={`${base}#work`}
-              class="px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors text-center"
+              class="group inline-flex items-center justify-center px-8 py-4 bg-gradient-accent text-bg-primary rounded-lg font-bold hover:shadow-xl hover:shadow-accent-primary/30 transition-all duration-300 hover:-translate-y-1"
             >
-              See projects
+              View My Work
+              <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
             </a>
             <a
               href={`${base}#contact`}
-              class="px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-white transition-colors text-center"
+              class="inline-flex items-center justify-center px-8 py-4 border border-border-medium rounded-lg font-bold text-text-primary hover:border-accent-primary hover:bg-bg-elevated transition-all duration-300"
             >
-              Get in touch
+              Get in Touch
             </a>
           </div>
         </div>
       </div>
       
-      <!-- Decorative elements -->
-      <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-primary-100 rounded-full opacity-20 blur-3xl"></div>
-      <div class="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-primary-200 rounded-full opacity-20 blur-3xl"></div>
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <svg class="w-6 h-6 text-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </div>
     </section>
     
     <!-- Featured Project -->
-    <section class="py-20 bg-white">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Featured project: Marcus Aurelius AI Mentor</h2>
-          <p class="text-lg text-gray-600">An AI-powered learning companion that brings ancient wisdom to modern challenges</p>
+    <section class="relative py-24 md:py-32 bg-bg-secondary">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16 stagger-children">
+          <div class="inline-flex items-center px-4 py-2 bg-bg-elevated border border-accent-primary/30 rounded-full text-sm font-bold text-accent-primary mb-6">
+            <span class="w-2 h-2 bg-accent-primary rounded-full mr-2 animate-pulse"></span>
+            Featured Project
+          </div>
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">Marcus Aurelius AI Mentor</h2>
+          <p class="text-xl text-text-secondary max-w-3xl mx-auto">An AI-powered learning companion that brings ancient wisdom to modern challenges</p>
         </div>
         
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <p class="text-lg text-gray-600 mb-6">
-              Faced with creating scalable philosophical education, I built an intelligent mentor that embodies Marcus Aurelius's Stoic teachings. This isn't just a chatbot—it's a carefully crafted learning experience that maintains philosophical authenticity while adapting to individual learners. Through custom knowledge architecture and nuanced prompt engineering, the system delivers personalized guidance that has helped 200+ users develop practical wisdom. The project showcases how AI can preserve human expertise while making it infinitely accessible.
+        <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div class="space-y-6 animate-fade-in" style="animation-delay: 0.2s; opacity: 0;">
+            <p class="text-lg text-text-secondary leading-relaxed">
+              Faced with creating scalable philosophical education, I built an intelligent mentor that embodies Marcus Aurelius's Stoic teachings. This isn't just a chatbot—it's a carefully crafted learning experience that maintains philosophical authenticity while adapting to individual learners.
             </p>
             
-            <div class="mb-8">
+            <p class="text-lg text-text-secondary leading-relaxed">
+              Through custom knowledge architecture and nuanced prompt engineering, the system delivers personalized guidance that has helped 200+ users develop practical wisdom. The project showcases how AI can preserve human expertise while making it infinitely accessible.
+            </p>
             
             <a
               href={featuredProject.href}
-              class="inline-flex items-center px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors"
+              class="group inline-flex items-center px-6 py-3 bg-gradient-accent text-bg-primary rounded-lg font-bold hover:shadow-xl hover:shadow-accent-primary/30 transition-all duration-300 hover:-translate-y-0.5"
             >
-              Explore full case study
-              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              Explore Full Case Study
+              <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
               </svg>
             </a>
           </div>
           
-          <div class="relative">
-            <div class="aspect-video rounded-xl overflow-hidden shadow-2xl">
+          <div class="relative animate-fade-in" style="animation-delay: 0.4s; opacity: 0;">
+            <!-- Glow effect -->
+            <div class="absolute -inset-4 bg-gradient-accent opacity-20 blur-2xl rounded-2xl"></div>
+            
+            <div class="relative aspect-video rounded-2xl overflow-hidden border border-border-medium shadow-2xl">
               <img
                 src={featuredProject.image}
                 alt={featuredProject.title}
                 class="w-full h-full object-cover"
               />
             </div>
-            <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-primary-100 rounded-full blur-3xl opacity-50"></div>
           </div>
         </div>
       </div>
     </section>
     
     <!-- Projects Grid -->
-    <section id="work" class="py-20 bg-gray-50">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Recent projects</h2>
-          <p class="text-lg text-gray-600">Exploring the intersection of AI and instructional design</p>
+    <section id="work" class="py-24 md:py-32 bg-bg-primary">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">Recent Projects</h2>
+          <p class="text-xl text-text-secondary">Exploring the intersection of AI and instructional design</p>
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -157,21 +178,23 @@ const skills = {
     </section>
     
     <!-- Skills Section -->
-    <section class="py-20 bg-white">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Skills and expertise</h2>
-          <p class="text-lg text-gray-600">Tools and technologies I use to create impactful learning experiences</p>
+    <section class="py-24 md:py-32 bg-bg-secondary">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">Skills & Expertise</h2>
+          <p class="text-xl text-text-secondary">Tools and technologies I use to create impactful learning experiences</p>
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {Object.entries(skills).map(([category, items]) => (
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-3">{category}</h3>
-              <ul class="space-y-2">
+            <div class="bg-bg-elevated border border-border-subtle rounded-xl p-6 hover:border-accent-primary/30 transition-all duration-300 hover:-translate-y-1">
+              <h3 class="font-bold text-accent-primary mb-4 text-sm uppercase tracking-wider">{category}</h3>
+              <ul class="space-y-3">
                 {items.map((skill) => (
-                  <li class="text-sm text-gray-600 flex items-center">
-                    <span class="w-1 h-1 bg-primary-600 rounded-full mr-2"></span>
+                  <li class="text-text-secondary flex items-start text-sm">
+                    <svg class="w-4 h-4 mr-2 mt-0.5 flex-shrink-0 text-accent-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
                     {skill}
                   </li>
                 ))}
@@ -183,53 +206,62 @@ const skills = {
     </section>
     
     <!-- Brief About Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-24 md:py-32 bg-bg-primary">
       <div class="max-w-4xl mx-auto px-6 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Building the future of learning, one system at a time</h2>
-        <p class="text-lg text-gray-600 mb-6">
-          I'm an instructional designer at commercetools, where I've evolved from creating traditional courses to building AI-powered learning systems that think, adapt, and scale. My journey started in the classroom as an educator, which taught me that great learning experiences must be deeply human—even when powered by artificial intelligence.
-        </p>
-        <p class="text-lg text-gray-600 mb-6">
-          Today, I design solutions that transform how teams learn—from AI mentors that provide personalized guidance to automated grading systems to modular learning paths spanning 40+ modules. My approach combines instructional design rigor with technical innovation, always keeping the learner at the center.
-        </p>
-        <p class="text-lg text-gray-600 mb-8">
-          With a graduate certificate in educational design and hands-on experience building production-ready AI tools, I bridge the gap between what's pedagogically sound and what's technically possible.
-        </p>
+        <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-8 leading-tight">Building the future of learning, one system at a time</h2>
+        
+        <div class="space-y-6 text-lg text-text-secondary leading-relaxed">
+          <p>
+            I'm an instructional designer at <span class="text-accent-primary font-semibold">commercetools</span>, where I've evolved from creating traditional courses to building AI-powered learning systems that think, adapt, and scale. My journey started in the classroom as an educator, which taught me that great learning experiences must be deeply human—even when powered by artificial intelligence.
+          </p>
+          <p>
+            Today, I design solutions that transform how teams learn—from AI mentors that provide personalized guidance to automated grading systems to modular learning paths spanning 40+ modules. My approach combines instructional design rigor with technical innovation, always keeping the learner at the center.
+          </p>
+          <p>
+            With a graduate certificate in educational design and hands-on experience building production-ready AI tools, I bridge the gap between what's pedagogically sound and what's technically possible.
+          </p>
+        </div>
+        
         <a
           href={`${base}/about/`}
-          class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors"
+          class="group inline-flex items-center mt-8 text-accent-primary font-bold hover:text-accent-secondary transition-colors"
         >
-          Read my full story
-          <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          Read My Full Story
+          <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
           </svg>
         </a>
       </div>
     </section>
     
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-white">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Let's work together</h2>
-        <p class="text-lg text-gray-600 mb-8">
+    <section id="contact" class="relative py-24 md:py-32 bg-bg-secondary overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-primary/10 rounded-full blur-[120px]"></div>
+      </div>
+      
+      <div class="relative max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-6">Let's Work Together</h2>
+        <p class="text-xl text-text-secondary mb-12 max-w-2xl mx-auto">
           If you're looking for an instructional designer who can leverage AI to transform your learning initiatives, I'd love to connect.
         </p>
         
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="mailto:lukepanaccio@gmail.com"
-            class="inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors"
+            class="group inline-flex items-center justify-center px-8 py-4 bg-gradient-accent text-bg-primary rounded-lg font-bold hover:shadow-xl hover:shadow-accent-primary/30 transition-all duration-300 hover:-translate-y-1"
           >
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
             </svg>
-            Email me
+            Email Me
           </a>
           <a
             href="https://www.linkedin.com/in/luke-p-b444b124b/"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+            class="inline-flex items-center justify-center px-8 py-4 border border-border-medium rounded-lg font-bold text-text-primary hover:border-accent-primary hover:bg-bg-elevated transition-all duration-300"
           >
             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
               <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
@@ -243,3 +275,72 @@ const skills = {
   
   <Footer />
 </Layout>
+
+<style>
+  /* Custom utilities using CSS variables */
+  .bg-bg-primary {
+    background-color: var(--color-bg-primary);
+  }
+  
+  .bg-bg-secondary {
+    background-color: var(--color-bg-secondary);
+  }
+  
+  .bg-bg-elevated {
+    background-color: var(--color-bg-elevated);
+  }
+  
+  .bg-gradient-accent {
+    background: var(--gradient-accent);
+  }
+  
+  .text-text-primary {
+    color: var(--color-text-primary);
+  }
+  
+  .text-text-secondary {
+    color: var(--color-text-secondary);
+  }
+  
+  .text-text-tertiary {
+    color: var(--color-text-tertiary);
+  }
+  
+  .text-accent-primary {
+    color: var(--color-accent-primary);
+  }
+  
+  .text-accent-secondary {
+    color: var(--color-accent-secondary);
+  }
+  
+  .text-bg-primary {
+    color: var(--color-bg-primary);
+  }
+  
+  .border-border-subtle {
+    border-color: var(--color-border-subtle);
+  }
+  
+  .border-border-medium {
+    border-color: var(--color-border-medium);
+  }
+  
+  .border-accent-primary {
+    border-color: var(--color-accent-primary);
+  }
+  
+  /* Animation for glow effect */
+  @keyframes glow {
+    0%, 100% {
+      opacity: 0.1;
+    }
+    50% {
+      opacity: 0.2;
+    }
+  }
+  
+  .animate-glow {
+    animation: glow 8s ease-in-out infinite;
+  }
+</style>
