@@ -1,0 +1,191 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Alex Chen: AI-Powered Learner Persona'
+tagline: 'Transforming user research by creating an interactive AI agent that provides real-time feedback on documentation'
+description: 'A psychologically grounded synthetic learner persona that simulates a senior developer, enabling continuous content validation without relying on scarce SME access.'
+client: 'commercetools'
+role: 'Learning Designer & AI Researcher'
+timeline: '2 weeks (2025)'
+audience: 'Instructional designers, UX researchers, technical writers, product managers'
+tools: ['LLM Prompt Engineering', 'Deep Research Tools', 'User Research Synthesis']
+deliverables: ['Interactive AI persona agent', 'Structured psychological profile', 'Content auditing framework']
+heroImage: '/portfolio/images/alex-chen-hero.png'
+githubLink: 'https://github.com/lukepanaccio/learner-persona'
+metrics:
+  - label: 'Content Iterations'
+    value: '15+ audits'
+  - label: 'Research Synthesis'
+    value: '40+ sources'
+  - label: 'Design Decisions'
+    value: '8 pivots'
+---
+
+## The challenge
+
+### The SME access problem
+
+Technical instructional designers at commercetools struggled to access senior architects for user research. Without consistent SME feedback, documentation became either too marketing-focused or overly theoretical, missing the practical needs of experienced developers working under pressure.
+
+### The opportunity
+
+Create a synthetic learner persona sophisticated enough to **interact** rather than just represent. Instead of a static PDF describing a user type, build an AI agent that could actively critique documentation drafts, simulating the perspective of a time-constrained senior architect.
+
+### Key design challenge
+
+Move beyond demographic stereotypes ("35-year-old developer with 10 years experience") to capture the **psychological relationship** between expert users and their tools—including their specific stressors, trust patterns, and learning preferences under deadline pressure.
+
+---
+
+## The process
+
+### Research & synthesis
+
+I used Deep Research to aggregate real developer experiences from technical forums, Gartner reviews, and commercetools community discussions. The goal: understand not just **what** senior architects do, but **why** they make certain documentation choices.
+
+**Key patterns identified:**
+- **Time poverty:** Senior architects skim conceptual material to find code, viewing "why" explanations as obstacles unless immediately relevant
+- **Context switching cost:** Navigating between multiple docs breaks flow; they prefer scoped navigation showing only relevant content
+- **Trust through specificity:** Vague error messages or theoretical frameworks trigger immediate distrust; they want copy-paste-ready examples
+
+**Critical insight:**
+The persona needed to embody frustration patterns, not just demographic facts. When documentation wastes an architect's time, they experience it as disrespect—this emotional relationship shaped the entire design.
+
+### Design approach
+
+I applied Dr. Philippa Hardman's structured AI persona framework, specifically focusing on psychological depth over surface demographics:
+
+**1. Episode categorization**
+Mapped success and failure narratives:
+- **Success:** "Found headless frontend integration guide with working React code—saved 4 hours"
+- **Failure:** "Spent 2 hours debugging because docs didn't mention the API returns cached data by default"
+
+**2. Emotional mapping**
+Identified confidence triggers (clear error messages, modular docs) versus anxiety triggers (forced linear learning paths, marketing language disguised as technical content)
+
+**3. Behavioral modeling**
+Defined specific stress responses:
+- When blocked: Takes walks, seeks community help on Slack, blames vendor if root cause is unclear
+- When successful: Shares solutions with team, builds internal wikis to avoid repeating documentation hunts
+
+**4. Voice engineering**
+Created a "brutally honest, pragmatic" communication style. Alex doesn't soften feedback—he tells you exactly where content fails to respect his intelligence or time constraints.
+
+### Development & iteration
+
+Built the persona as an **interactive agent** using structured system prompting:
+
+**System prompt architecture:**
+```
+You are Alex Chen, a Solution Architect with 8 years experience...
+STRESS TRIGGERS: Vague documentation, forced beginner content, marketing fluff
+TRUST BUILDERS: Copy-paste code, clear error explanations, modular navigation
+COMMUNICATION STYLE: Direct, impatient with theory, appreciates brevity
+```
+
+**Validation approach:**
+Tested the persona by having it audit existing documentation. Alex flagged real issues that matched actual user complaints—validating psychological accuracy.
+
+### Testing & refinement
+
+**Initial problem:** Early versions were too polite, softening critiques with "maybe" or "you might consider." This failed to match real architect communication patterns.
+
+**Solution:** Added behavioral constraints:
+- Never apologizes for being critical
+- Demands specific examples, rejects abstract explanations
+- Explicitly calls out when content wastes his time
+
+**Quality validation:**
+The persona successfully predicted that forcing senior developers through "Getting Started" content would cause immediate disengagement—later confirmed when actual architects provided identical feedback.
+
+---
+
+## The solution
+
+### What the team experiences
+
+Feed a documentation draft or UX design to the Alex Chen agent. Within seconds, receive first-person critique highlighting exactly where content fails to meet senior architect needs: "This forces me through basics I already know—show me integration patterns or let me skip ahead."
+
+### Example feedback
+
+**Input:** Proposed learning path with mandatory "CT 101" introduction module
+
+**Alex's response:**
+*"Hard pass. I'm a senior architect—I know what headless commerce is. Forcing me through beginner content tells me you don't understand your audience. Give me a 'Skip to Integration Patterns' option or I'm closing this tab and finding a Stack Overflow answer instead."*
+
+**Impact:** Led to creating separate entry points for beginner versus experienced developers, reducing bounce rates for advanced users.
+
+### How it works
+
+The persona functions as an AI-powered "use of force" model:
+
+1. **Input content:** Documentation draft, site structure, or learning path
+2. **Psychological analysis:** Agent evaluates against Alex's stress triggers and trust patterns
+3. **First-person critique:** Delivers specific, actionable feedback from architect perspective
+4. **Design validation:** Flags content that would cause disengagement before publication
+
+---
+
+## Results & impact
+
+### Content strategy pivots
+
+**Navigation redesign:**
+Alex's feedback on "context switching kills productivity" directly led to implementing scoped navigation—showing only relevant content for the current module. This validated as "exactly what I need" before engineering investment.
+
+**Feature prioritization:**
+Validated that filterable documentation catalogs were "non-negotiable" for power users, influencing product roadmap decisions.
+
+**Risk prevention:**
+Identified that manual progress checklists would seem "cheap and unintelligent" to senior architects, preventing a feature launch that would have damaged credibility.
+
+### Research efficiency gains
+
+- **15+ content audits** conducted without requiring SME time
+- **8 major design decisions** informed by persona feedback before user testing
+- **Continuous validation** without scheduling conflicts or limited SME availability
+
+### Scalability value
+
+The structured psychological framework (Episode/Emotion/Behavior) created a reusable template. The team can now build adjacent personas (junior developers, merchant users) using the same research methodology.
+
+---
+
+## Key takeaways
+
+- **Psychology over demographics.** Traditional personas focus on age, role, and experience level. The breakthrough came from modeling Alex's **emotional relationship** with documentation—how he experiences time pressure, when he trusts versus distrusts content, and what triggers frustration versus confidence.
+
+- **Interactive beats descriptive.** A static persona PDF gets referenced once then forgotten. Making Alex an interactive agent that **responds** to content drafts ensures continuous use. The team now defaults to "ask Alex" when evaluating new documentation.
+
+- **Stress drives decisions.** Alex's behavior under deadline pressure (skim theory, grab code, blame vendor when blocked) explains why standard documentation structures fail. Designing for stress states rather than ideal learning conditions produces more effective content.
+
+- **Voice authenticity matters.** Making Alex "brutally honest" rather than diplomatically critical increased trust in his feedback. When he says documentation is good, the team believes it—because he's harsh when it's bad.
+
+- **Prompt engineering requires instructional design expertise.** Building this persona meant defining learning objectives (what architects need to accomplish), identifying cognitive load factors (context switching costs), and modeling authentic task behavior. AI persona creation is fundamentally a learning design challenge.
+
+---
+
+## Artifacts & documentation
+
+📄 **[Persona psychological profile](#)** - Complete stress triggers, trust patterns, and behavioral model  
+📄 **[Sample feedback sessions](#)** - Examples of Alex auditing real documentation  
+📄 **[Research synthesis](#)** - Aggregated developer pain points from 40+ sources  
+🎬 **[Interactive demo](#)** - Try asking Alex to review your content
+
+---
+
+## Future enhancements
+
+Potential next steps to expand impact:
+
+1. **CI/CD integration** - Auto-flag "marketing fluff" in documentation PRs before publishing
+2. **Conversation mode** - Let junior writers interview Alex to practice technical accuracy
+3. **Multi-persona framework** - Create complementary personas (merchant user, junior developer) for comprehensive content validation
+4. **Quantitative tracking** - Measure correlation between Alex's feedback severity and actual user bounce rates
+5. **Voice model** - Add audio responses so teams can "talk" with Alex during design reviews
+
+---
+
+**Related Projects:**
+- [AI Content Generation System](#) - Infrastructure enabling persona interaction
+- [Developer Essentials](#) - Learning path validated using Alex persona
+- [Technical Integration Guide](#) - Content audited by Alex before publication
