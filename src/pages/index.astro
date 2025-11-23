@@ -105,56 +105,135 @@ const skills = {
       </div>
       
       <!-- Scroll indicator -->
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg class="w-6 h-6 text-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 -ml-3 flex items-center justify-center animate-bounce">
+        <svg class="w-6 h-6 text-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
       </div>
     </section>
     
     <!-- Featured Project -->
-    <section class="relative py-24 md:py-32 bg-bg-secondary">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16 stagger-children">
-          <div class="inline-flex items-center px-4 py-2 bg-bg-elevated border border-accent-primary/30 rounded-full text-sm font-bold text-accent-primary mb-6">
-            <span class="w-2 h-2 bg-accent-primary rounded-full mr-2 animate-pulse"></span>
-            Featured Project
+    <section class="relative py-24 md:py-40 bg-bg-primary overflow-hidden">
+      <!-- Atmospheric background effects -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-primary/10 rounded-full blur-[150px] animate-glow"></div>
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-secondary/5 rounded-full blur-[100px]" style="animation: glow 12s ease-in-out infinite; animation-delay: 3s;"></div>
+      </div>
+      
+      <div class="relative max-w-7xl mx-auto px-6">
+        <!-- Header Badge with enhanced animation -->
+        <div class="flex justify-center mb-8">
+          <div class="relative group">
+            <div class="absolute -inset-1 bg-gradient-accent rounded-full opacity-75 blur-md group-hover:opacity-100 transition-opacity"></div>
+            <div class="relative inline-flex items-center justify-center gap-2 px-6 py-3 bg-bg-elevated border-2 border-accent-primary/50 rounded-full text-sm font-bold text-accent-primary shadow-lg">
+              <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-primary opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-accent-primary"></span>
+              </span>
+              <span class="uppercase tracking-wider">Featured Project</span>
+              <span class="w-2 h-2"></span>
+            </div>
           </div>
-          <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">Marcus Aurelius AI mentor</h2>
-          <p class="text-xl text-text-secondary max-w-3xl mx-auto">An AI-powered learning companion that brings ancient wisdom to modern challenges</p>
         </div>
         
-        <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div class="space-y-6 animate-fade-in" style="animation-delay: 0.2s; opacity: 0;">
-            <p class="text-lg text-text-secondary leading-relaxed">
-              Faced with creating scalable philosophical education, I built an intelligent mentor that embodies Marcus Aurelius's Stoic teachings. This isn't just a chatbot—it's a carefully crafted learning experience that maintains philosophical authenticity while adapting to individual learners.
-            </p>
-            
-            <p class="text-lg text-text-secondary leading-relaxed">
-              Through custom knowledge architecture and nuanced prompt engineering, the system delivers personalized guidance that has helped 200+ users develop practical wisdom. The project showcases how AI can preserve human expertise while making it infinitely accessible.
-            </p>
-            
-            <a
-              href={featuredProject.href}
-              class="group inline-flex items-center px-6 py-3 bg-gradient-accent text-bg-primary rounded-lg font-bold hover:shadow-xl hover:shadow-accent-primary/30 transition-all duration-300 hover:-translate-y-0.5"
-            >
-              Explore full case study
-              <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-              </svg>
-            </a>
-          </div>
+        <!-- Split Layout with Image on Right -->
+        <div class="relative">
+          <!-- Animated gradient border -->
+          <div class="absolute -inset-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary rounded-3xl opacity-20 blur-xl animate-border-glow"></div>
           
-          <div class="relative animate-fade-in" style="animation-delay: 0.4s; opacity: 0;">
-            <!-- Glow effect -->
-            <div class="absolute -inset-4 bg-gradient-accent opacity-20 blur-2xl rounded-2xl"></div>
-            
-            <div class="relative aspect-video rounded-2xl overflow-hidden border border-border-medium shadow-2xl">
-              <img
-                src={featuredProject.image}
-                alt={featuredProject.title}
-                class="w-full h-full object-cover"
-              />
+          <div class="relative rounded-3xl border border-border-medium overflow-hidden shadow-2xl">
+            <!-- Grid Container -->
+            <div class="grid lg:grid-cols-2 gap-0 min-h-[600px] md:min-h-[700px] lg:min-h-[800px]">
+              <!-- Content Column -->
+              <div class="relative bg-gradient-to-br from-bg-secondary to-bg-elevated p-8 md:p-12 lg:p-16 flex items-center">
+                <div class="w-full space-y-8">
+                  <!-- Title with AI emphasis -->
+                  <div>
+                    <div class="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-accent-primary/20 backdrop-blur-sm border border-accent-primary/40 rounded-full">
+                      <svg class="w-5 h-5 text-accent-primary" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 7H7v6h6V7z"/>
+                        <path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z" clip-rule="evenodd"/>
+                      </svg>
+                      <span class="text-sm font-bold text-accent-primary uppercase tracking-wider">AI-Powered Learning</span>
+                    </div>
+                    
+                    <h2 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-text-primary mb-4 leading-[1.05] tracking-tight">
+                      <span class="block">Marcus Aurelius</span>
+                      <span class="block text-accent-primary">AI Mentor</span>
+                    </h2>
+                    
+                    <p class="text-lg md:text-xl text-text-primary leading-relaxed max-w-xl bg-bg-primary/95 p-4 rounded-lg -ml-4">
+                      An intelligent learning companion that brings ancient Stoic wisdom to modern challenges through conversational AI
+                    </p>
+                  </div>
+                  
+                  <!-- Key Metrics with glass effect -->
+                  <div class="flex flex-wrap gap-4">
+                    <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
+                      <div class="text-3xl font-bold text-accent-primary mb-1">200+</div>
+                      <div class="text-sm text-text-tertiary font-semibold">Active Users</div>
+                    </div>
+                    <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
+                      <div class="text-3xl font-bold text-accent-primary mb-1">24/7</div>
+                      <div class="text-sm text-text-tertiary font-semibold">AI Guidance</div>
+                    </div>
+                    <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
+                      <div class="text-3xl font-bold text-accent-primary mb-1">∞</div>
+                      <div class="text-sm text-text-tertiary font-semibold">Scalable</div>
+                    </div>
+                  </div>
+                  
+                  <!-- Tags with glass effect -->
+                  <div class="flex flex-wrap gap-3">
+                    {featuredProject.tags.map((tag, index) => (
+                      <span 
+                        class="inline-flex items-center px-4 py-2 bg-bg-primary/60 border border-accent-primary/40 text-accent-primary rounded-lg text-sm font-semibold hover:bg-bg-primary/80 hover:shadow-lg hover:shadow-accent-primary/20 transition-all duration-300 hover:-translate-y-0.5"
+                        style={`animation: fadeInUp 0.6s ease-out forwards; animation-delay: ${0.8 + index * 0.1}s; opacity: 0;`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <!-- CTA Button with enhanced styling -->
+                  <div class="pt-2">
+                    <a
+                      href={featuredProject.href}
+                      class="group/btn relative inline-flex items-center justify-center px-8 py-4 bg-gradient-accent text-bg-primary rounded-xl font-bold overflow-hidden hover:shadow-2xl hover:shadow-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:scale-105"
+                    >
+                      <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-accent-secondary to-accent-primary opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></span>
+                      <span class="relative flex items-center text-base md:text-lg">
+                        Explore full case study
+                        <svg class="w-5 h-5 ml-2 group-hover/btn:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Visual Column -->
+              <div class="relative overflow-hidden group">
+                <!-- Layered glow effects -->
+                <div class="absolute -inset-4 bg-gradient-accent opacity-30 blur-3xl group-hover:opacity-40 transition-opacity duration-500"></div>
+                
+                <!-- GIF/Image -->
+                <div class="relative h-full w-full">
+                  <img
+                    src={featuredProject.image}
+                    alt={featuredProject.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  
+                  <!-- Overlay gradient for depth -->
+                  <div class="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-bg-secondary/20 pointer-events-none"></div>
+                  
+                  <!-- Floating decorative elements -->
+                  <div class="absolute top-1/4 right-1/4 w-32 h-32 bg-accent-primary/20 rounded-full blur-3xl animate-float"></div>
+                  <div class="absolute bottom-1/3 left-1/3 w-40 h-40 bg-accent-secondary/15 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -342,5 +421,67 @@ const skills = {
   
   .animate-glow {
     animation: glow 8s ease-in-out infinite;
+  }
+  
+  /* Featured section animations */
+  @keyframes border-glow {
+    0%, 100% {
+      opacity: 0.2;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.4;
+      transform: scale(1.02);
+    }
+  }
+  
+  .animate-border-glow {
+    animation: border-glow 4s ease-in-out infinite;
+  }
+  
+  @keyframes border-slide {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+  
+  .animate-border-slide {
+    animation: border-slide 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px);
+    }
+    33% {
+      transform: translateY(-20px) translateX(10px);
+    }
+    66% {
+      transform: translateY(-10px) translateX(-10px);
+    }
+  }
+  
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  /* Fade in up animation for tags */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
