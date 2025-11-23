@@ -198,11 +198,11 @@ const components = Astro.props.components || {};
                 <div class="absolute inset-0 bg-gradient-accent opacity-5 blur-3xl rounded-2xl"></div>
                 
                 <div class="relative bg-gradient-to-br from-bg-elevated to-bg-secondary border border-border-medium rounded-2xl p-8 md:p-12">
-                  <h2 class="text-3xl font-display font-bold text-text-primary mb-10">Impact & Results</h2>
+                  <h2 class="text-3xl font-display font-bold text-text-primary mb-10">Impact & results</h2>
                   <div class="grid md:grid-cols-3 gap-8">
                     {frontmatter.metrics.map((metric, index) => (
                       <div class="text-center group">
-                        <div class="text-5xl md:text-6xl font-display font-bold bg-gradient-accent bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform duration-300">
+                        <div class="text-5xl md:text-6xl font-display font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform duration-300">
                           {metric.value}
                         </div>
                         <div class="text-sm text-text-tertiary uppercase tracking-wide font-semibold">
@@ -242,7 +242,7 @@ const components = Astro.props.components || {};
             href={`${base}#contact`}
             class="group inline-flex items-center px-6 py-3 bg-gradient-accent text-bg-primary rounded-lg font-semibold hover:shadow-xl hover:shadow-accent-primary/20 transition-all duration-300 hover:-translate-y-0.5"
           >
-            Let's Work Together
+            Let's work together
             <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
             </svg>
