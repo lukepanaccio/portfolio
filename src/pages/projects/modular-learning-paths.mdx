@@ -1,0 +1,227 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Modular learning path ecosystem'
+tagline: 'A scalable learning architecture serving diverse learner personas through interconnected knowledge pathways'
+description: 'A comprehensive learning ecosystem comprising 9 interconnected learning paths with 40+ modules, designed to guide learners from platform fundamentals to advanced implementation patterns.'
+client: 'commercetools'
+role: 'Lead Instructional Designer & Learning Architect'
+timeline: '3 years (2022-2025, ongoing)'
+audience: 'Software developers, solution architects, business administrators, digital commerce managers'
+tools: ['Next.js', 'MDX', 'TypeScript', 'React', 'Moodle Integration', 'Learning API']
+deliverables: ['9 learning paths', '40+ modules', '600+ content pages', '31+ assessments']
+heroImage: '/portfolio/images/learn-commercetools-hero.png'
+githubLink: 'https://github.com/commercetools/commercetools-docs'
+metrics:
+  - label: 'Learning Paths'
+    value: '9'
+  - label: 'Total Content'
+    value: '~60h'
+  - label: 'Personas Served'
+    value: '2'
+---
+
+## The challenge
+
+### Core problem
+
+Enterprise commerce platforms are vast and complex. New users face a critical question: *Where do I start?* Traditional documentation forces all learners through the same linear path regardless of their role or expertise. A business administrator configuring product catalogs doesn't need the same depth as a developer building API integrations, yet both need systematic learning progressions.
+
+### The opportunity
+
+Create a modular learning ecosystem that serves multiple personas through role-appropriate pathways while maintaining interconnected knowledge that teaches systems thinking—not isolated skills.
+
+### Key design challenges
+
+- **Scale without losing coherence:** Manage 600+ content pages across 9 learning paths while maintaining consistency
+- **Serve diverse learners:** Support administrators, developers, and architects with different learning goals and technical backgrounds
+- **Enable flexible navigation:** Allow both linear progression (complete paths) and selective consumption (individual modules)
+- **Track prerequisites across paths:** Some advanced modules require knowledge from different learning paths—how do we prevent learners from getting stuck?
+
+---
+
+## The process
+
+### Research & analysis
+
+Analysis of existing documentation revealed a fundamental problem: content was comprehensive but lacked clear learning progressions. New users struggled to distinguish between foundational concepts and advanced patterns.
+
+**Learner needs identified:**
+- Business administrators needed configuration-focused content without overwhelming technical implementation details
+- Developers wanted hands-on tutorials with code examples, not conceptual overviews
+- Both groups needed transparent prerequisite tracking to avoid frustration from missing foundational knowledge
+
+**Core insight:**  
+Learning pathways should mirror job responsibilities, not platform architecture. We needed to organize content by *what users need to accomplish*, not by technical system boundaries.
+
+### Design approach
+
+I applied four key learning design principles:
+
+**1. Modular architecture enables flexible learning**  
+Each module is self-contained yet interconnected, allowing learners to consume only relevant content for their immediate needs (just-in-time learning) while supporting comprehensive mastery for those building deep expertise.
+
+**2. Persona-driven pathways respect learner context**  
+Administrator paths emphasize business modeling and configuration (how to set up product catalogs, pricing rules, discount strategies). Developer paths focus on SDK usage, API integration, and implementation patterns. Same platform, different lenses.
+
+**3. Progressive complexity scaffolds knowledge**  
+Content difficulty scales systematically within each path. Learners start with foundational concepts (e.g., "Organizations and Projects") before tackling advanced patterns (e.g., "Custom checkout implementation"). This supports zone of proximal development—learners are challenged but not overwhelmed.
+
+**4. Cross-path prerequisites teach systems thinking**  
+Prerequisites span learning paths, creating a knowledge graph rather than isolated silos. Example: The "Integration Patterns" module requires foundational knowledge from both "Developer Essentials" and "Business Structure." This reinforces that real-world implementations require understanding both technical architecture and business logic.
+
+### Development & iteration
+
+Three critical architectural decisions shaped the implementation:
+
+**Three-tier hierarchical structure**  
+Learning Path (9 paths) → Module (40+ modules) → Page (600+ pages). This hierarchy provides natural scaffolding. Each tier represents a cognitive "chunk" of knowledge, making vast content manageable.
+
+**TypeScript configuration system**  
+Learning paths register in a strongly-typed configuration file with metadata: duration, target audience, prerequisite modules, and LMS integration courseIds. This enables:
+- Dynamic homepage generation with filtering by persona or product
+- Automated prerequisite validation
+- Progress tracking across paths
+- Duration estimates for planning learning schedules
+
+**Standardized module structure**  
+Every module follows the same format:
+1. **Overview:** Learning objectives, prerequisites, audience, duration estimate
+2. **Content pages:** 3-6 instructional pages with concepts, tutorials, code examples
+3. **Learning check:** Scenario-based quiz testing applied knowledge
+4. **Next steps:** Suggested progression to related modules
+
+This consistency reduces cognitive load—learners know exactly what to expect in each module.
+
+### Testing & refinement
+
+**Problem identified:** Early versions lacked clear entry points for different personas. Both administrators and developers landed on the same homepage and had to manually filter relevant content.
+
+**Solution implemented:**  
+Built audience filtering on the learning homepage. Users select "Administrator" or "Developer" and see only relevant learning paths. This respects learners' time and increases perceived relevance.
+
+**Content consistency challenge:**  
+Managing 600+ pages created risk of formatting inconsistencies, terminology mismatches, and varying technical accuracy.
+
+**Solution:**  
+Created instruction files loaded automatically by AI context when editing learning content. These enforce:
+- Heading formatting standards
+- Consistent terminology (e.g., "Product Type" not "product type")
+- Technical accuracy validation
+- Component usage guidelines
+
+---
+
+## The solution
+
+### What users experience
+
+**For administrators:**  
+Visit the learning homepage, filter by "Administrator" audience, and see three primary learning paths:
+1. **Model your business structure** (6h | 6 modules) - Organizations, stores, channels, taxes
+2. **Model your product catalog** (7h | 7 modules) - Product data, attributes, categories, inventory
+3. **Price and discount your products** (7h | 6 modules) - Pricing strategies, discounts, promotions
+
+Each path's landing page displays collapsible module cards showing learning objectives, duration, and prerequisites. Click to start the first module and work through structured content with end-of-module assessments.
+
+**For developers:**  
+Start with **Developer Essentials** (20h | 8 modules) covering SDK setup, API authorization, query patterns, and GraphQL. Complete the hands-on challenge module synthesizing all skills. Then branch into implementation-focused paths:
+- **Implement product discovery** (4h | 3 modules)
+- **Implement Carts and Shopping Lists** (4.5h | 3 modules)  
+- **Implement checkout solutions** (expanding)
+- **Integrate with Composable Commerce** (2h+ | 1+ modules)
+
+### Example learning progression
+
+A developer's journey might look like:
+
+1. **Developer Essentials** → Learn SDK basics and API patterns
+2. **Implement product discovery** → Build product listing pages (requires GraphQL knowledge from step 1)
+3. **Implement Carts** → Manage cart lifecycle (requires resource management from step 1)
+4. **Integrate with Composable Commerce** → Advanced integration patterns (requires multiple prerequisites)
+
+Prerequisites are explicitly declared in each module's overview, preventing frustration from missing foundational knowledge.
+
+### System architecture enables
+
+- **Progress tracking via Learning API:** Stores completion status, quiz scores, timestamps
+- **Authentication via Auth0:** Enables cross-device progress synchronization
+- **Moodle integration:** End-of-module assessments link to certification pathways
+- **Dynamic homepage:** Filters learning paths by persona, product, or duration
+- **YAML navigation:** Auto-generates sidebar menus from hierarchical structure
+
+---
+
+## Results & impact
+
+### Scale metrics
+
+- **9 learning paths** serving 2 primary personas (Administrators + Developers)
+- **40+ individual modules** with standardized structure
+- **600+ content pages** covering complete platform capabilities
+- **~60 hours** of total learning content
+- **31+ scenario-based assessments** integrated with certification system
+
+### Learning path distribution
+
+- **Administrator-focused:** 3 major paths (Business, Product Catalog, Pricing) = 20 hours
+- **Developer-focused:** 5 major paths (Essentials, Discovery, Carts, Checkout, Integration) = 30+ hours
+- **Shared foundations:** Cross-path prerequisites create interconnected knowledge graph
+
+### Educational impact
+
+**Content consistency:**  
+100% of modules follow standardized structure (Overview → Content → Learning Check), creating predictable learning experience that reduces cognitive load.
+
+**Certification enablement:**  
+CourseId system integrates with Moodle for formal assessment tracking. Learning paths align with certification requirements:
+- Composable Commerce Functional Architect (Administrator paths)
+- Composable Commerce Developer (Developer paths)
+
+**Flexible learning supported:**  
+Modular architecture enables both comprehensive study (complete entire path) and selective learning (consume only relevant modules for immediate project needs).
+
+### Technical achievements
+
+**Horizontal scalability:**  
+Adding new paths requires creating folder, registering in configuration, and following established patterns. System successfully scales from initial 3 paths to current 9 without architectural changes.
+
+**Maintainability:**  
+TypeScript configuration prevents registration errors through type safety. Instruction files enforce consistency across 600+ pages without manual review overhead.
+
+---
+
+## Key takeaways
+
+- **Modular architecture mirrors cognitive chunking.** Breaking vast content into paths → modules → pages aligns with how humans process information. Each level represents manageable knowledge "chunk," supporting progressive mastery.
+
+- **Persona-based pathways increase relevance.** Administrators and developers have different jobs to accomplish. Tailoring content depth and focus to role increases perceived value and respects learner time.
+
+- **Explicit prerequisites reduce frustration.** Declaring required foundational knowledge prevents learners from attempting advanced modules before they're ready. This respects zone of proximal development—content should challenge but not overwhelm.
+
+- **Cross-path interconnections teach systems thinking.** Prerequisites spanning multiple learning paths reinforce that platform expertise requires understanding how components interact, not isolated feature knowledge.
+
+- **Standardization reduces cognitive load.** Consistent module structure creates predictable learning environment. Learners can focus on content mastery rather than navigation discovery.
+
+- **Metadata enables personalization.** Rich configuration (duration, audience, prerequisites) supports filtering, recommendation, and progress tracking—foundation for future AI-powered adaptive learning.
+
+---
+
+## Artifacts & documentation
+
+📄 [Configuration system](https://github.com/commercetools/commercetools-docs/blob/main/packages/next-docs/src/components/CustomPages/LearningHomepage/learning-catalogue-config.ts) - TypeScript learning path registry  
+📄 [Sample learning path](https://github.com/commercetools/commercetools-docs/tree/main/websites/learning-model-your-product-catalog) - Administrator-focused path with 7 modules  
+📄 [Sample module structure](https://github.com/commercetools/commercetools-docs/tree/main/websites/learning-model-your-product-catalog/src/content/product-modeling) - Complete module with overview, content pages, assessment  
+📄 [Component library](https://github.com/commercetools/commercetools-docs/tree/main/packages/next-docs/src/components/self-learning) - Specialized learning UI components  
+🎬 **Explore live learning paths** - [docs.commercetools.com/training](https://docs.commercetools.com/training)
+
+---
+
+## Future enhancements
+
+Five potential improvements could expand educational impact:
+
+1. **Personalized learning paths** - Quiz-based skill assessment to recommend starting point based on learner's role, experience, and goals
+2. **Adaptive content** - Track quiz performance to identify struggling concepts and suggest remedial content or alternative explanations
+3. **Gamification elements** - Badges for path completion, streak tracking for consistent learning, leaderboards for engagement
+4. **Integrated sandbox environments** - Hands-on labs with guided exercises and validation, moving beyond multiple-choice assessments
+5. **Video integration** - 5-10 minute video overviews for each module to support different learning preferences

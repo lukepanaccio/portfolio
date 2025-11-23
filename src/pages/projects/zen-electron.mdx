@@ -1,0 +1,238 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Zen Electron case study system'
+tagline: 'Teaching complex commerce architecture through unified scenario-based learning'
+description: 'A fictional multi-brand electronics retailer that provides consistent, realistic context across 9 learning paths, helping developers understand when and why to use specific API features.'
+client: 'commercetools'
+role: 'Lead Instructional Designer & Content Strategist'
+timeline: '3 years (2022-2025, ongoing)'
+audience: 'Software architects and developers learning composable commerce'
+tools: ['MDX', 'Next.js', 'GitHub Copilot', 'Moodle', 'AI prompt engineering']
+deliverables: ['Integrated case study across 40+ modules', 'Scenario-based assessment system', 'AI context documentation']
+heroImage: '/portfolio/images/zen-electron-hero.png'
+githubLink: 'https://github.com/commercetools/commercetools-docs'
+metrics:
+  - label: 'Learning Paths'
+    value: '9'
+  - label: 'Modules'
+    value: '40+'
+  - label: 'Content Pages'
+    value: '600+'
+  - label: 'Assessments'
+    value: '31+'
+---
+
+## The challenge
+
+### Core problem
+
+Technical documentation typically presents API features in isolation, forcing learners to mentally map abstract concepts to real-world use cases. This cognitive overhead slows learning and makes it difficult to understand when and why to use specific features. Without consistent scenarios, learners struggle to see how individual API calls combine into complete business solutions.
+
+### The opportunity
+
+Create a unified fictional case study that provides familiar, realistic context across all learning materials—grounding abstract API concepts in relatable business problems that mirror real enterprise requirements.
+
+### Key design challenges
+
+- Maintain consistency across 600+ pages of content developed over 3 years
+- Scale scenario complexity appropriately as learners progress (beginners need simplicity, advanced learners need edge cases)
+- Balance realism with pedagogical clarity (real enterprise scenarios are messy; too much complexity obscures learning objectives)
+- Enable scenario-based assessments that test applied understanding rather than memorization
+- Demonstrate complex commerce patterns (multi-brand, multi-region, B2C vs B2B) through a single coherent narrative
+
+---
+
+## The process
+
+### Research & analysis
+
+Research revealed a fundamental gap in traditional API documentation: learners could understand individual features but struggled to apply them to real business problems.
+
+**Key findings:**
+- Developers found isolated code examples interesting but couldn't connect them to their own projects
+- Quiz questions testing API syntax ("which parameter is required?") measured memorization, not understanding
+- Context-switching between different example scenarios in each module increased cognitive load
+- Learners needed to understand *when* to use features, not just *how* to implement them
+
+**Core insight:**  
+Situated learning theory suggests knowledge is constructed within authentic contexts that mirror real professional challenges. A consistent case study would reduce extraneous cognitive load while creating "realistic complexity" that prepares learners for actual implementation work.
+
+### Design approach
+
+I applied four key learning principles to shape the case study system:
+
+**1. Situated cognition**  
+Created "Zen Electron," a multi-brand electronics retailer with realistic business constraints. This provides authentic context where abstract API features become concrete tools for solving business problems.
+
+**2. Cognitive load management**  
+Consistent case study means learners don't reorient to new scenarios in each module. They can dedicate mental resources to new concepts rather than understanding new contexts.
+
+**3. Progressive disclosure**  
+Scenario complexity scales with learner advancement:
+- **Level 1 (Fundamentals):** Single brand, single country, straightforward requirements
+- **Level 2 (Intermediate):** Multi-brand with isolation requirements, channel-based pricing  
+- **Level 3 (Advanced):** Regional variations, custom business rules, premium service tiers
+
+**4. Constraint-driven learning**  
+Real projects have constraints (brand isolation, budget limits, legacy systems). Zen Electron's constraints teach learners to work within real-world limitations rather than idealized scenarios.
+
+### Development & iteration
+
+**Key architectural decisions:**
+
+**Zen Electron business structure:**
+- **Electronics High Tech** ("The Discount King"): 220 stores across Australia and New Zealand, tech-focused consumers, competitive pricing
+- **Zenith Living** ("Service with a Smile"): 102 premium stores in Australia only, white-glove service, curated selection
+
+This multi-brand structure demonstrates:
+- Store separation and data isolation
+- Channel-based pricing strategies  
+- Regional variations in product availability
+- Different customer service models (B2C discount vs B2C premium)
+
+**Single source of truth:**  
+Created `learning-zen-electron-case-study-summary.md` as canonical reference. This 200-line document defines all case study details (brand names, store keys, product examples) to prevent drift across years of content updates.
+
+**AI context integration:**  
+Embedded case study summary in GitHub Copilot and Claude instructions. When generating new learning content, AI automatically uses correct brand names, business constraints, and sample data—ensuring consistency without manual verification.
+
+### Testing & refinement
+
+**Problem identified:** Early quiz questions used generic scenarios ("An e-commerce company needs to...") that didn't reinforce learning progression or connect to previous examples.
+
+**Solution implemented:**
+- Restructured all assessments as scenario-based questions grounded in Zen Electron context
+- Format: "**Scenario**: [Zen Electron business problem]. Which approach best solves this?"
+- Cross-referenced previous modules (e.g., "Using the store structure from Module 2...")
+
+**Example transformation:**
+
+**Before:**  
+*"Which API call creates a cart in a specific store?"*
+
+**After:**  
+*"**Scenario**: During a flash sale, Electronics High Tech customers were charged twice for the same order due to clicking 'Place Order' multiple times. Which architectural pattern prevents duplicate charges?"*
+
+The scenario-based version tests applied understanding of idempotency within familiar context, not just API syntax recall.
+
+---
+
+## The solution
+
+### What learners experience
+
+Throughout their learning journey, developers encounter Zen Electron at increasing levels of complexity. Early modules introduce the basic structure (two brands, store separation). As learners progress, they solve increasingly sophisticated business challenges using the same familiar context.
+
+### Example learning progression
+
+**Module 1 (Stores and Channels):**  
+"Zen Electron operates two distinct brands from a single Project: Electronics High Tech (220 stores) and Zenith Living (102 stores). Both brands require completely separate customer data and merchant center access..."
+
+**Module 3 (Product Modeling):**  
+"Electronics High Tech and Zenith Living share a catalog of 46,000 products, but Zenith Living needs premium product descriptions for their white-glove service customers. How do you enable brand-specific descriptions without duplicating the entire catalog?"
+
+**Module 7 (Checkout Implementation):**  
+"**Quiz Question**: During a flash sale, Zen Electron customers were charged twice for the same order. Which pattern prevents this?"
+
+### Sample scenario structure
+
+**Business context** establishes familiar ground:
+```
+Zen Electron's business requirements:
+- Electronics High Tech: 220 stores (AU + NZ), competitive pricing, B2C
+- Zenith Living: 102 stores (AU only), premium service, expanding to B2B
+- 46,000 shared products with brand-specific category trees
+- Store-level price overrides for promotional flexibility
+```
+
+**Technical scenario** connects to learning objective:
+```javascript
+// Create cart for Electronics High Tech store
+const cart = await apiRoot
+  .inStore({ key: 'electronics-high-tech' })
+  .carts()
+  .post({
+    body: {
+      currency: 'AUD',
+      country: 'AU',
+      shippingAddress: {
+        postalCode: '2000', // Sydney metro area
+      },
+    },
+  })
+  .execute();
+```
+
+### System architecture enables
+
+- **Consistency:** Single canonical reference prevents case study drift across 3 years of content updates
+- **Scalability:** Case study supports both introductory concepts (basic cart creation) and advanced patterns (metro postcode-based shipping zones)
+- **AI integration:** Case study summary embedded in AI context ensures new content automatically maintains consistency
+- **Cross-referencing:** Explicit references to previous Zen Electron examples reinforce learning progression
+
+---
+
+## Results & impact
+
+### Key metrics
+
+- **Scale:** 9 learning paths, 40+ modules, 600+ pages of content
+- **Assessment coverage:** 31+ scenario-based quizzes using Zen Electron context
+- **Consistency:** 100% of scenario-based assessments grounded in unified case study
+- **Longevity:** 3 years of consistent case study maintenance without major revisions
+
+### Learning design impact
+
+**Reduced cognitive load:**  
+Learners build mental models incrementally. Consistent context means they focus on new concepts rather than reorienting to different scenarios in each module.
+
+**Applied knowledge assessment:**  
+Scenario-based questions test whether learners can apply concepts to solve business problems, not just recall API syntax. This measures deeper understanding.
+
+**Pattern recognition:**  
+Familiar case study helps learners recognize similar patterns when they encounter challenges in their own projects. Zen Electron's multi-brand structure mirrors real enterprise requirements.
+
+**Connected learning:**  
+Cross-module references ("using the store structure from Module 2") help learners see how discrete concepts combine into complete solutions. This builds systems thinking.
+
+### Technical achievements
+
+- Modular case study components enable flexible content creation (business overview, technical requirements, sample data, decision scenarios)
+- AI-assisted consistency ensures new content maintains canonical case study details without manual verification
+- Version-controlled case study documentation supports collaborative content development across multiple authors
+
+---
+
+## Key takeaways
+
+- **Consistent context amplifies learning.** When case study details remain constant across modules, learners dedicate mental resources to new concepts rather than reorienting to new scenarios. This validates cognitive load theory in technical documentation.
+
+- **Realistic complexity matters.** Simplified textbook examples fail to prepare learners for real-world challenges. Zen Electron's multi-brand structure mirrors actual enterprise requirements, teaching learners to work within constraints.
+
+- **Business constraints drive technical learning.** Understanding *why* brands must be isolated is more memorable than *how* to configure store-scoped permissions. Constraint-driven scenarios create meaningful learning experiences.
+
+- **Progressive scenario design scales with expertise.** Early modules use simplified single-brand scenarios; advanced modules introduce edge cases and tradeoffs. This supports learners at different skill levels while maintaining consistent context.
+
+- **Single source of truth prevents drift.** Maintaining canonical case study documentation across 3 years and 600+ pages requires explicit reference documents. AI integration automates consistency checking.
+
+- **Scenario-based assessment reveals understanding.** Quiz questions testing "How would Zen Electron prevent duplicate orders?" measure applied knowledge better than "Which API parameter is required?" Scenarios test decision-making, not memorization.
+
+---
+
+## Artifacts & documentation
+
+📄 [Case study documentation](https://github.com/commercetools/commercetools-docs/tree/main/.github/prompts/learning-zen-electron-case-study-summary.md) - Canonical case study reference (200+ lines)  
+📄 [Learning content examples](https://github.com/commercetools/commercetools-docs/tree/main/websites/learning-implement-checkout/src/content) - Integrated scenarios across modules  
+📄 [Assessment examples](https://github.com/commercetools/commercetools-docs/tree/main/websites/learning-implement-carts-and-shopping-lists/src/content/manage-signups-and-signins/learning-check.mdx) - Scenario-based quiz questions
+
+---
+
+## Future enhancements
+
+Five potential improvements could expand the project's impact:
+
+1. **Interactive architecture explorer** - Clickable diagram showing Zen Electron's complete system with API calls and data flows
+2. **Video case study introduction** - 3-5 minute animated explainer introducing business model and technical challenges for visual learners
+3. **Sample implementation repository** - Working GitHub repo with Zen Electron demo code matching learning content
+4. **Extended edge case scenarios** - Holiday flash sales, new product launches, inventory synchronization challenges
+5. **Industry variations** - Adapt case study pattern for fashion retail, grocery, automotive aftermarket to show pattern reusability
