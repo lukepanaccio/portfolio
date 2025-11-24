@@ -4,23 +4,22 @@ title: 'AI-powered content generation system'
 tagline: 'Scaling instructional design expertise through context-aware AI workflows'
 description: 'An intelligent content generation system that embeds instructional design principles directly into AI prompts, enabling consistent, pedagogically sound technical learning content at scale.'
 client: 'commercetools'
-role: 'Lead Learning Designer & System Architect'
+role: 'Learning experience architect'
 timeline: '6 months (ongoing)'
 audience: 'Learning content developers, instructional designers, subject matter experts'
 tools: ['GitHub Copilot', 'Claude Sonnet 4.5', 'MDX', 'Moodle XML', 'TypeScript', 'VS Code']
-deliverables: ['18+ specialized content generation prompts', '33 instruction files', 'Automated quiz conversion system', '9 learning paths with 40+ modules']
+deliverables: ['18+ specialized content generation prompts', '33 instruction files', 'Automated quiz conversion system', '9 learning paths with 30+ modules']
 heroImage: '/portfolio/images/ai-content-gen-hero.png'
-githubLink: 'https://github.com/commercetools/commercetools-docs'
 metrics:
   - label: 'Learning Paths'
-    value: '9 active'
+    value: '9'
   - label: 'Modules Created'
-    value: '40+'
+    value: '30+'
   - label: 'Time Saved'
-    value: '60-70%'
-  - label: 'Format Consistency'
-    value: '100%'
+    value: '60%'
 ---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The challenge
 
@@ -36,7 +35,7 @@ Creating high-quality technical learning content requires applying consistent in
 
 ### Core design challenges
 
-- **Consistency at scale:** Maintain instructional design quality across 9 learning paths and 40+ modules
+- **Consistency at scale:** Maintain instructional design quality across 9 learning paths and 30+ modules
 - **Dual-audience complexity:** Content must serve both web readers and LMS integration (Moodle XML import)
 - **Persona alignment:** Every module must speak to "Alex Chen" (mid-to-senior software architects) with appropriate depth and tone
 - **Quality assurance:** Ensure AI-generated content meets both technical accuracy and pedagogical standards
@@ -61,7 +60,7 @@ Technical documentation teams struggled with three bottlenecks:
 **User needs identified:**
 - Content developers needed guardrails to ensure pedagogical quality without deep ID expertise
 - SMEs wanted to contribute content without learning complex formatting rules  
-- The LMS team needed standardized quiz formats for automated import
+- The LMS needed standardized quiz formats for automated import
 
 **Core insight:**
 If instructional design principles could be codified into AI instructions, the system would apply expertise consistently across all content—turning every prompt into a teaching moment.
@@ -123,31 +122,65 @@ Automated validation catches common errors before human review:
 
 Content developers work in VS Code with GitHub Copilot. When they create a new learning module file, relevant instructions automatically load based on file path. They invoke prompts through Copilot chat to generate outlines, draft content, create quizzes, and validate formatting—all guided by embedded instructional design expertise.
 
-### System architecture enables
+### System architecture
+
+<MermaidDiagram diagram={`graph TD
+    subgraph Inputs["📥 INPUTS"]
+        SME["📚 SME Knowledge"]
+        PERSONA["👤 Alex Chen Persona"]
+        IDP["📋 Instructional Design Plan"]
+    end
+
+    subgraph Core["⚙️ CORE WORKFLOW"]
+        PLAN["🎯 Planning<br/>Generate Outline"]
+        RESEARCH["🔍 Research<br/>Deep Dive & Examples"]
+        DRAFT["✍️ Draft Creation<br/>Content + Code"]
+        CRITIQUE["🎓 Quality Review<br/>Score Against Rubric"]
+        REFINE["✨ Refinement<br/>Polish & Improve"]
+    end
+
+    subgraph Finalize["🚀 FINALIZATION"]
+        QUIZ["❓ Create Quizzes"]
+        STYLE["📐 Style & Format"]
+        MOODLE["📦 Moodle XML"]
+        INTEGRATE["🔗 Catalogue Integration"]
+    end
+
+    subgraph Output["📤 OUTPUT"]
+        FINAL["✅ Published Learning Module"]
+    end
+
+    %% Main flow
+    Inputs --> PLAN
+    PLAN --> RESEARCH
+    RESEARCH --> DRAFT
+    DRAFT --> CRITIQUE
+    CRITIQUE --> REFINE
+    REFINE --> QUIZ
+    REFINE --> STYLE
+    QUIZ --> MOODLE
+    STYLE --> INTEGRATE
+    MOODLE --> FINAL
+    INTEGRATE --> FINAL
+
+    %% Dark theme styling matching Marcus Aurelius
+    classDef inputStyle fill:#2d1b0e,stroke:#f59e0b,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef coreStyle fill:#1a2234,stroke:#fbbf24,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef finalizeStyle fill:#1e1b4b,stroke:#a78bfa,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef outputStyle fill:#0f1419,stroke:#fb923c,stroke-width:4px,color:#f9fafb,font-weight:bold;
+
+    class SME,PERSONA,IDP inputStyle
+    class PLAN,RESEARCH,DRAFT,CRITIQUE,REFINE coreStyle
+    class QUIZ,STYLE,MOODLE,INTEGRATE finalizeStyle
+    class FINAL outputStyle
+    
+    %% Link styling
+    linkStyle 0,1,2,3,4 stroke:#fbbf24,stroke-width:3px;
+    linkStyle 5,6,7,8 stroke:#a78bfa,stroke-width:3px;
+    linkStyle 9,10 stroke:#fb923c,stroke-width:3px;`} />
 
 **Intelligent context routing:**
 33 instruction files automatically apply based on glob patterns:
-```
-.github/instructions/
-├── learning-quiz-format.instructions.md          # For quiz files
-├── learning-markdown-content.instructions.md     # For learning content
-├── learning-config-object.instructions.md        # For configuration
-└── [30+ other specialized instruction files]
-```
-
-**Multi-stage workflow prompts:**
-```
-.github/prompts/
-├── learning-1-generate-outline.prompt.md
-├── learning-2-perform-deep-research.prompt.md
-├── learning-3-generate-learning-draft.prompt.md
-├── learning-4-critique-draft.prompt.md
-├── learning-5-refine-draft.prompt.md
-├── learning-7-create-scenario-based-quiz-questions.prompt.md
-├── learning-15-standardize-quiz-format.prompt.md
-├── learning-16-convert-to-moodle-xml.prompt.md
-└── [10+ additional workflow prompts]
-```
 
 **Automated quiz conversion:**
 Standardized markdown questions instantly transform to Moodle XML for rapid LMS import:
@@ -157,30 +190,6 @@ Standardized markdown questions instantly transform to Moodle XML for rapid LMS 
 - Direct upload to Moodle question bank without intermediate steps
 - Configurable point allocation (default: 50 points) maintains consistency
 
-### Example workflow
-
-**Creating a new learning module:**
-
-1. Developer creates file: `websites/learning-implement-checkout/src/content/payment-integration.mdx`
-2. Instructions for learning content auto-load via pattern match
-3. Invoke prompts sequentially through Copilot:
-   - Generate outline with learning objectives
-   - Perform research using SME documents
-   - Generate draft with code examples
-   - Critique draft against instructional design rubric
-   - Refine based on critique feedback
-4. Add scenario-based quiz questions
-5. Validate formatting and technical accuracy
-6. Publish to documentation site
-
-**Standardizing existing quizzes:**
-
-1. Identify files with inconsistent quiz formats
-2. Apply standardization prompt to normalize structure
-3. Validate against checklist (numbered questions, scenario format, feedback structure)
-4. Convert to Moodle XML for LMS import
-5. Import into question bank
-
 ---
 
 ## Leadership & collaboration
@@ -188,7 +197,7 @@ Standardized markdown questions instantly transform to Moodle XML for rapid LMS 
 This initiative required driving organizational change and building AI adoption across the learning team:
 
 **Change management & mentorship:**  
-Championed AI adoption across the learning organization by demonstrating ROI through working prototypes. Mentored training team in prompt engineering, AI-assisted content creation, and quality validation—increasing team AI literacy from near-zero to confident daily use. Established best practices and guardrails ensuring AI amplifies (rather than replaces) instructional design expertise.
+Championed AI adoption across the learning organization by demonstrating ROI through working prototypes. Mentored training team in prompt engineering, AI-assisted content creation, and quality validation—increasing team AI literacy. Established best practices and guardrails ensuring AI amplifies (rather than replaces) instructional design expertise.
 
 **Executive buy-in:**  
 Secured leadership approval for AI investment by building proof-of-concept demonstrating 60% efficiency gains. Presented quarterly updates to senior leadership showing how AI-powered workflows enabled doubling learning path output—connecting technical innovation to business strategy.
@@ -202,10 +211,10 @@ Created comprehensive documentation enabling team members to leverage the prompt
 
 ### Quantified outcomes
 
-- **Scale achieved:** 9 active learning paths containing 40+ individual modules with consistent instructional quality
-- **Time efficiency:** 60-70% reduction in initial draft time (from ~12-15 hours to ~4-5 hours per module)
+- **Scale achieved:** 9 active learning paths containing 30+ individual modules with consistent instructional quality
+- **Time efficiency:** 60% reduction in initial draft time
 - **Format consistency:** 100% of quiz questions follow standardized format enabling automated LMS import
-- **Writing quality:** All content enforces persona-driven writing style across 1000+ pages
+- **Writing quality:** All content enforces persona-driven writing style across 200+ pages
 
 ### Process improvements
 
@@ -223,18 +232,29 @@ Created comprehensive documentation enabling team members to leverage the prompt
 
 ### Scalability demonstrated
 
-The system successfully extended to 9 learning paths by following established patterns:
-- Create new `websites/learning-{topic}/` folder
-- Add config entry in TypeScript configuration
-- Register in learning catalogue
-- Existing instructions automatically apply via glob patterns
+**Exponential growth without linear effort:**
+The system's true scalability breakthrough lies in how adding new learning paths requires near-zero marginal effort. Creating the first learning path took 6 months to build all the infrastructure. New learning paths now require only 2 hours of setup because all the instructional design logic already exists in reusable prompts and instructions.
 
-Content types supported:
-- Learning modules with embedded assessments
-- API documentation with code examples
-- Release notes with impact analysis
-- Tutorials with step-by-step guidance
-- Study guides and certification prep materials
+**Zero-touch instruction inheritance:**
+New learning paths automatically inherit 33 instruction files through glob pattern matching (`websites/learning-*/`). 
+
+This 2 hour setup immediately grants access to 18 specialized prompts covering outline generation, content drafting, quiz creation, and Moodle XML conversion—capabilities that took 6 months to develop but now deploy instantly.
+
+**Multi-format content reuse:**
+The same instruction foundation supports diverse content types without modification:
+- **Learning modules** with scenario-based assessments and knowledge checks
+- **API documentation** with embedded code examples and integration patterns
+- **Release notes** analyzing feature impact and migration requirements
+- **Certification guides** mapping learning objectives to exam domains
+- **Tutorials** with progressive complexity and checkpoint validation
+
+**Team multiplication effect:**
+By codifying instructional design expertise into reusable prompts, the system transformed how teams scale:
+- **Before:** 1 instructional designer could support 2-3 learning paths annually
+- **After:** Same designer supports 9 active learning paths with higher consistency
+- **Knowledge transfer:** New team members productive in days (not months) by following established prompt workflows
+
+This represents genuine force multiplication—expertise captured once, applied infinitely.
 
 ---
 
@@ -252,15 +272,6 @@ Content types supported:
 
 ---
 
-## Artifacts & documentation
-
-📄 [View instruction system](https://github.com/commercetools/commercetools-docs/tree/main/.github/instructions) - 33 context-aware instruction files  
-📄 [Explore prompt library](https://github.com/commercetools/commercetools-docs/tree/main/.github/prompts) - 18+ specialized workflow prompts  
-📄 [Sample learning content](https://github.com/commercetools/commercetools-docs/tree/main/websites/learning-implement-checkout/src/content) - Generated modules with quizzes  
-📄 [System documentation](https://github.com/commercetools/commercetools-docs/blob/main/.github/instructions/README.md) - Architecture overview and usage guide
-
----
-
 ## Future enhancements
 
 **Automated content refresh:** Develop prompts that detect outdated API references and auto-suggest updates when underlying systems change.
@@ -270,5 +281,3 @@ Content types supported:
 **Learning analytics integration:** Build prompts that analyze low-performing quiz questions in LMS and suggest rewrites to improve clarity.
 
 **Advanced assessment types:** Extend quiz converter to support matching questions, fill-in-blank, and code exercises in Moodle XML format.
-
-**Validation automation:** Create Vale linting rules or custom validators to catch common errors before human review—further reducing QA burden.

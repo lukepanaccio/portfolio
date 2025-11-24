@@ -69,249 +69,112 @@ import MermaidDiagram from '../components/MermaidDiagram.astro';
   <div class="bg-white rounded-lg shadow-lg p-8 mt-8">
     <h2 class="text-2xl font-semibold mb-4">AI Content Generation Workflow</h2>
     
-    <MermaidDiagram diagram={`graph TB
-    subgraph "Input Phase"
-        SME[SME Knowledge Document]
-        IDP[Instructional Design Plan]
-        PERSONA[Alex Chen Persona]
-        CASE[Zen Electron Case Study]
+    <MermaidDiagram diagram={`graph TD
+    subgraph Inputs["📥 INPUTS"]
+        SME["📚 SME Knowledge"]
+        PERSONA["👤 Alex Chen Persona"]
+        IDP["📋 Instructional Design Plan"]
     end
 
-    subgraph "Stage 1: Planning"
-        P1[learning-1-generate-outline.prompt.md<br/>Mode: Edit]
-        P1_OUT[Module Outline<br/>- Page titles & subtitles<br/>- Learning objectives<br/>- API endpoints/SDK methods<br/>- Placement notes]
+    subgraph Core["⚙️ CORE WORKFLOW"]
+        PLAN["🎯 Planning<br/>Generate Outline"]
+        RESEARCH["🔍 Research<br/>Deep Dive & Examples"]
+        DRAFT["✍️ Draft Creation<br/>Content + Code"]
+        CRITIQUE["🎓 Quality Review<br/>Score Against Rubric"]
+        REFINE["✨ Refinement<br/>Polish & Improve"]
     end
 
-    subgraph "Stage 2: Research"
-        P2[learning-2-perform-deep-research.prompt.md<br/>Mode: Ask]
-        P2_OUT[Research Notes<br/>- REST endpoints<br/>- TypeScript SDK methods<br/>- Required/optional fields<br/>- Complete code examples<br/>- Best practices]
+    subgraph Finalize["🚀 FINALIZATION"]
+        QUIZ["❓ Create Quizzes"]
+        STYLE["📐 Style & Format"]
+        MOODLE["📦 Moodle XML"]
+        INTEGRATE["🔗 Catalogue Integration"]
     end
 
-    subgraph "Stage 3: Draft Creation"
-        P3[learning-3-generate-learning-draft.prompt.md<br/>Mode: Edit]
-        P3_OUT[First Draft<br/>- Narrative/scenarios<br/>- Explanations<br/>- Code examples<br/>- Diagrams/tables<br/>- Knowledge checks]
+    subgraph Output["📤 OUTPUT"]
+        FINAL["✅ Published Learning Module"]
     end
 
-    subgraph "Stage 4: Quality Review"
-        P4[learning-4-critique-draft.prompt.md<br/>Mode: Ask]
-        RUBRIC[Rubric<br/>- Structure & Clarity: 25pts<br/>- Technical Accuracy: 30pts<br/>- Code Examples: 30pts<br/>- Persona Alignment: 15pts]
-        P4_OUT[Critique Report<br/>- Scores per category<br/>- Top 3 weaknesses<br/>- Actionable fixes]
-    end
-
-    subgraph "Stage 5: Refinement"
-        P5[learning-5-refine-draft.prompt.md<br/>Mode: Edit]
-        P5_OUT[Refined Draft<br/>- Improved structure<br/>- Deepened rationale<br/>- Strengthened code<br/>- Adjusted tone<br/>- Changes summary]
-    end
-
-    subgraph "Stage 6: Learning Objectives"
-        P6[learning-6-refine-learning-objectives.prompt.md<br/>Mode: Edit]
-        BLOOM[Bloom's Taxonomy]
-        P6_OUT[Refined Objectives<br/>- Clear & measurable<br/>- Action verbs<br/>- Max 3 per page<br/>- Added to frontmatter]
-    end
-
-    subgraph "Stage 7-8: Assessment Creation"
-        P7[learning-7-create-scenario-based-quiz.prompt.md<br/>Mode: Edit]
-        P8[learning-8-create-end-of-module-checks.prompt.md<br/>Mode: Edit]
-        P78_OUT[Quiz Questions<br/>- 2-question quiz per module<br/>- 3-question end checks<br/>- Scenario-based<br/>- A/B/C options<br/>- Feedback included]
-    end
-
-    subgraph "Stage 9-14: Style & Quality"
-        P9[learning-9-create-subtitles.prompt.md]
-        P10[learning-10-heading-formatting.prompt.md<br/>Mode: Edit]
-        P11[learning-11-terminology-capitalization.prompt.md]
-        P12[learning-12-lists-tables-links.prompt.md]
-        P13[learning-13-date-time.prompt.md]
-        P14[learning-14-check-technical-accuracy.prompt.md]
-        STYLE_OUT[Polished Content<br/>- Formatted headings<br/>- Consistent terminology<br/>- Proper lists/tables<br/>- Standardized dates<br/>- Technical accuracy]
-    end
-
-    subgraph "Stage 15-16: Quiz Processing"
-        P15[learning-15-standardize-quiz-format.prompt.md]
-        P16[learning-16-convert-to-moodle-xml.prompt.md]
-        MOODLE[Moodle XML<br/>Ready for LMS import]
-    end
-
-    subgraph "Stage 17-18: Publishing & Integration"
-        P17[learning-17-add-module-links-to-docs.prompt.md<br/>Mode: Agent]
-        P18[learning-18-add-to-catalogue-config.prompt.md<br/>Mode: Edit]
-        DOC_LINKS[Documentation Cross-links<br/>- API docs<br/>- Tutorials<br/>- Best practices]
-        CATALOGUE[Learning Catalogue Config<br/>learning-catalogue-config.ts]
-    end
-
-    subgraph "Supporting Files"
-        INST1[learning-markdown-content.instructions.md]
-        INST2[learning-quiz-format.instructions.md]
-        INST3[learning-config-object.instructions.md]
-    end
-
-    subgraph "Output"
-        FINAL[Published Learning Module<br/>- MDX content files<br/>- Frontmatter with objectives<br/>- Code examples<br/>- Quizzes<br/>- Linked from docs<br/>- Listed in catalogue]
-    end
-
-    %% Stage 1 flow
-    SME --> P1
-    IDP --> P1
-    PERSONA --> P1
-    P1 --> P1_OUT
-
-    %% Stage 2 flow
-    P1_OUT --> P2
-    SME --> P2
-    P2 --> P2_OUT
-
-    %% Stage 3 flow
-    P1_OUT --> P3
-    P2_OUT --> P3
-    PERSONA --> P3
-    P3 --> P3_OUT
-
-    %% Stage 4 flow
-    P3_OUT --> P4
-    RUBRIC --> P4
-    P4 --> P4_OUT
-
-    %% Stage 5 flow
-    P3_OUT --> P5
-    P4_OUT --> P5
-    P5 --> P5_OUT
-
-    %% Stage 6 flow
-    P5_OUT --> P6
-    BLOOM --> P6
-    P6 --> P6_OUT
-
-    %% Stage 7-8 flow
-    P6_OUT --> P7
-    P6_OUT --> P8
-    CASE --> P7
-    CASE --> P8
-    P7 --> P78_OUT
-    P8 --> P78_OUT
-
-    %% Style phase flow
-    P78_OUT --> P9
-    P78_OUT --> P10
-    P78_OUT --> P11
-    P78_OUT --> P12
-    P78_OUT --> P13
-    P78_OUT --> P14
-    P9 --> STYLE_OUT
-    P10 --> STYLE_OUT
-    P11 --> STYLE_OUT
-    P12 --> STYLE_OUT
-    P13 --> STYLE_OUT
-    P14 --> STYLE_OUT
-
-    %% Quiz processing flow
-    P78_OUT --> P15
-    P15 --> P16
-    INST2 --> P15
-    P16 --> MOODLE
-
-    %% Publishing flow
-    STYLE_OUT --> P17
-    STYLE_OUT --> P18
-    INST1 --> P17
-    INST3 --> P18
-    P17 --> DOC_LINKS
-    P18 --> CATALOGUE
-
-    %% Final output
-    STYLE_OUT --> FINAL
+    %% Main flow
+    Inputs --> PLAN
+    PLAN --> RESEARCH
+    RESEARCH --> DRAFT
+    DRAFT --> CRITIQUE
+    CRITIQUE --> REFINE
+    REFINE --> QUIZ
+    REFINE --> STYLE
+    QUIZ --> MOODLE
+    STYLE --> INTEGRATE
     MOODLE --> FINAL
-    DOC_LINKS --> FINAL
-    CATALOGUE --> FINAL
+    INTEGRATE --> FINAL
 
-    %% Styling
-    classDef inputClass fill:#e1f5ff,stroke:#0077cc,stroke-width:2px
-    classDef promptClass fill:#fff4e1,stroke:#ff9900,stroke-width:2px
-    classDef outputClass fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
-    classDef finalClass fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px
-    classDef supportClass fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+    %% Dark theme styling matching Marcus Aurelius
+    classDef inputStyle fill:#2d1b0e,stroke:#f59e0b,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef coreStyle fill:#1a2234,stroke:#fbbf24,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef finalizeStyle fill:#1e1b4b,stroke:#a78bfa,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef outputStyle fill:#0f1419,stroke:#fb923c,stroke-width:4px,color:#f9fafb,font-weight:bold;
 
-    class SME,IDP,PERSONA,CASE inputClass
-    class P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18 promptClass
-    class P1_OUT,P2_OUT,P3_OUT,P4_OUT,P5_OUT,P6_OUT,P78_OUT,STYLE_OUT,MOODLE,DOC_LINKS,CATALOGUE outputClass
-    class FINAL finalClass
-    class RUBRIC,BLOOM,INST1,INST2,INST3 supportClass`} />
+    class SME,PERSONA,IDP inputStyle
+    class PLAN,RESEARCH,DRAFT,CRITIQUE,REFINE coreStyle
+    class QUIZ,STYLE,MOODLE,INTEGRATE finalizeStyle
+    class FINAL outputStyle
+    
+    %% Link styling
+    linkStyle 0,1,2,3,4 stroke:#fbbf24,stroke-width:3px;
+    linkStyle 5,6,7,8 stroke:#a78bfa,stroke-width:3px;
+    linkStyle 9,10 stroke:#fb923c,stroke-width:3px;`} />
   </div>
   
   <div class="bg-white rounded-lg shadow-lg p-8 mt-8">
     <h2 class="text-2xl font-semibold mb-4">Paper Grader - High-Level Architecture</h2>
     
-    <MermaidDiagram diagram={`flowchart TB
-    subgraph INPUT["INPUT LAYER"]
-        PDF["📄 PDF Papers<br/>(.pdf)"]
-        DOCX["📝 Word Papers<br/>(.docx)"]
-        CONFIG["⚙️ Config<br/>(config.json)"]
-        PAPERS_DIR["📁 papers/ directory"]
-        
-        PDF --> PAPERS_DIR
-        DOCX --> PAPERS_DIR
-        CONFIG --> PAPERS_DIR
+    <MermaidDiagram diagram={`flowchart TD
+    subgraph INPUT["📥 INPUT"]
+        PAPERS["📄 Student Papers<br/>PDF & DOCX"]
+        CONFIG["⚙️ Configuration<br/>Rubric & Moderation"]
     end
     
-    subgraph PROCESSING["PROCESSING LAYER - PaperGrader Class"]
-        subgraph CONVERSION["1. Document Conversion Module"]
-            PDF_EXT["PDF Extractor<br/>(pdfplumber)<br/>• Text extract<br/>• Table detect<br/>• Page tracking"]
-            DOCX_CONV["DOCX Converter<br/>(mammoth)<br/>• Markdown conv.<br/>• Table preserve<br/>• Image removal"]
-            TEXT_OUTPUT["Plain Text / Markdown"]
-            
-            PDF_EXT --> TEXT_OUTPUT
-            DOCX_CONV --> TEXT_OUTPUT
-        end
-        
-        subgraph ANON["2. Anonymization Module"]
-            ANON_PROCESS["• Extract first name from filename<br/>• Generate/retrieve student ID<br/>• Redact student numbers<br/>• Redact email addresses<br/>• Store mapping in student_mapping.json<br/><br/>Input: text, filename<br/>Output: anonymized_text, student_id, first_name"]
-        end
-        
-        subgraph GRADING["3. Grading Module"]
-            PROMPT["Prompt Construction:<br/>• System prompt (educator role)<br/>• Assignment description<br/>• Rubric (detailed criteria)<br/>• Moderation notes<br/>• Paper content (anonymized)<br/>• Student metadata"]
-            API["🤖 Anthropic Claude API<br/>(claude-sonnet-4-5)<br/><br/>• Extended Thinking enabled<br/>• Max tokens: 16,000<br/>• Thinking budget: 10,000"]
-            FEEDBACK["📝 Detailed Feedback"]
-            
-            PROMPT --> API
-            API --> FEEDBACK
-        end
-        
-        subgraph OUTPUT_MOD["4. Output Module"]
-            SAVE["• Save feedback to Student_XXX_feedback.txt<br/>• Save anonymized paper to Student_XXX_paper.txt<br/>• Log processing to grading_log_YYYYMMDD.txt<br/>• Update student_mapping.json"]
-        end
-        
-        TEXT_OUTPUT --> ANON_PROCESS
-        ANON_PROCESS --> PROMPT
-        FEEDBACK --> SAVE
+    subgraph PROCESS["⚙️ PROCESSING"]
+        CONVERT["📑 Convert<br/>Extract Text & Tables"]
+        ANON["🔒 Anonymize<br/>Remove Identifiers"]
+        GRADE["🤖 Grade with AI<br/>Claude Sonnet 4.5"]
+        SAVE["💾 Save Results<br/>Feedback & Logs"]
     end
     
-    subgraph OUTPUT["OUTPUT LAYER"]
-        GRADED["📁 graded_papers/<br/>• Student_001_feedback.txt<br/>• Student_001_paper.txt<br/>• Student_002_feedback.txt<br/>• Student_002_paper.txt<br/>• ..."]
-        MAPPING["🔒 student_mapping.json<br/>(Identity mapping - SECURE)"]
-        LOGS["📋 logs/<br/>• grading_log_20251122.txt"]
+    subgraph OUTPUT["📤 OUTPUT"]
+        FEEDBACK["📝 Graded Papers<br/>Detailed Feedback"]
+        MAPPING["🔐 Student Mapping<br/>Secure Identity Map"]
     end
     
-    subgraph REIDENT["RE-IDENTIFICATION LAYER (reidentify.py)"]
-        TOOLS["Re-identification Tools:<br/>1. Interactive Lookup<br/>2. Export Full Mapping<br/>3. Create Grade Sheet Template<br/>4. View All Mappings"]
-        EXPORTS["📊 Exports:<br/>• grade_mapping.csv<br/>• final_grades.csv"]
-        
-        TOOLS --> EXPORTS
+    subgraph REIDENT["🔄 RE-IDENTIFICATION"]
+        TOOLS["🛠️ Lookup Tools<br/>Export Grades"]
     end
     
-    PAPERS_DIR --> CONVERSION
-    SAVE --> GRADED
+    %% Main flow
+    INPUT --> CONVERT
+    CONVERT --> ANON
+    ANON --> GRADE
+    GRADE --> SAVE
+    SAVE --> FEEDBACK
     SAVE --> MAPPING
-    SAVE --> LOGS
-    GRADED --> REIDENT
-    MAPPING --> REIDENT
+    FEEDBACK --> TOOLS
+    MAPPING --> TOOLS
     
-    classDef inputStyle fill:#e1f5ff,stroke:#01579b,stroke-width:2px
-    classDef processStyle fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    classDef outputStyle fill:#f1f8e9,stroke:#33691e,stroke-width:2px
-    classDef reidentStyle fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    %% Dark theme styling
+    classDef inputStyle fill:#2d1b0e,stroke:#f59e0b,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef processStyle fill:#1a2234,stroke:#fbbf24,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef outputStyle fill:#1e1b4b,stroke:#a78bfa,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef reidentStyle fill:#0f1419,stroke:#fb923c,stroke-width:3px,color:#f9fafb,font-weight:bold;
     
-    class INPUT,PDF,DOCX,CONFIG,PAPERS_DIR inputStyle
-    class PROCESSING,CONVERSION,ANON,GRADING,OUTPUT_MOD processStyle
-    class OUTPUT,GRADED,MAPPING,LOGS outputStyle
-    class REIDENT,TOOLS,EXPORTS reidentStyle`} />
+    class PAPERS,CONFIG inputStyle
+    class CONVERT,ANON,GRADE,SAVE processStyle
+    class FEEDBACK,MAPPING outputStyle
+    class TOOLS reidentStyle
+    
+    %% Link styling
+    linkStyle 0,1,2,3 stroke:#fbbf24,stroke-width:3px;
+    linkStyle 4,5 stroke:#a78bfa,stroke-width:3px;
+    linkStyle 6,7 stroke:#fb923c,stroke-width:3px;`} />
   </div>
   
   <div class="bg-white rounded-lg shadow-lg p-8 mt-8">
@@ -320,63 +183,52 @@ import MermaidDiagram from '../components/MermaidDiagram.astro';
     <MermaidDiagram diagram={`flowchart TD
     START(["🚀 Start Batch Grading"])
     
-    LOAD_CONFIG["📋 Load Configuration<br/>• Rubric<br/>• Moderation notes<br/>• API settings"]
+    SETUP["📋 Load Config<br/>Rubric & Settings"]
     
-    LOAD_MAPPING["🗂️ Load/Create Student Mapping<br/>(student_mapping.json)"]
-    
-    SCAN["🔍 Scan Papers Directory<br/>• Find *.pdf files<br/>• Find *.docx files"]
+    SCAN["🔍 Scan Papers<br/>PDF & DOCX Files"]
     
     LOOP{"📄 For Each Paper"}
     
-    DETECT{"Detect Format"}
+    CONVERT["📑 Convert<br/>Extract Text"]
     
-    PDF_CONV["📄 Convert PDF to Text<br/>(pdfplumber)"]
+    ANONYMIZE["🔒 Anonymize<br/>Remove Identifiers"]
     
-    DOCX_CONV["📝 Convert to Markdown<br/>(mammoth)"]
+    GRADE["🤖 Grade with AI<br/>Send to Claude"]
     
-    ANONYMIZE["🔒 Anonymize Content<br/>• Extract first name<br/>• Generate/retrieve ID<br/>• Redact identifiers<br/>• Update mapping"]
-    
-    API_SEND["🤖 Send to Claude API<br/>• System prompt<br/>• Rubric + moderation<br/>• Anonymized paper<br/>• Student metadata"]
-    
-    RECEIVE["📥 Receive Feedback<br/>(with extended thinking)"]
-    
-    SAVE["💾 Save Results<br/>• Feedback file<br/>• Anonymized paper<br/>• Update logs"]
+    SAVE["💾 Save Results<br/>Feedback & Logs"]
     
     CHECK{"More Papers?"}
     
     COMPLETE(["✅ Batch Complete"])
     
-    START --> LOAD_CONFIG
-    LOAD_CONFIG --> LOAD_MAPPING
-    LOAD_MAPPING --> SCAN
+    START --> SETUP
+    SETUP --> SCAN
     SCAN --> LOOP
-    LOOP --> DETECT
-    
-    DETECT -->|PDF| PDF_CONV
-    DETECT -->|DOCX| DOCX_CONV
-    
-    PDF_CONV --> ANONYMIZE
-    DOCX_CONV --> ANONYMIZE
-    
-    ANONYMIZE --> API_SEND
-    API_SEND --> RECEIVE
-    RECEIVE --> SAVE
+    LOOP --> CONVERT
+    CONVERT --> ANONYMIZE
+    ANONYMIZE --> GRADE
+    GRADE --> SAVE
     SAVE --> CHECK
     
     CHECK -->|Yes| LOOP
     CHECK -->|No| COMPLETE
     
-    classDef startEnd fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
-    classDef process fill:#bbdefb,stroke:#1565c0,stroke-width:2px
-    classDef decision fill:#fff9c4,stroke:#f57f17,stroke-width:2px
-    classDef convert fill:#ffccbc,stroke:#d84315,stroke-width:2px
-    classDef secure fill:#f8bbd0,stroke:#c2185b,stroke-width:2px
+    %% Dark theme styling
+    classDef startEnd fill:#2d1b0e,stroke:#f59e0b,stroke-width:4px,color:#f9fafb,font-weight:bold;
+    classDef process fill:#1a2234,stroke:#fbbf24,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef decision fill:#1e1b4b,stroke:#a78bfa,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef secure fill:#0f1419,stroke:#fb923c,stroke-width:3px,color:#f9fafb,font-weight:bold;
     
     class START,COMPLETE startEnd
-    class LOAD_CONFIG,LOAD_MAPPING,SCAN,API_SEND,RECEIVE,SAVE process
-    class DETECT,CHECK,LOOP decision
-    class PDF_CONV,DOCX_CONV convert
-    class ANONYMIZE secure`} />
+    class SETUP,SCAN,CONVERT,GRADE,SAVE process
+    class LOOP,CHECK decision
+    class ANONYMIZE secure
+    
+    %% Link styling
+    linkStyle 0,1,2 stroke:#fbbf24,stroke-width:3px;
+    linkStyle 3,4,5,6,7 stroke:#fbbf24,stroke-width:3px;
+    linkStyle 8 stroke:#a78bfa,stroke-width:3px;
+    linkStyle 9 stroke:#fb923c,stroke-width:3px;`} />
   </div>
 </div>
 
