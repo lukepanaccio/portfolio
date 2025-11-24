@@ -20,6 +20,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Crimson Pro', 'Georgia', 'serif'],
         mono: ['JetBrains Mono', 'monospace']
       },
       typography: {

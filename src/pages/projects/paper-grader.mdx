@@ -4,9 +4,9 @@ title: 'AI-powered academic grading system'
 tagline: 'Privacy-preserving batch grading that provides detailed, consistent feedback at scale'
 description: 'A command-line tool that helps university educators grade reflective writing assignments using AI, maintaining privacy and pedagogical standards while saving 60-80 hours per semester.'
 client: 'An Australian University (Internal Tool)'
-role: 'Learning Designer & Developer'
-timeline: '6 months (May-November 2025)'
-audience: 'University faculty in education departments grading reflective writing assignments'
+role: 'Learning designer & Full-stack developer'
+timeline: '1 month (October 2025)'
+audience: 'University faculty grading writing assignments'
 tools: ['Python', 'Claude API (Sonnet 4.5)', 'pdfplumber', 'mammoth', 'python-docx']
 deliverables: ['Command-line grading automation tool', 'Privacy-preserving anonymization system', 'Quality control workflows']
 heroImage: '/portfolio/images/paper-grader-hero.png'
@@ -21,9 +21,9 @@ metrics:
 
 ## The challenge
 
-### The grading crisis in higher education
+### The grading workload challenge
 
-University educators face an unsustainable grading workload. A single assignment requiring detailed feedback takes 30-45 minutes per student. For a cohort of 90 students, this translates to 60-80 hours of manual marking—often completed over weekends and breaks.
+University educators face an unsustainable grading workload. A single assignment requiring detailed feedback takes 30-45 minutes per student. For a cohort of 90 students, this translates to 45-70 hours of manual marking—often completed over weekends and breaks.
 
 This creates three critical problems:
 - **Delayed feedback:** Students receive grades weeks after submission, when learning value is diminished
@@ -35,7 +35,7 @@ This creates three critical problems:
 In education programs, detailed feedback is pedagogically essential. Students submit reflective portfolios analyzing their teaching practices through theoretical frameworks. They need specific, criterion-based guidance to develop professional judgment; not just a grade and brief comment.
 
 Traditional solutions fail:
-- **Teaching assistants** cost $30-40/hour and still face consistency challenges
+- **Teaching assistants** cost $50-60/hour and still face consistency challenges
 - **Peer review** lacks the theoretical depth students need
 - **Auto-graders** work for multiple-choice tests, not complex reflective writing
 
@@ -92,7 +92,7 @@ Early testing revealed that PDF and Word documents required completely different
 - **PDFs:** `pdfplumber` with table-aware extraction preserves rows/columns as pipe-delimited text
 - **Word:** `mammoth` converts to Markdown while maintaining table structure
 
-The system auto-detects file type and routes to the appropriate converter. This seemingly technical choice had pedagogical impact—students could focus on content, not formatting compliance.
+The system auto-detects file type and routes to the appropriate converter. 
 
 **Teaching the AI to grade like an expert**
 
@@ -113,6 +113,8 @@ I designed the system to save both graded feedback AND anonymized papers. This e
 
 ## The solution
 
+![Paper Grader README showing features and setup](/portfolio/images/paper-grader-readme.png)
+
 ### What educators experience
 
 Faculty configure one JSON file with their rubric, moderation notes, and assignment description. They run a quick setup check to validate dependencies and API credentials, then test on a single paper to verify output quality.
@@ -124,7 +126,7 @@ Within 60-90 minutes, they have 90 detailed feedback files to review. Each conta
 - Grade justifications aligned to university standards (HD/D/C/P)
 - Personalized summary addressed to the student by first name
 
-Faculty spot-check 10-15 random papers, make any needed edits, then export grades to their university gradebook.
+Faculty check the feedback against the papers, make any needed edits, then export grades to their university gradebook.
 
 ---
 
@@ -143,6 +145,8 @@ The moderation notes system enabled the AI to:
 - Correctly identify and penalize critical conceptual errors (e.g., incorrect definition of "lazy multiculturalism")
 - Recognize exceptional work with sophisticated critique and specific scholarly citations
 - Maintain consistency comparable to experienced human markers
+
+**Quality assurance verification:** A separate LLM-based QA prompt cross-checked generated feedback against original papers, providing reliability scores for each assessment. This independent validation layer detected edge cases where feedback didn't accurately reflect paper content, enabling targeted review before final distribution.
 
 Faculty reviewer feedback: "Caught the exact error I specifically flagged in moderation notes. Feedback more detailed than I would have written manually."
 
