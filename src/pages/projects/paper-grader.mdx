@@ -19,6 +19,8 @@ metrics:
     value: '$0.14-0.18'
 ---
 
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
 ## The challenge
 
 ### The grading workload challenge
@@ -113,9 +115,61 @@ I designed the system to save both graded feedback AND anonymized papers. This e
 
 ## The solution
 
-![Paper Grader README showing features and setup](/portfolio/images/paper-grader-readme.png)
+### System architecture
+
+<div class="bg-white rounded-lg shadow-lg p-8 my-8">
+<MermaidDiagram diagram={`flowchart TD
+    subgraph INPUT["📥 INPUT"]
+        PAPERS["📄 Student Papers<br/>PDF & DOCX"]
+        CONFIG["⚙️ Configuration<br/>Rubric & Moderation"]
+    end
+    
+    subgraph PROCESS["⚙️ PROCESSING"]
+        CONVERT["📑 Convert<br/>Extract Text & Tables"]
+        ANON["🔒 Anonymize<br/>Remove Identifiers"]
+        GRADE["🤖 Grade with AI<br/>Claude Sonnet 4.5"]
+        SAVE["💾 Save Results<br/>Feedback & Logs"]
+    end
+    
+    subgraph OUTPUT["📤 OUTPUT"]
+        FEEDBACK["📝 Graded Papers<br/>Detailed Feedback"]
+        MAPPING["🔐 Student Mapping<br/>Secure Identity Map"]
+    end
+    
+    subgraph REIDENT["🔄 RE-IDENTIFICATION"]
+        TOOLS["🛠️ Lookup Tools<br/>Export Grades"]
+    end
+    
+    %% Main flow
+    INPUT --> CONVERT
+    CONVERT --> ANON
+    ANON --> GRADE
+    GRADE --> SAVE
+    SAVE --> FEEDBACK
+    SAVE --> MAPPING
+    FEEDBACK --> TOOLS
+    MAPPING --> TOOLS
+    
+    %% Dark theme styling
+    classDef inputStyle fill:#2d1b0e,stroke:#f59e0b,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef processStyle fill:#1a2234,stroke:#fbbf24,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef outputStyle fill:#1e1b4b,stroke:#a78bfa,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    classDef reidentStyle fill:#0f1419,stroke:#fb923c,stroke-width:3px,color:#f9fafb,font-weight:bold;
+    
+    class PAPERS,CONFIG inputStyle
+    class CONVERT,ANON,GRADE,SAVE processStyle
+    class FEEDBACK,MAPPING outputStyle
+    class TOOLS reidentStyle
+    
+    %% Link styling
+    linkStyle 0,1,2,3 stroke:#fbbf24,stroke-width:3px;
+    linkStyle 4,5 stroke:#a78bfa,stroke-width:3px;
+    linkStyle 6,7 stroke:#fb923c,stroke-width:3px;`} />
+</div>
 
 ### What educators experience
+
+![Paper Grader README showing features and setup](/portfolio/images/paper-grader-readme.png)
 
 Faculty configure one JSON file with their rubric, moderation notes, and assignment description. They run a quick setup check to validate dependencies and API credentials, then test on a single paper to verify output quality.
 

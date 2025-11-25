@@ -4,13 +4,12 @@ title: 'Alex Chen: AI-powered learner persona'
 tagline: 'Transforming user research by creating an interactive AI agent that provides real-time feedback on documentation'
 description: 'A psychologically grounded synthetic learner persona that simulates a senior developer, enabling continuous content validation without relying on scarce SME access.'
 client: 'commercetools'
-role: 'Learning Designer & AI Researcher'
-timeline: '2 weeks (2025)'
+role: 'Instructional Designer & AI Researcher'
+timeline: '2 days'
 audience: 'Instructional designers, UX researchers, technical writers, product managers'
 tools: ['LLM Prompt Engineering', 'Deep Research Tools', 'User Research Synthesis']
 deliverables: ['Interactive AI persona agent', 'Structured psychological profile', 'Content auditing framework']
 heroImage: '/portfolio/images/alex-chen-learner-persona-hero.png'
-githubLink: 'https://github.com/lukepanaccio/learner-persona'
 metrics:
   - label: 'Content Iterations'
     value: '15+ audits'
@@ -52,22 +51,26 @@ The persona needed to embody frustration patterns, not just demographic facts. W
 
 ### Design approach
 
-I applied Dr. Philippa Hardman's structured AI persona framework, specifically focusing on psychological depth over surface demographics:
+I applied [Dr. Philippa Hardman's structured AI persona framework](https://drphilippahardman.substack.com/p/from-guesswork-to-simulation-how), specifically focusing on psychological depth over surface demographics:
 
 **1. Episode categorization**
+
 Mapped success and failure narratives:
 - **Success:** "Found headless frontend integration guide with working React code—saved 4 hours"
 - **Failure:** "Spent 2 hours debugging because docs didn't mention the API returns cached data by default"
 
 **2. Emotional mapping**
+
 Identified confidence triggers (clear error messages, modular docs) versus anxiety triggers (forced linear learning paths, marketing language disguised as technical content)
 
 **3. Behavioral modeling**
+
 Defined specific stress responses:
 - When blocked: Takes walks, seeks community help on Slack, blames vendor if root cause is unclear
 - When successful: Shares solutions with team, builds internal wikis to avoid repeating documentation hunts
 
 **4. Voice engineering**
+
 Created a "brutally honest, pragmatic" communication style. Alex doesn't soften feedback—he tells you exactly where content fails to respect his intelligence or time constraints.
 
 ### Development & iteration
@@ -105,7 +108,11 @@ The persona successfully predicted that forcing senior developers through "Getti
 
 Feed a documentation draft or UX design to the Alex Chen agent. Within seconds, receive first-person critique highlighting exactly where content fails to meet senior architect needs: "This forces me through basics I already know—show me integration patterns or let me skip ahead."
 
+**First Gemini version:**
+
 ![Alex Chen responding in Gemini interface](/portfolio/images/alex-chen-example.png)
+
+Following the success of the Gemini Gem solution, the learner persona was integrated into the VS Code workspace for on-demand access as required.
 
 ### Example feedback
 
@@ -132,7 +139,7 @@ The persona functions as an AI-powered "use of force" model:
 ### Content strategy pivots
 
 **Navigation redesign:**
-Alex's feedback on "context switching kills productivity" directly led to implementing scoped navigation—showing only relevant content for the current module. This validated as "exactly what I need" before engineering investment.
+Alex's feedback that "context switching kills productivity" led to designing scoped navigation (showing only relevant content for the current module). Before investing engineering resources, we validated the design with Alex, who confirmed it was "exactly what I need."
 
 **Feature prioritization:**
 Validated that filterable documentation catalogs were "non-negotiable" for power users, influencing product roadmap decisions.
@@ -166,15 +173,6 @@ The structured psychological framework (Episode/Emotion/Behavior) created a reus
 
 ---
 
-## Artifacts & documentation
-
-📄 **[Persona psychological profile](#)** - Complete stress triggers, trust patterns, and behavioral model  
-📄 **[Sample feedback sessions](#)** - Examples of Alex auditing real documentation  
-📄 **[Research synthesis](#)** - Aggregated developer pain points from 40+ sources  
-🎬 **[Interactive demo](#)** - Try asking Alex to review your content
-
----
-
 ## Future enhancements
 
 Potential next steps to expand impact:
@@ -184,10 +182,3 @@ Potential next steps to expand impact:
 3. **Multi-persona framework** - Create complementary personas (merchant user, junior developer) for comprehensive content validation
 4. **Quantitative tracking** - Measure correlation between Alex's feedback severity and actual user bounce rates
 5. **Voice model** - Add audio responses so teams can "talk" with Alex during design reviews
-
----
-
-**Related Projects:**
-- [AI Content Generation System](#) - Infrastructure enabling persona interaction
-- [Developer Essentials](#) - Learning path validated using Alex persona
-- [Technical Integration Guide](#) - Content audited by Alex before publication
