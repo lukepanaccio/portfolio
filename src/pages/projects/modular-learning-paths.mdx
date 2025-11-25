@@ -10,7 +10,7 @@ audience: 'Software developers, solution architects, business administrators, di
 tools: ['Next.js', 'MDX', 'TypeScript', 'React', 'Moodle Integration', 'Learning API']
 deliverables: ['9 learning paths', '40+ modules', '600+ content pages', '31+ assessments']
 heroImage: '/portfolio/images/learn-commercetools-hero.png'
-githubLink: 'https://github.com/commercetools/commercetools-docs'
+demoLink: 'https://docs.commercetools.com/docs/learning'
 metrics:
   - label: 'Learning Paths'
     value: '9'
@@ -38,7 +38,7 @@ Create a modular learning ecosystem that serves multiple personas through role-a
 
 ### Key design challenges
 
-- **Scale without losing coherence:** Manage 600+ content pages across 9 learning paths while maintaining consistency
+- **Scale without losing coherence:** Manage 200+ content pages across 9 learning paths while maintaining consistency
 - **Serve diverse learners:** Support administrators, developers, and architects with different learning goals and technical backgrounds
 - **Enable flexible navigation:** Allow both linear progression (complete paths) and selective consumption (individual modules)
 - **Track prerequisites across paths:** Some advanced modules require knowledge from different learning paths—how do we prevent learners from getting stuck?
@@ -73,14 +73,14 @@ Administrator paths emphasize business modeling and configuration (how to set up
 Content difficulty scales systematically within each path. Learners start with foundational concepts (e.g., "Organizations and Projects") before tackling advanced patterns (e.g., "Custom checkout implementation"). This supports zone of proximal development—learners are challenged but not overwhelmed.
 
 **4. Cross-path prerequisites teach systems thinking**  
-Prerequisites span learning paths, creating a knowledge graph rather than isolated silos. Example: The "Integration Patterns" module requires foundational knowledge from both "Developer Essentials" and "Business Structure." This reinforces that real-world implementations require understanding both technical architecture and business logic.
+Prerequisites span learning paths, creating a knowledge graph rather than isolated silos. Example: The "Integration Patterns" module requires foundational knowledge from both "Developer Essentials" and "Model your business" learning paths. This reinforces that real-world implementations require understanding both technical architecture and business logic.
 
 ### Development & iteration
 
 Three critical architectural decisions shaped the implementation:
 
 **Three-tier hierarchical structure**  
-Learning Path (9 paths) → Module (40+ modules) → Page (600+ pages). This hierarchy provides natural scaffolding. Each tier represents a cognitive "chunk" of knowledge, making vast content manageable.
+Learning Path (9 paths) → Module (30+ modules) → Page (200+ pages). This hierarchy provides natural scaffolding. Each tier represents a cognitive "chunk" of knowledge, making vast content manageable.
 
 **TypeScript configuration system**  
 Learning paths register in a strongly-typed configuration file with metadata: duration, target audience, prerequisite modules, and LMS integration courseIds. This enables:
@@ -106,7 +106,7 @@ This consistency reduces cognitive load—learners know exactly what to expect i
 Built audience filtering on the learning homepage. Users select "Administrator" or "Developer" and see only relevant learning paths. This respects learners' time and increases perceived relevance.
 
 **Content consistency challenge:**  
-Managing 600+ pages created risk of formatting inconsistencies, terminology mismatches, and varying technical accuracy.
+Managing 200+ pages created risk of formatting inconsistencies, terminology mismatches, and varying technical accuracy.
 
 **Solution:**  
 Created instruction files loaded automatically by AI context when editing learning content. These enforce:
@@ -165,7 +165,7 @@ Building a learning ecosystem of this scale required strategic coordination acro
 Worked with VP of Customer Enablement to define learning path priorities based on business impact. Aligned curriculum roadmap with product launches, certification requirements, and customer onboarding needs—ensuring learning investments supported strategic objectives.
 
 **Cross-functional content partnerships:**  
-Collaborated with 15+ subject matter experts across Product, Engineering, and Solutions teams to develop technically accurate content. Established efficient review workflows that balanced SME input with rapid iteration, enabling delivery of 40+ modules across 3 years.
+Collaborated with 15+ subject matter experts across Product, Engineering, and Solutions teams to develop technically accurate content. Established efficient review workflows that balanced SME input with rapid iteration, enabling delivery of 30+ modules across 3 years.
 
 **Learning infrastructure development:**  
 Partnered with Engineering teams to build custom learning components, progress tracking APIs, and LMS integrations. Translated instructional design requirements into technical specifications, bridging pedagogy and technology implementation.
@@ -183,8 +183,8 @@ Presented quarterly learning metrics to senior leadership, demonstrating ecosyst
 ### Scale metrics
 
 - **9 learning paths** serving 2 primary personas (Administrators + Developers)
-- **40+ individual modules** with standardized structure
-- **600+ content pages** covering complete platform capabilities
+- **30+ individual modules** with standardized structure
+- **200+ content pages** covering complete platform capabilities
 - **~60 hours** of total learning content
 - **31+ scenario-based assessments** integrated with certification system
 
@@ -213,7 +213,7 @@ Modular architecture enables both comprehensive study (complete entire path) and
 Adding new paths requires creating folder, registering in configuration, and following established patterns. System successfully scales from initial 3 paths to current 9 without architectural changes.
 
 **Maintainability:**  
-TypeScript configuration prevents registration errors through type safety. Instruction files enforce consistency across 600+ pages without manual review overhead.
+TypeScript configuration prevents registration errors through type safety. Instruction files enforce consistency across 200+ pages without manual review overhead.
 
 ---
 
@@ -235,11 +235,8 @@ TypeScript configuration prevents registration errors through type safety. Instr
 
 ## Artifacts & documentation
 
-📄 [Configuration system](https://github.com/commercetools/commercetools-docs/blob/main/packages/next-docs/src/components/CustomPages/LearningHomepage/learning-catalogue-config.ts) - TypeScript learning path registry  
-📄 [Sample learning path](https://github.com/commercetools/commercetools-docs/tree/main/websites/learning-model-your-product-catalog) - Administrator-focused path with 7 modules  
-📄 [Sample module structure](https://github.com/commercetools/commercetools-docs/tree/main/websites/learning-model-your-product-catalog/src/content/product-modeling) - Complete module with overview, content pages, assessment  
-📄 [Component library](https://github.com/commercetools/commercetools-docs/tree/main/packages/next-docs/src/components/self-learning) - Specialized learning UI components  
-🎬 **Explore live learning paths** - [docs.commercetools.com/training](https://docs.commercetools.com/training)
+📄 [Sample learning path](https://docs.commercetools.com/learning-composable-commerce-developer-essentials) - Developer Essentials  
+📄 [Sample module structure](https://docs.commercetools.com/learning-model-your-business-structure/organizations-and-projects/overview) - Complete module with overview, content pages, assessment  
 
 ---
 
