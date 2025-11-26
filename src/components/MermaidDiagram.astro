@@ -36,6 +36,17 @@ const { diagram } = Astro.props;
       rankSpacing: 60,
       curve: 'basis',
       padding: 20
+    },
+    gantt: {
+      titleTopMargin: 25,
+      barHeight: 30,
+      barGap: 8,
+      topPadding: 50,
+      leftPadding: 100,
+      gridLineStartPadding: 35,
+      fontSize: 14,
+      sectionFontSize: 14,
+      numberSectionStyles: 4
     }
   });
 </script>
@@ -74,6 +85,13 @@ const { diagram } = Astro.props;
     display: flex;
     justify-content: center;
     min-height: 300px;
+  }
+  
+  /* Give Gantt charts more space */
+  .mermaid svg {
+    max-width: 100%;
+    height: auto;
+    min-width: 800px;
   }
   
   /* Improve accessibility */

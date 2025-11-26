@@ -230,6 +230,34 @@ import MermaidDiagram from '../components/MermaidDiagram.astro';
     linkStyle 8 stroke:#a78bfa,stroke-width:3px;
     linkStyle 9 stroke:#fb923c,stroke-width:3px;`} />
   </div>
+  
+  <div class="bg-white rounded-lg shadow-lg p-8 mt-8">
+    <h2 class="text-2xl font-semibold mb-4">AI Essentials Suite - Strategic Rollout Roadmap</h2>
+    
+    <div style={{width: '100%', overflowX: 'auto'}}>
+      <pre class="mermaid" style={{background: '#1a2234', padding: '2rem', borderRadius: '0.75rem', minWidth: '1000px'}}>
+{`gantt
+    title AI Essentials Suite Strategic Rollout Roadmap
+    dateFormat YYYY-MM-DD
+    axisFormat %b %Y
+    
+    section Phase 1 Compliance
+    Build Course 1                  :active, a1, 2025-01-01, 60d
+    Review and QA                   :crit, a2, after a1, 14d
+    LAUNCH Course 1                 :milestone, after a2, 0d
+    
+    section Phase 2 Productivity
+    Build Course 2                  :b1, after a2, 60d
+    Review and QA                   :crit, b2, after b1, 14d
+    LAUNCH Course 2                 :milestone, after b2, 0d
+
+    section Phase 3 Leadership
+    Build Course 3                  :c1, after b2, 60d
+    Review and QA                   :crit, c2, after c1, 14d
+    LAUNCH Course 3                 :milestone, after c2, 0d`}
+      </pre>
+    </div>
+  </div>
 </div>
 
 <Footer />
