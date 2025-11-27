@@ -4,22 +4,19 @@ title: 'Developer Essentials learning path'
 tagline: 'Transforming enterprise commerce developers from zero to production-ready in 20 hours through hands-on mastery'
 description: 'A comprehensive learning path that guides developers from environment setup through advanced API patterns, culminating in a synthesis challenge that validates production readiness for commercetools implementations.'
 client: 'commercetools'
-role: 'Lead Instructional Designer & Curriculum Developer'
-timeline: '18 months (2023-2024)'
+role: 'Instructional Designer & Curriculum Developer'
+timeline: '6 months (2024)'
 audience: 'Backend and frontend developers implementing commercetools solutions, solution architects evaluating platform capabilities'
 tools: ['TypeScript SDK', 'Java SDK', 'MDX', 'GraphQL', 'OAuth 2.0', 'OpenTelemetry']
 deliverables: ['8-module learning path', '30+ hands-on challenge tasks', 'Dual-language code examples', 'Production-ready developer curriculum']
 heroImage: '/portfolio/images/dev-essentials-hero.png'
-githubLink: 'https://github.com/commercetools/commercetools-docs'
 metrics:
   - label: 'Total Curriculum'
-    value: '20 hours'
-  - label: 'Challenge Tasks'
-    value: '30+'
+    value: '20h'
+  - label: 'Modules'
+    value: '8'
   - label: 'Languages Supported'
     value: '2'
-  - label: 'Advanced Paths Enabled'
-    value: '4+'
 ---
 
 ## The challenge
@@ -58,7 +55,6 @@ I analyzed common developer onboarding pain points through support tickets, foru
 - Developers could read API docs but couldn't decide which authentication flow to use
 - OAuth complexity caused security mistakes (exposed credentials, insufficient scopes)
 - Most tutorials showed only "happy path" code—learners were unprepared for errors
-- No single learning resource progressed from "Hello World" to production patterns
 - Polyglot teams needed consistency across TypeScript and Java implementations
 
 **Core insight:** Traditional API documentation teaches discrete operations but not the connective tissue—when to use GraphQL versus HTTP API, how to handle version conflicts, which authentication pattern fits which use case. Developers needed a guided journey, not just a reference manual.
@@ -74,7 +70,7 @@ Eight modules move from simple (environment setup) to complex (GraphQL, Import A
 Rather than separate TypeScript and Java courses requiring duplicate conceptual learning, I created unified modules with language-specific code examples. Learners select their language once; all examples adapt automatically. This design reinforces that patterns transcend syntax—developers learn "how to think about commercetools," not "TypeScript syntax for commercetools."
 
 **3. Authentic assessment through capstone challenge**  
-Module 8 presents 30+ realistic tasks requiring code creation, debugging, and problem-solving. Unlike multiple-choice quizzes testing recall, the challenge validates applied capability: Can you actually build this? Tasks include intentionally broken sample data to normalize error resolution as expected developer workflow.
+Module 8 presents 20+ realistic tasks requiring code creation, debugging, and problem-solving. Unlike multiple-choice quizzes testing recall, the challenge validates applied capability: can you actually build this? 
 
 **4. Error-driven learning**  
 Code examples explicitly teach error handling—version conflicts, insufficient scopes, malformed queries. The Import API challenge includes broken JSON data requiring diagnosis and repair. This design recognizes that real development involves debugging, not just writing correct code initially.
@@ -89,11 +85,7 @@ Traditional learning paths end with quizzes. I positioned a comprehensive hands-
 This structure mirrors real developer onboarding: "Here's a project with specific requirements. Make it work." The challenge validates production readiness better than any quiz could.
 
 **OAuth complexity demystified**  
-Module 3 dedicates an entire hour to authorization flows and API clients. Rather than cursory "here's how to get a token" coverage, I created comparison tables showing when to use each grant type with real scenarios:
-- Client credentials → Backend services
-- Anonymous → Guest checkout flows  
-- Password → Customer authentication
-- Refresh token → Long-lived sessions
+Module 3 dedicates an entire hour to authorization flows and API clients. Rather than cursory "here's how to get a token" coverage, I created comparison tables showing when to use each grant type with real scenarios.
 
 Security implications are explicit: never expose client credentials in frontend code, minimize scope grants, implement token revocation. This front-loads critical security knowledge before developers write production code.
 
@@ -112,7 +104,7 @@ Example: "Creating a customer" shows identical patterns in both languages—API 
 - Added "Further reading" sections pointing to detailed documentation
 - Prioritized "teach fishing" over "give fish"—show query construction principles, not memorize every field
 
-**Challenge iteration:** Initial challenge had 50+ tasks. Feedback revealed overwhelming complexity for learners completing a 20-hour path. Reduced to 30 focused tasks with explicit permission to tackle in any order or skip irrelevant ones. This respects diverse learner needs while maintaining comprehensive skill validation.
+**Challenge iteration:** Initial challenge had 50+ tasks. Feedback revealed overwhelming complexity for learners completing a 20-hour path. Reduced to 20 focused tasks with explicit permission to tackle in any order or skip irrelevant ones. This respects diverse learner needs while maintaining comprehensive skill validation.
 
 ---
 
@@ -122,24 +114,7 @@ Example: "Creating a customer" shows identical patterns in both languages—API 
 
 Begin with Module 1 orientation understanding composable commerce architecture. Progress through environment setup (Module 2), OAuth patterns (Module 3), CRUD operations (Module 4), query construction (Module 5), GraphQL (Module 6), and Import API (Module 7). Each module includes hands-on tutorials with executable code, scenario-based learning checks, and best practices guidance.
 
-Culminate with Module 8 challenge: 30+ realistic tasks across authentication, CRUD operations, complex queries, GraphQL mutations, and bulk data import. Tasks range from straightforward ("Create a customer") to complex ("Fix broken import data with dependency errors"). Learners write actual code, run it against sandbox projects, debug errors, and validate results.
-
-### Example challenge task progression
-
-**Authentication (foundational):**  
-Create anonymous token with specific scopes for guest checkout flow.
-
-**CRUD operations (intermediate):**  
-Update customer phone number handling version conflicts with retry logic.
-
-**Queries (advanced):**  
-Build product listing page with category filtering, price facets, and pagination.
-
-**GraphQL (synthesis):**  
-Write mutation adding line item to cart with inventory validation and nested data retrieval.
-
-**Import API (expert):**  
-Fix broken customer import data—10 customers have errors including missing required fields, invalid country codes, and duplicate email addresses.
+Culminate with Module 8 challenge: realistic tasks across authentication, CRUD operations, complex queries, GraphQL mutations, and bulk data import. Tasks range from straightforward ("Create a customer") to complex ("Fix broken import data with dependency errors"). Learners write actual code, run it against sandbox projects, debug errors, and validate results.
 
 ### Architecture supports learning
 
@@ -151,31 +126,13 @@ Fix broken customer import data—10 customers have errors including missing req
 
 ---
 
-## Leadership & collaboration
-
-This project required extensive cross-functional partnership and strategic influence:
-
-**Product & Engineering alignment:**  
-Collaborated with Product leadership to ensure learning path aligned with product roadmap and certification requirements. Worked with Engineering teams to validate technical accuracy of SDK examples and API patterns across TypeScript and Java implementations.
-
-**Customer Success partnership:**  
-Partnered with Customer Success and Support teams to identify common onboarding pain points through ticket analysis and customer interviews. Used these insights to prioritize module topics and challenge scenarios based on real-world implementation struggles.
-
-**Sales enablement:**  
-Worked with Sales teams to understand how developer onboarding impacts deal velocity. Learning path became a competitive differentiator in enterprise sales conversations, demonstrating commercetools' commitment to implementation success.
-
-**Team mentorship:**  
-Established content development patterns and quality standards that other instructional designers could follow for subsequent learning paths. This work created replicable curriculum architecture supporting our broader learning ecosystem.
-
----
-
 ## Results & impact
 
 ### Learning path metrics
 
 - **20 hours** of comprehensive developer onboarding curriculum
 - **8 modules** progressing from setup through advanced API patterns  
-- **30+ hands-on tasks** in synthesis challenge validating production readiness
+- **20+ hands-on tasks** in synthesis challenge validating production readiness
 - **2 languages** supported equally (TypeScript and Java)
 - **Foundation for 4+ advanced paths** (Checkout, Carts, Product Discovery, Integration)
 
@@ -195,13 +152,9 @@ After completing this path, developers can:
 
 **Certification alignment:** Learning outcomes directly map to Composable Commerce Developer certification exam topics. Challenge module provides practice for certification practical exercises.
 
-**Engagement indicators:** Challenge completion rate indicates learner persistence and skill synthesis. Forum discussions reveal common sticking points enabling curriculum refinement.
-
 ---
 
 ## Key takeaways
-
-- **Capstone challenges validate better than quizzes.** The synthesis challenge measuring applied skills proved far more motivating and valid than multiple-choice assessments. Developers want to prove capability through code creation, not recall.
 
 - **Multi-language support broadens reach without duplicating concepts.** TypeScript and Java parallel tracks served 80%+ of commercetools developers. Investment in dual-language architecture paid off through wider adoption while maintaining conceptual clarity.
 
@@ -213,19 +166,9 @@ After completing this path, developers can:
 
 ---
 
-## Artifacts & documentation
-
-📄 [View full curriculum](https://github.com/commercetools/commercetools-docs) - Complete 8-module learning path  
-📄 [Challenge module](https://github.com/commercetools/commercetools-docs) - 30+ hands-on synthesis tasks  
-📄 [Sample challenge data](https://github.com/commercetools/commercetools-docs) - Import API exercise with intentional errors  
-🎓 **Live learning path** - Available to all commercetools developers
-
----
-
 ## Future enhancements
 
 1. **Interactive sandbox environment** - In-browser SDK playground eliminating local setup friction for early exploration
 2. **Automated challenge validation** - CI/CD pipeline running tests against submitted code, providing instant feedback
-3. **Video walkthroughs** - 10-15 minute videos for visual learners, screen recordings of live coding
-4. **Advanced challenge variations** - "Challenge Plus" for experienced developers seeking deeper validation with performance optimization tasks
-5. **Learning path branching** - After Module 3, allow learners to choose "Backend" or "Frontend" track with specialized focus areas
+3. **Video walkthroughs** - 3-4 minute videos for complex topics that benefit from concurrent visual and audio information
+4. **Learning path branching** - After Module 3, allow learners to choose "Backend" or "Frontend" track with specialized focus areas
