@@ -10,7 +10,7 @@ const base = import.meta.env.BASE_URL;
 const featuredProject = {
   title: 'Marcus Aurelius AI mentor',
   description: 'An AI-powered learning companion that brings Stoic philosophy to life through conversational learning, helping users apply ancient wisdom to modern challenges.',
-  image: '/portfolio/images/marcus-aurelius-hero.png',
+  image: '/portfolio/images/marcus-hero.gif',
   href: '/portfolio/projects/marcus-aurelius',
   tags: ['AI/ML', 'Conversational Learning', 'Next.js', 'OpenAI']
 };
@@ -228,20 +228,17 @@ const skills = {
               </div>
               
               <!-- Visual Column -->
-              <div class="relative overflow-hidden group">
+              <div class="relative overflow-hidden group bg-bg-secondary/30">
                 <!-- Layered glow effects -->
                 <div class="absolute -inset-4 bg-gradient-accent opacity-30 blur-3xl group-hover:opacity-40 transition-opacity duration-500"></div>
                 
                 <!-- GIF/Image -->
-                <div class="relative h-full w-full">
+                <div class="relative h-full w-full flex items-center justify-center p-12">
                   <img
                     src={featuredProject.image}
                     alt={featuredProject.title}
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    class="w-full max-w-md h-auto object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-out relative z-10"
                   />
-                  
-                  <!-- Overlay gradient for depth -->
-                  <div class="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-bg-secondary/20 pointer-events-none"></div>
                   
                   <!-- Floating decorative elements -->
                   <div class="absolute top-1/4 right-1/4 w-32 h-32 bg-accent-primary/20 rounded-full blur-3xl animate-float"></div>
