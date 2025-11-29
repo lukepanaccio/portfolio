@@ -1,0 +1,109 @@
+---
+interface Props {
+  images: { src: string; alt: string }[];
+  id?: string;
+}
+
+const { images, id = 'gallery-' + Math.random().toString(36).substr(2, 9) } = Astro.props;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4" id={id}>
+  {images.map((image, index) => (
+    <img
+      src={image.src}
+      alt={image.alt}
+      class="rounded-lg shadow-md w-full cursor-pointer hover:opacity-90 transition-opacity gallery-trigger object-cover aspect-video"
+      data-index={index}
+    />
+  ))}
+</div>
+<p class="text-sm text-gray-500 text-center mt-2 italic">(Click images to enlarge)</p>
+
+<dialog id={`${id}-modal`} class="bg-transparent p-0 w-full h-full max-w-none max-h-none m-0 border-none outline-none fixed inset-0 z-50 items-center justify-center hidden open:flex">
+  <div class="fixed inset-0 bg-black/90" id={`${id}-backdrop`}></div>
+  
+  <div class="relative w-full h-full flex items-center justify-center p-4 z-10" id={`${id}-content`}>
+    <button class="absolute top-4 right-4 text-white/70 hover:text-white text-4xl z-50 focus:outline-none transition-colors" id={`${id}-close`} aria-label="Close gallery">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    
+    <button class="absolute left-4 text-white/70 hover:text-white z-50 focus:outline-none hidden md:block transition-colors" id={`${id}-prev`} aria-label="Previous image">
+      <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    
+    <img id={`${id}-current-image`} src="" alt="" class="max-h-[85vh] max-w-[90vw] object-contain rounded-md shadow-2xl" />
+    
+    <button class="absolute right-4 text-white/70 hover:text-white z-50 focus:outline-none hidden md:block transition-colors" id={`${id}-next`} aria-label="Next image">
+      <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+
+    <div class="absolute bottom-4 left-0 right-0 text-center text-white/70 text-sm" id={`${id}-caption`}></div>
+  </div>
+</dialog>
+
+<script define:vars={{ id, images }}>
+  const gallery = document.getElementById(id);
+  const modal = document.getElementById(`${id}-modal`);
+  const backdrop = document.getElementById(`${id}-backdrop`);
+  const closeBtn = document.getElementById(`${id}-close`);
+  const prevBtn = document.getElementById(`${id}-prev`);
+  const nextBtn = document.getElementById(`${id}-next`);
+  const currentImage = document.getElementById(`${id}-current-image`);
+  const caption = document.getElementById(`${id}-caption`);
+  
+  let currentIndex = 0;
+
+  function showImage(index) {
+    if (index < 0) index = images.length - 1;
+    if (index >= images.length) index = 0;
+    currentIndex = index;
+    currentImage.src = images[currentIndex].src;
+    currentImage.alt = images[currentIndex].alt;
+    caption.textContent = `${currentIndex + 1} / ${images.length} - ${images[currentIndex].alt}`;
+  }
+
+  function openModal(index) {
+    showImage(index);
+    modal.showModal();
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.close();
+    document.body.style.overflow = '';
+  }
+
+  if (gallery) {
+    gallery.addEventListener('click', (e) => {
+      const trigger = e.target.closest('.gallery-trigger');
+      if (trigger) {
+        const index = parseInt(trigger.getAttribute('data-index'));
+        openModal(index);
+      }
+    });
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showImage(currentIndex - 1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showImage(currentIndex + 1);
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (!modal || !modal.open) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+    if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+  });
+</script>
