@@ -27,14 +27,14 @@ const { images, id = 'gallery-' + Math.random().toString(36).substr(2, 9) } = As
       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </button>
     
-    <button class="absolute left-4 text-white/70 hover:text-white z-50 focus:outline-none hidden md:block transition-colors" id={`${id}-prev`} aria-label="Previous image">
-      <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    <button class="absolute left-2 md:left-4 text-white/70 hover:text-white z-50 focus:outline-none transition-colors" id={`${id}-prev`} aria-label="Previous image">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 md:w-[60px] md:h-[60px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
     </button>
     
     <img id={`${id}-current-image`} src="" alt="" class="max-h-[85vh] max-w-[90vw] object-contain rounded-md shadow-2xl" />
     
-    <button class="absolute right-4 text-white/70 hover:text-white z-50 focus:outline-none hidden md:block transition-colors" id={`${id}-next`} aria-label="Next image">
-      <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    <button class="absolute right-2 md:right-4 text-white/70 hover:text-white z-50 focus:outline-none transition-colors" id={`${id}-next`} aria-label="Next image">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 md:w-[60px] md:h-[60px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </button>
 
     <div class="absolute bottom-4 left-0 right-0 text-center text-white/70 text-sm" id={`${id}-caption`}></div>
@@ -106,4 +106,29 @@ const { images, id = 'gallery-' + Math.random().toString(36).substr(2, 9) } = As
     if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
     if (e.key === 'ArrowRight') showImage(currentIndex + 1);
   });
+
+  // Touch events for swipe
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  if (modal) {
+    modal.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    modal.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+  }
+
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    if (touchEndX < touchStartX - swipeThreshold) {
+      showImage(currentIndex + 1); // Swipe left -> Next
+    }
+    if (touchEndX > touchStartX + swipeThreshold) {
+      showImage(currentIndex - 1); // Swipe right -> Prev
+    }
+  }
 </script>
