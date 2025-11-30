@@ -1,0 +1,421 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="description" content="An intelligent content generation system that embeds instructional design principles directly into AI prompts, enabling consistent, pedagogically sound technical learning content at scale."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/portfolio/favicon.png"><meta name="generator" content="Astro v4.16.19"><!-- SEO --><title>AI-powered content generation system - Luke Panaccio</title><meta property="og:title" content="AI-powered content generation system - Luke Panaccio"><meta property="og:description" content="An intelligent content generation system that embeds instructional design principles directly into AI prompts, enabling consistent, pedagogically sound technical learning content at scale."><meta property="og:type" content="website"><meta property="og:url" content="https://www.lukepanaccio.com/projects/ai-content-generation/"><meta property="og:image" content="/og-image.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="AI-powered content generation system - Luke Panaccio"><meta name="twitter:description" content="An intelligent content generation system that embeds instructional design principles directly into AI prompts, enabling consistent, pedagogically sound technical learning content at scale."><meta name="twitter:image" content="/og-image.png"><link rel="canonical" href="https://www.lukepanaccio.com/projects/ai-content-generation/"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.DGGJTMUF.css">
+<link rel="stylesheet" href="/_astro/3-steps-away.DFjWOgu8.css">
+<style>.mermaid-container[data-astro-cid-6vqylkyd]{background:var(--color-bg-elevated, #1a2234);border:1px solid var(--color-border-medium, rgba(255, 255, 255, .1));border-radius:.75rem;padding:clamp(1.5rem,4vw,3rem);margin:3rem 0;overflow-x:auto;box-shadow:0 4px 6px -1px #0000004d,0 2px 4px -1px #0003;cursor:zoom-in;position:relative}.mermaid-container[data-astro-cid-6vqylkyd]:after{content:"Click to expand";position:absolute;top:1rem;right:1rem;background:#000000b3;color:#fff;padding:.25rem .5rem;border-radius:.25rem;font-size:.75rem;opacity:0;transition:opacity .2s;pointer-events:none}.mermaid-container[data-astro-cid-6vqylkyd]:hover:after{opacity:1}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar{height:8px}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar-track{background:var(--color-bg-secondary, #111827);border-radius:4px}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar-thumb{background:var(--color-accent-primary, #f59e0b);border-radius:4px}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar-thumb:hover{background:var(--color-accent-secondary, #fbbf24)}.mermaid[data-astro-cid-6vqylkyd]{display:flex;justify-content:center;min-height:300px}.mermaid[data-astro-cid-6vqylkyd] svg[data-astro-cid-6vqylkyd]{max-width:100%;height:auto;min-width:800px}@media (prefers-reduced-motion: reduce){.mermaid[data-astro-cid-6vqylkyd] [data-astro-cid-6vqylkyd]{animation:none!important;transition:none!important}}@media (max-width: 768px){.mermaid-container[data-astro-cid-6vqylkyd]{padding:1rem;margin:2rem -1rem;border-radius:0;border-left:none;border-right:none}}
+</style>
+<link rel="stylesheet" href="/_astro/3-steps-away.ChTAzUSw.css"><script type="module">function u(){document.querySelector(".toc-nav");const n=document.querySelector(".toc-content");if(!n)return;const o=document.querySelector(".project-content");if(!o)return;const c=o.querySelectorAll("h2");if(c.length===0)return;n.innerHTML="";const i=document.createElement("ul");i.className="toc-list",c.forEach((e,a)=>{e.id||(e.id=e.textContent.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,""));const r=document.createElement("li");r.className=`toc-item toc-${e.tagName.toLowerCase()}`;const t=document.createElement("a");t.href=`#${e.id}`,t.textContent=e.textContent,t.className="toc-link",r.appendChild(t),i.appendChild(r)}),n.appendChild(i),m(c)}function m(n){const o=document.querySelectorAll(".toc-link");if(o.length===0)return;o[0]&&o[0].classList.add("active");let c=null;const i=new IntersectionObserver(r=>{r.forEach(t=>{const s=t.target.getAttribute("id"),l=document.querySelector(`.toc-link[href="#${s}"]`);t.isIntersecting&&(c=t.target,o.forEach(d=>d.classList.remove("active")),l&&l.classList.add("active"))})},{rootMargin:"-20% 0px -70% 0px",threshold:[0,.25,.5,.75,1]});n.forEach(r=>{i.observe(r)});let e=!1;window.addEventListener("scroll",()=>{e||(window.requestAnimationFrame(()=>{a(),e=!1}),e=!0)});function a(){const r=window.scrollY+150;let t=null;if(n.forEach(s=>{const l=s.offsetTop;r>=l&&(t=s)}),t&&t!==c){const s=t.getAttribute("id"),l=document.querySelector(`.toc-link[href="#${s}"]`);l&&(o.forEach(d=>d.classList.remove("active")),l.classList.add("active"),c=t)}}}function f(){document.querySelectorAll(".toc-link").forEach(n=>{n.addEventListener("click",o=>{o.preventDefault();const c=n.getAttribute("href").substring(1),i=document.getElementById(c);if(i){const a=i.getBoundingClientRect().top+window.pageYOffset+-100;window.scrollTo({top:a,behavior:"smooth"})}})})}document.addEventListener("DOMContentLoaded",()=>{u(),f()});document.addEventListener("astro:page-load",()=>{u(),f()});
+</script></head> <body> <div class="grain-overlay"></div>  <header class="sticky top-0 z-50 bg-bg-primary/80 backdrop-blur-xl border-b border-border-subtle" data-astro-cid-3ef6ksr2> <nav class="max-w-7xl mx-auto px-6 py-5" data-astro-cid-3ef6ksr2> <div class="flex items-center justify-between" data-astro-cid-3ef6ksr2> <!-- Logo/Name --> <a href="/" class="group text-3xl font-display font-bold text-text-primary hover:text-accent-primary transition-colors duration-300" data-astro-cid-3ef6ksr2> <span class="relative" data-astro-cid-3ef6ksr2>
+Luke Panaccio
+<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-accent group-hover:w-full transition-all duration-300" data-astro-cid-3ef6ksr2></span> </span> </a> <!-- Desktop Navigation --> <div class="hidden md:flex items-center space-x-8" data-astro-cid-3ef6ksr2> <a href="/#work" class="relative text-sm font-semibold transition-colors duration-300 group text-text-secondary hover:text-text-primary" data-astro-cid-3ef6ksr2> Work <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-accent transition-all duration-300 w-0 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a><a href="//about/" class="relative text-sm font-semibold transition-colors duration-300 group text-text-secondary hover:text-text-primary" data-astro-cid-3ef6ksr2> About <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-accent transition-all duration-300 w-0 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a><a href="/#contact" class="relative text-sm font-semibold transition-colors duration-300 group text-text-secondary hover:text-text-primary" data-astro-cid-3ef6ksr2> Contact <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-accent transition-all duration-300 w-0 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a> <!-- Resume CTA --> <a href="//luke-panaccio-cv-2025-december.pdf" class="group relative inline-flex items-center px-5 py-2.5 bg-gradient-accent text-bg-primary text-sm font-bold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-accent-primary/30 hover:-translate-y-0.5" data-astro-cid-3ef6ksr2> <span class="relative z-10" data-astro-cid-3ef6ksr2>Resume</span> <svg class="w-4 h-4 ml-2 relative z-10 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" data-astro-cid-3ef6ksr2></path> </svg> </a> </div> <!-- Mobile menu button --> <button class="md:hidden p-2 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" aria-label="Toggle menu" data-astro-cid-3ef6ksr2> <svg class="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-3ef6ksr2></path> </svg> </button> </div> <!-- Mobile menu --> <div id="mobile-menu" class="hidden md:hidden mt-6 pb-2 border-t border-border-subtle pt-6" data-astro-cid-3ef6ksr2> <div class="flex flex-col space-y-3" data-astro-cid-3ef6ksr2> <a href="/#work" class="text-sm font-semibold px-4 py-3 rounded-lg transition-all duration-300 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-transparent" data-astro-cid-3ef6ksr2> Work </a><a href="//about/" class="text-sm font-semibold px-4 py-3 rounded-lg transition-all duration-300 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-transparent" data-astro-cid-3ef6ksr2> About </a><a href="/#contact" class="text-sm font-semibold px-4 py-3 rounded-lg transition-all duration-300 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-transparent" data-astro-cid-3ef6ksr2> Contact </a> <a href="//luke-panaccio-cv-2025-december.pdf" class="text-sm font-bold px-4 py-3 bg-gradient-accent text-bg-primary rounded-lg hover:shadow-lg hover:shadow-accent-primary/30 transition-all duration-300 text-center" data-astro-cid-3ef6ksr2>
+Download Resume
+</a> </div> </div> </nav> </header>  <main data-astro-cid-eo3wme6m> <!-- Hero Section with atmospheric gradient --> <section class="relative overflow-hidden" data-astro-cid-eo3wme6m> <!-- Atmospheric background --> <div class="absolute inset-0 overflow-hidden" data-astro-cid-eo3wme6m> <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-accent-primary/10 rounded-full blur-[120px] animate-glow" data-astro-cid-eo3wme6m></div> </div> <div class="relative max-w-7xl mx-auto px-6 py-20 md:py-32" data-astro-cid-eo3wme6m> <div class="max-w-4xl stagger-children" data-astro-cid-eo3wme6m> <!-- Breadcrumb --> <div class="flex items-center gap-2 text-sm text-text-tertiary mb-8" data-astro-cid-eo3wme6m> <a href="/#work" class="hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m>Projects</a> <span data-astro-cid-eo3wme6m>/</span> <span class="text-text-secondary" data-astro-cid-eo3wme6m>AI-powered content generation system</span> </div> <h1 class="text-5xl md:text-7xl font-bold text-text-primary mb-6 leading-tight" data-astro-cid-eo3wme6m> AI-powered content generation system </h1> <p class="text-xl md:text-2xl text-text-secondary font-light leading-relaxed max-w-3xl" data-astro-cid-eo3wme6m> Scaling instructional design expertise through context-aware AI workflows </p> <!-- Quick Actions --> <div class="flex flex-wrap gap-4 mt-10" data-astro-cid-eo3wme6m>   </div> </div> </div> </section> <!-- Hero Image with dramatic presentation --> <section class="max-w-7xl mx-auto px-6 -mt-8 mb-20 animate-fade-in" style="animation-delay: 0.6s; opacity: 0;" data-astro-cid-eo3wme6m> <div class="relative group" data-astro-cid-eo3wme6m> <!-- Glow effect behind image --> <div class="absolute -inset-4 bg-gradient-accent opacity-20 blur-2xl rounded-2xl group-hover:opacity-30 transition-opacity duration-500" data-astro-cid-eo3wme6m></div> <div class="relative rounded-2xl overflow-hidden border border-border-medium shadow-2xl" data-astro-cid-eo3wme6m> <img src="/portfolio/images/ai-content-gen-hero.webp" alt="AI-powered content generation system" class="w-full h-auto" data-astro-cid-eo3wme6m> </div> </div> </section> <!-- Project Overview --> <section class="py-16 md:py-24" data-astro-cid-eo3wme6m> <div class="max-w-7xl mx-auto px-6" data-astro-cid-eo3wme6m> <div class="grid xl:grid-cols-5 gap-12 lg:gap-16" data-astro-cid-eo3wme6m> <!-- Sidebar Info --> <div class="xl:col-span-1" data-astro-cid-eo3wme6m> <div class="sticky top-24 space-y-8" data-astro-cid-eo3wme6m> <!-- Project Meta Card --> <div class="bg-bg-elevated border border-border-medium rounded-xl p-6 space-y-6" data-astro-cid-eo3wme6m> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Client/Context</h3> <p class="text-text-primary font-medium" data-astro-cid-eo3wme6m>commercetools</p> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Role</h3> <p class="text-text-primary font-medium" data-astro-cid-eo3wme6m>Learning experience architect</p> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Timeline</h3> <p class="text-text-primary font-medium" data-astro-cid-eo3wme6m>6 months (ongoing)</p> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Audience</h3> <p class="text-text-secondary text-sm leading-relaxed" data-astro-cid-eo3wme6m>Learning content developers, instructional designers, subject matter experts</p> </div> </div> <!-- Tools --> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-3" data-astro-cid-eo3wme6m>Technologies</h3> <div class="flex flex-wrap gap-2" data-astro-cid-eo3wme6m> <span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> GitHub Copilot </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> Claude Sonnet 4.5 </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> MDX </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> Moodle XML </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> TypeScript </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> VS Code </span> </div> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-3" data-astro-cid-eo3wme6m>Deliverables</h3> <ul class="space-y-2" data-astro-cid-eo3wme6m> <li class="text-sm text-text-secondary flex items-start" data-astro-cid-eo3wme6m> <svg class="w-4 h-4 mr-2 mt-0.5 flex-shrink-0 text-accent-primary" fill="currentColor" viewBox="0 0 20 20" data-astro-cid-eo3wme6m> <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" data-astro-cid-eo3wme6m></path> </svg> 18+ specialized content generation prompts </li><li class="text-sm text-text-secondary flex items-start" data-astro-cid-eo3wme6m> <svg class="w-4 h-4 mr-2 mt-0.5 flex-shrink-0 text-accent-primary" fill="currentColor" viewBox="0 0 20 20" data-astro-cid-eo3wme6m> <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" data-astro-cid-eo3wme6m></path> </svg> 33 instruction files </li><li class="text-sm text-text-secondary flex items-start" data-astro-cid-eo3wme6m> <svg class="w-4 h-4 mr-2 mt-0.5 flex-shrink-0 text-accent-primary" fill="currentColor" viewBox="0 0 20 20" data-astro-cid-eo3wme6m> <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" data-astro-cid-eo3wme6m></path> </svg> Automated quiz conversion system </li><li class="text-sm text-text-secondary flex items-start" data-astro-cid-eo3wme6m> <svg class="w-4 h-4 mr-2 mt-0.5 flex-shrink-0 text-accent-primary" fill="currentColor" viewBox="0 0 20 20" data-astro-cid-eo3wme6m> <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" data-astro-cid-eo3wme6m></path> </svg> 9 learning paths with 30+ modules </li> </ul> </div> </div> </div> <!-- Main Content --> <div class="xl:col-span-3" data-astro-cid-eo3wme6m> <!-- Prose styling for MDX content --> <article class="project-content" data-astro-cid-eo3wme6m> <h2 id="the-challenge">The challenge</h2>
+<h3 id="business-context">Business context</h3>
+<p>commercetools was scaling rapidly with expanding product capabilities and growing customer base across three continents. The learning team needed to produce high-quality technical content at unprecedented pace to support product launches, customer onboarding, and certification programs. However, manual content creation required 120-150 hours per module—creating a bottleneck that limited our ability to serve business needs.</p>
+<p><strong>Strategic objective:</strong> Transform learning content production from a scaling bottleneck into a competitive advantage by leveraging AI to amplify instructional design expertise, enabling the team to double learning path output while maintaining pedagogical quality.</p>
+<h3 id="the-scaling-problem">The scaling problem</h3>
+<p>Creating high-quality technical learning content requires applying consistent instructional design principles across hundreds of pages while maintaining technical accuracy, pedagogical soundness, and LMS-compatible formatting. Manual content creation couldn’t keep pace with commercetools’ growing documentation needs.</p>
+<h3 id="core-design-challenges">Core design challenges</h3>
+<ul>
+<li><strong>Consistency at scale:</strong> Maintain instructional design quality across 9 learning paths and 30+ modules</li>
+<li><strong>Dual-audience complexity:</strong> Content must serve both web readers and LMS integration (Moodle XML import)</li>
+<li><strong>Persona alignment:</strong> Every module must speak to “Alex Chen” (mid-to-senior software architects) with appropriate depth and tone</li>
+<li><strong>Quality assurance:</strong> Ensure AI-generated content meets both technical accuracy and pedagogical standards</li>
+</ul>
+<h3 id="the-opportunity">The opportunity</h3>
+<p>Build an AI system that doesn’t just generate content—but generates <em>instructional design</em>. Embed learning theory, writing standards, and assessment principles directly into AI context so expertise scales automatically.</p>
+<hr/>
+<h2 id="the-process">The process</h2>
+<h3 id="research--analysis">Research &amp; analysis</h3>
+<p><strong>Problem discovery:</strong>
+Technical documentation teams struggled with three bottlenecks:</p>
+<ol>
+<li><strong>Inconsistent quality:</strong> Different writers applied varying levels of instructional design rigor</li>
+<li><strong>Quiz formatting chaos:</strong> Questions existed in 15+ different markdown formats, breaking LMS import</li>
+<li><strong>Slow iteration:</strong> Creating a single learning module required 120-150 hours from outline to publication</li>
+</ol>
+<p><strong>User needs identified:</strong></p>
+<ul>
+<li>Content developers needed guardrails to ensure pedagogical quality without deep ID expertise</li>
+<li>SMEs wanted to contribute content without learning complex formatting rules</li>
+<li>The LMS needed standardized quiz formats for automated import</li>
+</ul>
+<p><strong>Core insight:</strong>
+If instructional design principles could be codified into AI instructions, the system would apply expertise consistently across all content—turning every prompt into a teaching moment.</p>
+<h3 id="design-approach">Design approach</h3>
+<p>Four key instructional design principles shaped the system architecture:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Design Principle</th><th>Design Rationale</th></tr></thead><tbody><tr><td><strong>Layered context injection.</strong> Instructions load automatically based on file type and pattern matching.</td><td>Mirrors how expert IDs shift frameworks based on task—scaffolding when needed, staying out of the way when not.</td></tr><tr><td><strong>Multi-stage cognitive workflow.</strong> Content follows explicit stages: Outline → Research → Draft → Critique → Refine.</td><td>Breaking work into discrete stages produces better outcomes than asking AI to “create everything.” Each stage optimizes independently.</td></tr><tr><td><strong>Persona-driven writing.</strong> All instructions embed “Alex Chen” persona specifications for consistent voice.</td><td>Consistent voice requires enforcing <em>who you’re writing for</em> at the system level, not just style guides.</td></tr><tr><td><strong>Dual-format constraints.</strong> Content must work as web pages AND convert cleanly to Moodle XML.</td><td>Strict markdown structure enables automated transformation, reducing errors and maintenance burden.</td></tr></tbody></table>
+<h3 id="development--iteration">Development &amp; iteration</h3>
+<p><strong>Key technical implementation decisions:</strong></p>
+<p><strong>Context routing system</strong>
+Used YAML frontmatter with glob patterns (<code>applyTo: &#39;websites/learning-*/src/content/**/*.mdx&#39;</code>) to automatically load relevant instructions when files match patterns. No manual context switching required.</p>
+<p><strong>Prompt library architecture</strong>
+Developed 18 specialized prompts organized by workflow stage:</p>
+<p><img src="/portfolio/images/ai-content-gen-vscode.png" alt="VS Code prompt library showing 18 specialized content generation prompts organized by workflow stage"/></p>
+<ul>
+<li><code>learning-1-generate-outline</code>: Creates persona-aware module structures with learning objectives</li>
+<li><code>learning-7-create-scenario-based-quiz-questions</code>: Generates assessments grounded in “Zen Electron” case study</li>
+<li><code>learning-15-standardize-quiz-format</code>: Transforms inconsistent quizzes into standard markdown</li>
+<li><code>learning-16-convert-to-moodle-xml</code>: Automates LMS-compatible XML generation</li>
+</ul>
+<p><strong>Quality validation integration</strong>
+Built critique prompts that evaluate outputs against rubrics covering:</p>
+<ul>
+<li>Semantic clarity (inverted pyramid structure, scannable content)</li>
+<li>Structural consistency (heading hierarchy, list formatting)</li>
+<li>Technical accuracy (API references, code examples)</li>
+<li>Instructional design (learning objectives, knowledge checks, scenario grounding)</li>
+</ul>
+<h3 id="testing--refinement">Testing &amp; refinement</h3>
+<p><strong>Problem identified:</strong> Early quiz questions were technically correct but pedagogically weak—testing recall instead of applied understanding.</p>
+<p><strong>Solution implemented:</strong>
+Rebuilt quiz generation prompt to enforce scenario-based assessment:</p>
+<ul>
+<li>Every question starts with <strong>Scenario:</strong> describing a real situation at “Zen Electron” (fictional company)</li>
+<li>Distractors must be plausible mistakes (not obviously wrong)</li>
+<li>Feedback explains <em>why</em> the correct answer solves the scenario</li>
+</ul>
+<p><strong>Quality assurance approach:</strong>
+Automated validation catches common errors before human review:</p>
+<ul>
+<li>Heading format compliance (no gerunds, sentence case)</li>
+<li>Terminology consistency (e.g., “commercetools” lowercase)</li>
+<li>Quiz structure validation (numbered questions, required sections)</li>
+<li>Frontmatter completeness</li>
+</ul>
+<hr/>
+<h2 id="the-solution">The solution</h2>
+<h3 id="what-users-experience">What users experience</h3>
+<p>Content developers work in VS Code with GitHub Copilot. When they create a new learning module file, relevant instructions automatically load based on file path. They invoke prompts through Copilot chat to generate outlines, draft content, create quizzes, and validate formatting—all guided by embedded instructional design expertise.</p>
+<h3 id="system-architecture">System architecture</h3>
+<div class="mermaid-container" data-astro-cid-6vqylkyd> <pre class="mermaid" data-astro-cid-6vqylkyd>graph TD
+  subgraph Inputs[&quot;📥 INPUTS&quot;]
+      SME[&quot;📚 SME Knowledge&quot;]
+      PERSONA[&quot;👤 Alex Chen Persona&quot;]
+      IDP[&quot;📋 Instructional Design Plan&quot;]
+  end
+
+  subgraph Core[&quot;⚙️ CORE WORKFLOW&quot;]
+      PLAN[&quot;🎯 Planning&lt;br/&gt;Generate Outline&quot;]
+      RESEARCH[&quot;🔍 Research&lt;br/&gt;Deep Dive &amp; Examples&quot;]
+      DRAFT[&quot;✍️ Draft Creation&lt;br/&gt;Content + Code&quot;]
+      CRITIQUE[&quot;🎓 Quality Review&lt;br/&gt;Score Against Rubric&quot;]
+      REFINE[&quot;✨ Refinement&lt;br/&gt;Polish &amp; Improve&quot;]
+  end
+
+  subgraph Finalize[&quot;🚀 FINALIZATION&quot;]
+      QUIZ[&quot;❓ Create Quizzes&quot;]
+      STYLE[&quot;📐 Style &amp; Format&quot;]
+      MOODLE[&quot;📦 Moodle XML&quot;]
+      INTEGRATE[&quot;🔗 Catalogue Integration&quot;]
+  end
+
+  subgraph Output[&quot;📤 OUTPUT&quot;]
+      FINAL[&quot;✅ Published Learning Module&quot;]
+  end
+
+  %% Main flow
+  Inputs --&gt; PLAN
+  PLAN --&gt; RESEARCH
+  RESEARCH --&gt; DRAFT
+  DRAFT --&gt; CRITIQUE
+  CRITIQUE --&gt; REFINE
+  REFINE --&gt; QUIZ
+  REFINE --&gt; STYLE
+  QUIZ --&gt; MOODLE
+  STYLE --&gt; INTEGRATE
+  MOODLE --&gt; FINAL
+  INTEGRATE --&gt; FINAL
+
+  %% Dark theme styling matching Marcus Aurelius
+  classDef inputStyle fill:#2d1b0e,stroke:#f59e0b,stroke-width:3px,color:#f9fafb,font-weight:bold;
+  classDef coreStyle fill:#1a2234,stroke:#fbbf24,stroke-width:3px,color:#f9fafb,font-weight:bold;
+  classDef finalizeStyle fill:#1e1b4b,stroke:#a78bfa,stroke-width:3px,color:#f9fafb,font-weight:bold;
+  classDef outputStyle fill:#0f1419,stroke:#fb923c,stroke-width:4px,color:#f9fafb,font-weight:bold;
+
+  class SME,PERSONA,IDP inputStyle
+  class PLAN,RESEARCH,DRAFT,CRITIQUE,REFINE coreStyle
+  class QUIZ,STYLE,MOODLE,INTEGRATE finalizeStyle
+  class FINAL outputStyle
+  
+  %% Link styling
+  linkStyle 0,1,2,3,4 stroke:#fbbf24,stroke-width:3px;
+  linkStyle 5,6,7,8 stroke:#a78bfa,stroke-width:3px;
+  linkStyle 9,10 stroke:#fb923c,stroke-width:3px;</pre> </div> <script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  
+  // Initialize mermaid if not already done
+  if (!window.mermaidInitialized) {
+    window.mermaidInitialized = true;
+    mermaid.initialize({ 
+      startOnLoad: true, 
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#1a2234',
+        primaryColor: '#f59e0b',
+        primaryTextColor: '#f9fafb',
+        primaryBorderColor: '#f59e0b',
+        secondaryColor: '#fbbf24',
+        secondaryTextColor: '#d1d5db',
+        tertiaryColor: '#111827',
+        tertiaryTextColor: '#9ca3af',
+        lineColor: 'rgba(255, 255, 255, 0.2)',
+        textColor: '#d1d5db',
+        mainBkg: '#1a2234',
+        secondBkg: '#111827',
+        border1: 'rgba(245, 158, 11, 0.3)',
+        border2: 'rgba(251, 191, 36, 0.2)',
+        arrowheadColor: '#f59e0b',
+        fontFamily: 'Manrope, -apple-system, BlinkMacSystemFont, sans-serif',
+        fontSize: '16px'
+      },
+      flowchart: {
+        nodeSpacing: 50,
+        rankSpacing: 60,
+        curve: 'basis',
+        padding: 20
+      },
+      gantt: {
+        titleTopMargin: 25,
+        barHeight: 30,
+        barGap: 8,
+        topPadding: 50,
+        leftPadding: 100,
+        gridLineStartPadding: 35,
+        fontSize: 14,
+        sectionFontSize: 14,
+        numberSectionStyles: 4
+      }
+    });
+  }
+
+  // Modal setup
+  const MODAL_ID = 'mermaid-modal';
+  if (!document.getElementById(MODAL_ID)) {
+    const modal = document.createElement('div');
+    modal.id = MODAL_ID;
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 9999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    `;
+    
+    modal.innerHTML = `
+      <div style="position: relative; width: 95%; height: 95%; display: flex; justify-content: center; align-items: center;">
+        <button id="mermaid-modal-close" style="
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: none;
+          border: none;
+          color: white;
+          font-size: 2rem;
+          cursor: pointer;
+          z-index: 10001;
+          padding: 10px;
+          line-height: 1;
+        ">&times;</button>
+        <div id="mermaid-modal-content" style="width: 100%; height: 100%; overflow: auto; display: flex; justify-content: center; align-items: center;"></div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    const closeBtn = document.getElementById('mermaid-modal-close');
+    const content = document.getElementById('mermaid-modal-content');
+    
+    const closeModal = () => {
+      modal.style.opacity = '0';
+      setTimeout(() => {
+        modal.style.display = 'none';
+        content.innerHTML = '';
+      }, 300);
+    };
+    
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.parentElement === modal) {
+        closeModal();
+      }
+    });
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        closeModal();
+      }
+    });
+  }
+
+  // Attach click handlers
+  // We use a timeout to ensure mermaid has rendered the SVGs
+  setTimeout(() => {
+    document.querySelectorAll('.mermaid-container').forEach(container => {
+      if (container.dataset.hasClickHandler) return;
+      container.dataset.hasClickHandler = 'true';
+      
+      container.addEventListener('click', () => {
+        const modal = document.getElementById(MODAL_ID);
+        const content = document.getElementById('mermaid-modal-content');
+        const svg = container.querySelector('svg');
+        
+        if (svg && modal && content) {
+          const clonedSvg = svg.cloneNode(true);
+          clonedSvg.style.maxWidth = '100%';
+          clonedSvg.style.maxHeight = '100%';
+          clonedSvg.style.height = 'auto';
+          clonedSvg.style.width = 'auto';
+          clonedSvg.removeAttribute('height');
+          clonedSvg.removeAttribute('width');
+          
+          content.innerHTML = '';
+          content.appendChild(clonedSvg);
+          
+          modal.style.display = 'flex';
+          // Force reflow
+          modal.offsetHeight;
+          modal.style.opacity = '1';
+        }
+      });
+    });
+  }, 1000);
+</script> 
+<p><strong>Intelligent context routing:</strong>
+33 instruction files automatically apply based on glob patterns:</p>
+<p><strong>Automated quiz conversion:</strong>
+Standardized markdown questions instantly transform to Moodle XML for rapid LMS import:</p>
+<ul>
+<li>One-click conversion eliminates manual XML editing</li>
+<li>Batch processing enables importing entire question banks in seconds</li>
+<li>Proper CDATA wrapping and formatting ensure zero import errors</li>
+<li>Direct upload to Moodle question bank without intermediate steps</li>
+<li>Configurable point allocation (default: 50 points) maintains consistency</li>
+</ul>
+<hr/>
+<h2 id="leadership--collaboration">Leadership &amp; collaboration</h2>
+<p>This initiative required driving organizational change and building AI adoption across the learning team:</p>
+<p><strong>Change management &amp; mentorship:</strong><br/>
+Championed AI adoption across the learning organization by demonstrating ROI through working prototypes. Mentored training team in prompt engineering, AI-assisted content creation, and quality validation—increasing team AI literacy. Established best practices and guardrails ensuring AI amplifies (rather than replaces) instructional design expertise.</p>
+<p><strong>Executive buy-in:</strong><br/>
+Secured leadership approval for AI investment by building proof-of-concept demonstrating 60% efficiency gains. Presented quarterly updates to senior leadership showing how AI-powered workflows enabled doubling learning path output—connecting technical innovation to business strategy.</p>
+<p><strong>Knowledge sharing:</strong><br/>
+Created comprehensive documentation enabling team members to leverage the prompt library independently. This democratized AI capabilities across the organization rather than creating single-person dependency.</p>
+<hr/>
+<h2 id="results--impact">Results &amp; impact</h2>
+<h3 id="quantified-outcomes">Quantified outcomes</h3>
+<ul>
+<li><strong>Scale achieved:</strong> 9 active learning paths containing 30+ individual modules with consistent instructional quality</li>
+<li><strong>Time efficiency:</strong> 60% reduction in initial draft time</li>
+<li><strong>Format consistency:</strong> 100% of quiz questions follow standardized format enabling automated LMS import</li>
+<li><strong>Writing quality:</strong> All content enforces persona-driven writing style across 200+ pages</li>
+</ul>
+<h3 id="process-improvements">Process improvements</h3>
+<p><strong>Before system implementation:</strong></p>
+<ul>
+<li>15+ different quiz formatting approaches across documentation</li>
+<li>Manual checking for style guide compliance</li>
+<li>Inconsistent application of instructional design principles</li>
+<li>Quiz import required manual XML editing</li>
+</ul>
+<p><strong>After system implementation:</strong></p>
+<ul>
+<li>Single standardized quiz format with automated XML conversion</li>
+<li>Automatic validation catches formatting errors pre-review</li>
+<li>Instructional design principles embedded in every prompt</li>
+<li>One-click Moodle import with zero manual editing</li>
+</ul>
+<h3 id="scalability-demonstrated">Scalability demonstrated</h3>
+<p><strong>Exponential growth without linear effort:</strong>
+The system’s true scalability breakthrough lies in how adding new learning paths requires near-zero marginal effort. Creating the first learning path took 6 months to build all the infrastructure. New learning paths now require only 2 hours of setup because all the instructional design logic already exists in reusable prompts and instructions.</p>
+<p><strong>Zero-touch instruction inheritance:</strong>
+New learning paths automatically inherit 33 instruction files through glob pattern matching (<code>websites/learning-*/</code>).</p>
+<p>This 2 hour setup immediately grants access to 18 specialized prompts covering outline generation, content drafting, quiz creation, and Moodle XML conversion—capabilities that took 6 months to develop but now deploy instantly.</p>
+<p><strong>Multi-format content reuse:</strong>
+The same instruction foundation supports diverse content types without modification:</p>
+<ul>
+<li><strong>Learning modules</strong> with scenario-based assessments and knowledge checks</li>
+<li><strong>API documentation</strong> with embedded code examples and integration patterns</li>
+<li><strong>Release notes</strong> analyzing feature impact and migration requirements</li>
+<li><strong>Certification guides</strong> mapping learning objectives to exam domains</li>
+<li><strong>Tutorials</strong> with progressive complexity and checkpoint validation</li>
+</ul>
+<p><strong>Team multiplication effect:</strong>
+By codifying instructional design expertise into reusable prompts, the system transformed how teams scale:</p>
+<ul>
+<li><strong>Before:</strong> 1 instructional designer could support 2-3 learning paths annually</li>
+<li><strong>After:</strong> Same designer supports 9 active learning paths with higher consistency</li>
+<li><strong>Knowledge transfer:</strong> New team members productive in days (not months) by following established prompt workflows</li>
+</ul>
+<p>This represents genuine force multiplication—expertise captured once, applied infinitely.</p>
+<hr/>
+<h2 id="key-takeaways">Key takeaways</h2>
+<p><strong>Constraints enable creativity.</strong> Strict formatting rules initially felt limiting but ultimately freed cognitive energy for pedagogical quality. When format is standardized, focus shifts to learning design. This principle applies beyond AI—any system benefits from clear constraints.</p>
+<p><strong>Multi-stage workflows produce better outcomes.</strong> Breaking content generation into explicit stages (outline → research → draft → critique → refine) mirrors how expert instructional designers actually work. AI performs significantly better when asked to execute discrete tasks sequentially rather than “create everything.”</p>
+<p><strong>Context injection is educational scaffolding.</strong> Just as learners need just-in-time support, AI needs context-specific guidance. The instruction system provides relevant frameworks based on what’s being created—matching scaffolding principles from learning science.</p>
+<p><strong>Automation creates space for higher-order work.</strong> By automating formatting, style consistency, and quiz conversion, instructional designers can focus on curriculum sequencing, assessment design quality, and pedagogical innovation. This reframes the role from “content creator” to “learning experience architect.”</p>
+<p><strong>Codifying expertise scales impact.</strong> The system makes instructional design knowledge explicit and reusable. Prompt libraries become organizational learning assets—capturing best practices that persist beyond individual team members.</p>
+<hr/>
+<h2 id="future-enhancements">Future enhancements</h2>
+<p><strong>Automated content refresh:</strong> Develop prompts that detect outdated API references and auto-suggest updates when underlying systems change.</p>
+<p><strong>Interactive diagram generation:</strong> Extend prompts to create Mermaid diagrams for architecture concepts with proper accessibility support.</p>
+<p><strong>Learning analytics integration:</strong> Build prompts that analyze low-performing quiz questions in LMS and suggest rewrites to improve clarity.</p>
+<p><strong>Advanced assessment types:</strong> Extend quiz converter to support matching questions, fill-in-blank, and code exercises in Moodle XML format.</p> </article> <!-- Metrics Display --> <div class="mt-16 relative" data-astro-cid-eo3wme6m> <!-- Glow background --> <div class="absolute inset-0 bg-gradient-accent opacity-5 blur-3xl rounded-2xl" data-astro-cid-eo3wme6m></div> <div class="relative bg-gradient-to-br from-bg-elevated to-bg-secondary border border-border-medium rounded-2xl p-8 md:p-12" data-astro-cid-eo3wme6m> <h2 class="text-3xl font-display font-bold text-text-primary mb-10" data-astro-cid-eo3wme6m>Impact & results</h2> <div class="grid md:grid-cols-3 gap-8" data-astro-cid-eo3wme6m> <div class="text-center group" data-astro-cid-eo3wme6m> <div class="text-5xl md:text-6xl font-display font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform duration-300" data-astro-cid-eo3wme6m> 9 </div> <div class="text-sm text-text-tertiary uppercase tracking-wide font-semibold" data-astro-cid-eo3wme6m> Learning Paths </div> </div><div class="text-center group" data-astro-cid-eo3wme6m> <div class="text-5xl md:text-6xl font-display font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform duration-300" data-astro-cid-eo3wme6m> 30+ </div> <div class="text-sm text-text-tertiary uppercase tracking-wide font-semibold" data-astro-cid-eo3wme6m> Modules Created </div> </div><div class="text-center group" data-astro-cid-eo3wme6m> <div class="text-5xl md:text-6xl font-display font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform duration-300" data-astro-cid-eo3wme6m> 60% </div> <div class="text-sm text-text-tertiary uppercase tracking-wide font-semibold" data-astro-cid-eo3wme6m> Time Saved </div> </div> </div> </div> </div> </div> <!-- Right sidebar - Table of Contents --> <div class="xl:col-span-1 hidden xl:block" data-astro-cid-eo3wme6m> <nav class="toc-nav" aria-label="Table of Contents"> <div class="toc-header"> <h3 class="toc-title">On this page</h3> </div> <div class="toc-content"> <!-- Content will be populated by client-side script --> </div> </nav>   </div> </div> </div> </section> <!-- Navigation Footer --> <section class="py-12 border-t border-border-subtle" data-astro-cid-eo3wme6m> <div class="max-w-7xl mx-auto px-6" data-astro-cid-eo3wme6m> <div class="flex flex-col sm:flex-row justify-between items-center gap-6" data-astro-cid-eo3wme6m> <a href="/#work" class="group inline-flex items-center text-text-secondary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-eo3wme6m> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" data-astro-cid-eo3wme6m></path> </svg>
+Back to All Projects
+</a> <a href="/#contact" class="group inline-flex items-center px-6 py-3 bg-gradient-accent text-bg-primary rounded-lg font-semibold hover:shadow-xl hover:shadow-accent-primary/20 transition-all duration-300 hover:-translate-y-0.5" data-astro-cid-eo3wme6m>
+Let's work together
+<svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-eo3wme6m> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" data-astro-cid-eo3wme6m></path> </svg> </a> </div> </div> </section> </main> <footer class="relative bg-bg-secondary border-t border-border-subtle" data-astro-cid-sz7xmlte> <!-- Subtle top glow --> <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-accent-primary/30 to-transparent" data-astro-cid-sz7xmlte></div> <div class="max-w-7xl mx-auto px-6 py-16" data-astro-cid-sz7xmlte> <div class="grid md:grid-cols-3 gap-12 mb-12" data-astro-cid-sz7xmlte> <!-- Brand Column --> <div data-astro-cid-sz7xmlte> <h3 class="font-display text-2xl font-bold text-text-primary mb-3" data-astro-cid-sz7xmlte>
+Luke Panaccio
+</h3> <p class="text-text-secondary leading-relaxed" data-astro-cid-sz7xmlte>
+Senior instructional designer specializing in AI-powered learning systems and scalable educational solutions
+</p> </div> <!-- Quick Links Column --> <div data-astro-cid-sz7xmlte> <h4 class="text-sm font-bold text-accent-primary uppercase tracking-wider mb-4" data-astro-cid-sz7xmlte>
+Quick Links
+</h4> <ul class="space-y-3" data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte> <a href="/#work" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+Projects
+</a> </li> <li data-astro-cid-sz7xmlte> <a href="//about/" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+About
+</a> </li> <li data-astro-cid-sz7xmlte> <a href="//luke-panaccio-cv-2025-december.pdf" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+Resume
+</a> </li> <li data-astro-cid-sz7xmlte> <a href="/#contact" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+Contact
+</a> </li> </ul> </div> <!-- Connect Column --> <div data-astro-cid-sz7xmlte> <h4 class="text-sm font-bold text-accent-primary uppercase tracking-wider mb-4" data-astro-cid-sz7xmlte>
+Connect
+</h4> <div class="flex space-x-3" data-astro-cid-sz7xmlte> <a href="https://www.linkedin.com/in/luke-p-b444b124b/" target="_blank" rel="noopener noreferrer" class="group p-3 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300 hover:scale-110" aria-label="LinkedIn" data-astro-cid-sz7xmlte> <div class="text-text-secondary group-hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg> </div> </a><a href="https://github.com/lukpan" target="_blank" rel="noopener noreferrer" class="group p-3 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300 hover:scale-110" aria-label="GitHub" data-astro-cid-sz7xmlte> <div class="text-text-secondary group-hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> </div> </a><a href="mailto:lukepanaccio@gmail.com" target="_blank" rel="noopener noreferrer" class="group p-3 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300 hover:scale-110" aria-label="Email" data-astro-cid-sz7xmlte> <div class="text-text-secondary group-hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> </div> </a> </div> <!-- Email CTA --> <a href="mailto:lukepanaccio@gmail.com" class="group mt-6 inline-flex items-center text-sm font-semibold text-text-secondary hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-sz7xmlte> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" data-astro-cid-sz7xmlte></path> </svg>
+lukepanaccio@gmail.com
+</a> </div> </div> <!-- Bottom Bar --> <div class="pt-8 border-t border-border-subtle" data-astro-cid-sz7xmlte> <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-text-tertiary" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>
+&copy; 2025 Luke Panaccio. All rights reserved.
+</p> <p class="text-xs" data-astro-cid-sz7xmlte>
+Built with <span class="text-accent-primary" data-astro-cid-sz7xmlte>Astro</span> · Designed with purpose · AI-assisted development
+</p> </div> </div> </div> </footer>   </body></html>  
