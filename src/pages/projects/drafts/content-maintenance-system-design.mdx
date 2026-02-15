@@ -59,7 +59,7 @@ Pivoted to **topic-based pre-filtering + manual skill invocation** after discove
 
 **Chosen:** Static JSON topic map
 
-- **Pros:** Zero compute cost, instant execution (<1 sec), deterministic, easily debuggable
+- **Pros:** Zero compute cost, instant execution (&lt;1 sec), deterministic, easily debuggable
 - **Cons:** Requires manual curation, may miss semantic relationships, keyword-dependent
 
 **Rationale:**
@@ -135,7 +135,7 @@ return candidates.sort((a, b) => b.score - a.score).slice(0, topCount);
 **Why 20%?**
 
 - **10% threshold** = Too aggressive, missed 8 announcement-type releases in pilot
-- **30% threshold** = Included releases with score <0.3 (single weak topic match)
+- **30% threshold** = Included releases with score &lt;0.3 (single weak topic match)
 - **20% threshold** = Sweet spot, captured all deprecations + announcements + high-scoring enhancements
 
 **Tunable parameter:** Exposed as constant for easy adjustment based on pilot feedback:
@@ -270,8 +270,8 @@ for (const pathId of learningPaths) {
 
 **Performance:**
 
-- Analysis: <1 second (no API calls, pure computation)
-- Report generation: <1 second (string concatenation)
+- Analysis: &lt;1 second (no API calls, pure computation)
+- Report generation: &lt;1 second (string concatenation)
 - Total execution: ~2 seconds for all 8 learning paths
 
 ---
@@ -319,8 +319,8 @@ console.log(`  - Deprecations: ${deprecations}`);
 | ------------------------- | -------------- | ------------- | -------------------- |
 | **Manual review volume**  | 1,246 releases | 95 candidates | 92% reduction        |
 | **Review time estimate**  | 300+ hours     | 24-48 hours   | 85% reduction        |
-| **False positive rate**   | N/A            | TBD (pilot)   | Target: <40%         |
-| **System execution time** | N/A            | <2 seconds    | Real-time analysis   |
+| **False positive rate**   | N/A            | TBD (pilot)   | Target: &lt;40%         |
+| **System execution time** | N/A            | &lt;2 seconds    | Real-time analysis   |
 | **Infrastructure cost**   | N/A            | $0/run        | No compute/API costs |
 
 ### Qualitative Outcomes
