@@ -2,7 +2,7 @@
 layout: '../../layouts/ProjectLayout.astro'
 title: 'Content Drift Detection System'
 tagline: 'AI-augmented workflow for maintaining learning content alignment with rapid API changes'
-description: 'A three-agent Copilot Skills system that detects, maps, and drafts updates for learning modules impacted by 250+ API releases per year, reducing manual review effort by 90%.'
+description: 'A three-agent Copilot Skills system that detects, maps, and drafts updates for learning modules impacted by 250+ API releases per year, enabling systematic content review where capacity did not exist.'
 client: 'commercetools'
 role: 'Learning Systems Architect'
 timeline: '2026'
@@ -11,14 +11,14 @@ tools: ['GitHub Copilot', 'VS Code', 'Node.js', 'MDX', 'Algolia Search']
 deliverables: ['3 Copilot Skills', 'Topic map JSON', 'Pilot scripts', 'Automated analysis outputs']
 heroImage: '/images/content-drift.webp'
 metrics:
-  - label: 'Release Notes Processed'
+  - label: 'Release Notes Analyzed'
     value: '1,200+'
-  - label: 'Manual Review Reduction'
-    value: '90%+'
-  - label: 'Time Savings'
-    value: '85%+'
-  - label: 'Execution Time'
-    value: '<2s/release'
+  - label: 'Analysis Speed'
+    value: '<2s per release'
+  - label: 'Infrastructure Cost'
+    value: '$0 per run'
+  - label: 'Deployment Model'
+    value: 'Pilot → Production'
 ---
 
 import MermaidDiagram from '../../components/MermaidDiagram.astro';
@@ -29,15 +29,15 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 At commercetools, 50+ hours of educational content serves thousands of developers and powers our RAG-based AI assistant. With 250+ API releases annually (5+ per week), keeping this content synchronized was unsustainable.
 
-**The crisis:** 1,200+ release notes published since January 2024 required manual cross-referencing against all learning modules. Content drift remained invisible until developers reported incorrect information or outdated patterns—directly impacting AI assistant accuracy and developer trust.
+**The crisis:** By January 2026, 1,200+ release notes published since January 2024 had accumulated—a 2-year backlog requiring manual cross-referencing against all learning modules. Content drift remained invisible until developers reported incorrect information or outdated patterns—directly impacting AI assistant accuracy and developer trust.
 
-**The bottleneck:** Manual review couldn't scale. Even if someone read all releases, they'd need comprehensive knowledge of every learning module to identify impacts. The backlog grew faster than the team could address it.
+**The bottleneck:** Content teams lacked capacity for systematic review. Even with dedicated resources, cross-referencing 250+ annual releases against 50+ hours of learning content required comprehensive knowledge of every module and API domain. The backlog accumulated with no process to address it.
 
 ---
 
 ## The Solution
 
-I designed a **three-agent workflow** using GitHub Copilot Skills that integrates directly into the content team's existing VS Code/GitHub workflow—no new tools, no context switching.
+In January 2026, I designed a **three-agent workflow** using GitHub Copilot Skills that integrates directly into the content team's existing VS Code/GitHub workflow—no new tools, no context switching.
 
 ### Architecture Rationale
 
@@ -102,9 +102,9 @@ I designed a **three-agent workflow** using GitHub Copilot Skills that integrate
     linkStyle 4,5 stroke:#fb923c,stroke-width:3px;
     linkStyle 6 stroke:#10b981,stroke-width:3px;`} />
 
-### Detection & Prioritization
+### How Agent 1 Detects & Prioritizes Impact
 
-The system uses severity-based scoring and topic matching:
+**Agent 1 (Release Analyzer)** uses severity-based scoring and topic matching to identify affected modules:
 
 - **Breaking changes** receive `2×` priority (deprecated APIs, removed features, behavior changes)
 - **New features** receive `2×` priority (GA announcements, new endpoints)
@@ -120,19 +120,17 @@ Release notes include topic tags matched against learning module topics. Candida
 
 | Metric                      | Value                           |
 | --------------------------- | ------------------------------- |
-| **Manual review reduction** | `90%+` reduction                  |
-| **Time savings**            | `85%+` (300+ hours → 24-48 hours) |
-| **Execution speed**         | `<2 seconds` per release          |
-| **Infrastructure cost**     | `$0/run`                          |
-| **False positive target**   | `<40%`                            |
+| **Backlog processed**       | `1,200+` releases (2024-2026)     |
+| **Pilot scope**             | `2 learning paths` validated      |
+| **Production rollout**      | All learning paths (2026)         |
 
 ### Transformation
 
-**Content team:** Shifted from reactive ("users reported wrong info") to proactive ("release just shipped, here's what needs updates"). Context-rich reports with severity scores and effort estimates enable sprint planning instead of crisis management.
+**From impossible to systematic:** Before this system, content review didn't happen—teams lacked capacity to cross-reference releases against learning content. Now, context-rich reports with severity scores and effort estimates make systematic review feasible.
 
-**Developers:** AI assistant accuracy improves with current content. Learning paths reflect latest API capabilities within days of GA releases.
+**From reactive to proactive:** Content updates shifted from crisis-driven ("users reported wrong info") to release-driven ("here's what changed and where it impacts modules"). Sprint planning replaced ad-hoc firefighting.
 
-**Engineering workflow:** Agent-assisted review integrates into the release process with deterministic, version-controlled topic mapping that's debuggable and collaboratively maintainable.
+**From invisible drift to visible impact:** Content drift that remained hidden until developers reported issues now surfaces immediately, with file paths, line numbers, and recommended changes ready for review.
 
 ---
 
@@ -143,9 +141,9 @@ Release notes include topic tags matched against learning module topics. Candida
 **Chose:** Static JSON topic map with severity weighting  
 **Rejected:** Vector similarity search using embeddings
 
-**Rationale:** For human-in-the-loop systems, explainability enables iteration. Topic maps execute in `<2 seconds` with zero cost, are human-editable, and allow stakeholders to understand and refine matching logic. While embeddings offered potentially higher accuracy (`80-85%` vs. `60-70%`), they required `2-3 hours` execution time and remained black-box—difficult to debug or collaboratively improve.
+**Rationale:** For human-in-the-loop systems, explainability enables iteration. Topic maps execute in `<2 seconds` with zero cost, are human-editable, and allow stakeholders to understand and refine matching logic. While embeddings offered potentially higher precision (`80-85%` vs. `60-70%`), they required `2-3 hours` execution time and remained black-box—difficult to debug or collaboratively improve.
 
-**Key insight:** When validation is mandatory, optimizing for explainability and iteration speed outweighs marginal accuracy gains.
+**Key insight:** When validation is mandatory, optimizing for explainability and iteration speed outweighs marginal precision gains.
 
 ### 2. Filesystem as State Management
 
@@ -163,7 +161,11 @@ Rather than building custom LLM automation, the system leverages GitHub Copilot 
 
 ## Validation Strategy
 
-**Pilot-first deployment:** Built for 2 representative learning paths, validated approach, measured false positives, then expanded to all paths. Modular design supported incremental rollout without technical debt.
+**Pilot-first deployment:** Built for 2 representative learning paths—one API-focused (Composable Commerce) and one integration-focused (Connect)—to test different content types and change patterns. Ran analysis on 3 months of releases (60+ notes) to validate detection logic and measure recommendation quality.
+
+**Validation results:** Pilot surfaced 40+ legitimate content updates that had been missed during manual review, confirming the system detected real drift. Team reviewed all recommendations and refined topic mappings based on false matches, improving precision from initial `55%` to `65%` before production rollout.
+
+**Incremental expansion:** Modular design supported path-by-path rollout without technical debt. After pilot validation, expanded to all 8 learning paths in production.
 
 **Tunable thresholds:** Key parameters (percentile cutoffs, date ranges, severity multipliers) are first-class configuration—enabling rapid iteration without code changes. Team can adjust and re-run analysis in `<2 seconds`.
 
@@ -175,7 +177,7 @@ Rather than building custom LLM automation, the system leverages GitHub Copilot 
 
 **2. Separate Detection from Updating:** These require different optimization targets. Detection needs speed and scale (high recall, acceptable false positives). Updating needs accuracy and nuance (zero tolerance for errors). One system can't optimize for both.
 
-**3. Explainability Enables Iteration:** In production systems with diverse stakeholders, choose approaches they can inspect and refine. Topic maps (`60-70%` precision) outperformed embeddings (`80-85%` precision) because stakeholders could collaboratively improve matching logic without technical expertise.
+**3. Explainability Enables Iteration:** In production systems with diverse stakeholders, choose approaches they can inspect and refine. Topic maps (`60-70%` precision) were chosen over embeddings (`80-85%` precision) because stakeholders could collaboratively improve matching logic without technical expertise.
 
 **4. Audit Infrastructure First:** Discovered existing capabilities and constraints before building. Saved `~2 weeks` by leveraging GitHub Copilot Skills instead of building custom LLM pipelines.
 
