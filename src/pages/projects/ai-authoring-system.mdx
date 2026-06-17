@@ -1,0 +1,60 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Eval-driven AI authoring system'
+tagline: 'Mapping each authoring concern to the right primitive—and refusing to let an LLM grade its own output'
+description: 'An authoring system of 18 numbered prompts conflated pipeline stages, always-on style rules, and standalone tasks—and an LLM that grades its own work is untrustworthy. I rebuilt it as a coordinator agent with per-stage skills, a separated judge/fixer, and a three-part hard gate enforced by a zero-dependency validator, calibrated against a human gold set.'
+client: 'commercetools'
+role: 'Architect & primary author'
+timeline: '2026'
+audience: 'Teams building production LLM content pipelines with quality gates'
+tools: ['Node.js (zero-dep validator)', 'JSON config', 'Markdown/MDX', 'Claude Code', 'GitHub Copilot']
+agenticStack: ['Coordinator + isolated per-stage skills', 'Subagents', 'Agentic loops (critique → refine → re-critique)', 'Evals (LLM-judge + deterministic gate)', 'Gold-set calibration', 'CLAUDE.md + instruction files']
+heroImage: '/images/ai-authoring-hero.svg'
+metrics:
+  - label: 'False-passes at threshold'
+    value: '0'
+  - label: 'Gold-set items (2 adversarial)'
+    value: '10'
+  - label: 'Prompts → agents & skills'
+    value: '18'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+Content authoring ran on **18 numbered prompts** (`learning-1` … `learning-18`) that conflated three different things: pipeline stages, always-on style rules, and standalone tasks. Authors manually sequenced prompts and re-attached files, and style rules were silently forgotten mid-run. Worse, the quality check let the model grade its own output—and **an LLM that grades itself is untrustworthy.** The risk: confidently-wrong technical content shipping to developers at scale.
+
+## Architecture & why
+
+<MermaidDiagram diagram={`flowchart TD
+    O["Coordinator agent"] --> S1["Skill: per-stage authoring"]
+    S1 --> J["learning-critique (judge)"]
+    J --> G{"3-part hard gate<br/>total ≥ 80 · every category ≥ floor · no critical veto"}
+    G -- "block" --> R["learning-refine (fixer)"]
+    R --> J
+    G -- "pass" --> OUT["Publishable"]
+    C["gate-config.json<br/>(single source of truth)"] --> J
+    C --> G
+    GS["Gold set (10 items, 2 adversarial)"] --> CAL["Calibration meta-eval"]
+    CAL --> J
+`} />
+
+- **Decision: map each concern to the correct primitive.** *Alternative rejected:* keeping one numbered-prompt chain. *Why:* the chain forced manual sequencing and silently dropped style rules. A coordinator agent + five per-stage skills handle the pipeline, `applyTo` instruction files handle always-on style, and named prompts handle standalone tasks—each concern in the primitive built for it.
+- **Decision: split judge (`learning-critique`) and fixer (`learning-refine`) into skills that never merge.** *Alternative rejected:* one self-correcting skill. *Why:* a thing must not grade itself—separation keeps the evaluation honest.
+- **Decision: a three-part hard gate—total ≥ 80 AND every category ≥ its floor AND no critical-error veto—enforced by a zero-dependency Node validator.** *Alternative rejected:* gating on the composite total alone. *Why:* a high total launders a fluent-but-wrong lesson past 80. The validator makes the decision *arithmetic, not vibes*: it schema-validates the score block, range-checks each category, verifies total equals the sum, computes pass/block, and fails loud on malformed input.
+- **Decision: a single source of truth (`gate-config.json`) for threshold, floors, and veto.** *Alternative rejected:* inline constants per skill. *Why:* the judge, the loop, and the calibration all read the same values—inline constants would drift across the three consumers.
+
+## Evals / validation
+
+- A **calibration meta-eval** runs the judge against a frozen, human-approved **gold set of 10 items** across two personas and severity bands—including **2 adversarial fluent-but-wrong items** (planted factual and objective-misalignment errors) that test the *veto*, not just correlation.
+- An independent judge run produced **0 false-passes**, with mean absolute total error ~4.4/100 (the judge runs slightly *stricter* than the humans—the safe direction).
+- A companion automation-recommender skill ships an inventory of **93 existing automations** (14 prompts, 17 skills, 16 agents, 46 instructions) for overlap detection before new ones are built.
+
+## Outcome
+
+- **18 numbered prompts → a layered system** of agents, skills, and instruction files—each authoring concern handled by the right primitive.
+- A quality gate that **can't be gamed by a high average**: 0 false-passes at threshold against a gold set that deliberately includes fluent-but-wrong traps.
+- The system supports human-in-the-loop gating today; the architecture is the durable contribution—evals and a deterministic validator instead of "looks good to me."
+
+> Built at commercetools (primary author). Honest scope: calibration is "lite" (one run, one scorer, one model family) and the *loop* is still human-checkpointed—explicitly not unattended auto-gating; the gold set is provisional pending review.
