@@ -1,0 +1,217 @@
+<!DOCTYPE html><html lang="en"> <head><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-6L6KLC0DHV"></script><meta charset="UTF-8"><meta name="description" content="A data-ingestion pipeline depends on a weekly feed assembled by a fleet of ~40 brittle browser-automation jobs pulling from dozens of third-party sites with no API. I built the CI orchestration that keeps it reliable: matrix failure isolation, an LFS-safe concurrent-commit loop, and an infra-vs-bug failure taxonomy with bounded auto-rerun."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" href="/favicon.png" sizes="any"><meta name="generator" content="Astro v4.16.19"><!-- SEO --><title>Distributed scraper CI orchestration - Luke Panaccio</title><meta property="og:title" content="Distributed scraper CI orchestration - Luke Panaccio"><meta property="og:description" content="A data-ingestion pipeline depends on a weekly feed assembled by a fleet of ~40 brittle browser-automation jobs pulling from dozens of third-party sites with no API. I built the CI orchestration that keeps it reliable: matrix failure isolation, an LFS-safe concurrent-commit loop, and an infra-vs-bug failure taxonomy with bounded auto-rerun."><meta property="og:type" content="website"><meta property="og:url" content="https://www.lukepanaccio.com/projects/scraper-ci-orchestration/"><meta property="og:image" content="/og-image.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Distributed scraper CI orchestration - Luke Panaccio"><meta name="twitter:description" content="A data-ingestion pipeline depends on a weekly feed assembled by a fleet of ~40 brittle browser-automation jobs pulling from dozens of third-party sites with no API. I built the CI orchestration that keeps it reliable: matrix failure isolation, an LFS-safe concurrent-commit loop, and an infra-vs-bug failure taxonomy with bounded auto-rerun."><meta name="twitter:image" content="/og-image.png"><link rel="canonical" href="https://www.lukepanaccio.com/projects/scraper-ci-orchestration/"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.CiCajqw9.css">
+<link rel="stylesheet" href="/_astro/3-steps-away.DFjWOgu8.css">
+<style>.mermaid-container[data-astro-cid-6vqylkyd]{background:var(--color-bg-elevated, #1a2234);border:1px solid var(--color-border-medium, rgba(255, 255, 255, .1));border-radius:.75rem;padding:clamp(1.5rem,4vw,3rem);margin:3rem 0;overflow-x:auto;box-shadow:0 4px 6px -1px #0000004d,0 2px 4px -1px #0003;cursor:zoom-in;position:relative}.mermaid-container[data-astro-cid-6vqylkyd]:after{content:"Click to expand";position:absolute;top:1rem;right:1rem;background:#000000b3;color:#fff;padding:.25rem .5rem;border-radius:.25rem;font-size:.75rem;opacity:0;transition:opacity .2s;pointer-events:none}.mermaid-container[data-astro-cid-6vqylkyd]:hover:after{opacity:1}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar{height:8px}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar-track{background:var(--color-bg-secondary, #111827);border-radius:4px}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar-thumb{background:var(--color-accent-primary, #f59e0b);border-radius:4px}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar-thumb:hover{background:var(--color-accent-secondary, #fbbf24)}.mermaid[data-astro-cid-6vqylkyd]{display:flex;justify-content:center;min-height:300px}.mermaid[data-astro-cid-6vqylkyd] svg[data-astro-cid-6vqylkyd]{max-width:100%;height:auto;min-width:800px}@media (prefers-reduced-motion: reduce){.mermaid[data-astro-cid-6vqylkyd] [data-astro-cid-6vqylkyd]{animation:none!important;transition:none!important}}@media (max-width: 768px){.mermaid-container[data-astro-cid-6vqylkyd]{padding:1rem;margin:2rem -1rem;border-radius:0;border-left:none;border-right:none}}
+</style>
+<link rel="stylesheet" href="/_astro/3-steps-away.ChTAzUSw.css"><script type="module" src="/_astro/hoisted.Ci_3s4E_.js"></script></head> <body> <div class="grain-overlay"></div>  <header class="sticky top-0 z-50 bg-bg-primary/80 backdrop-blur-xl border-b border-border-subtle" data-astro-cid-3ef6ksr2> <nav class="max-w-7xl mx-auto px-6 py-5" data-astro-cid-3ef6ksr2> <div class="flex items-center justify-between" data-astro-cid-3ef6ksr2> <!-- Logo/Name --> <a href="/" class="group text-3xl font-display font-bold text-text-primary hover:text-accent-primary transition-colors duration-300" data-astro-cid-3ef6ksr2> <span class="relative" data-astro-cid-3ef6ksr2>
+Luke Panaccio
+<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-accent group-hover:w-full transition-all duration-300" data-astro-cid-3ef6ksr2></span> </span> </a> <!-- Desktop Navigation --> <div class="hidden md:flex items-center space-x-8" data-astro-cid-3ef6ksr2> <a href="/#work" class="relative text-sm font-semibold transition-colors duration-300 group text-text-secondary hover:text-text-primary" data-astro-cid-3ef6ksr2> Work <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-accent transition-all duration-300 w-0 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a><a href="/about/" class="relative text-sm font-semibold transition-colors duration-300 group text-text-secondary hover:text-text-primary" data-astro-cid-3ef6ksr2> About <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-accent transition-all duration-300 w-0 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a><a href="/#contact" class="relative text-sm font-semibold transition-colors duration-300 group text-text-secondary hover:text-text-primary" data-astro-cid-3ef6ksr2> Contact <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-accent transition-all duration-300 w-0 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a> <!-- Resume CTA --> <a href="/Luke Panaccio CV - 2026 February.pdf" class="group relative inline-flex items-center px-5 py-2.5 bg-gradient-accent text-bg-primary text-sm font-bold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-accent-primary/30 hover:-translate-y-0.5" data-astro-cid-3ef6ksr2> <span class="relative z-10" data-astro-cid-3ef6ksr2>Resume</span> <svg class="w-4 h-4 ml-2 relative z-10 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" data-astro-cid-3ef6ksr2></path> </svg> </a> </div> <!-- Mobile menu button --> <button class="md:hidden p-2 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" aria-label="Toggle menu" data-astro-cid-3ef6ksr2> <svg class="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-3ef6ksr2></path> </svg> </button> </div> <!-- Mobile menu --> <div id="mobile-menu" class="hidden md:hidden mt-6 pb-2 border-t border-border-subtle pt-6" data-astro-cid-3ef6ksr2> <div class="flex flex-col space-y-3" data-astro-cid-3ef6ksr2> <a href="/#work" class="text-sm font-semibold px-4 py-3 rounded-lg transition-all duration-300 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-transparent" data-astro-cid-3ef6ksr2> Work </a><a href="/about/" class="text-sm font-semibold px-4 py-3 rounded-lg transition-all duration-300 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-transparent" data-astro-cid-3ef6ksr2> About </a><a href="/#contact" class="text-sm font-semibold px-4 py-3 rounded-lg transition-all duration-300 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-transparent" data-astro-cid-3ef6ksr2> Contact </a> <a href="/Luke Panaccio CV - 2026 February.pdf" class="text-sm font-bold px-4 py-3 bg-gradient-accent text-bg-primary rounded-lg hover:shadow-lg hover:shadow-accent-primary/30 transition-all duration-300 text-center" data-astro-cid-3ef6ksr2>
+Download Resume
+</a> </div> </div> </nav> </header>  <main data-astro-cid-eo3wme6m> <!-- Hero Section with atmospheric gradient --> <section class="relative overflow-hidden" data-astro-cid-eo3wme6m> <!-- Atmospheric background --> <div class="absolute inset-0 overflow-hidden" data-astro-cid-eo3wme6m> <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-accent-primary/10 rounded-full blur-[120px] animate-glow" data-astro-cid-eo3wme6m></div> </div> <div class="relative max-w-7xl mx-auto px-6 py-20 md:py-32" data-astro-cid-eo3wme6m> <div class="max-w-4xl stagger-children" data-astro-cid-eo3wme6m> <!-- Breadcrumb --> <div class="flex items-center gap-2 text-sm text-text-tertiary mb-8" data-astro-cid-eo3wme6m> <a href="/#work" class="hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m>Projects</a> <span data-astro-cid-eo3wme6m>/</span> <span class="text-text-secondary" data-astro-cid-eo3wme6m>Distributed scraper CI orchestration</span> </div> <h1 class="text-5xl md:text-7xl font-bold text-text-primary mb-6 leading-tight" data-astro-cid-eo3wme6m> Distributed scraper CI orchestration </h1> <p class="text-xl md:text-2xl text-text-secondary font-light leading-relaxed max-w-3xl" data-astro-cid-eo3wme6m> Keeping a brittle scraping fleet reliable—and committing a large versioned artifact safely while main moves under it </p> <!-- Quick Actions --> <div class="flex flex-wrap gap-4 mt-10" data-astro-cid-eo3wme6m>   </div> </div> </div> </section> <!-- Hero Image with dramatic presentation --> <section class="max-w-7xl mx-auto px-6 -mt-8 mb-20 animate-fade-in" style="animation-delay: 0.6s; opacity: 0;" data-astro-cid-eo3wme6m> <div class="relative group" data-astro-cid-eo3wme6m> <!-- Glow effect behind image --> <div class="absolute -inset-4 bg-gradient-accent opacity-20 blur-2xl rounded-2xl group-hover:opacity-30 transition-opacity duration-500" data-astro-cid-eo3wme6m></div> <div class="relative rounded-2xl overflow-hidden border border-border-medium shadow-2xl" data-astro-cid-eo3wme6m> <img src="/images/scraper-ci-hero.svg" alt="Distributed scraper CI orchestration" class="w-full h-auto" data-astro-cid-eo3wme6m> </div> </div> </section> <!-- Project Overview --> <section class="py-16 md:py-24" data-astro-cid-eo3wme6m> <div class="max-w-7xl mx-auto px-6" data-astro-cid-eo3wme6m> <div class="grid xl:grid-cols-5 gap-12 lg:gap-16" data-astro-cid-eo3wme6m> <!-- Sidebar Info --> <div class="xl:col-span-1" data-astro-cid-eo3wme6m> <div class="sticky top-24 space-y-8" data-astro-cid-eo3wme6m> <!-- Project Meta Card --> <div class="bg-bg-elevated border border-border-medium rounded-xl p-6 space-y-6" data-astro-cid-eo3wme6m> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Client/Context</h3> <p class="text-text-primary font-medium" data-astro-cid-eo3wme6m>storipro</p> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Role</h3> <p class="text-text-primary font-medium" data-astro-cid-eo3wme6m>Engineer &amp; Equity Partner</p> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Timeline</h3> <p class="text-text-primary font-medium" data-astro-cid-eo3wme6m>2026</p> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Audience</h3> <p class="text-text-secondary text-sm leading-relaxed" data-astro-cid-eo3wme6m>Platform / reliability engineers running scheduled data pipelines</p> </div> </div> <!-- Tools --> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-3" data-astro-cid-eo3wme6m>Technologies</h3> <div class="flex flex-wrap gap-2" data-astro-cid-eo3wme6m> <span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> GitHub Actions </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> Git LFS </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> TypeScript </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> Node.js </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> SQLite </span> </div> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-3" data-astro-cid-eo3wme6m>Agentic toolchain</h3> <div class="flex flex-wrap gap-2" data-astro-cid-eo3wme6m> <span class="inline-flex items-center px-3 py-1.5 bg-accent-primary/10 border border-accent-primary/30 text-accent-primary text-xs rounded-md font-medium hover:bg-accent-primary/20 transition-colors" data-astro-cid-eo3wme6m> CLAUDE.md project memory + multi-instance worktree workflow </span><span class="inline-flex items-center px-3 py-1.5 bg-accent-primary/10 border border-accent-primary/30 text-accent-primary text-xs rounded-md font-medium hover:bg-accent-primary/20 transition-colors" data-astro-cid-eo3wme6m> Git worktrees (LFS objects deduped across instances) </span><span class="inline-flex items-center px-3 py-1.5 bg-accent-primary/10 border border-accent-primary/30 text-accent-primary text-xs rounded-md font-medium hover:bg-accent-primary/20 transition-colors" data-astro-cid-eo3wme6m> Subagent-per-task research strategy </span> </div> </div>  </div> </div> <!-- Main Content --> <div class="xl:col-span-3" data-astro-cid-eo3wme6m> <!-- Prose styling for MDX content --> <article class="project-content" data-astro-cid-eo3wme6m> <h2 id="the-problem">The problem</h2>
+<p>A data-ingestion pipeline depends on a fresh weekly feed assembled from dozens of third-party source sites that have no API and no common format. A fleet of ~40 brittle browser-automation jobs has to run unattended every week and commit a large Git-LFS artifact safely <em>while <code>main</code> keeps moving under it</em>. A naive design loses the entire week’s data when one source breaks, the runner crashes, or the push is rejected.</p>
+<h2 id="architecture--why">Architecture &amp; why</h2>
+<p>The honest frame: most of the individual scrapers are a colleague’s. <strong>What I built is the CI orchestration, resilience, and LFS strategy that keep the fleet reliable</strong>—not the scrapers themselves.</p>
+<div class="mermaid-container" data-astro-cid-6vqylkyd> <pre class="mermaid" data-astro-cid-6vqylkyd>flowchart TD
+  A[&quot;Weekly cron&quot;] --&gt; L[&quot;list: enumerate scrapers → JSON matrix&quot;]
+  L --&gt; S[&quot;scrape: fan-out, max-parallel 10, fail-fast:false&quot;]
+  S --&gt; C[&quot;consolidate: if always() &amp;&amp; list==success&quot;]
+  C --&gt; CM[&quot;LFS-safe commit loop:&lt;br/&gt;snapshot → reset --hard → lfs pull → restore&lt;br/&gt;→ lfs push --all → push → retry ×3&quot;]
+  C -. &quot;zero artifacts&quot; .-&gt; INF[&quot;flag infrastructure failure&quot;]
+  F[&quot;workflow failure &amp; attempt&lt;2&quot;] --&gt; R[&quot;auto-rerun ONLY empty-steps[] jobs&lt;br/&gt;(= runner crash, not a real bug)&quot;]
+</pre> </div> <script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  
+  // Initialize mermaid if not already done
+  if (!window.mermaidInitialized) {
+    window.mermaidInitialized = true;
+    mermaid.initialize({ 
+      startOnLoad: true, 
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#1a2234',
+        primaryColor: '#f59e0b',
+        primaryTextColor: '#f9fafb',
+        primaryBorderColor: '#f59e0b',
+        secondaryColor: '#fbbf24',
+        secondaryTextColor: '#d1d5db',
+        tertiaryColor: '#111827',
+        tertiaryTextColor: '#9ca3af',
+        lineColor: 'rgba(255, 255, 255, 0.2)',
+        textColor: '#d1d5db',
+        mainBkg: '#1a2234',
+        secondBkg: '#111827',
+        border1: 'rgba(245, 158, 11, 0.3)',
+        border2: 'rgba(251, 191, 36, 0.2)',
+        arrowheadColor: '#f59e0b',
+        fontFamily: 'Manrope, -apple-system, BlinkMacSystemFont, sans-serif',
+        fontSize: '16px'
+      },
+      flowchart: {
+        nodeSpacing: 50,
+        rankSpacing: 60,
+        curve: 'basis',
+        padding: 20
+      },
+      gantt: {
+        titleTopMargin: 25,
+        barHeight: 30,
+        barGap: 8,
+        topPadding: 50,
+        leftPadding: 100,
+        gridLineStartPadding: 35,
+        fontSize: 14,
+        sectionFontSize: 14,
+        numberSectionStyles: 4
+      }
+    });
+  }
+
+  // Modal setup
+  const MODAL_ID = 'mermaid-modal';
+  if (!document.getElementById(MODAL_ID)) {
+    const modal = document.createElement('div');
+    modal.id = MODAL_ID;
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 9999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    `;
+    
+    modal.innerHTML = `
+      <div style="position: relative; width: 95%; height: 95%; display: flex; justify-content: center; align-items: center;">
+        <button id="mermaid-modal-close" style="
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: none;
+          border: none;
+          color: white;
+          font-size: 2rem;
+          cursor: pointer;
+          z-index: 10001;
+          padding: 10px;
+          line-height: 1;
+        ">&times;</button>
+        <div id="mermaid-modal-content" style="width: 100%; height: 100%; overflow: auto; display: flex; justify-content: center; align-items: center;"></div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    const closeBtn = document.getElementById('mermaid-modal-close');
+    const content = document.getElementById('mermaid-modal-content');
+    
+    const closeModal = () => {
+      modal.style.opacity = '0';
+      setTimeout(() => {
+        modal.style.display = 'none';
+        content.innerHTML = '';
+      }, 300);
+    };
+    
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.parentElement === modal) {
+        closeModal();
+      }
+    });
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        closeModal();
+      }
+    });
+  }
+
+  // Attach click handlers
+  // We use a timeout to ensure mermaid has rendered the SVGs
+  setTimeout(() => {
+    document.querySelectorAll('.mermaid-container').forEach(container => {
+      if (container.dataset.hasClickHandler) return;
+      container.dataset.hasClickHandler = 'true';
+      
+      container.addEventListener('click', () => {
+        const modal = document.getElementById(MODAL_ID);
+        const content = document.getElementById('mermaid-modal-content');
+        const svg = container.querySelector('svg');
+        
+        if (svg && modal && content) {
+          const clonedSvg = svg.cloneNode(true);
+          clonedSvg.style.maxWidth = '100%';
+          clonedSvg.style.maxHeight = '100%';
+          clonedSvg.style.height = 'auto';
+          clonedSvg.style.width = 'auto';
+          clonedSvg.removeAttribute('height');
+          clonedSvg.removeAttribute('width');
+          
+          content.innerHTML = '';
+          content.appendChild(clonedSvg);
+          
+          modal.style.display = 'flex';
+          // Force reflow
+          modal.offsetHeight;
+          modal.style.opacity = '1';
+        }
+      });
+    });
+  }, 1000);
+</script> 
+<ul>
+<li><strong>Decision: a 3-stage matrix fan-out/fan-in pipeline.</strong> <em>Alternative rejected:</em> a single-process “scrape everything in one loop.” <em>Why:</em> in a single loop, one slow/broken/challenged source kills all the others. Per-source runner isolation with <code>fail-fast: false</code> means one broken source can’t block the rest, and an always-run consolidate still commits whatever succeeded.</li>
+<li><strong>Decision: a snapshot → hard-reset → LFS-pull → restore → commit → retry-rebase loop.</strong> <em>Alternative rejected:</em> a naive <code>git push</code> (rejected when <code>main</code> moves), and an earlier <code>git reset --soft</code>. <em>Why:</em> <code>reset --soft</code> left the index frozen at the trigger commit, so when <code>main</code> moved mid-run the next commit’s diff <em>silently deleted every file added upstream</em>—including workflow files the token can’t even push back. Hard-reset + restore makes the commit’s diff <em>strictly the data delta and nothing else.</em> Pushing LFS blobs <em>before</em> the ref references them clears GitHub’s LFS-object rejection. This is the load-bearing insight.</li>
+<li><strong>Decision: an infrastructure-vs-source failure taxonomy with bounded auto-rerun.</strong> <em>Alternative rejected:</em> “rerun the whole workflow on any failure,” and treating every red run as a real bug. <em>Why:</em> a blanket rerun re-pays for the whole fleet (and risks infinite loops) to recover from a few-second runner crash. Flagging infra failure only when <em>zero</em> artifacts arrive, and auto-rerunning only failed jobs whose step list is <em>empty</em> (the signature of a hosted-runner crash), bounded by attempt count, retries only the genuinely recoverable class.</li>
+<li><strong>Decision: commit raw rows <em>before</em> the expensive post-processing step, and guard PRs with a live smoke test.</strong> <em>Alternative rejected:</em> process-then-commit in one shot, and trusting selectors until the weekly cron breaks. <em>Why:</em> post-processing can hit its time cap; committing raw rows first means a timeout never loses the scrape. A smoke test that runs one source end-to-end on every PR turns silent selector rot into a red check before it reaches the schedule.</li>
+</ul>
+<h2 id="evals--validation">Evals / validation</h2>
+<ul>
+<li><strong>Failure isolation, measured:</strong> 10 concurrent runners with <code>fail-fast: false</code>; a per-source hard timeout (raised across iterations as the heaviest sources hit it); empty result sets normalized so the consolidator never chokes; on-failure screenshot uploads so breakages are diagnosable.</li>
+<li><strong>Concurrent-commit safety:</strong> three push retries with backoff, hard-fail after three; LFS objects pushed before the ref.</li>
+<li><strong>Crash recovery, bounded:</strong> auto-rerun fires only on empty-step failed jobs and only within an attempt limit, so it can’t loop infinitely. A shared retry helper (3 attempts, escalating backoff, transient-only) wraps brittle navigation calls.</li>
+<li><strong>Honest gaps:</strong> the time cap is “a signal to scope down,” not a durable fix—the real replacement (self-budgeted scrapers with checkpoint-resume) is specced but not yet built; the deploy-wait uses a fixed sleep rather than polling. Named as next steps.</li>
+</ul>
+<h2 id="outcome">Outcome</h2>
+<ul>
+<li><strong>One broken source blocking the whole run → isolated:</strong> the matrix means a failing source no longer cancels the others. The pipeline has run a weekly cron in production for months on this design.</li>
+<li><strong>Corrupting/rejected commits → safe concurrent commits:</strong> the snapshot/hard-reset/retry-rebase loop survives <code>main</code> moving mid-run, and the LFS-push fix cleared the rejection—committing a large Git-LFS artifact reliably each week.</li>
+<li><strong>Wasted runs from runner crashes → auto-recovered:</strong> the empty-step heuristic distinguishes infra crashes from real bugs so only recoverable failures retry.</li>
+<li><strong>A concrete throughput win:</strong> the slowest source’s weekly run was cut roughly <strong>27×</strong> (from well over an hour to a few minutes) by making its most expensive phase opt-in—eliminating a recurring timeout cancellation.</li>
+</ul>
+<blockquote>
+<p>Built at storipro. This is reliability/distributed-systems engineering, not scraper authorship—most of the individual scrapers are a colleague’s; the orchestration, the LFS-safe commit strategy, and the failure taxonomy are mine. Source/domain specifics are intentionally omitted.</p>
+</blockquote> </article> <!-- Metrics Display --> <div class="mt-16 relative" data-astro-cid-eo3wme6m> <!-- Glow background --> <div class="absolute inset-0 bg-gradient-accent opacity-5 blur-3xl rounded-2xl" data-astro-cid-eo3wme6m></div> <div class="relative bg-gradient-to-br from-bg-elevated to-bg-secondary border border-border-medium rounded-2xl p-8 md:p-12" data-astro-cid-eo3wme6m> <h2 class="text-3xl font-display font-bold text-text-primary mb-10" data-astro-cid-eo3wme6m>Impact & results</h2> <div class="grid md:grid-cols-3 gap-8" data-astro-cid-eo3wme6m> <div class="text-center group" data-astro-cid-eo3wme6m> <div class="text-5xl md:text-6xl font-display font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform duration-300" data-astro-cid-eo3wme6m> ~40 </div> <div class="text-sm text-text-tertiary uppercase tracking-wide font-semibold" data-astro-cid-eo3wme6m> Brittle scrapers orchestrated </div> </div><div class="text-center group" data-astro-cid-eo3wme6m> <div class="text-5xl md:text-6xl font-display font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform duration-300" data-astro-cid-eo3wme6m> 0 </div> <div class="text-sm text-text-tertiary uppercase tracking-wide font-semibold" data-astro-cid-eo3wme6m> Sources that can block the rest </div> </div><div class="text-center group" data-astro-cid-eo3wme6m> <div class="text-5xl md:text-6xl font-display font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform duration-300" data-astro-cid-eo3wme6m> ~27× </div> <div class="text-sm text-text-tertiary uppercase tracking-wide font-semibold" data-astro-cid-eo3wme6m> Slowest source run, sped up </div> </div> </div> </div> </div> </div> <!-- Right sidebar - Table of Contents --> <div class="xl:col-span-1 hidden xl:block" data-astro-cid-eo3wme6m> <nav class="toc-nav" aria-label="Table of Contents"> <div class="toc-header"> <h3 class="toc-title">On this page</h3> </div> <div class="toc-content"> <!-- Content will be populated by client-side script --> </div> </nav>   </div> </div> </div> </section> <!-- Navigation Footer --> <section class="py-12 border-t border-border-subtle" data-astro-cid-eo3wme6m> <div class="max-w-7xl mx-auto px-6" data-astro-cid-eo3wme6m> <div class="flex flex-col sm:flex-row justify-between items-center gap-6" data-astro-cid-eo3wme6m> <a href="/#work" class="group inline-flex items-center text-text-secondary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-eo3wme6m> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" data-astro-cid-eo3wme6m></path> </svg>
+Back to All Projects
+</a> <a href="/#contact" class="group inline-flex items-center px-6 py-3 bg-gradient-accent text-bg-primary rounded-lg font-semibold hover:shadow-xl hover:shadow-accent-primary/20 transition-all duration-300 hover:-translate-y-0.5" data-astro-cid-eo3wme6m>
+Let's work together
+<svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-eo3wme6m> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" data-astro-cid-eo3wme6m></path> </svg> </a> </div> </div> </section> </main> <footer class="relative bg-bg-secondary border-t border-border-subtle" data-astro-cid-sz7xmlte> <!-- Subtle top glow --> <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-accent-primary/30 to-transparent" data-astro-cid-sz7xmlte></div> <div class="max-w-7xl mx-auto px-6 py-16" data-astro-cid-sz7xmlte> <div class="grid md:grid-cols-3 gap-12 mb-12" data-astro-cid-sz7xmlte> <!-- Brand Column --> <div data-astro-cid-sz7xmlte> <h3 class="font-display text-2xl font-bold text-text-primary mb-3" data-astro-cid-sz7xmlte>
+Luke Panaccio
+</h3> <p class="text-text-secondary leading-relaxed" data-astro-cid-sz7xmlte>
+I build production AI systems—and make them land. Applied AI with an edge: a teaching background that means the systems actually get used.
+</p> </div> <!-- Quick Links Column --> <div data-astro-cid-sz7xmlte> <h4 class="text-sm font-bold text-accent-primary uppercase tracking-wider mb-4" data-astro-cid-sz7xmlte>
+Quick Links
+</h4> <ul class="space-y-3" data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte> <a href="/#work" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+Projects
+</a> </li> <li data-astro-cid-sz7xmlte> <a href="//about/" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+About
+</a> </li> <li data-astro-cid-sz7xmlte> <a href="//Luke Panaccio CV - 2026 February.pdf" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+Resume
+</a> </li> <li data-astro-cid-sz7xmlte> <a href="/#contact" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+Contact
+</a> </li> </ul> </div> <!-- Connect Column --> <div data-astro-cid-sz7xmlte> <h4 class="text-sm font-bold text-accent-primary uppercase tracking-wider mb-4" data-astro-cid-sz7xmlte>
+Connect
+</h4> <div class="flex space-x-3" data-astro-cid-sz7xmlte> <a href="https://www.linkedin.com/in/luke-p-b444b124b/" target="_blank" rel="noopener noreferrer" class="group p-3 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300 hover:scale-110" aria-label="LinkedIn" data-astro-cid-sz7xmlte> <div class="text-text-secondary group-hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg> </div> </a><a href="https://github.com/lukpan" target="_blank" rel="noopener noreferrer" class="group p-3 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300 hover:scale-110" aria-label="GitHub" data-astro-cid-sz7xmlte> <div class="text-text-secondary group-hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> </div> </a><a href="mailto:lukepanaccio@gmail.com" target="_blank" rel="noopener noreferrer" class="group p-3 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300 hover:scale-110" aria-label="Email" data-astro-cid-sz7xmlte> <div class="text-text-secondary group-hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> </div> </a> </div> <!-- Email CTA --> <a href="mailto:lukepanaccio@gmail.com" class="group mt-6 inline-flex items-center text-sm font-semibold text-text-secondary hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-sz7xmlte> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" data-astro-cid-sz7xmlte></path> </svg>
+lukepanaccio@gmail.com
+</a> </div> </div> <!-- Bottom Bar --> <div class="pt-8 border-t border-border-subtle" data-astro-cid-sz7xmlte> <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-text-tertiary" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>
+&copy; 2026 Luke Panaccio. All rights reserved.
+</p> <p class="text-xs" data-astro-cid-sz7xmlte>
+Built with <span class="text-accent-primary" data-astro-cid-sz7xmlte>Astro</span> · Designed with purpose · AI-assisted development
+</p> </div> </div> </div> </footer>   </body></html>  
