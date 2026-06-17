@@ -1,8 +1,8 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
 title: 'Voice-to-Prototype agentic pipeline'
-tagline: 'An agentic CI pipeline where the workflow owns git, not the model—debugged from a flawed design into a clean separation'
-description: 'A GitHub-native pipeline: a labelled issue triggers a constrained Claude Code run that authors files, then deterministic CI commits and opens a draft PR with a live preview. Trust-gated on repo permission, hardened against prompt injection, debugged across a live 4-PR arc—then candidly held behind a product pivot.'
+tagline: 'An agentic CI pipeline where the workflow owns git, not the model, debugged from a flawed design into a clean separation'
+description: 'A GitHub-native pipeline: a labelled issue triggers a constrained Claude Code run that authors files, then deterministic CI commits and opens a draft PR with a live preview. Trust-gated on repo permission, hardened against prompt injection, debugged across a live 4-PR arc, then candidly held behind a product pivot.'
 client: 'storipro'
 role: 'Engineer & Equity Partner'
 timeline: '2026'
@@ -23,9 +23,9 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-A non-technical co-founder is full of product ideas but is the bottleneck to *starting* any of them; the two engineers are the bottleneck to *building* them—so good ideas die in the gap. The bet: let him describe an idea and get a clickable, brand-faithful prototype on a preview link with **no engineer in the loop to start it**, while engineers stay the only people who can merge.
+A non-technical co-founder is full of product ideas but is the bottleneck to *starting* any of them. The two engineers are the bottleneck to *building* them. So good ideas die in the gap. The bet: let him describe an idea and get a clickable, brand-faithful prototype on a preview link with **no engineer in the loop to start it**, while engineers stay the only people who can merge.
 
-Done naively, that's dangerous: an untrusted, non-engineer-authored brief drives an AI agent *inside the real repo*. The failure modes are prompt injection, writes outside the sandbox, leaked secrets, and runaway spend. The real question wasn't *can an agent build a prototype*—it was **where do you put the trust boundary.**
+Done naively, that's dangerous. An untrusted, non-engineer-authored brief drives an AI agent *inside the real repo*. The failure modes are prompt injection, writes outside the sandbox, leaked secrets, and runaway spend. The real question wasn't *can an agent build a prototype*. It was **where do you put the trust boundary.**
 
 ## Architecture & why
 
@@ -37,10 +37,10 @@ Done naively, that's dangerous: an untrusted, non-engineer-authored brief drives
     D --> E["Vercel preview link"]
 `} />
 
-- **Decision: the deterministic workflow owns all git + PR work; the agent only authors files.** *Alternative rejected:* letting the agent (or the Claude Code action) run `git`/`gh` itself. *Why:* both proved unreliable in live dry runs—the model finished its turns and never opened the PR, and the action doesn't auto-push on issue events at all. An imperative must-happen step can't be delegated to a non-deterministic agent. Keep the AI on authoring, the YAML on plumbing.
+- **Decision: the deterministic workflow owns all git and PR work, and the agent only authors files.** *Alternative rejected:* letting the agent (or the Claude Code action) run `git`/`gh` itself. *Why:* both proved unreliable in live dry runs. The model finished its turns and never opened the PR, and the action doesn't auto-push on issue events at all. An imperative must-happen step can't be delegated to a non-deterministic agent. Keep the AI on authoring, the YAML on plumbing.
 - **Decision: trust-gate on the author's repo *permission level*, not `author_association`.** *Alternative rejected:* the obvious `author_association ∈ {OWNER, MEMBER, COLLABORATOR}` check. *Why:* `author_association` reports `NONE` for **private** org members, so that gate silently skipped the owner's own run. Permission level is visibility-agnostic and also handles the intended outside-collaborator case.
-- **Decision: treat the issue body as untrusted data, never instructions.** *Alternative rejected:* inlining issue text into the prompt/shell. *Why:* non-engineer-authored text fed into an in-repo agent invites both prompt injection and shell injection; the brief is framed as product-brief-only and passed via environment, never inlined.
-- **Decision: route + spend isolation.** *Alternative rejected:* rendering the real authed app shell on previews and sharing the org-wide API key. *Why:* per-branch preview URLs aren't authorized auth domains, so a real sign-in *can't* work—route isolation is forced, not chosen. A dedicated spend-capped key keeps prototype runs from throttling other pipelines and tracks cost separately (~$5 per ~50 runs).
+- **Decision: treat the issue body as untrusted data, never instructions.** *Alternative rejected:* inlining issue text into the prompt/shell. *Why:* non-engineer-authored text fed into an in-repo agent invites both prompt injection and shell injection. So the brief is framed as product-brief-only and passed via environment, never inlined.
+- **Decision: route and spend isolation.** *Alternative rejected:* rendering the real authed app shell on previews and sharing the org-wide API key. *Why:* per-branch preview URLs aren't authorized auth domains, so a real sign-in *can't* work. Route isolation is forced, not chosen. A dedicated spend-capped key keeps prototype runs from throttling other pipelines and tracks cost separately (~$5 per ~50 runs).
 
 ## Evals / validation
 
@@ -48,14 +48,14 @@ The validation *is* the iteration arc. Across a **4-PR sequence merged in ~75 mi
 
 1. The trust gate silently skipped the owner's run (`author_association = NONE` for private org members).
 2. The model generated a correct page but never opened the PR within its turn cap.
-3. The fallback assumption—that the *action* auto-pushes on issue events—was itself false, so fix #2 was built on a wrong premise and had to be replaced.
+3. The fallback assumption, that the *action* auto-pushes on issue events, was itself false, so fix #2 was built on a wrong premise and had to be replaced.
 
-Failure handling is explicit: the commit step is robust to files being left either uncommitted or committed locally; a "run produced nothing" guard short-circuits empty runs; untrusted authors get a comment, not a silent skip. Guardrails act as quality gates—pinned model, capped turns, an allowlisted tool set, and a best-effort per-author rate cap.
+Failure handling is explicit. The commit step is robust to files being left either uncommitted or committed locally. A "run produced nothing" guard short-circuits empty runs. Untrusted authors get a comment, not a silent skip. Guardrails act as quality gates: pinned model, capped turns, an allowlisted tool set, and a best-effort per-author rate cap.
 
 ## Outcome
 
-A clean **"model authors, deterministic YAML plumbs"** architecture, converged on by debugging a flawed two-unreliable-agents design across three real dry-run failure modes. The intended cycle—spoken idea → labelled issue → constrained agent run → draft PR → preview link—is **proven green through dry runs**, with zero engineers needed to start and merge still fully gated.
+A clean **"model authors, deterministic YAML plumbs"** architecture, converged on by debugging a flawed two-unreliable-agents design across three real dry-run failure modes. The intended cycle (spoken idea → labelled issue → constrained agent run → draft PR → preview link) is **proven green through dry runs**, with zero engineers needed to start and merge still fully gated.
 
-**Held honestly:** it was **never run as a live production generation**, and is **on hold behind a product pivot**. It was already blocked, independent of the pivot, on two org-level gates—branch protection requires a paid GitHub plan, and giving the co-founder repo access would expose bug-report PII (the trust gate and the PII exposure are the same knob). The durable deliverable is the architecture and a candid retrospective that separates "proven green" from "rolled out"—the failure analysis written down rather than papered over.
+**Held honestly:** it was **never run as a live production generation**, and is **on hold behind a product pivot**. It was already blocked, independent of the pivot, on two org-level gates. Branch protection requires a paid GitHub plan, and giving the co-founder repo access would expose bug-report PII (the trust gate and the PII exposure are the same knob). The durable deliverable is the architecture and a candid retrospective that separates "proven green" from "rolled out", with the failure analysis written down rather than papered over.
 
-> Built at storipro (100% mine). Framed honestly: a built-and-merged pipeline, proven through dry runs, parked behind a pivot—not a shipped production feature.
+> Built at storipro (100% mine). Framed honestly: a built-and-merged pipeline, proven through dry runs, parked behind a pivot. Not a shipped production feature.

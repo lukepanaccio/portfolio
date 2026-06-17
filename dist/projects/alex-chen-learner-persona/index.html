@@ -10,7 +10,7 @@ Download Resume
 <h3 id="the-opportunity">The opportunity</h3>
 <p>Create a synthetic learner persona sophisticated enough to <strong>interact</strong> rather than just represent. Instead of a static PDF describing a user type, build an AI agent that could actively critique documentation drafts, simulating the perspective of a time-constrained senior architect.</p>
 <h3 id="key-design-challenge">Key design challenge</h3>
-<p>Move beyond demographic stereotypes (“35-year-old developer with 10 years experience”) to capture the <strong>psychological relationship</strong> between expert users and their tools—including their specific stressors, trust patterns, and learning preferences under deadline pressure.</p>
+<p>Move beyond demographic stereotypes (“35-year-old developer with 10 years experience”) to capture the <strong>psychological relationship</strong> between expert users and their tools. That means their specific stressors, trust patterns, and learning preferences under deadline pressure.</p>
 <hr/>
 <h2 id="the-process">The process</h2>
 <h3 id="research--synthesis">Research &amp; synthesis</h3>
@@ -18,17 +18,17 @@ Download Resume
 <p><strong>Key patterns identified:</strong></p>
 <ul>
 <li><strong>Time poverty:</strong> Senior architects skim conceptual material to find code, viewing “why” explanations as obstacles unless immediately relevant</li>
-<li><strong>Context switching cost:</strong> Navigating between multiple docs breaks flow; they prefer scoped navigation showing only relevant content</li>
+<li><strong>Context switching cost:</strong> jumping between multiple docs breaks flow, so they prefer scoped navigation that shows only relevant content</li>
 <li><strong>Trust through specificity:</strong> Vague error messages or theoretical frameworks trigger immediate distrust; they want copy-paste-ready examples</li>
 </ul>
 <p><strong>Critical insight:</strong>
-The persona needed to embody frustration patterns, not just demographic facts. When documentation wastes an architect’s time, they experience it as disrespect—this emotional relationship shaped the entire design.</p>
+The persona needed to embody frustration patterns, not just demographic facts. When documentation wastes an architect’s time, they experience it as disrespect. That emotional relationship shaped the entire design.</p>
 <h3 id="design-approach">Design approach</h3>
 <p>I applied <a href="https://drphilippahardman.substack.com/p/from-guesswork-to-simulation-how">Dr. Philippa Hardman’s structured AI persona framework</a>, specifically focusing on psychological depth over surface demographics:</p>
 <p><strong>1. Episode categorization</strong></p>
 <p>Mapped success and failure narratives:</p>
 <ul>
-<li><strong>Success:</strong> “Found headless frontend integration guide with working React code—saved 4 hours”</li>
+<li><strong>Success:</strong> “Found headless frontend integration guide with working React code. Saved 4 hours”</li>
 <li><strong>Failure:</strong> “Spent 2 hours debugging because docs didn’t mention the API returns cached data by default”</li>
 </ul>
 <p><strong>2. Emotional mapping</strong></p>
@@ -40,7 +40,7 @@ The persona needed to embody frustration patterns, not just demographic facts. W
 <li>When successful: Shares solutions with team, builds internal wikis to avoid repeating documentation hunts</li>
 </ul>
 <p><strong>4. Voice engineering</strong></p>
-<p>Created a “brutally honest, pragmatic” communication style. Alex doesn’t soften feedback—he tells you exactly where content fails to respect his intelligence or time constraints.</p>
+<p>Created a “brutally honest, pragmatic” communication style. Alex doesn’t soften feedback. He tells you exactly where content fails to respect his intelligence or time constraints.</p>
 <h3 id="development--iteration">Development &amp; iteration</h3>
 <p>Built the persona as an <strong>interactive agent</strong> using structured system prompting:</p>
 <p><strong>System prompt architecture:</strong></p>
@@ -50,7 +50,7 @@ The persona needed to embody frustration patterns, not just demographic facts. W
 <span class="line"><span>COMMUNICATION STYLE: Direct, impatient with theory, appreciates brevity</span></span>
 <span class="line"><span></span></span></code></pre>
 <p><strong>Validation approach:</strong>
-Tested the persona by having it audit existing documentation. Alex flagged real issues that matched actual user complaints—validating psychological accuracy.</p>
+Tested the persona by having it audit existing documentation. Alex flagged real issues that matched actual user complaints, which confirmed the psychological accuracy.</p>
 <h3 id="testing--refinement">Testing &amp; refinement</h3>
 <p><strong>Initial problem:</strong> Early versions were too polite, softening critiques with “maybe” or “you might consider.” This failed to match real architect communication patterns.</p>
 <p><strong>Solution:</strong> Added behavioral constraints:</p>
@@ -60,18 +60,18 @@ Tested the persona by having it audit existing documentation. Alex flagged real 
 <li>Explicitly calls out when content wastes his time</li>
 </ul>
 <p><strong>Quality validation:</strong>
-The persona successfully predicted that forcing senior developers through “Getting Started” content would cause immediate disengagement—later confirmed when actual architects provided identical feedback.</p>
+The persona predicted that forcing senior developers through “Getting Started” content would cause immediate disengagement. Actual architects later gave identical feedback.</p>
 <hr/>
 <h2 id="the-solution">The solution</h2>
 <h3 id="what-the-team-experiences">What the team experiences</h3>
-<p>Feed a documentation draft or UX design to the Alex Chen agent. Within seconds, receive first-person critique highlighting exactly where content fails to meet senior architect needs: “This forces me through basics I already know—show me integration patterns or let me skip ahead.”</p>
+<p>Feed a documentation draft or UX design to the Alex Chen agent. Within seconds, you get first-person critique pointing at exactly where content fails to meet senior architect needs: “This forces me through basics I already know. Show me integration patterns or let me skip ahead.”</p>
 <p><strong>First Gemini version:</strong></p>
 <p><img src="/images/alex-chen-example.webp" alt="Alex Chen responding in Gemini interface"/></p>
 <p>Following the success of the Gemini Gem solution, the learner persona was integrated into the VS Code workspace for on-demand access as required.</p>
 <h3 id="example-feedback">Example feedback</h3>
 <p><strong>Input:</strong> Proposed learning path with mandatory “CT 101” introduction module</p>
 <p><strong>Alex’s response:</strong>
-<em>“Hard pass. I’m a senior architect—I know what headless commerce is. Forcing me through beginner content tells me you don’t understand your audience. Give me a ‘Skip to Integration Patterns’ option or I’m closing this tab and finding a Stack Overflow answer instead.”</em></p>
+<em>“Hard pass. I’m a senior architect. I know what headless commerce is. Forcing me through beginner content tells me you don’t understand your audience. Give me a ‘Skip to Integration Patterns’ option or I’m closing this tab and finding a Stack Overflow answer instead.”</em></p>
 <p><strong>Impact:</strong> Led to creating separate entry points for beginner versus experienced developers, reducing bounce rates for advanced users.</p>
 <h3 id="how-it-works">How it works</h3>
 <p>The persona functions as an AI-powered “use of force” model:</p>
@@ -102,7 +102,7 @@ Identified that manual progress checklists would seem “cheap and unintelligent
 <h2 id="key-takeaways">Key takeaways</h2>
 <ul>
 <li>
-<p><strong>Psychology over demographics.</strong> Traditional personas focus on age, role, and experience level. The breakthrough came from modeling Alex’s <strong>emotional relationship</strong> with documentation—how he experiences time pressure, when he trusts versus distrusts content, and what triggers frustration versus confidence.</p>
+<p><strong>Psychology over demographics.</strong> Traditional personas focus on age, role, and experience level. The breakthrough came from modeling Alex’s <strong>emotional relationship</strong> with documentation: how he experiences time pressure, when he trusts versus distrusts content, and what triggers frustration versus confidence.</p>
 </li>
 <li>
 <p><strong>Interactive beats descriptive.</strong> A static persona PDF gets referenced once then forgotten. Making Alex an interactive agent that <strong>responds</strong> to content drafts ensures continuous use. The team now defaults to “ask Alex” when evaluating new documentation.</p>
@@ -111,7 +111,7 @@ Identified that manual progress checklists would seem “cheap and unintelligent
 <p><strong>Stress drives decisions.</strong> Alex’s behavior under deadline pressure (skim theory, grab code, blame vendor when blocked) explains why standard documentation structures fail. Designing for stress states rather than ideal learning conditions produces more effective content.</p>
 </li>
 <li>
-<p><strong>Voice authenticity matters.</strong> Making Alex “brutally honest” rather than diplomatically critical increased trust in his feedback. When he says documentation is good, the team believes it—because he’s harsh when it’s bad.</p>
+<p><strong>Voice authenticity matters.</strong> Making Alex “brutally honest” rather than diplomatically critical increased trust in his feedback. When he says documentation is good, the team believes it, because he’s harsh when it’s bad.</p>
 </li>
 <li>
 <p><strong>Prompt engineering requires instructional design expertise.</strong> Building this persona meant defining learning objectives (what architects need to accomplish), identifying cognitive load factors (context switching costs), and modeling authentic task behavior. AI persona creation is fundamentally a learning design challenge.</p>
@@ -133,7 +133,7 @@ Let's work together
 <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-eo3wme6m> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" data-astro-cid-eo3wme6m></path> </svg> </a> </div> </div> </section> </main> <footer class="relative bg-bg-secondary border-t border-border-subtle" data-astro-cid-sz7xmlte> <!-- Subtle top glow --> <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-accent-primary/30 to-transparent" data-astro-cid-sz7xmlte></div> <div class="max-w-7xl mx-auto px-6 py-16" data-astro-cid-sz7xmlte> <div class="grid md:grid-cols-3 gap-12 mb-12" data-astro-cid-sz7xmlte> <!-- Brand Column --> <div data-astro-cid-sz7xmlte> <h3 class="font-display text-2xl font-bold text-text-primary mb-3" data-astro-cid-sz7xmlte>
 Luke Panaccio
 </h3> <p class="text-text-secondary leading-relaxed" data-astro-cid-sz7xmlte>
-I build production AI systems—and make them land. Applied AI with an edge: a teaching background that means the systems actually get used.
+I build production AI systems and make them usable. The edge is a teaching background, so the systems actually get used.
 </p> </div> <!-- Quick Links Column --> <div data-astro-cid-sz7xmlte> <h4 class="text-sm font-bold text-accent-primary uppercase tracking-wider mb-4" data-astro-cid-sz7xmlte>
 Quick Links
 </h4> <ul class="space-y-3" data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte> <a href="/#work" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>

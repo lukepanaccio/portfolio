@@ -2,7 +2,7 @@
 layout: '../../layouts/ProjectLayout.astro'
 title: 'AI grading & evaluation system'
 tagline: 'An LLM evaluation system: privacy-preserving scoring against a structured rubric, with quality gates'
-description: 'A command-line LLM evaluation system that scores reflective-writing submissions against a structured rubric—privacy-preserving and consistent, with quality gates that catch ungrounded judgments—saving 60-80 hours per semester.'
+description: 'A command-line LLM evaluation system that scores reflective-writing submissions against a structured rubric. Privacy-preserving and consistent, with quality gates that catch ungrounded judgments, saving 60-80 hours per semester.'
 client: 'An Australian University (Internal Tool)'
 role: 'Full-stack developer'
 timeline: '1 month (October 2025)'
@@ -25,7 +25,7 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ### The grading workload challenge
 
-University educators face an unsustainable grading workload. A single assignment requiring detailed feedback takes 30-45 minutes per student. For a cohort of 90 students, this translates to 45-70 hours of manual marking—often completed over weekends and breaks.
+University educators face an unsustainable grading workload. A single assignment requiring detailed feedback takes 30-45 minutes per student. For a cohort of 90 students, that's 45-70 hours of manual marking, usually done over weekends and breaks.
 
 This creates three critical problems:
 - **Delayed feedback:** Students receive grades weeks after submission, when learning value is diminished
@@ -53,11 +53,11 @@ Create a system that maintains privacy, ensures grading consistency, preserves t
 
 I interviewed faculty members across three education courses and discovered consistent pain points:
 
-**Grading inconsistency stems from fatigue, not incompetence.** Experienced educators grade the same paper differently on Monday versus Friday. The problem isn't lack of standards—it's cognitive load during marathon grading sessions.
+**Grading inconsistency stems from fatigue, not incompetence.** Experienced educators grade the same paper differently on Monday versus Friday. The problem isn't a lack of standards. It's cognitive load during marathon grading sessions.
 
 **Students submit mixed document formats.** Some courses require PDFs, others accept Word documents. Many papers contain complex tables showing analytical frameworks. Standard text extraction loses this structure, making papers incomprehensible.
 
-**Privacy concerns block AI adoption.** Faculty expressed strong ethical concerns about sending student work to third-party APIs, even when tools showed promise. This wasn't technophobia—it was legitimate concern about privacy compliance and student consent.
+**Privacy concerns block AI adoption.** Faculty had strong ethical concerns about sending student work to third-party APIs, even when tools showed promise. This wasn't technophobia. It was a legitimate concern about privacy compliance and student consent.
 
 ### Design approach
 
@@ -84,7 +84,7 @@ Students' work never reaches the API with identifiable information. The AI grade
 
 **3. Cognitive load reduction for educators**
 
-The system doesn't replace educator judgment—it handles the mechanical first pass. Faculty receive detailed AI-generated feedback to review, edit, and approve rather than writing from scratch. This shifts cognitive work from "generate 90 sets of detailed feedback" to "spot-check and refine 90 drafts."
+The system doesn't replace educator judgment. It handles the mechanical first pass. Faculty get detailed AI-generated feedback to review, edit, and approve rather than writing from scratch. The work shifts from "generate 90 sets of detailed feedback" to "spot-check and refine 90 drafts."
 
 ### Development & iteration
 
@@ -105,11 +105,11 @@ I structured the grading prompt in three parts:
 2. **Rubric:** Criteria and point values (what to assess)
 3. **Moderation notes:** Calibration examples (how to interpret quality)
 
-This mimics how universities train new markers—explain the assignment goals, provide assessment criteria, then calibrate judgment through exemplars.
+This mimics how universities train new markers: explain the assignment goals, provide assessment criteria, then calibrate judgment through exemplars.
 
 **Building quality control workflows**
 
-I designed the system to save both graded feedback AND anonymized papers. This enables faculty to spot-check AI decisions against original student work—building trust through transparency rather than asking for blind acceptance.
+I designed the system to save both graded feedback AND anonymized papers. That lets faculty spot-check AI decisions against original student work, building trust through transparency rather than asking for blind acceptance.
 
 ---
 
@@ -214,11 +214,11 @@ Several students noted in course evaluations that feedback was "more specific th
 
 **Privacy-preserving design builds necessary trust.** Faculty initially expressed concerns about "sending student work to AI companies." The anonymization pipeline, combined with transparent documentation of data handling, transformed those concerns into confidence. EdTech AI adoption hinges not just on capability but on visible, auditable privacy safeguards.
 
-**AI amplifies pedagogical expertise, not replaces it.** The system doesn't automate judgment—it scales the instructor's ability to apply assessment criteria consistently across cohorts too large for sustained human attention. The moderation notes component essentially externalizes expert mental models, making tacit knowledge explicit.
+**AI amplifies pedagogical expertise, not replaces it.** The system doesn't automate judgment. It scales the instructor's ability to apply assessment criteria consistently across cohorts too large for sustained human attention. The moderation notes externalize expert mental models, making tacit knowledge explicit.
 
 **Document format diversity is a real constraint.** Initially planned for PDF-only processing, but student submission realities demanded Word support. Accommodating existing practices rather than dictating compliance created a more usable tool.
 
-**Quality control must be designed into the workflow.** Saving anonymized papers alongside feedback enables spot-checking. Timestamp logging enables performance tracking. Clear file naming enables rapid manual review. These weren't add-ons—they were core to building faculty trust.
+**Quality control must be designed into the workflow.** Saving anonymized papers alongside feedback enables spot-checking. Timestamp logging tracks performance, and clear file naming makes manual review fast. None of this was an add-on. It was core to building faculty trust.
 
 **Prompt engineering is instructional design.** Writing the grading prompt meant defining learning objectives (what quality work looks like), pedagogy (how to provide constructive feedback), and assessment criteria (how to interpret rubric boundaries). Creating effective AI assessment tools requires instructional design expertise, not just technical skills.
 

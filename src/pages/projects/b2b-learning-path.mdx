@@ -1,8 +1,8 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
 title: 'B2B Commerce learning path'
-tagline: 'Research → design → build for a conceptually dense domain—every API example verified against source'
-description: 'commercetools had no structured path for B2B modeling (business units, associates, permissions). I owned it end to end: grounded in SME interviews and a claims-validation pass, authored through an eval-driven pipeline for the Functional Architect persona, with every API example verified against the RAML source—not memory.'
+tagline: 'Research → design → build for a conceptually dense domain, with every API example verified against source'
+description: 'commercetools had no structured path for B2B modeling (business units, associates, permissions). I owned it end to end: grounded in SME interviews and a claims-validation pass, authored through an eval-driven pipeline for the Functional Architect persona, with every API example verified against the RAML source rather than memory.'
 client: 'commercetools'
 role: 'Owner (research → design → build)'
 timeline: '2026'
@@ -24,7 +24,7 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-commercetools had no structured learning path for B2B modeling—business units, associates, permissions—a high-value but conceptually dense domain for solution architects. Building it meant getting non-obvious modeling constraints *right*: a wrong error shape or an unvalidated assumption teaches architects to build the wrong thing.
+commercetools had no structured learning path for B2B modeling (business units, associates, permissions). It's a high-value but conceptually dense domain for solution architects. Building it meant getting non-obvious modeling constraints *right*: a wrong error shape or an unvalidated assumption teaches architects to build the wrong thing.
 
 ## Architecture & why
 
@@ -38,8 +38,8 @@ This is where learning design and engineering meet: I designed the path *and* sh
 `} />
 
 - **Decision: ground the path in SME interviews + a claims-validation pass before writing.** *Alternative rejected:* drafting from existing reference docs. *Why:* B2B modeling has non-obvious constraints; unvalidated assumptions (e.g. about certain endpoints and unit-based pricing) had to be removed *before* they became taught material.
-- **Decision: author for the Functional Architect persona—raw HTTP, no SDK.** *Alternative rejected:* hand-authoring each page freely. *Why:* running through the eval pipeline enforces accuracy floors and persona alignment consistently, page after page.
-- **Decision: verify every API example against the RAML source, not from memory.** *Alternative rejected:* illustrative pseudo-responses. *Why:* a wrong error shape teaches wrong handling. A `403` example was corrected to the *real* `AssociateMissingPermissionError` shape, verified against the RAML—and the `as-associate` / `inheritedAssociates` responses were shape-verified too.
+- **Decision: author for the Functional Architect persona, raw HTTP, no SDK.** *Alternative rejected:* hand-authoring each page freely. *Why:* running through the eval pipeline enforces accuracy floors and persona alignment consistently, page after page.
+- **Decision: verify every API example against the RAML source, not from memory.** *Alternative rejected:* illustrative pseudo-responses. *Why:* a wrong error shape teaches wrong handling. A `403` example was corrected to the *real* `AssociateMissingPermissionError` shape, verified against the RAML. The `as-associate` / `inheritedAssociates` responses were shape-verified too.
 - **Decision: run content-deduplication on the new path before merge.** *Alternative rejected:* skipping it because "it's new content." *Why:* B2B overlaps existing associate/permission reference docs; crosslinking at the paraphrase points cuts RAG collision instead of adding new near-duplicates.
 
 ## Evals / validation
@@ -48,8 +48,8 @@ Each module is scored by the `learning-critique` three-part hard gate. **Module 
 
 ## Outcome
 
-- **2 modules on a new microsite**—"Model buyer organizations" and "Configure associate access."
+- **2 modules on a new microsite**: "Model buyer organizations" and "Configure associate access."
 - **Module 2: +2,318 lines across 8 pages** (overview, six chapters, learning check), passing the critique gate at **88/100**, with API examples verified against source rather than illustrated from memory.
-- A repeatable proof of the learning↔engineering integration: I didn't hand off a spec—I designed the system and shipped it.
+- A repeatable proof of the learning↔engineering integration. I didn't hand off a spec. I designed the system and shipped it.
 
-> Delivered at commercetools (sole author of path content; SME *input* from expert services—synthesis mine, domain facts theirs). Module 2 is in review. Live preview linked above.
+> Delivered at commercetools (sole author of path content; SME *input* from expert services, where the synthesis is mine and the domain facts are theirs). Module 2 is in review. Live preview linked above.

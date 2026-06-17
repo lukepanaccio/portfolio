@@ -1,8 +1,8 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
 title: 'Productionizing a Stripe payments system'
-tagline: 'Making a test-mode billing system safe to take real money—after it silently double-charged a customer'
-description: 'A subscription billing system worked in Stripe test mode but had never been proven safe with real money. I built the resilience layer, a 95-case test harness from zero, and the live-mode migration—after a stale customer ID let Stripe charge a card $138 across two cycles while the app recorded nothing.'
+tagline: 'Making a test-mode billing system safe to take real money, after it silently double-charged a customer'
+description: 'A subscription billing system worked in Stripe test mode but had never been proven safe with real money. I built the resilience layer, a 95-case test harness from zero, and the live-mode migration. The trigger: a stale customer ID let Stripe charge a card $138 across two cycles while the app recorded nothing.'
 client: 'storipro'
 role: 'Engineer & Equity Partner'
 timeline: '2026'
@@ -23,11 +23,11 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-A subscription billing engine worked in Stripe **test mode** but had never been proven safe to take real money. Once live, a stale test-mode customer ID let Stripe charge a card **$138 across two cycles** while the app recorded *nothing*—no datastore state, no transaction, no email. The failure was invisible *by construction*: the webhook's idempotency record marked the dropped event "processed," so retries never fired. The stakes were silent revenue loss, untraceable billing state, and zero automated proof the money path worked.
+A subscription billing engine worked in Stripe **test mode** but had never been proven safe to take real money. Once live, a stale test-mode customer ID let Stripe charge a card **$138 across two cycles** while the app recorded *nothing*. No datastore state, no transaction, no email. The failure was invisible by construction. The webhook's idempotency record marked the dropped event "processed," so retries never fired. What was at stake: silent revenue loss, untraceable billing state, and zero automated proof the money path worked.
 
 ## Architecture & why
 
-The work was **productionizing** an existing billing engine—turning it from "works in test mode" into "safe with real money." (Honest scope: a colleague authored the base checkout/subscription engine; what follows is the resilience, testing, and live-migration layer I built on top.)
+The work was **productionizing** an existing billing engine, turning it from "works in test mode" into "safe with real money." (Honest scope: a colleague authored the base checkout/subscription engine. What follows is the resilience, testing, and live-migration layer I built on top.)
 
 <MermaidDiagram diagram={`flowchart TD
     A["Stripe webhook event"] --> B["resolveUserForWebhook()"]
@@ -39,23 +39,23 @@ The work was **productionizing** an existing billing engine—turning it from "w
     M -- "neither" --> O["record ORPHAN + structured log<br/>then mark processed"]
 `} />
 
-- **Decision: verify-don't-trust webhook user resolution.** *Alternative rejected:* the original `if (!userId) { markProcessed(); return; }` silent-drop, and blindly trusting the ID Stripe carried. *Why:* the silent-drop *plus* the idempotency write made a whole failure class look "handled" and defeated Stripe's retries. A single resolver does customer-ID lookup → *verified* metadata fallback (confirming the user doc actually exists) → an explicit `orphan` branch that captures the event to a queryable collection with a structured log. An invisible failure becomes an alertable, recoverable one.
-- **Decision: self-heal the stale ID on a clean match, stay visible on conflict.** *Alternative rejected:* leaving stale IDs for a human, or blindly overwriting on any mismatch. *Why:* zero-touch recovery for the common test→live ID drift, but when both lookups resolve and *disagree*, keep the customer-ID winner and record a `conflict` orphan rather than silently clobbering state.
-- **Decision: a deterministic mock/factory test harness around Stripe + Firestore.** *Alternative rejected:* integration-testing against live/test-mode Stripe and a real emulator. *Why:* deterministic, fast, no secrets in CI, and—critically—it can *trigger the invisible branches on demand* (idempotency, orphan, self-heal, full/partial/idempotent refunds), which a live integration test can't reliably reproduce.
+- **Decision: verify-don't-trust webhook user resolution.** *Alternative rejected:* the original `if (!userId) { markProcessed(); return; }` silent-drop, and blindly trusting the ID Stripe carried. *Why:* the silent-drop together with the idempotency write made a whole failure class look "handled" and defeated Stripe's retries. A single resolver does customer-ID lookup, then a *verified* metadata fallback (confirming the user doc actually exists), then an explicit `orphan` branch that captures the event to a queryable collection with a structured log. An invisible failure becomes an alertable, recoverable one.
+- **Decision: self-heal the stale ID on a clean match, stay visible on conflict.** *Alternative rejected:* leaving stale IDs for a human, or blindly overwriting on any mismatch. *Why:* I wanted zero-touch recovery for the common test→live ID drift. But when both lookups resolve and *disagree*, keep the customer-ID winner and record a `conflict` orphan rather than silently clobbering state.
+- **Decision: a deterministic mock/factory test harness around Stripe + Firestore.** *Alternative rejected:* integration-testing against live/test-mode Stripe and a real emulator. *Why:* it's deterministic, fast, and needs no secrets in CI. The key thing is it can *trigger the invisible branches on demand* (idempotency, orphan, self-heal, full/partial/idempotent refunds), which a live integration test can't reliably reproduce.
 - **Decision: a config-first, env-scoped live migration.** *Alternative rejected:* flipping hardcoded IDs, enabling automatic tax globally, or merging code before live prices exist. *Why:* env-scoped keys/prices (live = production, test = preview/dev) with a written rollback prevent test↔live key bleed and stop real users hitting 500s on checkout before prices exist.
 
 ## Evals / validation
 
-- **95 automated test cases / 200 assertions authored from zero** across five billing surfaces (webhook handlers, checkout, portal, usage, webhook route) plus end-to-end gating—surviving-line blame is 99.9% mine, none overwritten.
+- **95 automated test cases / 200 assertions authored from zero** across five billing surfaces (webhook handlers, checkout, portal, usage, webhook route) plus end-to-end gating. Surviving-line blame is 99.9% mine, none overwritten.
 - The harness proves the *failure* paths, not just the happy path: idempotency, orphan/self-heal for stale customer IDs, and `charge.refunded` including partial and idempotent re-fire.
 - The incident was logged, root-caused, and specified via a spec-driven workflow before the fix landed.
-- **Honest gaps:** the live launch wasn't fully smoke-tested end-to-end (a real-money smoke test and a couple of production env settings were still open on the migration checklist), and two new collections shipped without security-rule entries—both flagged during review. The base engine's "return 200 on webhook error" policy *enabled* the original silent failure and is only partially mitigated by orphan capture—named as a known tradeoff, not papered over.
+- **Honest gaps:** the live launch wasn't fully smoke-tested end-to-end. A real-money smoke test and a couple of production env settings were still open on the migration checklist, and two new collections shipped without security-rule entries. Both were flagged during review. The base engine's "return 200 on webhook error" policy *enabled* the original silent failure and orphan capture only partly mitigates it. I'm naming that as a known tradeoff, not papering over it.
 
 ## Outcome
 
-- **0 → 95** automated Stripe/billing test cases (200 assertions)—the safety net that didn't exist before.
-- The **$138 silent double-billing class eliminated**: made *impossible to be silent* (orphan capture + structured logging) and *self-healing* (zero manual reconciliation on the next event); the two affected accounts were remediated.
-- **3 live-launch-blocking checkout bugs fixed** that survive at HEAD—including a payment-method/automatic-tax conflict that broke *every* live checkout, and the stale-ID retry fallback.
-- A new observability surface (the orphan-events collection) turns a previously invisible failure class into a queryable, alertable one, plus **13 Stripe decline codes** mapped to human-readable messages behind a payment-failure banner.
+- **0 → 95** automated Stripe/billing test cases (200 assertions), the safety net that didn't exist before.
+- The **$138 silent double-billing class eliminated**. It's now *impossible to be silent* (orphan capture plus structured logging) and *self-healing* (zero manual reconciliation on the next event). The two affected accounts were remediated.
+- **3 live-launch-blocking checkout bugs fixed** that survive at HEAD, including a payment-method/automatic-tax conflict that broke *every* live checkout, and the stale-ID retry fallback.
+- A new observability surface (the orphan-events collection) turns a previously invisible failure class into a queryable, alertable one. I also mapped **13 Stripe decline codes** to human-readable messages behind a payment-failure banner.
 
-> Built at storipro. The accurate frame is *productionized*, not *built from scratch*: the resilience layer, the entire test harness, the live migration, and the load-bearing checkout fixes are mine; the base subscription engine was a colleague's. The $138 figure is real; the customer is never identified.
+> Built at storipro. The accurate frame is *productionized*, not *built from scratch*. The resilience layer, the entire test harness, the live migration, and the load-bearing checkout fixes are mine. The base subscription engine was a colleague's. The $138 figure is real, and the customer is never identified.

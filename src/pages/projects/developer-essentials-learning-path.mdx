@@ -23,17 +23,17 @@ metrics:
 
 ### Business context
 
-commercetools was experiencing rapid customer growth, but lacked structured developer onboarding. New implementation partners and customer development teams spent 6-8 weeks reaching basic platform competency through self-directed documentation exploration. This extended time-to-first-implementation delayed customer time-to-value, increased support ticket volume for foundational questions, and created friction in the sales cycle.
+commercetools was experiencing rapid customer growth, but lacked structured developer onboarding. New implementation partners and customer development teams spent 6-8 weeks reaching basic platform competency through self-directed documentation exploration. That long ramp delayed customer time-to-value, drove up support tickets for foundational questions, and added friction to the sales cycle.
 
 **Strategic objective:** Create a systematic learning journey that reduces developer time-to-competency by 50%+ while decreasing dependency on support resources and enabling faster customer implementations.
 
 ### The learning gap
 
-Enterprise commerce platforms have notoriously steep learning curves. Developers new to commercetools faced thousands of pages of API reference documentation that answered "what" and "how" but never "why" or "when." Without structured progression from environment setup through advanced concepts, developers spent weeks piecing together fragmented knowledge before building their first functional implementation.
+Enterprise commerce platforms have notoriously steep learning curves. Developers new to commercetools faced thousands of pages of API reference documentation that answered "what" and "how" but never "why" or "when." Without a structured progression from environment setup through advanced concepts, they spent weeks piecing together fragmented knowledge before building their first working implementation.
 
 ### The opportunity
 
-Transform the onboarding experience from overwhelming documentation exploration into a systematic 20-hour journey that takes developers from zero platform knowledge to production-ready implementation skills. Enable developers to not just make API calls, but understand architectural patterns, security implications, and performance best practices.
+Turn onboarding from an overwhelming documentation hunt into a systematic 20-hour journey that takes developers from zero platform knowledge to production-ready implementation skills. The goal is developers who can make API calls and also understand architectural patterns, security implications, and performance best practices.
 
 ### Key design challenges
 
@@ -54,10 +54,10 @@ I analyzed common developer onboarding pain points through support tickets, foru
 **Critical findings:**
 - Developers could read API docs but couldn't decide which authentication flow to use
 - OAuth complexity caused security mistakes (exposed credentials, insufficient scopes)
-- Most tutorials showed only "happy path" code—learners were unprepared for errors
+- Most tutorials showed only "happy path" code, so learners were unprepared for errors
 - Polyglot teams needed consistency across TypeScript and Java implementations
 
-**Core insight:** Traditional API documentation teaches discrete operations but not the connective tissue—when to use GraphQL versus HTTP API, how to handle version conflicts, which authentication pattern fits which use case. Developers needed a guided journey, not just a reference manual.
+**Core insight:** Traditional API documentation teaches discrete operations but not the connective tissue. When to use GraphQL versus HTTP API, how to handle version conflicts, which authentication pattern fits which use case. Developers needed a guided journey, not just a reference manual.
 
 ### Design approach
 
@@ -67,13 +67,13 @@ I structured the curriculum around four key instructional principles:
 Eight modules move from simple (environment setup) to complex (GraphQL, Import API) to synthesis (comprehensive challenge). Each module builds on prior knowledge, with explicit prerequisite checks preventing learners from starting mid-path without foundation.
 
 **2. Dual-language parallel architecture**  
-Rather than separate TypeScript and Java courses requiring duplicate conceptual learning, I created unified modules with language-specific code examples. Learners select their language once; all examples adapt automatically. This design reinforces that patterns transcend syntax—developers learn "how to think about commercetools," not "TypeScript syntax for commercetools."
+Rather than separate TypeScript and Java courses that duplicate the conceptual learning, I created unified modules with language-specific code examples. Learners select their language once, and all examples adapt automatically. This reinforces that patterns transcend syntax. Developers learn "how to think about commercetools," not "TypeScript syntax for commercetools."
 
 **3. Authentic assessment through capstone challenge**  
 Module 8 presents 20+ realistic tasks requiring code creation, debugging, and problem-solving. Unlike multiple-choice quizzes testing recall, the challenge validates applied capability: can you actually build this? 
 
 **4. Error-driven learning**  
-Code examples explicitly teach error handling—version conflicts, insufficient scopes, malformed queries. The Import API challenge includes broken JSON data requiring diagnosis and repair. This design recognizes that real development involves debugging, not just writing correct code initially.
+Code examples teach error handling directly: version conflicts, insufficient scopes, malformed queries. The Import API challenge includes broken JSON data that needs diagnosis and repair. The point is that real development involves debugging, not just writing correct code the first time.
 
 ### Development & iteration
 
@@ -92,7 +92,7 @@ Security implications are explicit: never expose client credentials in frontend 
 **Multi-language code example architecture**  
 Built custom MDX component enabling tabbed code examples. Learners see TypeScript and Java implementations side-by-side, reinforcing conceptual understanding while accommodating language preference. Conceptual explanations remain language-agnostic; code adapts to selection.
 
-Example: "Creating a customer" shows identical patterns in both languages—API client initialization, request construction, error handling—demonstrating that SDK choice is tooling, not strategy.
+Example: "Creating a customer" shows identical patterns in both languages (API client initialization, request construction, error handling), which makes the point that SDK choice is tooling, not strategy.
 
 ### Testing & refinement
 
@@ -102,7 +102,7 @@ Example: "Creating a customer" shows identical patterns in both languages—API 
 - Focused each module on core patterns that transfer to advanced scenarios
 - Cut exhaustive feature lists in favor of foundational concepts
 - Added "Further reading" sections pointing to detailed documentation
-- Prioritized "teach fishing" over "give fish"—show query construction principles, not memorize every field
+- Prioritized "teach fishing" over "give fish": show query construction principles instead of memorizing every field
 
 **Challenge iteration:** Initial challenge had 50+ tasks. Feedback revealed overwhelming complexity for learners completing a 20-hour path. Reduced to 20 focused tasks with explicit permission to tackle in any order or skip irrelevant ones. This respects diverse learner needs while maintaining comprehensive skill validation.
 
@@ -158,7 +158,7 @@ After completing this path, developers can:
 
 - **Multi-language support broadens reach without duplicating concepts.** TypeScript and Java parallel tracks served 80%+ of commercetools developers. Investment in dual-language architecture paid off through wider adoption while maintaining conceptual clarity.
 
-- **Error handling must be taught explicitly, not assumed.** Beginners naturally copy happy-path code. Teaching error scenarios—version conflicts, insufficient scopes, malformed data—prepares developers for reality. The Import API challenge with broken sample data normalized debugging as expected workflow.
+- **Error handling must be taught explicitly, not assumed.** Beginners naturally copy happy-path code. Teaching error scenarios (version conflicts, insufficient scopes, malformed data) prepares developers for reality. The Import API challenge with broken sample data normalized debugging as expected workflow.
 
 - **OAuth complexity requires dedicated scaffolding.** Security topics often overwhelm beginners or get skipped entirely. Making authentication Module 3 with clear "when to use" guidance ensured proper foundation before developers wrote production code. Analogies helped (OAuth like restaurant valet: give key, get claim ticket, retrieve car later).
 
