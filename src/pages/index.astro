@@ -9,7 +9,7 @@ const base = import.meta.env.BASE_URL;
 // Define projects data
 const featuredProject = {
   title: 'Eval-driven AI authoring system',
-  description: 'An orchestrator-agent authoring system with a separated judge and fixer, a three-part hard gate enforced by a zero-dependency validator, and judge calibration against a human gold set—so fluent-but-wrong content can\'t pass.',
+  description: 'An orchestrator-agent authoring system. The judge and fixer are separate, a three-part hard gate runs through a zero-dependency validator, and the judge is calibrated against a human gold set. Fluent-but-wrong content can\'t pass.',
   image: '/images/featured-hero.svg',
   href: '/projects/ai-authoring-system',
   tags: ['Agent orchestration', 'Evals', 'LLM-as-judge', 'CLAUDE.md']
@@ -18,7 +18,7 @@ const featuredProject = {
 const projects = [
   {
     title: 'Stripe billing, productionized',
-    description: 'Made a test-mode billing system safe to take real money—a 95-case test harness from zero, a self-healing webhook resilience layer, and the live migration—after a stale customer ID silently double-charged a card $138.',
+    description: 'A stale customer ID silently double-charged a card $138, so I made a test-mode billing system safe to take real money: a 95-case test harness from zero, a self-healing webhook resilience layer, and the live migration.',
     image: '/images/stripe-billing-hero.svg',
     href: '/projects/stripe-billing-productionization',
     tags: ['Stripe', 'Payments', 'Webhooks', 'Idempotency'],
@@ -26,15 +26,15 @@ const projects = [
   },
   {
     title: 'Voice-to-Prototype agentic pipeline',
-    description: 'A GitHub-native agentic pipeline—labelled issue → constrained Claude Code run → draft PR + preview—where the workflow owns git, not the model. Trust-gated and injection-hardened; debugged across a live 4-PR arc, then candidly held behind a pivot.',
+    description: 'A GitHub-native agentic pipeline: a labelled issue triggers a constrained Claude Code run that opens a draft PR plus preview. The workflow owns git, not the model. Trust-gated and injection-hardened. I debugged it across a live 4-PR arc, then honestly held it behind a pivot.',
     image: '/images/voice-to-prototype-hero.svg',
     href: '/projects/voice-to-prototype-pipeline',
     tags: ['Agent development', 'GitHub Actions', 'Prompt-injection hygiene', 'Claude Code'],
     categories: ['ai-systems', 'engineering']
   },
   {
-    title: 'Second Brain — LLM-maintained wiki',
-    description: 'A compounding personal wiki where the LLM compiles knowledge once and keeps it current—summarising, cross-referencing, and flagging contradictions across 100 interlinked pages (0 hand-written) from 66 sources. A deliberate alternative to query-time RAG.',
+    title: 'Second Brain: LLM-maintained wiki',
+    description: 'A compounding personal wiki where the LLM compiles knowledge once and keeps it current. It summarises, cross-references, and flags contradictions across 100 interlinked pages (0 hand-written) from 66 sources. A deliberate alternative to query-time RAG.',
     image: '/images/second-brain-hero.svg',
     href: '/projects/second-brain-knowledge-base',
     tags: ['Knowledge engineering', 'RAG alternative', 'CLAUDE.md', 'Obsidian'],
@@ -42,7 +42,7 @@ const projects = [
   },
   {
     title: 'Firestore security rules + emulator suite',
-    description: 'Threat-modelled the economic attack surface of a SaaS data layer—no self-granting a paid tier or inflating credits—defended with field allowlisting and diff-based update guards, then proven with 59 allow/deny cases against the shipped rules in the Firebase emulator.',
+    description: 'Threat-modelled the economic attack surface of a SaaS data layer (no self-granting a paid tier, no inflating credits) and defended it with field allowlisting and diff-based update guards. Proven with 59 allow/deny cases against the shipped rules in the Firebase emulator.',
     image: '/images/firestore-security-hero.svg',
     href: '/projects/firestore-security-rules',
     tags: ['Firestore', 'Security', 'Emulator testing', 'Threat modeling'],
@@ -50,7 +50,7 @@ const projects = [
   },
   {
     title: 'Natural-language control for Ableton Live',
-    description: 'Integrated an open-source MCP bridge to drive a live Ableton session by voice or text—where the real work was a one-command idempotent install (7 steps → 1) and a log-driven diagnosis, not building the bridge.',
+    description: 'Integrated an open-source MCP bridge to drive a live Ableton session by voice or text. The real work wasn\'t building the bridge. It was a one-command idempotent install (7 steps to 1) and a log-driven diagnosis.',
     image: '/images/ableton-mcp-hero.svg',
     href: '/projects/ableton-mcp-control-layer',
     tags: ['MCP', 'Systems integration', 'macOS', 'Debugging'],
@@ -58,7 +58,7 @@ const projects = [
   },
   {
     title: 'Content drift detection (agentic)',
-    description: 'A three-skill agent pipeline (release-analyzer → content-mapper → change-generator) that detects which docs an API release impacts and drafts the updates—human-reviewed before they reach developers.',
+    description: 'A three-skill agent pipeline (release-analyzer → content-mapper → change-generator) that detects which docs an API release impacts and drafts the updates. A human reviews them before they reach developers.',
     image: '/images/content-drift-hero.svg',
     href: '/projects/content-drift-detection-system',
     tags: ['Agent skills', 'Progressive disclosure', 'Drift detection', 'Human-in-the-loop'],
@@ -66,7 +66,7 @@ const projects = [
   },
   {
     title: 'AI grading & evaluation system',
-    description: 'An LLM evaluation system that scores submissions against a structured rubric, with quality gates that catch ungrounded or hallucinated judgments—at a fraction of the cost and time of manual assessment.',
+    description: 'An LLM evaluation system that scores submissions against a structured rubric, with quality gates that catch ungrounded or hallucinated judgments. It runs at a fraction of the cost and time of manual assessment.',
     image: '/images/paper-grader-hero.svg',
     href: '/projects/paper-grader',
     tags: ['Claude API', 'Evals', 'Quality gates', 'Python'],
@@ -74,7 +74,7 @@ const projects = [
   },
   {
     title: 'Geocoding accuracy campaign',
-    description: 'A diagnose-and-fix campaign on ~110K planning permits: reframing a 5.8% per-run geocoding rate as a data-quality problem and writing the address normalizer that recovered 47% of the failing backlog—lifting whole-dataset coverage to 98.3%.',
+    description: 'A diagnose-and-fix campaign on ~110K planning permits. I reframed a 5.8% per-run geocoding rate as a data-quality problem and wrote the address normalizer that recovered 47% of the failing backlog, lifting whole-dataset coverage to 98.3%.',
     image: '/images/geocoding-hero.svg',
     href: '/projects/geocoding-accuracy-campaign',
     tags: ['Data quality', 'Geocoding', 'Address normalization', 'Debugging'],
@@ -82,7 +82,7 @@ const projects = [
   },
   {
     title: 'Single-source-of-truth docs program',
-    description: 'A 5-person program that eliminated cross-microsite duplication degrading search and RAG retrieval—one canonical source per concept, codified as a reusable 0–4 classification skill. ~2,660 lines consolidated across 8 domains; 1 microsite sunset.',
+    description: 'A 5-person program that killed the cross-microsite duplication degrading search and RAG retrieval. One canonical source per concept, codified as a reusable 0-4 classification skill. ~2,660 lines consolidated across 8 domains, 1 microsite sunset.',
     image: '/images/dedup-hero.svg',
     href: '/projects/single-source-of-truth-docs-program',
     tags: ['Information architecture', 'RAG retrieval', 'Single source of truth'],
@@ -90,7 +90,7 @@ const projects = [
   },
   {
     title: 'In-app bug-reporting pipeline',
-    description: 'A five-stage serverless pipeline—scoped screenshot upload, private GitHub issue, HMAC-verified resolution webhook, two-pass retention GC—shipped to all users with distributed-systems hygiene and a ~1.3:1 test-to-source ratio.',
+    description: 'A five-stage serverless pipeline (scoped screenshot upload, private GitHub issue, HMAC-verified resolution webhook, two-pass retention GC) shipped to all users with distributed-systems hygiene and a ~1.3:1 test-to-source ratio.',
     image: '/images/bug-pipeline-hero.svg',
     href: '/projects/bug-reporting-pipeline',
     tags: ['Serverless', 'HMAC', 'Idempotency', 'PII handling'],
@@ -105,8 +105,8 @@ const projects = [
     categories: ['engineering']
   },
   {
-    title: 'Alex Chen — synthetic eval persona',
-    description: 'A synthetic user that validates documentation by simulating a senior developer\'s feedback patterns—an evaluation persona for catching gaps before real developers hit them.',
+    title: 'Alex Chen: synthetic eval persona',
+    description: 'A synthetic user that validates documentation by simulating a senior developer\'s feedback patterns. An evaluation persona for catching gaps before real developers hit them.',
     image: '/images/alex-chen-hero.svg',
     href: '/projects/alex-chen-learner-persona',
     tags: ['Synthetic users', 'Prompt engineering', 'Evals'],
@@ -114,7 +114,7 @@ const projects = [
   },
   {
     title: 'B2B Commerce learning path',
-    description: 'Owned a B2B modeling path end to end—SME-validated, authored for the Functional Architect persona, every API example verified against the RAML source. Module 2 passed the eval-driven critique gate at 88/100.',
+    description: 'Owned a B2B modeling path end to end. SME-validated, authored for the Functional Architect persona, with every API example verified against the RAML source. Module 2 passed the eval-driven critique gate at 88/100.',
     image: '/images/b2b-learning-hero.svg',
     href: '/projects/b2b-learning-path',
     tags: ['Curriculum architecture', 'SME synthesis', 'API-verified', 'Built & shipped'],
@@ -122,7 +122,7 @@ const projects = [
   },
   {
     title: 'Modular learning path ecosystem',
-    description: 'Scalable content architecture supporting 9 paths, 30+ modules, and 200+ pages of technical material—a single information architecture serving thousands of developers.',
+    description: 'Scalable content architecture supporting 9 paths, 30+ modules, and 200+ pages of technical material. One information architecture serving thousands of developers.',
     image: '/images/modular-paths-hero.svg',
     href: '/projects/modular-learning-paths',
     tags: ['Information architecture', 'Markdown', 'Git'],
@@ -138,7 +138,7 @@ const projects = [
   },
   {
     title: 'Marcus Aurelius AI mentor',
-    description: 'A conversational AI companion applying Socratic, persona-driven dialogue—an experiment in how far a single well-designed prompt system can carry an experience.',
+    description: 'A conversational AI companion built on Socratic, persona-driven dialogue. An experiment in how far a single well-designed prompt system can carry an experience.',
     image: '/images/marcus-hero.svg',
     href: '/projects/marcus-aurelius',
     tags: ['Conversational AI', 'Prompt engineering', 'Next.js'],
@@ -192,11 +192,11 @@ const skills = {
         <div class="max-w-4xl stagger-children">
           <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-text-primary mb-8 leading-[1.1]">
             <span class="block">I build production AI systems</span>
-            <span class="block text-accent-primary text-3xl md:text-5xl lg:text-6xl mt-2">— and prove they work</span>
+            <span class="block text-accent-primary text-3xl md:text-5xl lg:text-6xl mt-2">and prove they work</span>
           </h1>
 
           <p class="text-xl md:text-2xl text-text-secondary mb-12 leading-relaxed max-w-3xl">
-            Applied AI with a teacher's edge. I design, ship and validate real systems—agentic pipelines, payment integrity, AI authoring—then make them usable.
+            Applied AI with a teacher's edge. I design, ship, and validate real systems: agentic pipelines, payment integrity, AI authoring tools. Then I make them usable.
           </p>
           
           <div class="flex flex-col sm:flex-row gap-4">
@@ -278,7 +278,7 @@ const skills = {
                     </h2>
 
                     <p class="text-lg md:text-xl text-text-primary leading-relaxed max-w-xl bg-bg-primary/95 p-4 rounded-lg -ml-4">
-                      Each authoring concern mapped to the right primitive—and a hard gate that refuses to let an LLM grade its own work.
+                      Each authoring concern maps to the right primitive, with a hard gate that refuses to let an LLM grade its own work.
                     </p>
                   </div>
                   
@@ -437,12 +437,12 @@ const skills = {
       </div>
     </section>
     
-    <!-- How I Build — Agentic Toolchain -->
+    <!-- How I Build - Agentic Toolchain -->
     <section class="py-24 md:py-32 bg-bg-primary">
       <div class="max-w-7xl mx-auto px-6">
         <div class="mb-10 max-w-3xl">
           <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">How I build</h2>
-          <p class="text-xl text-text-secondary">I don't just call models—I build with the full agentic toolchain. The differentiator is fluency <span class="text-accent-primary font-semibold">operating the stack</span>, not just the API.</p>
+          <p class="text-xl text-text-secondary">I don't just call models. I build with the full agentic toolchain. What sets the work apart is fluency <span class="text-accent-primary font-semibold">operating the stack</span>, not just the API.</p>
         </div>
 
         <div class="flex flex-wrap gap-3">
@@ -462,13 +462,13 @@ const skills = {
 
         <div class="space-y-6 text-lg text-text-secondary leading-relaxed max-w-5xl">
           <p>
-            I design, build and ship production AI systems—agentic CI pipelines, payment-integrity infrastructure, AI authoring architectures—and then make them legible to the people and models that depend on them. Most builders can't communicate; most communicators can't build. I work at the intersection.
+            I design, build, and ship production AI systems: agentic CI pipelines, payment-integrity infrastructure, AI authoring architectures. Then I make them legible to the people and models that depend on them. Most builders can't communicate. Most communicators can't build. I work in between.
           </p>
           <p>
-            As an engineer and equity partner at <span class="text-accent-primary font-semibold">storipro</span>, I shipped the production billing layer, hardened the data-security model, and built an autonomous issue-to-PR pipeline. At <span class="text-accent-primary font-semibold">commercetools</span>, I architected an orchestrator-agent authoring system with an eval harness and drove a single-source-of-truth documentation program across the platform. On my own time I build—an LLM-maintained knowledge base, an MCP control layer for Ableton Live.
+            As an engineer and equity partner at <span class="text-accent-primary font-semibold">storipro</span>, I shipped the production billing layer, hardened the data-security model, and built an autonomous issue-to-PR pipeline. At <span class="text-accent-primary font-semibold">commercetools</span>, I architected an orchestrator-agent authoring system with an eval harness and drove a single-source-of-truth documentation program across the platform. On my own time I keep building. An LLM-maintained knowledge base, an MCP control layer for Ableton Live.
           </p>
           <p>
-            I came up through teaching—a decade of it, across three continents—which is exactly why my systems land: I build for the humans who actually have to use the output. That's the edge, not the lane I'm leaving.
+            I came up through teaching, a decade of it across three continents, and that's exactly why my systems land. I build for the humans who actually have to use the output. That's the edge, not the lane I'm leaving.
           </p>
         </div>
         
@@ -494,7 +494,7 @@ const skills = {
       <div class="relative max-w-7xl mx-auto px-6">
         <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-6">Let's work together</h2>
         <p class="text-xl text-text-secondary mb-12 max-w-2xl">
-          If you're building applied-AI systems—or need someone who can architect, ship, and make them land—I'd love to connect.
+          If you're building applied-AI systems, or you need someone who can architect them, ship them, and make them land, I'd love to connect.
         </p>
         
         <div class="flex flex-col sm:flex-row gap-4">

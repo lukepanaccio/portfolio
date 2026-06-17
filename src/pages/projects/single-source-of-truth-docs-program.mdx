@@ -2,7 +2,7 @@
 layout: '../../layouts/ProjectLayout.astro'
 title: 'Single-source-of-truth docs program'
 tagline: 'Eliminating cross-microsite duplication that was degrading search and RAG retrieval'
-description: 'The same API concepts were copied verbatim across Docs, Tutorials, and Learning microsites—competing near-identical sources that degraded RAG retrieval and multiplied maintenance cost. A 5-person program established one canonical source per concept, codified as a reusable classification skill.'
+description: 'The same API concepts were copied verbatim across Docs, Tutorials, and Learning microsites. Competing near-identical sources degraded RAG retrieval and multiplied maintenance cost. A 5-person program established one canonical source per concept, codified as a reusable classification skill.'
 client: 'commercetools'
 role: 'Engineer / program contributor (5-person initiative)'
 timeline: '2026'
@@ -24,7 +24,7 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-The same API concepts were copied verbatim across the Docs, Tutorials, and Learning microsites. Beyond the obvious maintenance multiplier, the duplication had a sharper cost: **competing near-identical sources degrade search and RAG retrieval**—the assistant (and the search index) can't tell which of three almost-identical chunks is canonical. The goal was one authoritative source per concept, everything else cross-linking to it.
+The same API concepts were copied verbatim across the Docs, Tutorials, and Learning microsites. Past the obvious maintenance multiplier, the duplication had a sharper cost: **competing near-identical sources degrade search and RAG retrieval.** The assistant (and the search index) can't tell which of three almost-identical chunks is canonical. The goal was one authoritative source per concept, with everything else cross-linking to it.
 
 ## Architecture & why
 
@@ -35,19 +35,19 @@ The same API concepts were copied verbatim across the Docs, Tutorials, and Learn
     C --> E["Link-checker CI<br/>guards the removals"]
 `} />
 
-- **Decision: one canonical source per concept; replace copies with crosslinks.** *Alternative rejected:* keeping duplicates in sync via review discipline. *Why:* drift is inevitable at scale—humans miss silent divergence between near-identical pages.
-- **Decision: codify a 5-level "transformation framework" (0 Identical → 4 Synthesis) as a reusable skill.** *Alternative rejected:* ad-hoc per-reviewer judgment. *Why:* five contributors needed a repeatable rule to classify duplication *identically*; a deterministic 0–4 table plus a "practical test" gate made the call consistent rather than subjective.
-- **Decision: make canonical homes domain-specific.** *Alternative rejected:* teaching the same concept in two places. *Why:* learning context ≠ canonical reference—one site must own each chunk, so reference-grade material moves to its canonical home rather than being maintained in parallel.
-- **Decision: sunset a redundant microsite, folding it into an implementation guide.** *Alternative rejected:* maintaining it alongside the canonical sources. *Why:* it duplicated the implementation narrative—removing the surface removes a whole class of future drift.
+- **Decision: one canonical source per concept; replace copies with crosslinks.** *Alternative rejected:* keeping duplicates in sync via review discipline. *Why:* drift is inevitable at scale. Humans miss silent divergence between near-identical pages.
+- **Decision: codify a 5-level "transformation framework" (0 Identical → 4 Synthesis) as a reusable skill.** *Alternative rejected:* ad-hoc per-reviewer judgment. *Why:* five contributors needed a repeatable rule to classify duplication *identically*. A deterministic 0–4 table plus a "practical test" gate made the call consistent rather than subjective.
+- **Decision: make canonical homes domain-specific.** *Alternative rejected:* teaching the same concept in two places. *Why:* learning context isn't canonical reference. One site must own each chunk, so reference-grade material moves to its canonical home rather than being maintained in parallel.
+- **Decision: sunset a redundant microsite, folding it into an implementation guide.** *Alternative rejected:* maintaining it alongside the canonical sources. *Why:* it duplicated the implementation narrative, and removing the surface removes a whole class of future drift.
 
 ## Evals / validation
 
-The reusable `content-deduplication` skill carries a deterministic 0–4 classification table with a "practical test" gate, so the judgment is repeatable across reviewers. Link-checker CI guards against broken crosslinks after each removal, and every domain shipped as an isolated, individually reviewable PR—so a regression is attributable to one domain, not the whole program.
+The reusable `content-deduplication` skill carries a deterministic 0–4 classification table with a "practical test" gate, so the judgment is repeatable across reviewers. Link-checker CI guards against broken crosslinks after each removal, and every domain shipped as an isolated, individually reviewable PR. A regression traces back to one domain, not the whole program.
 
 ## Outcome
 
-- **8 API-domain consolidations merged**—**~2,660 lines removed or consolidated** into canonical homes.
+- **8 API-domain consolidations merged**, with **~2,660 lines removed or consolidated** into canonical homes.
 - **1 redundant microsite sunset**, folded into a single implementation guide.
-- The program was reported **100% complete** at the mid-year review—and the structural win, *treating documentation as a single information architecture rather than three competing ones*, became a team talking point.
+- The program was reported **100% complete** at the mid-year review. The structural win, *treating documentation as a single information architecture rather than three competing ones*, became a team talking point.
 
-> Delivered at commercetools (a 5-person program; I authored all 8 domain PRs). The ~2,660 figure is gross deletions including content *moved* to canonical homes—framed as removed/consolidated, not purely deleted.
+> Delivered at commercetools (a 5-person program; I authored all 8 domain PRs). The ~2,660 figure is gross deletions, including content *moved* to canonical homes. I frame it as removed/consolidated, not purely deleted.

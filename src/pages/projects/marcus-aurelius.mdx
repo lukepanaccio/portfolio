@@ -25,16 +25,16 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ### Project context
 
-This personal project explored how AI can enable conversational learning at scale—applying instructional design principles to create an always-available Socratic mentor. While developed independently, this work demonstrated capabilities directly applicable to enterprise learning: using AI to provide personalized guidance, reduce cognitive load through brief interactions, and create emotionally safe learning environments.
+This personal project explored how AI can enable conversational learning at scale. I applied instructional design principles to build an always-available Socratic mentor. I built it independently, but the capabilities map directly to enterprise learning: using AI to give personalized guidance, cut cognitive load through brief interactions, and create emotionally safe learning environments.
 
-**Learning objective:** Prove that AI can teach using the Socratic method (guiding self-discovery through questions) rather than just delivering information—validating conversational AI as a viable learning modality for complex, nuanced subject matter.
+**Learning objective:** Prove that AI can teach using the Socratic method (guiding self-discovery through questions) rather than just delivering information. That would validate conversational AI as a viable learning modality for complex, nuanced subject matter.
 
 ### Core problem
 
 Traditional philosophy education fails to connect ancient wisdom with modern challenges. Students read dense texts but struggle to apply Stoic concepts to real-life situations like workplace stress or relationships.
 
 ### The opportunity
-Enable learners to have real conversations with Marcus Aurelius; not read about Stoicism, but discuss their specific problems and receive personalized guidance in real-time.
+Let learners have real conversations with Marcus Aurelius. Not read about Stoicism, but discuss their specific problems and get personalized guidance in real-time.
 
 ### Key design challenges
 - Teach through Socratic questioning (not prescribing answers)
@@ -52,7 +52,7 @@ Research revealed a fundamental gap: traditional philosophy study creates knowle
 
 **Learner needs identified:**
 - Philosophy students found texts interesting but couldn't apply concepts to their lives
-- People facing real challenges wanted immediate, practical wisdom—not academic theory
+- People facing real challenges wanted immediate, practical wisdom, not academic theory
 - Existing AI chatbots felt impersonal and failed to create reflective space for dialogue
 
 **Core insight:** 
@@ -66,7 +66,7 @@ I applied four key learning principles to shape the experience:
 The AI guides self-discovery through questions, not answers. Example: If a user says "My boss is impossible," Marcus asks: "Is it your boss's actions that harm you, or your judgment about them?"
 
 **2. Cognitive load management**  
-Responses limited to 1-3 sentences. Testing showed shorter responses led to deeper reflection—users needed space to think, not philosophy lectures.
+Responses limited to 1-3 sentences. Testing showed shorter responses led to deeper reflection. Users needed space to think, not philosophy lectures.
 
 **3. Embodied presence**  
 Photorealistic avatar with synchronized lip movements creates a sense of "being with" Marcus. This design choice supports embodied cognition research: we learn better from "people" than disembodied text.
@@ -79,7 +79,7 @@ Calm, non-judgmental persona (no exclamation marks, no judgment) creates safe sp
 Three critical design decisions shaped the implementation:
 
 **Voice-first interface**  
-Chose voice over text chat—natural speech creates authentic philosophical dialogue. Used OpenAI's Realtime API to eliminate 2-4 second delays common in traditional speech processing.
+Chose voice over text chat, since natural speech creates authentic philosophical dialogue. Used OpenAI's Realtime API to eliminate the 2-4 second delays common in traditional speech processing.
 
 **Four opening strategies**  
 Varied greetings prevent scripted feel across sessions:
@@ -95,7 +95,7 @@ Refuses medical, legal, or financial advice. This serves dual purposes:
 
 ### Testing & refinement
 
-**Problem identified:** Early versions were too agreeable—validating users instead of challenging their reasoning.
+**Problem identified:** Early versions were too agreeable. They validated users instead of challenging their reasoning.
 
 **Solution implemented:**
 - Rebuilt system prompt with examples of productive pushback
@@ -213,11 +213,11 @@ Users report the experience feels "surprisingly real" and "actually helpful." Br
 
 ## Key takeaways
 
-- **Presence drives engagement.** Photorealistic avatars create a sense of "being with" Marcus that dramatically increases engagement versus text or voice-only. This validates embodied cognition research.
+- **Presence drives engagement.** Photorealistic avatars create a sense of "being with" Marcus that lifts engagement well above text or voice-only. This validates embodied cognition research.
 
-- **Conversational scaffolding is instructional design.** Forcing Socratic questioning (not direct answers) ensures active thinking versus passive listening. The system prompt functions as a teaching strategy.
+- **Conversational scaffolding is instructional design.** Forcing Socratic questioning (not direct answers) keeps people thinking actively instead of listening passively. The system prompt works as a teaching strategy.
 
-- **Less content enables deeper learning.** Limiting responses to 1-3 sentences creates space for reflection. Brief wisdom works better than long explanations—users retain and apply shorter responses.
+- **Less content enables deeper learning.** Limiting responses to 1-3 sentences creates space for reflection. Brief wisdom works better than long explanations. Users retain and apply shorter responses.
 
 - **Cost-aware architecture matters.** Building rate limiting and monitoring from day one prevented runaway costs. Real-time AI is expensive (~$2-3 per session), so treating cost as a design constraint shaped better decisions.
 

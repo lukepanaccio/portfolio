@@ -2,7 +2,7 @@
 layout: '../../layouts/ProjectLayout.astro'
 title: 'In-app bug-reporting pipeline'
 tagline: 'Serverless capture → private GitHub issue → resolution email, shipped to GA with distributed-systems hygiene'
-description: 'A five-stage pipeline that turns an in-app report (with optional screenshot) into a labelled private GitHub issue and emails the reporter on resolution—with server-minted scoped upload tokens, HMAC-verified webhooks, redelivery dedupe, and a two-pass retention GC. Shipped to 100% of users.'
+description: 'A five-stage pipeline that turns an in-app report (with optional screenshot) into a labelled private GitHub issue and emails the reporter on resolution. It uses server-minted scoped upload tokens, HMAC-verified webhooks, redelivery dedupe, and a two-pass retention GC. Shipped to 100% of users.'
 client: 'storipro'
 role: 'Engineer & Equity Partner'
 timeline: '2026'
@@ -23,7 +23,7 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-Pilot users had no way to report a bug from inside the product—they'd have to leave the page and file in a tool they don't have access to, so most bugs went unreported. But a report that's actually triageable must embed real PII (the reporter's user ID, email, and exact URL), which makes a single repo-visibility misconfiguration a direct data leak. So the capture path, the screenshot store, and the resolution webhook all have to be **hardened, not just functional.**
+Pilot users had no way to report a bug from inside the product. They'd have to leave the page and file in a tool they don't have access to, so most bugs went unreported. But a report that's actually triageable has to embed real PII (the reporter's user ID, email, and exact URL), which makes a single repo-visibility misconfiguration a direct data leak. So the capture path, the screenshot store, and the resolution webhook all have to be **hardened, not just functional.**
 
 ## Architecture & why
 
@@ -36,21 +36,21 @@ Pilot users had no way to report a bug from inside the product—they'd have to 
     H["daily cron"] --> I["Pass 1: 90-day screenshot sweep<br/>Pass 2: 24h orphan sweep"]
 `} />
 
-- **Decision: server-minted, *scoped* upload token for screenshots.** *Alternative rejected:* the obvious upload flow whose hook can't override the pathname, or shipping the store credential to the client. *Why:* a truly server-generated pathname means a user can only ever write one path, of one type (MIME allowlist), of one size (10 MB cap), into their own namespace—and submission re-verifies ownership server-side. Defense in depth on a user-supplied path.
-- **Decision: the GitHub issue is the single source of truth; emails are fire-and-forget.** *Alternative rejected:* awaiting the email inside the request path, or returning 5xx to GitHub when an email fails. *Why:* an email-provider hiccup must never take down the user-facing submit *or* return a 5xx to GitHub (which would just trigger more at-least-once redeliveries). Three independent guard layers keep the issue authoritative.
-- **Decision: HMAC-SHA256 over the raw body + an LRU dedupe.** *Alternative rejected:* parsing the JSON before verifying (the signature no longer matches the signed bytes), a non-constant-time compare, or no dedupe. *Why:* verifying over exact signed bytes with a constant-time compare is the textbook-correct way to avoid the timing side-channel; a capped LRU of recently-closed issues stops a duplicate `closed` event from emailing the reporter twice.
-- **Decision: machine-readable issue markers driving a two-pass retention cron, with a `'none'` tombstone.** *Alternative rejected:* a separate DB tracking blob↔issue relationships, or no GC at all (PII screenshots forever). *Why:* the markers make the issue self-describing with zero extra storage; a three-way `path | tombstone | missing` union turns a missing marker into a warning, not a silent skip; a 24-hour grace stops an in-flight submission from being garbage-collected out from under the user.
+- **Decision: server-minted, *scoped* upload token for screenshots.** *Alternative rejected:* the obvious upload flow whose hook can't override the pathname, or shipping the store credential to the client. *Why:* a truly server-generated pathname means a user can only ever write one path, of one type (MIME allowlist), of one size (10 MB cap), into their own namespace. Submission then re-verifies ownership server-side. That's defense in depth on a user-supplied path.
+- **Decision: the GitHub issue is the single source of truth, and emails are fire-and-forget.** *Alternative rejected:* awaiting the email inside the request path, or returning 5xx to GitHub when an email fails. *Why:* an email-provider hiccup must never take down the user-facing submit, and it must never return a 5xx to GitHub (which would just trigger more at-least-once redeliveries). Three independent guard layers keep the issue authoritative.
+- **Decision: HMAC-SHA256 over the raw body plus an LRU dedupe.** *Alternative rejected:* parsing the JSON before verifying (the signature no longer matches the signed bytes), a non-constant-time compare, or no dedupe. *Why:* verifying over exact signed bytes with a constant-time compare is the textbook-correct way to avoid the timing side-channel. A capped LRU of recently-closed issues stops a duplicate `closed` event from emailing the reporter twice.
+- **Decision: machine-readable issue markers driving a two-pass retention cron, with a `'none'` tombstone.** *Alternative rejected:* a separate DB tracking blob↔issue relationships, or no GC at all (PII screenshots forever). *Why:* the markers make the issue self-describing with zero extra storage. A three-way `path | tombstone | missing` union turns a missing marker into a warning, not a silent skip. A 24-hour grace stops an in-flight submission from being garbage-collected out from under the user.
 
 ## Evals / validation
 
-- **~1,900 lines of dedicated tests across 12 files**—roughly a **1.3:1 test-to-source ratio**—proving the *failure* and edge branches: the redelivery dedupe, the marker trichotomy, the 24h orphan grace, the per-user rate-limit 429, the scoped-token ownership re-check, and differentiated GitHub error mapping.
-- Security hardening verified: an admin-only private-blob streaming proxy with a per-access audit log; a strict schema rejecting unknown keys with ISO-8601 round-trip validation; descriptions stored as plain text (never markdown-rendered, blocking stored XSS); email markers re-validated on read (the issue body is maintainer-editable, i.e. untrusted).
-- **Honest tradeoffs (named, not buried):** rate-limit and webhook dedupe are per-warm-instance (module memory), right-sized for pilot scale, not a global Redis-backed limiter; the GitHub client is a hand-rolled two-endpoint `fetch` wrapper (zero-dependency, full error-mapping control, but no Octokit-style backoff). **PII in issue bodies is mitigated by policy, not cryptography**—private repo + code-owners + deferred branch protection—so the repo must stay private. The runbook treats this as the central risk, which is the right call.
+- **~1,900 lines of dedicated tests across 12 files**, roughly a **1.3:1 test-to-source ratio**, proving the *failure* and edge branches: the redelivery dedupe, the marker trichotomy, the 24h orphan grace, the per-user rate-limit 429, the scoped-token ownership re-check, and differentiated GitHub error mapping.
+- Security hardening verified: an admin-only private-blob streaming proxy with a per-access audit log; a strict schema rejecting unknown keys with ISO-8601 round-trip validation; descriptions stored as plain text (never markdown-rendered, which blocks stored XSS); email markers re-validated on read (the issue body is maintainer-editable, so it's untrusted).
+- **Honest tradeoffs (named, not buried):** rate-limit and webhook dedupe are per-warm-instance (module memory), right-sized for pilot scale, not a global Redis-backed limiter. The GitHub client is a hand-rolled two-endpoint `fetch` wrapper (zero-dependency, full error-mapping control, but no Octokit-style backoff). **PII in issue bodies is mitigated by policy, not cryptography.** That's private repo plus code-owners plus deferred branch protection, so the repo must stay private. The runbook treats this as the central risk, which is the right call.
 
 ## Outcome
 
-- **Shipped to GA at 100%**—rolled out from an internal allowlist to all users. A production feature, not a prototype.
-- **0 → a working closed loop:** a report (with optional screenshot) becomes a labelled private GitHub issue, and the reporter is emailed on resolution—with scoped tokens, HMAC-verified webhooks, redelivery dedupe, and a 90-day / 24-hour two-pass retention GC.
-- **~1,900 lines of app code + ~1,900 lines of dedicated tests**, plus a 332-line operational runbook covering triage cadence, secret rotation, the marker convention, and the PII constraint. (The feature scope is ~1,900 LOC—not the larger raw PR figure, which bundled unrelated spec-workflow scaffolding.)
+- **Shipped to GA at 100%**, rolled out from an internal allowlist to all users. A production feature, not a prototype.
+- **0 → a working closed loop:** a report (with optional screenshot) becomes a labelled private GitHub issue, and the reporter is emailed on resolution. It runs on scoped tokens, HMAC-verified webhooks, redelivery dedupe, and a 90-day / 24-hour two-pass retention GC.
+- **~1,900 lines of app code plus ~1,900 lines of dedicated tests**, and a 332-line operational runbook covering triage cadence, secret rotation, the marker convention, and the PII constraint. (The feature scope is ~1,900 LOC, not the larger raw PR figure, which bundled unrelated spec-workflow scaffolding.)
 
-> Built at storipro (100% mine). Real issue bodies are never reproduced—they carry reporter PII, which is exactly why the repo stays private.
+> Built at storipro (100% mine). Real issue bodies are never reproduced. They carry reporter PII, which is exactly why the repo stays private.

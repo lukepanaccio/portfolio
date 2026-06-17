@@ -24,7 +24,7 @@ metrics:
 
 ### Business context
 
-commercetools serves diverse audiences—from technical developers building API integrations to business administrators configuring commerce workflows. Each persona has different learning needs, time constraints, and success criteria. Without role-appropriate learning pathways, users struggled to find relevant content, leading to extended onboarding times, increased support dependency, and delayed time-to-value.
+commercetools serves a wide range of audiences, from technical developers building API integrations to business administrators configuring commerce workflows. Each persona has different learning needs, time constraints, and success criteria. Without role-appropriate learning pathways, users struggled to find relevant content. That meant longer onboarding times, more support dependency, and delayed time-to-value.
 
 **Strategic objective:** Build a scalable learning infrastructure that serves multiple personas efficiently, reduces support ticket volume through self-service education, and enables faster customer implementations by providing clear learning progressions aligned with job responsibilities.
 
@@ -34,14 +34,14 @@ Enterprise commerce platforms are vast and complex. New users face a critical qu
 
 ### The opportunity
 
-Create a modular learning ecosystem that serves multiple personas through role-appropriate pathways while maintaining interconnected knowledge that teaches systems thinking—not isolated skills.
+Create a modular learning ecosystem that serves multiple personas through role-appropriate pathways, while keeping the knowledge interconnected so it teaches systems thinking, not isolated skills.
 
 ### Key design challenges
 
 - **Scale without losing coherence:** Manage 200+ content pages across 9 learning paths while maintaining consistency
 - **Serve diverse learners:** Support administrators, developers, and architects with different learning goals and technical backgrounds
 - **Enable flexible navigation:** Allow both linear progression (complete paths) and selective consumption (individual modules)
-- **Track prerequisites across paths:** Some advanced modules require knowledge from different learning paths—how do we prevent learners from getting stuck?
+- **Track prerequisites across paths:** Some advanced modules require knowledge from different learning paths. How do we keep learners from getting stuck?
 
 ---
 
@@ -70,7 +70,7 @@ Each module is self-contained yet interconnected, allowing learners to consume o
 Administrator paths emphasize business modeling and configuration (how to set up product catalogs, pricing rules, discount strategies). Developer paths focus on SDK usage, API integration, and implementation patterns. Same platform, different lenses.
 
 **3. Progressive complexity scaffolds knowledge**  
-Content difficulty scales systematically within each path. Learners start with foundational concepts (e.g., "Organizations and Projects") before tackling advanced patterns (e.g., "Custom checkout implementation"). This supports zone of proximal development—learners are challenged but not overwhelmed.
+Content difficulty scales systematically within each path. Learners start with foundational concepts (e.g., "Organizations and Projects") before tackling advanced patterns (e.g., "Custom checkout implementation"). This supports zone of proximal development, where learners are challenged but not overwhelmed.
 
 **4. Cross-path prerequisites teach systems thinking**  
 Prerequisites span learning paths, creating a knowledge graph rather than isolated silos. Example: The "Integration Patterns" module requires foundational knowledge from both "Developer Essentials" and "Model your business" learning paths. This reinforces that real-world implementations require understanding both technical architecture and business logic.
@@ -80,7 +80,7 @@ Prerequisites span learning paths, creating a knowledge graph rather than isolat
 Three critical architectural decisions shaped the implementation:
 
 **Three-tier hierarchical structure**  
-Learning Path (9 paths) → Module (30+ modules) → Page (200+ pages). This hierarchy provides natural scaffolding. Each tier represents a cognitive "chunk" of knowledge, making vast content manageable.
+Learning Path (9 paths) → Module (30+ modules) → Page (200+ pages). This hierarchy provides natural scaffolding. Each tier is a cognitive "chunk" of knowledge, which keeps a large body of content manageable.
 
 **TypeScript configuration system**  
 Learning paths register in a strongly-typed configuration file with metadata: duration, target audience, prerequisite modules, and LMS integration courseIds. This enables:
@@ -96,7 +96,7 @@ Every module follows the same format:
 3. **Learning check:** Scenario-based quiz testing applied knowledge
 4. **Next steps:** Suggested progression to related modules
 
-This consistency reduces cognitive load—learners know exactly what to expect in each module.
+This consistency reduces cognitive load. Learners know exactly what to expect in each module.
 
 ### Testing & refinement
 
@@ -162,7 +162,7 @@ Prerequisites are explicitly declared in each module's overview, preventing frus
 Building a learning ecosystem of this scale required strategic coordination across the organization:
 
 **Strategic planning with leadership:**  
-Worked with VP of Customer Enablement to define learning path priorities based on business impact. Aligned curriculum roadmap with product launches, certification requirements, and customer onboarding needs—ensuring learning investments supported strategic objectives.
+Worked with the VP of Customer Enablement to define learning path priorities based on business impact. Aligned the curriculum roadmap with product launches, certification requirements, and customer onboarding needs, so learning investments supported strategic objectives.
 
 **Cross-functional content partnerships:**  
 Collaborated with 15+ subject matter experts across Product, Engineering, and Solutions teams to develop technically accurate content. Established efficient review workflows that balanced SME input with rapid iteration, enabling delivery of 30+ modules across 3 years.
@@ -223,13 +223,13 @@ TypeScript configuration prevents registration errors through type safety. Instr
 
 - **Persona-based pathways increase relevance.** Administrators and developers have different jobs to accomplish. Tailoring content depth and focus to role increases perceived value and respects learner time.
 
-- **Explicit prerequisites reduce frustration.** Declaring required foundational knowledge prevents learners from attempting advanced modules before they're ready. This respects zone of proximal development—content should challenge but not overwhelm.
+- **Explicit prerequisites reduce frustration.** Declaring required foundational knowledge stops learners from attempting advanced modules before they're ready. This respects zone of proximal development, where content should challenge but not overwhelm.
 
 - **Cross-path interconnections teach systems thinking.** Prerequisites spanning multiple learning paths reinforce that platform expertise requires understanding how components interact, not isolated feature knowledge.
 
-- **Standardization reduces cognitive load.** Consistent module structure creates predictable learning environment. Learners can focus on content mastery rather than navigation discovery.
+- **Standardization reduces cognitive load.** A consistent module structure makes the learning environment predictable. Learners can focus on content mastery rather than figuring out how to get around.
 
-- **Metadata enables personalization.** Rich configuration (duration, audience, prerequisites) supports filtering, recommendation, and progress tracking—foundation for future AI-powered adaptive learning.
+- **Metadata enables personalization.** Rich configuration (duration, audience, prerequisites) supports filtering, recommendation, and progress tracking. That's the foundation for future AI-powered adaptive learning.
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
 title: 'Distributed scraper CI orchestration'
-tagline: 'Keeping a brittle scraping fleet reliable—and committing a large versioned artifact safely while main moves under it'
+tagline: 'Keeping a brittle scraping fleet reliable, and committing a large versioned artifact safely while main moves under it'
 description: 'A data-ingestion pipeline depends on a weekly feed assembled by a fleet of ~40 brittle browser-automation jobs pulling from dozens of third-party sites with no API. I built the CI orchestration that keeps it reliable: matrix failure isolation, an LFS-safe concurrent-commit loop, and an infra-vs-bug failure taxonomy with bounded auto-rerun.'
 client: 'storipro'
 role: 'Engineer & Equity Partner'
@@ -27,7 +27,7 @@ A data-ingestion pipeline depends on a fresh weekly feed assembled from dozens o
 
 ## Architecture & why
 
-The honest frame: most of the individual scrapers are a colleague's. **What I built is the CI orchestration, resilience, and LFS strategy that keep the fleet reliable**—not the scrapers themselves.
+The honest frame: most of the individual scrapers are a colleague's. **What I built is the CI orchestration, resilience, and LFS strategy that keep the fleet reliable**, not the scrapers themselves.
 
 <MermaidDiagram diagram={`flowchart TD
     A["Weekly cron"] --> L["list: enumerate scrapers → JSON matrix"]
@@ -39,22 +39,22 @@ The honest frame: most of the individual scrapers are a colleague's. **What I bu
 `} />
 
 - **Decision: a 3-stage matrix fan-out/fan-in pipeline.** *Alternative rejected:* a single-process "scrape everything in one loop." *Why:* in a single loop, one slow/broken/challenged source kills all the others. Per-source runner isolation with `fail-fast: false` means one broken source can't block the rest, and an always-run consolidate still commits whatever succeeded.
-- **Decision: a snapshot → hard-reset → LFS-pull → restore → commit → retry-rebase loop.** *Alternative rejected:* a naive `git push` (rejected when `main` moves), and an earlier `git reset --soft`. *Why:* `reset --soft` left the index frozen at the trigger commit, so when `main` moved mid-run the next commit's diff *silently deleted every file added upstream*—including workflow files the token can't even push back. Hard-reset + restore makes the commit's diff *strictly the data delta and nothing else.* Pushing LFS blobs *before* the ref references them clears GitHub's LFS-object rejection. This is the load-bearing insight.
-- **Decision: an infrastructure-vs-source failure taxonomy with bounded auto-rerun.** *Alternative rejected:* "rerun the whole workflow on any failure," and treating every red run as a real bug. *Why:* a blanket rerun re-pays for the whole fleet (and risks infinite loops) to recover from a few-second runner crash. Flagging infra failure only when *zero* artifacts arrive, and auto-rerunning only failed jobs whose step list is *empty* (the signature of a hosted-runner crash), bounded by attempt count, retries only the genuinely recoverable class.
-- **Decision: commit raw rows *before* the expensive post-processing step, and guard PRs with a live smoke test.** *Alternative rejected:* process-then-commit in one shot, and trusting selectors until the weekly cron breaks. *Why:* post-processing can hit its time cap; committing raw rows first means a timeout never loses the scrape. A smoke test that runs one source end-to-end on every PR turns silent selector rot into a red check before it reaches the schedule.
+- **Decision: a snapshot → hard-reset → LFS-pull → restore → commit → retry-rebase loop.** *Alternative rejected:* a naive `git push` (rejected when `main` moves), and an earlier `git reset --soft`. *Why:* `reset --soft` left the index frozen at the trigger commit, so when `main` moved mid-run the next commit's diff *silently deleted every file added upstream*, including workflow files the token can't even push back. Hard-reset plus restore makes the commit's diff *strictly the data delta and nothing else.* Pushing LFS blobs *before* the ref references them clears GitHub's LFS-object rejection. This is the load-bearing insight.
+- **Decision: an infrastructure-vs-source failure taxonomy with bounded auto-rerun.** *Alternative rejected:* "rerun the whole workflow on any failure," and treating every red run as a real bug. *Why:* a blanket rerun re-pays for the whole fleet (and risks infinite loops) to recover from a few-second runner crash. So I flag infra failure only when *zero* artifacts arrive, and auto-rerun only failed jobs whose step list is *empty* (the signature of a hosted-runner crash), bounded by attempt count. That retries only the genuinely recoverable class.
+- **Decision: commit raw rows *before* the expensive post-processing step, and guard PRs with a live smoke test.** *Alternative rejected:* process-then-commit in one shot, and trusting selectors until the weekly cron breaks. *Why:* post-processing can hit its time cap, so committing raw rows first means a timeout never loses the scrape. A smoke test that runs one source end-to-end on every PR turns silent selector rot into a red check before it reaches the schedule.
 
 ## Evals / validation
 
-- **Failure isolation, measured:** 10 concurrent runners with `fail-fast: false`; a per-source hard timeout (raised across iterations as the heaviest sources hit it); empty result sets normalized so the consolidator never chokes; on-failure screenshot uploads so breakages are diagnosable.
-- **Concurrent-commit safety:** three push retries with backoff, hard-fail after three; LFS objects pushed before the ref.
+- **Failure isolation, measured:** 10 concurrent runners with `fail-fast: false`, a per-source hard timeout (raised across iterations as the heaviest sources hit it), empty result sets normalized so the consolidator never chokes, and on-failure screenshot uploads so breakages are diagnosable.
+- **Concurrent-commit safety:** three push retries with backoff, hard-fail after three, and LFS objects pushed before the ref.
 - **Crash recovery, bounded:** auto-rerun fires only on empty-step failed jobs and only within an attempt limit, so it can't loop infinitely. A shared retry helper (3 attempts, escalating backoff, transient-only) wraps brittle navigation calls.
-- **Honest gaps:** the time cap is "a signal to scope down," not a durable fix—the real replacement (self-budgeted scrapers with checkpoint-resume) is specced but not yet built; the deploy-wait uses a fixed sleep rather than polling. Named as next steps.
+- **Honest gaps:** the time cap is "a signal to scope down," not a durable fix. The real replacement (self-budgeted scrapers with checkpoint-resume) is specced but not yet built, and the deploy-wait uses a fixed sleep rather than polling. Both are named as next steps.
 
 ## Outcome
 
 - **One broken source blocking the whole run → isolated:** the matrix means a failing source no longer cancels the others. The pipeline has run a weekly cron in production for months on this design.
-- **Corrupting/rejected commits → safe concurrent commits:** the snapshot/hard-reset/retry-rebase loop survives `main` moving mid-run, and the LFS-push fix cleared the rejection—committing a large Git-LFS artifact reliably each week.
+- **Corrupting/rejected commits → safe concurrent commits:** the snapshot/hard-reset/retry-rebase loop survives `main` moving mid-run, and the LFS-push fix cleared the rejection, so a large Git-LFS artifact commits reliably each week.
 - **Wasted runs from runner crashes → auto-recovered:** the empty-step heuristic distinguishes infra crashes from real bugs so only recoverable failures retry.
-- **A concrete throughput win:** the slowest source's weekly run was cut roughly **27×** (from well over an hour to a few minutes) by making its most expensive phase opt-in—eliminating a recurring timeout cancellation.
+- **A concrete throughput win:** the slowest source's weekly run was cut roughly **27×** (from well over an hour to a few minutes) by making its most expensive phase opt-in, which also eliminated a recurring timeout cancellation.
 
-> Built at storipro. This is reliability/distributed-systems engineering, not scraper authorship—most of the individual scrapers are a colleague's; the orchestration, the LFS-safe commit strategy, and the failure taxonomy are mine. Source/domain specifics are intentionally omitted.
+> Built at storipro. This is reliability and distributed-systems engineering, not scraper authorship. Most of the individual scrapers are a colleague's. The orchestration, the LFS-safe commit strategy, and the failure taxonomy are mine. Source and domain specifics are intentionally omitted.
