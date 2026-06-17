@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="Marcus Aurelius">
+  <defs>
+    <radialGradient id="glow" cx="80%" cy="16%" r="72%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.22"/>
+      <stop offset="55%" stop-color="#fbbf24" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#0a0e1a"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g stroke="#f59e0b" stroke-opacity="0.05" stroke-width="1">
+    <path d="M0 225H1600M0 450H1600M0 675H1600M400 0V900M800 0V900M1200 0V900"/>
+  </g>
+  <rect width="1600" height="10" fill="url(#amber)"/>
+  <g font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif">
+<rect x="300" y="206" width="330" height="82" rx="18" fill="#111827" stroke="#f59e0b" stroke-width="3"/>
+<path d="M340 288 v34 l34 -34 z" fill="#111827"/>
+<g stroke="#3b4761" stroke-width="3"><path d="M332 238 H600 M332 262 H540"/></g>
+<rect x="600" y="322" width="360" height="82" rx="18" fill="#1a2234" stroke="#fbbf24" stroke-width="3"/>
+<path d="M920 404 v34 l34 -34 z" fill="#1a2234"/>
+<g stroke="#fbbf24" stroke-width="3" opacity="0.85"><path d="M632 354 H928 M632 378 H860"/></g>
+<rect x="300" y="436" width="300" height="72" rx="18" fill="#111827" stroke="#f59e0b" stroke-width="3"/>
+<g stroke="#3b4761" stroke-width="3"><path d="M332 466 H560 M332 488 H500"/></g>
+<g stroke="#cbd5e1" stroke-width="3" fill="none" opacity="0.45">
+  <path d="M1066 222 H1170 M1058 232 H1178 M1078 232 V430 M1108 232 V430 M1138 232 V430 M1066 430 H1170 M1058 442 H1178"/>
+</g>
+  </g>
+  <text x="112" y="688" font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial" font-size="30" letter-spacing="6" font-weight="700" fill="url(#amber)">CONVERSATIONAL AI</text>
+  <text x="106" y="788" font-family="Georgia,Times New Roman,serif" font-size="76" font-weight="700" fill="#f8fafc">Marcus Aurelius</text>
+</svg>

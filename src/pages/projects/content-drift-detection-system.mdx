@@ -1,29 +1,26 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
 title: 'Content Drift Detection System'
-tagline: 'AI-augmented workflow for maintaining learning content alignment with rapid API changes'
-description: 'A three-agent Copilot Skills system that detects, maps, and drafts updates for learning modules impacted by 250+ API releases per year, enabling systematic content review where capacity did not exist.'
+tagline: 'An agentic system that keeps a documentation corpus aligned with rapid API change—running in CI'
+description: 'A three-agent system (built on Copilot Skills) that detects, maps, and drafts updates for documentation impacted by 250+ API releases per year—catching drift before it reaches developers.'
 client: 'commercetools'
 role: 'Learning Systems Architect'
 timeline: '2026'
-audience: 'Learning content teams, developer enablement, technical writers, platform educators'
+audience: 'Developer documentation teams, platform engineering, technical writers'
 tools: ['GitHub Copilot', 'VS Code', 'Node.js', 'MDX', 'Algolia Search']
-deliverables: ['3 Copilot Skills', 'Topic map JSON', 'Pilot scripts', 'Automated analysis outputs']
-heroImage: '/images/content-drift.webp'
+agenticStack: ['Skills: release-analyzer → content-mapper → change-generator', 'Progressive disclosure (lazy-loaded refs)', 'Portable across VS Code / Copilot CLI', 'Human-in-the-loop', 'Instruction files']
+deliverables: ['3 Copilot Skills (analyzer · mapper · generator)', 'Validation schemas + example outputs', 'Real release-note test runs']
+heroImage: '/images/content-drift-hero.svg'
 metrics:
-  - label: 'Release Notes Analyzed'
-    value: '1,200+'
-  - label: 'Analysis Speed'
-    value: '<2s per release'
-  - label: 'Infrastructure Cost'
-    value: '$0 per run'
-  - label: 'Deployment Model'
-    value: 'Pilot → Production'
+  - label: 'Pipeline skills (analyzer·mapper·generator)'
+    value: '3'
+  - label: 'System size (46 files)'
+    value: '+3,688'
+  - label: 'Real release-note test runs (5 updates)'
+    value: '2'
 ---
 
 import MermaidDiagram from '../../components/MermaidDiagram.astro';
-
-# Automated Content Drift Detection System
 
 ## The Problem
 
@@ -118,11 +115,12 @@ Release notes include topic tags matched against learning module topics. Candida
 
 ### Impact
 
-| Metric                      | Value                           |
-| --------------------------- | ------------------------------- |
-| **Backlog processed**       | `1,200+` releases (2024-2026)     |
-| **Pilot scope**             | `2 learning paths` validated      |
-| **Production rollout**      | All learning paths (2026)         |
+| Metric                      | Value                              |
+| --------------------------- | ---------------------------------- |
+| **System size**             | `+3,688 LOC` / 46 files            |
+| **Validated on**            | `2 real release notes` (5 updates) |
+| **Applied to**              | Dev Essentials path                |
+| **Deployment**              | Human-in-the-loop (review → apply) |
 
 ### Transformation
 
@@ -173,7 +171,7 @@ Rather than building custom LLM automation, the system leverages GitHub Copilot 
 
 ## Key Insights
 
-**1. Augment, Don't Replace:** Identify irreducible human decision points and design around them. The system reduces decision volume by `90%+` rather than eliminating judgment where context matters.
+**1. Augment, Don't Replace:** Identify irreducible human decision points and design around them. The system narrows the reviewer's job from "read every release against every module" to "approve or reject scoped, pre-drafted updates"—reducing decision volume rather than eliminating judgment where context matters.
 
 **2. Separate Detection from Updating:** These require different optimization targets. Detection needs speed and scale (high recall, acceptable false positives). Updating needs accuracy and nuance (zero tolerance for errors). One system can't optimize for both.
 

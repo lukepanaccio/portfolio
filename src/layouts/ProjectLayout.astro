@@ -15,6 +15,7 @@ export interface Props {
     role?: string;
     timeline?: string;
     tools?: string[];
+    agenticStack?: string[];
     audience?: string;
     deliverables?: string[];
     heroImage?: string;
@@ -166,6 +167,19 @@ const components = Astro.props.components || {};
                 </div>
               )}
               
+              {frontmatter.agenticStack && frontmatter.agenticStack.length > 0 && (
+                <div>
+                  <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-3">Agentic toolchain</h3>
+                  <div class="flex flex-wrap gap-2">
+                    {frontmatter.agenticStack.map((item) => (
+                      <span class="inline-flex items-center px-3 py-1.5 bg-accent-primary/10 border border-accent-primary/30 text-accent-primary text-xs rounded-md font-medium hover:bg-accent-primary/20 transition-colors">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {frontmatter.deliverables && frontmatter.deliverables.length > 0 && (
                 <div>
                   <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-3">Deliverables</h3>
