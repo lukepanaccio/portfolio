@@ -1,0 +1,52 @@
+<!-- @dsCard group="Components" name="Header / Nav" subtitle="Glassmorphic sticky bar · animated underlines" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Header / Nav</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg-1:#0a0e1a;--bg-3:#1a2234;--amber:#f59e0b;--deep:#d97706;--t1:#f9fafb;--t2:#d1d5db;--t3:#9ca3af;
+    --display:'Crimson Pro',Georgia,serif;--body:'Manrope',system-ui,sans-serif;}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg-1);color:var(--t1);font-family:var(--body);
+    background-image:radial-gradient(70% 50% at 50% 0%,rgba(245,158,11,.16),transparent 60%);}
+  .label{max-width:1200px;margin:0 auto;padding:34px 40px 0;font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;color:var(--amber)}
+  header{position:sticky;top:0;z-index:50;background:rgba(10,14,26,.8);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,.05)}
+  nav{max-width:1200px;margin:0 auto;padding:22px 40px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:var(--display);font-weight:700;font-size:28px;color:var(--t1);text-decoration:none;position:relative}
+  .logo .u{position:absolute;left:0;bottom:-4px;height:2px;width:38%;background:linear-gradient(90deg,var(--amber),var(--deep))}
+  .links{display:flex;gap:34px;align-items:center}
+  .links a{font-size:14px;font-weight:600;text-decoration:none;color:var(--t2);position:relative}
+  .links a.active{color:var(--amber)}
+  .links a .u{position:absolute;left:0;bottom:-6px;height:2px;background:linear-gradient(90deg,var(--amber),var(--deep))}
+  .links a.active .u{width:100%}
+  .links a:not(.active) .u{width:0}
+  .demo{max-width:1200px;margin:60px auto 0;padding:0 40px}
+  .demo h1{font-family:var(--display);font-size:54px;letter-spacing:-.02em;margin:0 0 14px;max-width:18ch}
+  .demo p{color:var(--t2);max-width:54ch;font-size:17px;line-height:1.7}
+</style>
+</head>
+<body>
+  <div class="label">Components — Header</div>
+  <div style="height:18px"></div>
+  <header>
+    <nav>
+      <a class="logo" href="#">Luke Panaccio<span class="u"></span></a>
+      <div class="links">
+        <a href="#" class="active">Work<span class="u"></span></a>
+        <a href="#">About<span class="u"></span></a>
+        <a href="#">Contact<span class="u"></span></a>
+      </div>
+    </nav>
+  </header>
+  <div class="demo">
+    <h1>Production AI, proven.</h1>
+    <p>Sticky and glassmorphic — it blurs the content scrolling beneath while the brand mark and active link carry the amber accent. Underlines wipe in on hover from left to right over 300ms.</p>
+  </div>
+</body>
+</html>

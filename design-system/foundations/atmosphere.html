@@ -1,0 +1,78 @@
+<!-- @dsCard group="Foundations" name="Atmosphere & Effects" subtitle="Amber bloom · vignette · grain · glow · accent gradient" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atmosphere & Effects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Manrope:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{--bg-1:#0a0e1a;--amber:#f59e0b;--gold:#fbbf24;--t1:#f9fafb;--t2:#d1d5db;--t3:#9ca3af;
+    --display:'Crimson Pro',Georgia,serif;--body:'Manrope',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg-1);color:var(--t1);font-family:var(--body);
+    background-image:radial-gradient(60% 50% at 84% 6%,rgba(245,158,11,.14),transparent 70%);}
+  .wrap{max-width:1080px;margin:0 auto;padding:56px 56px 72px}
+  .eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;
+    background:linear-gradient(90deg,var(--amber),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 10px}
+  h1{font-family:var(--display);font-weight:700;font-size:46px;letter-spacing:-.02em;margin:0 0 8px}
+  .lede{color:var(--t2);font-size:16px;max-width:64ch;margin:0 0 40px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .tile{border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;background:#0c1120}
+  .demo{height:150px;position:relative;overflow:hidden}
+  .meta{padding:13px 15px;border-top:1px solid rgba(255,255,255,.06)}
+  .name{font-size:14px;font-weight:700}
+  .desc{font-size:12px;color:var(--t3);margin-top:4px;line-height:1.5}
+  .code{font-family:var(--mono);font-size:11px;color:#fcd34d;margin-top:7px;word-break:break-word}
+  .grain{position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  @media (max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Foundations</p>
+    <h1>Atmosphere</h1>
+    <p class="lede">The recurring lighting and texture treatments that give the surfaces depth without decoration. Used across page backgrounds and every hero image so the system reads as one piece.</p>
+    <div class="grid">
+
+      <div class="tile">
+        <div class="demo" style="background:#0a0e1a"><div style="position:absolute;inset:0;background:radial-gradient(60% 60% at 80% 14%,rgba(245,158,11,.45),rgba(251,191,36,.12) 38%,transparent 72%)"></div></div>
+        <div class="meta"><div class="name">Amber bloom</div><div class="desc">Warm radial light, top-right. Anchors warmth and focus.</div><div class="code">radial 80% 14% · f59e0b→transparent</div></div>
+      </div>
+
+      <div class="tile">
+        <div class="demo" style="background:#0a0e1a"><div style="position:absolute;inset:0;background:radial-gradient(50% 60% at 12% 96%,rgba(30,58,95,.55),transparent 70%)"></div></div>
+        <div class="meta"><div class="name">Cool counter-bloom</div><div class="desc">Faint slate glow, bottom-left, balances the warm side.</div><div class="code">radial 12% 96% · #1e3a5f</div></div>
+      </div>
+
+      <div class="tile">
+        <div class="demo" style="background:radial-gradient(circle at 50% 44%,#0e1424,#05070d)"></div>
+        <div class="meta"><div class="name">Vignette</div><div class="desc">Edge-darkening that focuses the eye on the center.</div><div class="code">radial center · +#05070d edges</div></div>
+      </div>
+
+      <div class="tile">
+        <div class="demo" style="background:#0a0e1a"><div class="grain"></div></div>
+        <div class="meta"><div class="name">Film grain</div><div class="desc">Fractal-noise overlay at ~5% for tactile depth.</div><div class="code">feTurbulence · opacity .05</div></div>
+      </div>
+
+      <div class="tile">
+        <div class="demo" style="background:#0a0e1a;display:flex;align-items:center;justify-content:center">
+          <div style="width:120px;height:48px;border-radius:12px;background:#1a2234;border:1px solid #fbbf24;box-shadow:0 0 22px rgba(245,158,11,.55)"></div>
+        </div>
+        <div class="meta"><div class="name">Focal glow</div><div class="desc">Soft amber halo on focal nodes & accent elements.</div><div class="code">drop-shadow blur 9 · f59e0b .55</div></div>
+      </div>
+
+      <div class="tile">
+        <div class="demo" style="background:#0a0e1a;display:flex;align-items:flex-end">
+          <div style="width:100%;height:6px;background:linear-gradient(90deg,transparent,#f59e0b 18%,#fbbf24 82%,transparent)"></div>
+        </div>
+        <div class="meta"><div class="name">Accent bar & gradient</div><div class="desc">End-faded amber rule; 135° gradient for CTAs.</div><div class="code">linear f59e0b→fbbf24</div></div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
