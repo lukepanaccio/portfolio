@@ -1,0 +1,77 @@
+<!-- @dsCard group="Foundations" name="Color Palette" subtitle="Dark navy ramp · warm amber accents · text & borders" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Color Palette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1:#0a0e1a;--bg-2:#111827;--bg-3:#1a2234;--bg-4:#222d42;
+    --amber:#f59e0b;--gold:#fbbf24;--amber-deep:#d97706;
+    --t1:#f9fafb;--t2:#d1d5db;--t3:#9ca3af;
+    --display:'Crimson Pro',Georgia,serif;--body:'Manrope',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg-1);color:var(--t1);font-family:var(--body);
+    background-image:radial-gradient(60% 50% at 82% 8%,rgba(245,158,11,.16),transparent 70%),
+      radial-gradient(46% 44% at 10% 100%,rgba(30,58,95,.18),transparent 70%);}
+  .wrap{max-width:1080px;margin:0 auto;padding:56px 56px 72px}
+  .eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;
+    background:linear-gradient(90deg,var(--amber),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 10px}
+  h1{font-family:var(--display);font-weight:700;font-size:46px;letter-spacing:-.02em;margin:0 0 8px;line-height:1.05}
+  .lede{color:var(--t2);font-size:16px;max-width:62ch;margin:0 0 40px}
+  h2{font-family:var(--display);font-weight:600;font-size:22px;margin:36px 0 16px;letter-spacing:-.01em}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .sw{border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;background:var(--bg-2)}
+  .chip{height:96px}
+  .meta{padding:12px 14px}
+  .name{font-size:14px;font-weight:600}
+  .hex{font-family:var(--mono);font-size:12px;color:var(--t3);margin-top:3px}
+  .role{font-size:11px;color:var(--t3);margin-top:6px;line-height:1.4}
+  @media (max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Foundations</p>
+    <h1>Color</h1>
+    <p class="lede">A deep-navy foundation with a single warm accent family. Amber does all the highlighting work; everything else recedes so content and focal points carry the page.</p>
+
+    <h2>Backgrounds</h2>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#0a0e1a"></div><div class="meta"><div class="name">bg / primary</div><div class="hex">#0a0e1a</div><div class="role">Page base, deepest navy</div></div></div>
+      <div class="sw"><div class="chip" style="background:#111827"></div><div class="meta"><div class="name">bg / secondary</div><div class="hex">#111827</div><div class="role">Sections, panels</div></div></div>
+      <div class="sw"><div class="chip" style="background:#1a2234"></div><div class="meta"><div class="name">bg / elevated</div><div class="hex">#1a2234</div><div class="role">Cards, raised surfaces</div></div></div>
+      <div class="sw"><div class="chip" style="background:#222d42"></div><div class="meta"><div class="name">bg / hover</div><div class="hex">#222d42</div><div class="role">Hover & active states</div></div></div>
+    </div>
+
+    <h2>Accents — warm amber/gold</h2>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#f59e0b"></div><div class="meta"><div class="name">accent / primary</div><div class="hex">#f59e0b</div><div class="role">Primary accent, links, focus</div></div></div>
+      <div class="sw"><div class="chip" style="background:#fbbf24"></div><div class="meta"><div class="name">accent / gold</div><div class="hex">#fbbf24</div><div class="role">Bright highlight, emphasis</div></div></div>
+      <div class="sw"><div class="chip" style="background:#d97706"></div><div class="meta"><div class="name">accent / deep</div><div class="hex">#d97706</div><div class="role">Gradient end, pressed</div></div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#f59e0b,#d97706)"></div><div class="meta"><div class="name">gradient / accent</div><div class="hex">135° f59e0b→d97706</div><div class="role">CTAs, badges</div></div></div>
+    </div>
+
+    <h2>Text</h2>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#f9fafb"></div><div class="meta"><div class="name">text / primary</div><div class="hex">#f9fafb</div><div class="role">Headings, key copy</div></div></div>
+      <div class="sw"><div class="chip" style="background:#d1d5db"></div><div class="meta"><div class="name">text / secondary</div><div class="hex">#d1d5db</div><div class="role">Body copy</div></div></div>
+      <div class="sw"><div class="chip" style="background:#9ca3af"></div><div class="meta"><div class="name">text / tertiary</div><div class="hex">#9ca3af</div><div class="role">Captions, meta</div></div></div>
+      <div class="sw"><div class="chip" style="background:#fbbf24"></div><div class="meta"><div class="name">text / accent</div><div class="hex">#fbbf24</div><div class="role">Inline emphasis</div></div></div>
+    </div>
+
+    <h2>Borders</h2>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#0e1422;position:relative"><div style="position:absolute;inset:18px;border:1px solid rgba(255,255,255,.05);border-radius:8px"></div></div><div class="meta"><div class="name">border / subtle</div><div class="hex">rgba(255,255,255,.05)</div></div></div>
+      <div class="sw"><div class="chip" style="background:#0e1422;position:relative"><div style="position:absolute;inset:18px;border:1px solid rgba(255,255,255,.1);border-radius:8px"></div></div><div class="meta"><div class="name">border / medium</div><div class="hex">rgba(255,255,255,.10)</div></div></div>
+      <div class="sw"><div class="chip" style="background:#0e1422;position:relative"><div style="position:absolute;inset:18px;border:1px solid rgba(255,255,255,.15);border-radius:8px"></div></div><div class="meta"><div class="name">border / strong</div><div class="hex">rgba(255,255,255,.15)</div></div></div>
+      <div class="sw"><div class="chip" style="background:#0e1422;position:relative"><div style="position:absolute;inset:18px;border:1px solid rgba(245,158,11,.5);border-radius:8px"></div></div><div class="meta"><div class="name">border / accent</div><div class="hex">rgba(245,158,11,.5)</div><div class="role">Hover ring on cards</div></div></div>
+    </div>
+  </div>
+</body>
+</html>

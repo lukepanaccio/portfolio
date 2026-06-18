@@ -1,0 +1,96 @@
+<!-- @dsCard group="Components" name="Project Card" subtitle="Hero image · title · tags · case-study link · featured variant" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Manrope:wght@400;500;600;700;800&family=Georgia&display=swap" rel="stylesheet">
+<style>
+  :root{--bg-1:#0a0e1a;--bg-2:#111827;--bg-3:#1a2234;--bg-4:#222d42;--amber:#f59e0b;--gold:#fbbf24;--deep:#d97706;
+    --t1:#f9fafb;--t2:#d1d5db;--t3:#9ca3af;--display:'Crimson Pro',Georgia,serif;--body:'Manrope',system-ui,sans-serif;}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg-1);color:var(--t1);font-family:var(--body);
+    background-image:radial-gradient(60% 50% at 84% 6%,rgba(245,158,11,.13),transparent 70%);}
+  .wrap{max-width:1060px;margin:0 auto;padding:56px}
+  .eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;
+    background:linear-gradient(90deg,var(--amber),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 10px}
+  h1{font-family:var(--display);font-weight:700;font-size:46px;letter-spacing:-.02em;margin:0 0 8px}
+  .lede{color:var(--t2);font-size:16px;max-width:64ch;margin:0 0 40px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;align-items:start}
+  .card{position:relative;border:1px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;background:var(--bg-3);
+    box-shadow:0 24px 60px rgba(0,0,0,.35)}
+  .card.feat{border-color:rgba(245,158,11,.5);box-shadow:0 28px 70px rgba(245,158,11,.12)}
+  .imgwrap{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--bg-2)}
+  /* mini hero echoing the SVG treatment */
+  .hero{position:absolute;inset:0;background:linear-gradient(180deg,#0c1122,#070a13)}
+  .hero .bloom{position:absolute;inset:0;background:radial-gradient(60% 60% at 80% 16%,rgba(245,158,11,.28),rgba(251,191,36,.08) 40%,transparent 72%)}
+  .hero .grid2{position:absolute;inset:0;opacity:.07;
+    background-image:linear-gradient(#f59e0b 1px,transparent 1px),linear-gradient(90deg,#f59e0b 1px,transparent 1px);background-size:54px 54px;
+    -webkit-mask-image:radial-gradient(60% 60% at 64% 40%,#000,transparent);mask-image:radial-gradient(60% 60% at 64% 40%,#000,transparent)}
+  .hero .vig{position:absolute;inset:0;background:radial-gradient(78% 78% at 50% 44%,transparent 55%,rgba(5,7,13,.55))}
+  .hero .node{position:absolute;border-radius:12px;border:1.5px solid var(--amber);background:linear-gradient(180deg,#1c2740,#0e1626);box-shadow:0 0 16px rgba(245,158,11,.5)}
+  .hero .n1{left:38%;top:24%;width:24%;height:16%}
+  .hero .n2{left:42%;top:58%;width:16%;height:15%;border-color:var(--gold);box-shadow:0 0 20px rgba(251,191,36,.6)}
+  .hero .dot{position:absolute;top:44%;width:5%;aspect-ratio:1;border-radius:50%;border:1.5px solid var(--amber);background:#0a0e1a;box-shadow:0 0 12px rgba(245,158,11,.5)}
+  .hero .d1{left:24%}.hero .d2{left:48%}.hero .d3{left:72%}
+  .hero .bar{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,#f59e0b 18%,#fbbf24 82%,transparent)}
+  .hero .eb{position:absolute;left:7%;bottom:24%;font-size:11px;letter-spacing:.28em;font-weight:700;color:var(--gold)}
+  .hero .ttl{position:absolute;left:7%;bottom:8%;font-family:Georgia,serif;font-weight:700;font-size:26px;color:#f8fafc}
+  .imgover{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,14,26,.8),rgba(10,14,26,.1) 55%,transparent);z-index:2}
+  .pill{position:absolute;top:14px;right:14px;z-index:3;padding:6px 13px;background:linear-gradient(135deg,var(--amber),var(--deep));
+    color:#0a0e1a;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;border-radius:999px}
+  .body{padding:24px}
+  .body h3{font-family:var(--display);font-weight:700;font-size:24px;margin:0 0 10px;line-height:1.15}
+  .body p{color:var(--t2);font-size:15px;line-height:1.6;margin:0 0 16px}
+  .tags{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}
+  .tag{font-size:12px;padding:6px 12px;background:var(--bg-4);border:1px solid rgba(255,255,255,.05);color:var(--t3);border-radius:8px}
+  .cta{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-weight:700;font-size:14px;text-decoration:none}
+  .note{margin-top:26px;font-size:13px;color:var(--t3);text-align:center}
+  @media (max-width:760px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Components</p>
+    <h1>Project Card</h1>
+    <p class="lede">The workhorse of the homepage grid: a polished hero image, title, one-line outcome, classifying tags, and the case-study link. The featured variant gets an amber ring and a corner pill.</p>
+
+    <div class="grid">
+      <article class="card">
+        <div class="imgwrap">
+          <div class="hero"><div class="bar"></div><div class="bloom"></div><div class="grid2"></div>
+            <div class="node n1"></div><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="node n2"></div>
+            <div class="vig"></div><div class="eb">APPLIED AI · EVAL-DRIVEN</div><div class="ttl">AI Authoring</div></div>
+          <div class="imgover"></div>
+        </div>
+        <div class="body">
+          <h3>Eval-driven AI authoring</h3>
+          <p>An orchestrator of isolated skills behind a hard quality gate — shipped with zero false-passes on the gold set.</p>
+          <div class="tags"><span class="tag">LLM evaluation</span><span class="tag">Agentic</span><span class="tag">Python</span></div>
+          <a class="cta">View case study <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+      </article>
+
+      <article class="card feat">
+        <div class="imgwrap">
+          <span class="pill">Featured</span>
+          <div class="hero"><div class="bar"></div><div class="bloom"></div><div class="grid2"></div>
+            <div class="node n1" style="left:34%;width:32%"></div><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="node n2"></div>
+            <div class="vig"></div><div class="eb">PRODUCTION ENGINEERING</div><div class="ttl">Stripe Billing</div></div>
+          <div class="imgover"></div>
+        </div>
+        <div class="body">
+          <h3>Payment-integrity infrastructure</h3>
+          <p>Idempotent webhook resolution with a self-healing loop — no double-charges under replay, audited end to end.</p>
+          <div class="tags"><span class="tag">Stripe</span><span class="tag">Webhooks</span><span class="tag">Reliability</span></div>
+          <a class="cta">View case study <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+      </article>
+    </div>
+    <p class="note">Hover: card lifts 8px, border warms to amber, hero image zooms to 1.1×, title shifts to amber, link arrow slides right.</p>
+  </div>
+</body>
+</html>

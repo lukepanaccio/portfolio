@@ -1,0 +1,72 @@
+<!-- @dsCard group="Hero Images" name="Hero recipe — how each one is built" subtitle="Shared layers · per-motif glow · reproducible" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero recipe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Manrope:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{--bg-1:#0a0e1a;--bg-2:#111827;--amber:#f59e0b;--gold:#fbbf24;--t1:#f9fafb;--t2:#d1d5db;--t3:#9ca3af;
+    --display:'Crimson Pro',Georgia,serif;--body:'Manrope',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg-1);color:var(--t1);font-family:var(--body);line-height:1.65;
+    background-image:radial-gradient(60% 50% at 84% 6%,rgba(245,158,11,.15),transparent 70%);}
+  .wrap{max-width:1000px;margin:0 auto;padding:56px}
+  .eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;
+    background:linear-gradient(90deg,var(--amber),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 10px}
+  h1{font-family:var(--display);font-weight:700;font-size:44px;letter-spacing:-.02em;margin:0 0 8px}
+  .lede{color:var(--t2);font-size:16px;max-width:64ch;margin:0 0 36px}
+  .cols{display:grid;grid-template-columns:1.1fr 1fr;gap:30px;align-items:start}
+  ol{margin:0;padding-left:20px}
+  li{margin:0 0 12px;color:var(--t2);font-size:15px}
+  li b{color:var(--t1)}
+  .demo{border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;position:relative;aspect-ratio:16/10;
+    background:linear-gradient(180deg,#0c1122,#070a13)}
+  .bloom{position:absolute;inset:0;background:radial-gradient(60% 60% at 80% 16%,rgba(245,158,11,.28),rgba(251,191,36,.08) 40%,transparent 72%)}
+  .grid2{position:absolute;inset:0;opacity:.07;background-image:linear-gradient(#f59e0b 1px,transparent 1px),linear-gradient(90deg,#f59e0b 1px,transparent 1px);
+    background-size:48px 48px;-webkit-mask-image:radial-gradient(60% 60% at 64% 40%,#000,transparent);mask-image:radial-gradient(60% 60% at 64% 40%,#000,transparent)}
+  .node{position:absolute;left:34%;top:34%;width:32%;height:22%;border-radius:12px;border:1.5px solid var(--gold);
+    background:linear-gradient(180deg,#26324a,#161f33);box-shadow:0 0 22px rgba(251,191,36,.6);display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:var(--gold);font-weight:700;letter-spacing:.12em}
+  .vig{position:absolute;inset:0;background:radial-gradient(78% 78% at 50% 44%,transparent 55%,rgba(5,7,13,.55))}
+  .bar{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,#f59e0b 18%,#fbbf24 82%,transparent)}
+  .eb{position:absolute;left:7%;bottom:22%;font-size:11px;letter-spacing:.26em;font-weight:700;color:var(--gold)}
+  .ttl{position:absolute;left:7%;bottom:7%;font-family:Georgia,serif;font-weight:700;font-size:28px;color:#f8fafc}
+  .code{font-family:var(--mono);font-size:12px;color:var(--gold);background:var(--bg-2);border:1px solid rgba(255,255,255,.07);
+    border-radius:10px;padding:14px 16px;margin-top:22px;line-height:1.7;white-space:pre-wrap}
+  @media (max-width:760px){.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Hero Images</p>
+    <h1>The recipe</h1>
+    <p class="lede">Every project hero is a 1600×900 SVG built from one shared template, so the whole set reads as a single system. Only the central motif changes per project.</p>
+    <div class="cols">
+      <ol>
+        <li><b>Background</b> — vertical navy gradient (#0c1122 → #070a13).</li>
+        <li><b>Dual bloom</b> — warm amber radial top-right, faint cool slate radial bottom-left.</li>
+        <li><b>Grid</b> — 1px amber lines at 7% opacity, masked to fade toward the edges.</li>
+        <li><b>Motif</b> — the per-project diagram; amber-stroked nodes carry a soft glow.</li>
+        <li><b>Vignette</b> — radial edge-darkening to focus the center.</li>
+        <li><b>Grain</b> — fractal-noise overlay at ~5%.</li>
+        <li><b>Accent bar + type</b> — end-faded amber rule, eyebrow (amber caps), serif title.</li>
+      </ol>
+      <div>
+        <div class="demo">
+          <div class="bar"></div><div class="bloom"></div><div class="grid2"></div>
+          <div class="node">HARD GATE</div>
+          <div class="vig"></div>
+          <div class="eb">APPLIED AI · EVAL-DRIVEN</div><div class="ttl">AI Authoring</div>
+        </div>
+        <div class="code">scripts/generate-project-images.sh
+# edit a motif → re-run → all 18 rebuild
+# glow auto-applied to #f59e0b / #fbbf24 strokes</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

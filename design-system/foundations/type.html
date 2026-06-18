@@ -1,0 +1,49 @@
+<!-- @dsCard group="Foundations" name="Typography" subtitle="Crimson Pro display · Manrope body · JetBrains Mono" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Typography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg-1:#0a0e1a;--amber:#f59e0b;--gold:#fbbf24;--t1:#f9fafb;--t2:#d1d5db;--t3:#9ca3af;
+    --display:'Crimson Pro',Georgia,serif;--body:'Manrope',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg-1);color:var(--t1);font-family:var(--body);line-height:1.7;
+    background-image:radial-gradient(60% 50% at 84% 6%,rgba(245,158,11,.15),transparent 70%);}
+  .wrap{max-width:1040px;margin:0 auto;padding:56px 56px 72px}
+  .eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;
+    background:linear-gradient(90deg,var(--amber),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 10px}
+  .row{display:grid;grid-template-columns:120px 1fr;gap:24px;align-items:baseline;padding:20px 0;border-top:1px solid rgba(255,255,255,.07)}
+  .tag{font-family:var(--mono);font-size:12px;color:var(--t3);line-height:1.6}
+  .d1{font-family:var(--display);font-weight:700;font-size:64px;letter-spacing:-.025em;line-height:1.02;margin:0}
+  .d2{font-family:var(--display);font-weight:700;font-size:42px;letter-spacing:-.02em;line-height:1.08;margin:0}
+  .d3{font-family:var(--display);font-weight:600;font-size:28px;letter-spacing:-.01em;margin:0}
+  .lead{font-size:20px;color:var(--t2);margin:0;max-width:60ch}
+  .body{font-size:16px;color:var(--t2);margin:0;max-width:64ch}
+  .small{font-size:13px;color:var(--t3);margin:0}
+  .eb{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;color:var(--gold);margin:0}
+  code{font-family:var(--mono);font-size:14px;background:#1a2234;color:#fcd34d;padding:.2em .45em;border-radius:6px}
+  .acc{color:var(--gold)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Foundations</p>
+    <h1 class="d1" style="margin-bottom:6px">Typography</h1>
+    <p class="body" style="margin-bottom:18px">A serif display face for voice and authority, a clean grotesque for body, monospace for system detail. Headings track tight (-0.02em); body breathes at 1.7.</p>
+
+    <div class="row"><div class="tag">Display 1<br>Crimson Pro 700<br>64 / 1.02</div><h2 class="d1">Production AI, proven.</h2></div>
+    <div class="row"><div class="tag">Display 2<br>Crimson Pro 700<br>42 / 1.08</div><h3 class="d2">Eval-driven systems that hold up</h3></div>
+    <div class="row"><div class="tag">Display 3<br>Crimson Pro 600<br>28</div><h4 class="d3">Case study heading</h4></div>
+    <div class="row"><div class="tag">Eyebrow<br>Manrope 700<br>13 · .34em caps</div><p class="eb">Applied AI · Eval-driven</p></div>
+    <div class="row"><div class="tag">Lead<br>Manrope 400<br>20 / 1.7</div><p class="lead">I design, ship and validate production AI systems — and I bring the receipts that show they work.</p></div>
+    <div class="row"><div class="tag">Body<br>Manrope 400<br>16 / 1.7</div><p class="body">The body face is Manrope: even color, generous line-height, comfortable at long measure. Emphasis uses <span class="acc">amber inline accent</span> rather than bold weight where possible.</p></div>
+    <div class="row"><div class="tag">Mono<br>JetBrains Mono<br>14</div><p class="small">Inline code reads <code>npm run build</code> and metric labels use the mono face for precision.</p></div>
+    <div class="row"><div class="tag">Caption<br>Manrope 400<br>13</div><p class="small">Captions and metadata, tertiary grey.</p></div>
+  </div>
+</body>
+</html>
