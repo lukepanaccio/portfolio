@@ -5,13 +5,17 @@ export interface Props {
   image: string;
   href: string;
   tags?: string[];
+  categories?: string[];
   featured?: boolean;
 }
 
-const { title, description, image, href, tags = [], featured = false } = Astro.props;
+const { title, description, image, href, tags = [], categories = [], featured = false } = Astro.props;
 ---
 
-<article class={`group relative overflow-hidden rounded-xl bg-bg-elevated border border-border-medium hover:border-accent-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-accent-primary/10 hover:-translate-y-2 ${featured ? 'md:col-span-2 md:row-span-2' : ''}`}>
+<article
+  data-categories={categories.join(' ')}
+  class={`group relative overflow-hidden rounded-xl bg-bg-elevated border border-border-medium hover:border-accent-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-accent-primary/10 hover:-translate-y-2 ${featured ? 'md:col-span-2 md:row-span-2' : ''}`}
+>
   <!-- Glow effect on hover -->
   <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
     <div class="absolute inset-0 bg-gradient-accent opacity-5 blur-xl"></div>

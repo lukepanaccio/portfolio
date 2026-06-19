@@ -1,0 +1,61 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Natural-language control for Ableton Live'
+tagline: 'I took an open-source MCP bridge and wrapped it in a one-command, low-error setup, then traced the bug that stopped it loading'
+description: 'Control a live Ableton session by typing or speaking plain English, built on top of an open-source MCP bridge. My work was the one-command install that runs safely every time, and the log-driven diagnosis. I did not build the bridge.'
+client: 'Personal project'
+role: 'Engineer (integration, automation & diagnosis)'
+timeline: '2026'
+audience: 'Builders integrating LLMs with desktop applications'
+tools: ['macOS', 'Ableton Live 12', 'Claude Desktop', 'MCP', 'Python', 'bash', 'jq']
+agenticStack: ['MCP (integration & deployment)', 'CLAUDE.md (user-level standing rule)', 'Shell / CLI automation']
+heroImage: '/images/ableton-mcp-hero.svg'
+metrics:
+  - label: 'Setup steps → one command'
+    value: '7 → 1'
+  - label: 'Silent launch-failures pre-empted'
+    value: '2'
+  - label: 'Root cause found via log diagnostics'
+    value: '1'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+You have a musical idea. Getting it into Ableton costs you time and focus. You dive through menus, hunt for the right selector, and lose your flow. I wanted to skip that. The goal: control tracks, clips, devices, MIDI, and transport in a *live* session by typing or speaking plain English, with **as little code as possible and a setup that works the same way every time.** The hard part wasn't the bridge protocol. It was making the integration install reliably, and figuring out why it didn't.
+
+## Architecture & why
+
+First, who did what. The MCP bridge itself is **open-source, and I didn't write it.** (MCP is the protocol that lets Claude talk to other software. This bridge is the Remote Script and socket server that expose Ableton's Live API.) My work is the layer that integrates and installs it, plus the diagnosis when it broke.
+
+<MermaidDiagram diagram={`flowchart TD
+    A["You speak or type"] --> B["macOS Dictation"]
+    B --> C["Claude Desktop"]
+    C --> D["MCP server (uvx)"]
+    D --> E["TCP socket"]
+    E --> F["Ableton Remote Script<br/>(open-source bridge)"]
+    F --> G["Live API → your session"]
+`} />
+
+- **Decision: use a mature open-source MCP server, driven from Claude Desktop.** *Alternative rejected:* Ableton's brand-new official Extensions SDK (released days earlier). *Why:* the SDK is still in beta, only works in the Suite edition, and runs once then stops. I needed a bridge that stays open for a back-and-forth conversation. The MCP path was proven and worked right then.
+- **Decision: pick the bridge built around Session view.** *Alternative rejected:* a server focused on Arrangement view, and heavier servers with 220-322 tools. *Why:* my real pain was in Session view. The lighter server had the biggest community and did exactly that. The heavyweight options did far more than I needed.
+- **Decision: use macOS's built-in dictation for speech.** *Alternative rejected:* writing my own push-to-talk daemon (Whisper or Deepgram) that pipes audio to a headless model. *Why:* zero code to write, and it's good enough to talk and have it type into Claude. I'm keeping the custom daemon in my back pocket, only if I ever truly need fully hands-free control.
+- **Decision: ship the setup as shell scripts you can safely re-run any number of times.** *Alternative rejected:* a manual step-by-step guide, a script that just overwrites the config, and a plain `uvx` command. *Why:* my scripts merge into Claude's config safely (they use jq and keep a backup), hard-code the *full* path to `uvx`, and check the file is writable first. That cuts out manual mistakes, avoids wiping out your other MCP servers, and heads off a macOS bug where the app launches with a stripped-down PATH and silently fails to find `uvx`.
+
+## Evals / validation
+
+No eval harness. This was an integration job, so I tested it by running it and reading the logs. I won't pretend it was more than that:
+
+- **Smoke tests against a live session:** read session info, create a MIDI track, load a device, change transport and tempo. Check each one works.
+- **Reading the logs to verify:** a script reads (but never changes) Ableton's `Log.txt` to confirm which Remote Scripts actually loaded, and to surface any load errors. This is what pinpointed the failure.
+- **Failure handling built into the installers:** back up before changing anything, check the file is writable, and handle three clear outcomes (installed / found but not writable / drive not mounted).
+
+## Outcome
+
+- It works: **you can control a live Ableton session by typing or speaking.**
+- Setup dropped from a ~7-step guide to **1 command you run once, plus 3 clicks you can't avoid** (select the control surface, toggle dictation, verify).
+- **2 silent failures headed off** in the installer: the plain `uvx` PATH problem, and overwriting your config file.
+- **1 root cause that wasn't obvious,** found by reading Ableton's own logs. The control surface wouldn't load because the User Library had been moved to an external drive. Live 12 only loads Remote Scripts from `<User Library>/Remote Scripts/` — not the default or older paths.
+
+> A personal project, and I'll call it what it is: **systems integration, tooling, and debugging**. The MCP bridge is open-source and not my work. What's mine: the install, fix, and diagnostic scripts (the ones you can safely re-run), and tracking down the moved-User-Library problem. I kept it deliberately light: no eval harness, thin usage metrics.

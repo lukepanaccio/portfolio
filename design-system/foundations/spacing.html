@@ -1,0 +1,67 @@
+<!-- @dsCard group="Foundations" name="Spacing, Radius & Motion" subtitle="Section rhythm · corner radii · transitions" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spacing, Radius & Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Manrope:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{--bg-1:#0a0e1a;--amber:#f59e0b;--gold:#fbbf24;--t1:#f9fafb;--t2:#d1d5db;--t3:#9ca3af;
+    --display:'Crimson Pro',Georgia,serif;--body:'Manrope',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg-1);color:var(--t1);font-family:var(--body);
+    background-image:radial-gradient(60% 50% at 84% 6%,rgba(245,158,11,.13),transparent 70%);}
+  .wrap{max-width:1040px;margin:0 auto;padding:56px 56px 72px}
+  .eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;
+    background:linear-gradient(90deg,var(--amber),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 10px}
+  h1{font-family:var(--display);font-weight:700;font-size:46px;letter-spacing:-.02em;margin:0 0 8px}
+  .lede{color:var(--t2);font-size:16px;max-width:64ch;margin:0 0 36px}
+  h2{font-family:var(--display);font-weight:600;font-size:22px;margin:32px 0 16px}
+  .bar{display:flex;align-items:center;gap:16px;margin:10px 0}
+  .swatch{height:18px;background:linear-gradient(90deg,#f59e0b,#d97706);border-radius:4px}
+  .lbl{font-family:var(--mono);font-size:12px;color:var(--t3);width:230px;flex:none}
+  .radii{display:flex;gap:18px;flex-wrap:wrap}
+  .rad{width:96px;height:96px;background:#1a2234;border:1px solid rgba(255,255,255,.1);display:flex;align-items:flex-end;justify-content:center;padding:8px;font-family:var(--mono);font-size:11px;color:var(--t3)}
+  .mo{display:flex;gap:18px;flex-wrap:wrap}
+  .moc{flex:1;min-width:200px;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px 18px;background:#0e1422}
+  .mname{font-weight:700;font-size:14px}
+  .mval{font-family:var(--mono);font-size:12px;color:#fcd34d;margin-top:6px}
+  .mdesc{font-size:12px;color:var(--t3);margin-top:8px;line-height:1.5}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Foundations</p>
+    <h1>Spacing &amp; Motion</h1>
+    <p class="lede">Generous, fluid section rhythm; soft but not pillowy radii; one transition curve used everywhere so interactions feel of-a-piece.</p>
+
+    <h2>Spacing scale</h2>
+    <div class="bar"><div class="lbl">space / 2 — 8px</div><div class="swatch" style="width:8px"></div></div>
+    <div class="bar"><div class="lbl">space / 4 — 16px</div><div class="swatch" style="width:16px"></div></div>
+    <div class="bar"><div class="lbl">space / 6 — 24px</div><div class="swatch" style="width:24px"></div></div>
+    <div class="bar"><div class="lbl">space / 8 — 32px</div><div class="swatch" style="width:32px"></div></div>
+    <div class="bar"><div class="lbl">space / 12 — 48px</div><div class="swatch" style="width:48px"></div></div>
+    <div class="bar"><div class="lbl">section-sm — clamp(2,6vw,4rem)</div><div class="swatch" style="width:64px"></div></div>
+    <div class="bar"><div class="lbl">section — clamp(4,12vw,8rem)</div><div class="swatch" style="width:128px"></div></div>
+
+    <h2>Corner radius</h2>
+    <div class="radii">
+      <div class="rad" style="border-radius:6px">6 · sm</div>
+      <div class="rad" style="border-radius:10px">10 · md</div>
+      <div class="rad" style="border-radius:14px">14 · lg</div>
+      <div class="rad" style="border-radius:18px">18 · xl</div>
+      <div class="rad" style="border-radius:999px">full · pill</div>
+    </div>
+
+    <h2>Motion</h2>
+    <div class="mo">
+      <div class="moc"><div class="mname">Standard</div><div class="mval">300ms · cubic-bezier(.4,0,.2,1)</div><div class="mdesc">Default for hovers, color & transform.</div></div>
+      <div class="moc"><div class="mname">Reveal</div><div class="mval">800ms ease-out · fade-in-up</div><div class="mdesc">Staggered entrance, 30px rise.</div></div>
+      <div class="moc"><div class="mname">Image zoom</div><div class="mval">700ms ease-out · scale 1.1</div><div class="mdesc">Card image on hover.</div></div>
+    </div>
+  </div>
+</body>
+</html>

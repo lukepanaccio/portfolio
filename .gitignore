@@ -5,3 +5,12 @@ node_modules
 
 # Job applications (private)
 job-applications/
+
+# Case-study intake briefs (private — contain confidential internal detail)
+intake briefs/
+
+# Astro build cache
+.astro/
+
+# Strategy/working doc (private)
+portfolio-reframing-guide.md

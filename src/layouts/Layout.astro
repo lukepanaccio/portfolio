@@ -6,8 +6,8 @@ export interface Props {
 }
 
 const {
-  title = 'Luke Panaccio - Instructional Designer & AI Learning Specialist',
-  description = 'I design and build intelligent learning experiences that scale. From AI mentors to automated content systems, I create tools that make education more personal and powerful.',
+  title = 'Luke Panaccio, Applied AI & Systems Builder',
+  description = 'I build production AI systems and prove they work: agentic pipelines, payment-integrity infrastructure, and AI authoring tools.',
   image = '/og-image.png'
 } = Astro.props;
 
@@ -29,7 +29,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="any" />
     <meta name="generator" content={Astro.generator} />
     
     <!-- SEO -->

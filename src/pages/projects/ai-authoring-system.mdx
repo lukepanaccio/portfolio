@@ -1,0 +1,60 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Eval-driven AI authoring system'
+tagline: 'Give each authoring job the right tool, and never let an LLM grade its own work'
+description: 'The old system was 18 numbered prompts that mixed three different jobs together: pipeline stages, always-on style rules, and one-off tasks. And an LLM that grades its own work cannot be trusted. I rebuilt it as a coordinator agent with one skill per stage, a separate judge and fixer, and a three-part pass/fail gate enforced by a zero-dependency validator, calibrated against a set of human-graded examples.'
+client: 'commercetools'
+role: 'Architect & primary author'
+timeline: '2026'
+audience: 'Teams building production LLM content pipelines with quality gates'
+tools: ['Node.js (zero-dep validator)', 'JSON config', 'Markdown/MDX', 'Claude Code', 'GitHub Copilot']
+agenticStack: ['Coordinator + isolated per-stage skills', 'Subagents', 'Agentic loops (critique → refine → re-critique)', 'Evals (LLM-judge + deterministic gate)', 'Gold-set calibration', 'CLAUDE.md + instruction files']
+heroImage: '/images/ai-authoring-hero.svg'
+metrics:
+  - label: 'False-passes at threshold'
+    value: '0'
+  - label: 'Gold-set items (2 adversarial)'
+    value: '10'
+  - label: 'Prompts → agents & skills'
+    value: '18'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+Content authoring ran on **18 numbered prompts** (`learning-1` … `learning-18`). The problem: those 18 prompts mixed three different jobs together. Some were pipeline stages (do this, then this). Some were always-on style rules. Some were standalone one-off tasks. Authors had to run the prompts in the right order by hand and re-attach files each time, and the style rules quietly went missing partway through a run. Worse, the quality check let the model grade its own output, and **an LLM that grades itself can't be trusted.** The risk was confidently-wrong technical content going out to developers at scale.
+
+## Architecture & why
+
+<MermaidDiagram diagram={`flowchart TD
+    O["Coordinator agent"] --> S1["Skill: write this stage"]
+    S1 --> J["learning-critique (the judge)"]
+    J --> G{"3-part pass/fail gate<br/>total ≥ 80 · every category ≥ its floor · no critical-error veto"}
+    G -- "fail" --> R["learning-refine (the fixer)"]
+    R --> J
+    G -- "pass" --> OUT["Ready to publish"]
+    C["gate-config.json<br/>(one place sets the rules)"] --> J
+    C --> G
+    GS["Human-graded examples (10 items, 2 traps)"] --> CAL["Calibration check"]
+    CAL --> J
+`} />
+
+- **Decision: give each job its own tool.** *Alternative rejected:* keeping one numbered-prompt chain. *Why:* the chain made authors run prompts in order by hand, and it kept dropping the style rules. So I split the work by type. A coordinator agent plus five per-stage skills run the pipeline. `applyTo` instruction files hold the always-on style rules. Named prompts handle the one-off tasks. Each job lives in the tool built for it.
+- **Decision: keep the judge (`learning-critique`) and the fixer (`learning-refine`) as two separate skills that never combine.** *Alternative rejected:* one skill that grades and fixes itself. *Why:* nothing should grade its own work. Keeping the judge and fixer apart keeps the grading honest.
+- **Decision: a three-part pass/fail gate, checked by a zero-dependency Node validator.** A lesson only passes if all three are true: the total score is at least 80, every individual category clears its own minimum, and there's no critical error that vetoes the whole thing. *Alternative rejected:* passing on the total score alone. *Why:* a high total can sneak a polished-but-wrong lesson past 80. The validator decides by arithmetic, not by feel. It checks the score block has the right shape, checks each category is in range, confirms the total really is the sum of the parts, computes pass or fail, and errors loudly if the input is malformed.
+- **Decision: keep all the gate settings in one file (`gate-config.json`) — the threshold, the per-category minimums, and the veto.** *Alternative rejected:* hard-coding those numbers inside each skill. *Why:* the judge, the loop, and the calibration check all need the same numbers. If the numbers lived in three places, they'd drift apart. One file keeps them in sync.
+
+## Evals / validation
+
+- A **calibration check** runs the judge against a frozen set of **10 examples** that humans already graded, spanning two reader types and a range of severity. Two of the ten are **deliberate traps: polished lessons that are actually wrong** (one with a planted factual error, one that misses its stated goal). The traps test whether the veto fires, not just whether the judge's scores roughly line up with the humans'.
+- On an independent run, the judge produced **0 false-passes** — it never waved through a bad lesson. Its scores were off from the humans by about 4.4 points out of 100 on average, and it ran slightly *stricter* than the humans. Stricter is the safe direction to err.
+- A companion skill keeps an inventory of the **93 automations** that already exist (14 prompts, 17 skills, 16 agents, 46 instructions), so you can check for overlap before building a new one.
+
+## Outcome
+
+- **18 numbered prompts became a layered system** of agents, skills, and instruction files, with each authoring job handled by the right tool.
+- A quality gate that **a high average can't sneak past**: 0 false-passes against a set of examples that deliberately includes polished-but-wrong traps.
+- A human still signs off on each pass today. The lasting contribution is the architecture: real grading and a validator that gives the same answer every time, instead of "looks good to me."
+
+> Built at commercetools (primary author). Honest scope: the calibration is "lite" — one run, one scorer, one model family — and a human still checks each step of the loop.

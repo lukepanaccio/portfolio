@@ -1,0 +1,65 @@
+<!-- @dsCard group="Overview" name="Read me — Portfolio Design System" subtitle="Neo-Editorial Dark · the system at a glance" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Manrope:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{--bg-1:#0a0e1a;--bg-2:#111827;--amber:#f59e0b;--gold:#fbbf24;--t1:#f9fafb;--t2:#d1d5db;--t3:#9ca3af;
+    --display:'Crimson Pro',Georgia,serif;--body:'Manrope',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg-1);color:var(--t1);font-family:var(--body);line-height:1.7;
+    background-image:radial-gradient(60% 50% at 84% 6%,rgba(245,158,11,.16),transparent 70%),
+      radial-gradient(46% 44% at 10% 100%,rgba(30,58,95,.18),transparent 70%);}
+  .wrap{max-width:980px;margin:0 auto;padding:64px 56px 80px}
+  .eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;
+    background:linear-gradient(90deg,var(--amber),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 12px}
+  h1{font-family:var(--display);font-weight:700;font-size:56px;letter-spacing:-.025em;margin:0 0 14px;line-height:1.02}
+  .lede{color:var(--t2);font-size:18px;max-width:60ch;margin:0 0 44px}
+  .groups{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:44px}
+  .g{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px;background:linear-gradient(180deg,rgba(245,158,11,.05),transparent 60%),var(--bg-2)}
+  .g h3{font-family:var(--display);font-size:20px;margin:0 0 8px}
+  .g p{font-size:13.5px;color:var(--t3);margin:0;line-height:1.6}
+  .g .c{font-family:var(--mono);font-size:11px;color:var(--gold);margin-top:12px}
+  .swatches{display:flex;gap:10px;margin:6px 0 36px;flex-wrap:wrap}
+  .sw{width:46px;height:46px;border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+  .meta{font-size:13px;color:var(--t3);border-top:1px solid rgba(255,255,255,.07);padding-top:20px}
+  .meta b{color:var(--t2)}
+  @media (max-width:760px){.groups{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Luke Panaccio · Portfolio</p>
+    <h1>Neo-Editorial Dark</h1>
+    <p class="lede">The design system behind an applied-AI portfolio: a deep-navy canvas, one warm amber accent family, a serif/grotesque type pairing, and a signature lighting treatment that runs from the page backgrounds through every project hero image.</p>
+
+    <div class="swatches">
+      <div class="sw" style="background:#0a0e1a"></div>
+      <div class="sw" style="background:#111827"></div>
+      <div class="sw" style="background:#1a2234"></div>
+      <div class="sw" style="background:#222d42"></div>
+      <div class="sw" style="background:#f59e0b"></div>
+      <div class="sw" style="background:#fbbf24"></div>
+      <div class="sw" style="background:#d97706"></div>
+      <div class="sw" style="background:linear-gradient(135deg,#f59e0b,#d97706)"></div>
+    </div>
+
+    <div class="groups">
+      <div class="g"><h3>Foundations</h3><p>Color, typography, atmosphere, spacing & motion — the raw tokens.</p><div class="c">4 cards</div></div>
+      <div class="g"><h3>Components</h3><p>Buttons, badges, project card, header, footer, metric blocks.</p><div class="c">6 cards</div></div>
+      <div class="g"><h3>Hero Images</h3><p>The polished per-project SVG heroes, built on the same recipe.</p><div class="c">19 cards</div></div>
+    </div>
+
+    <div class="meta">
+      <p><b>Type:</b> Crimson Pro (display) · Manrope (body) · JetBrains Mono (code)<br>
+      <b>Accent:</b> warm amber #f59e0b → gold #fbbf24<br>
+      <b>Source of truth:</b> the live tokens in <span style="font-family:var(--mono);color:var(--gold)">Layout.astro</span>; heroes regenerate from <span style="font-family:var(--mono);color:var(--gold)">scripts/generate-project-images.sh</span>.</p>
+    </div>
+  </div>
+</body>
+</html>

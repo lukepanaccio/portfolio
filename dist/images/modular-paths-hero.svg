@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="Modular Paths">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c1122"/>
+      <stop offset="60%" stop-color="#0a0e1a"/>
+      <stop offset="100%" stop-color="#070a13"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx="80%" cy="14%" r="70%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.26"/>
+      <stop offset="34%" stop-color="#fbbf24" stop-opacity="0.09"/>
+      <stop offset="72%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coolbloom" cx="14%" cy="92%" r="62%">
+      <stop offset="0%" stop-color="#1e3a5f" stop-opacity="0.20"/>
+      <stop offset="70%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="44%" r="78%">
+      <stop offset="55%" stop-color="#05070d" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#05070d" stop-opacity="0.55"/>
+    </radialGradient>
+    <radialGradient id="gridmask" cx="64%" cy="40%" r="62%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gmask"><rect width="1600" height="900" fill="url(#gridmask)"/></mask>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="barfade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0"/>
+      <stop offset="18%" stop-color="#f59e0b" stop-opacity="1"/>
+      <stop offset="82%" stop-color="#fbbf24" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="cardfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c2740"/>
+      <stop offset="100%" stop-color="#0e1626"/>
+    </linearGradient>
+    <linearGradient id="gatefill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#26324a"/>
+      <stop offset="100%" stop-color="#161f33"/>
+    </linearGradient>
+    <filter id="glow" x="-90%" y="-90%" width="280%" height="280%">
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#f59e0b" flood-opacity="0.55"/>
+    </filter>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#coolbloom)"/>
+  <rect width="1600" height="900" fill="url(#bloom)"/>
+  <g mask="url(#gmask)" stroke="#f59e0b" stroke-opacity="0.07" stroke-width="1">
+    <path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/>
+  </g>
+  <g font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif">
+<rect x="244" y="320" width="156" height="64" rx="12" fill="url(#gatefill)" stroke="#fbbf24" stroke-width="3" filter="url(#glow)"/>
+<text x="322" y="358" text-anchor="middle" font-size="22" fill="#fbbf24">academy</text>
+<g fill="none" stroke="#3b4761" stroke-width="3"><path d="M400 352 H452 V220 H540 M452 352 H540 M452 352 V484 H540"/></g>
+<g>
+  <rect x="540" y="196" width="150" height="48" rx="9" fill="url(#cardfill)" stroke="#f59e0b" stroke-width="2.5" filter="url(#glow)"/>
+  <rect x="540" y="328" width="150" height="48" rx="9" fill="url(#cardfill)" stroke="#f59e0b" stroke-width="2.5" filter="url(#glow)"/>
+  <rect x="540" y="460" width="150" height="48" rx="9" fill="url(#cardfill)" stroke="#f59e0b" stroke-width="2.5" filter="url(#glow)"/>
+</g>
+<g fill="none" stroke="#3b4761" stroke-width="2"><path d="M690 220 H726 M690 352 H726 M690 484 H726"/></g>
+<g fill="#0a0e1a" stroke="#f59e0b" stroke-width="2.5" filter="url(#glow)">
+  <rect x="728" y="200" width="40" height="40" rx="7"/><rect x="778" y="200" width="40" height="40" rx="7"/><rect x="828" y="200" width="40" height="40" rx="7"/>
+  <rect x="728" y="332" width="40" height="40" rx="7"/><rect x="778" y="332" width="40" height="40" rx="7"/><rect x="828" y="332" width="40" height="40" rx="7"/><rect x="878" y="332" width="40" height="40" rx="7"/>
+  <rect x="728" y="464" width="40" height="40" rx="7"/><rect x="778" y="464" width="40" height="40" rx="7"/>
+</g>
+<text x="1010" y="360" text-anchor="middle" font-size="22" fill="#9ca3af">9 paths · 30+ modules</text>
+  </g>
+  <rect width="1600" height="900" fill="url(#vignette)"/>
+  <rect width="1600" height="900" filter="url(#grain)" opacity="0.05"/>
+  <rect x="0" y="0" width="1600" height="56" fill="url(#barfade)" opacity="0.16" filter="url(#glow)"/>
+  <rect width="1600" height="5" fill="url(#barfade)"/>
+  <text x="112" y="688" font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial" font-size="30" letter-spacing="6" font-weight="700" fill="url(#amber)">INFORMATION ARCHITECTURE</text>
+  <text x="106" y="788" font-family="Georgia,Times New Roman,serif" font-size="76" font-weight="700" fill="#f8fafc">Modular Paths</text>
+</svg>

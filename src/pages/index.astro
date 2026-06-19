@@ -8,77 +8,171 @@ const base = import.meta.env.BASE_URL;
 
 // Define projects data
 const featuredProject = {
-  title: 'Marcus Aurelius AI mentor',
-  description: 'An AI-powered learning companion that brings Stoic philosophy to life through conversational learning, helping users apply ancient wisdom to modern challenges.',
-  image: '/images/marcus-hero.gif',
-  href: '/projects/marcus-aurelius',
-  tags: ['AI/ML', 'Conversational Learning', 'Next.js', 'OpenAI']
+  title: 'Eval-driven AI authoring system',
+  description: 'An AI writing pipeline where one agent writes and a separate one grades it — because nothing should grade its own work. A three-part pass/fail gate, enforced by a dependency-free validator and calibrated against human-graded examples, keeps polished-but-wrong content from getting through.',
+  image: '/images/featured-hero.svg',
+  href: '/projects/ai-authoring-system',
+  tags: ['Agent orchestration', 'Evals', 'LLM-as-judge', 'CLAUDE.md']
 };
 
 const projects = [
   {
-    title: 'Content drift detection system',
-    description: 'AI-augmented workflow that detects, maps, and drafts updates for learning modules impacted by 250+ API releases per year, reducing manual review effort by 90%.',
-    image: '/images/content-drift.webp',
+    title: 'Stripe billing, productionized & secured',
+    description: 'A founder\'s billing prototype had to start taking real money — and a stale test-mode ID had already silently charged a card $138 with no record of it anywhere. I locked the billing data down at the database, made the webhooks heal their own bad data, and wrote 142 tests from zero.',
+    image: '/images/stripe-billing-hero.svg',
+    href: '/projects/stori-stripe-billing-reliability',
+    tags: ['Stripe', 'Payments', 'Security', 'Webhooks'],
+    categories: ['engineering']
+  },
+  {
+    title: 'Voice-to-Prototype agentic pipeline',
+    description: 'Label a GitHub issue, and a locked-down, automated Claude Code run opens a draft pull request and a preview. The workflow handles git, not the AI. Trust-gated and hardened against prompt injection. I debugged it across a live run of 4 pull requests, then honestly parked it behind a product pivot.',
+    image: '/images/voice-to-prototype-hero.svg',
+    href: '/projects/voice-to-prototype-pipeline',
+    tags: ['Agent development', 'GitHub Actions', 'Prompt-injection hygiene', 'Claude Code'],
+    categories: ['ai-systems', 'engineering']
+  },
+  {
+    title: 'Second Brain: LLM-maintained wiki',
+    description: 'A personal wiki the LLM writes once and keeps current, instead of rebuilding an answer every time you ask. It summarises, cross-links, and flags contradictions across 100 linked pages (none written by hand) drawn from 66 sources. A deliberate alternative to query-time RAG.',
+    image: '/images/second-brain-hero.svg',
+    href: '/projects/second-brain-knowledge-base',
+    tags: ['Knowledge engineering', 'RAG alternative', 'CLAUDE.md', 'Obsidian'],
+    categories: ['ai-systems', 'learning']
+  },
+  {
+    title: 'Firestore security rules + emulator suite',
+    description: 'Worked out how a user could cheat a SaaS billing system from the browser — give themselves a paid tier, inflate their own credits — and shut it down at the database. Every protected field is locked, and each edit is checked against what actually changed. Proven with 59 allow/deny tests against the real rules in the Firebase emulator.',
+    image: '/images/firestore-security-hero.svg',
+    href: '/projects/firestore-security-rules',
+    tags: ['Firestore', 'Security', 'Emulator testing', 'Threat modeling'],
+    categories: ['engineering']
+  },
+  {
+    title: 'Natural-language control for Ableton Live',
+    description: 'Control a live Ableton session by voice or text, built on an open-source MCP bridge I didn\'t write. The real work was the setup and the debugging: a one-command install that runs safely every time (7 steps down to 1), and a log-driven diagnosis of why it wouldn\'t load.',
+    image: '/images/ableton-mcp-hero.svg',
+    href: '/projects/ableton-mcp-control-layer',
+    tags: ['MCP', 'Systems integration', 'macOS', 'Debugging'],
+    categories: ['ai-systems', 'engineering']
+  },
+  {
+    title: 'Content drift detection (agentic)',
+    description: 'A three-step agent pipeline that reads an API release, works out which docs it affects, and drafts the updates. A human reviews them before they reach developers.',
+    image: '/images/content-drift-hero.svg',
     href: '/projects/content-drift-detection-system',
-    tags: ['GitHub Copilot', 'AI Workflow', 'Automation']
+    tags: ['Agent skills', 'Progressive disclosure', 'Drift detection', 'Human-in-the-loop'],
+    categories: ['ai-systems', 'engineering']
   },
   {
-    title: 'AI content generation system',
-    description: 'Automated learning content creation system that reduced course development time by 60% while maintaining instructional quality.',
-    image: '/images/ai-content-gen-hero.webp',
-    href: '/projects/ai-content-generation',
-    tags: ['Python', 'ChatGPT', 'Automation']
-  },
-  {
-    title: 'AI-powered academic grading system',
-    description: 'Privacy-first AI grading system that saved 60-80 hours per semester while providing consistent, detailed feedback.',
-    image: '/images/paper-grader-hero.webp',
+    title: 'AI grading & evaluation system',
+    description: 'An LLM that scores submissions against a clear rubric, with checks that catch judgments it can\'t back up. It runs at a fraction of the cost and time of grading by hand.',
+    image: '/images/paper-grader-hero.svg',
     href: '/projects/paper-grader',
-    tags: ['Python', 'Claude API', 'Education']
+    tags: ['Claude API', 'Evals', 'Quality gates', 'Python'],
+    categories: ['ai-systems']
   },
   {
-    title: 'Alex Chen learner persona',
-    description: 'AI-powered persona that validates documentation by simulating a senior developer\'s feedback patterns and psychological responses.',
-    image: '/images/alex-chen-learner-persona-hero.webp',
+    title: 'Geocoding accuracy campaign',
+    description: 'A diagnose-and-fix campaign on a ~110K-record address dataset. A 5.8% per-run success rate looked like a broken geocoder — but the real problem was the shape of the addresses. I wrote the normalizer that recovered 47% of the failing backlog and lifted whole-dataset coverage to 98.3%.',
+    image: '/images/geocoding-hero.svg',
+    href: '/projects/geocoding-accuracy-campaign',
+    tags: ['Data quality', 'Geocoding', 'Address normalization', 'Debugging'],
+    categories: ['engineering']
+  },
+  {
+    title: 'Single-source-of-truth docs program',
+    description: 'A 5-person program that ended the duplicate docs hurting search and AI retrieval. One source of truth per concept, with a reusable 0-4 classifier deciding what stays. ~2,660 lines consolidated across 8 domains, with one site retired.',
+    image: '/images/dedup-hero.svg',
+    href: '/projects/single-source-of-truth-docs-program',
+    tags: ['Information architecture', 'RAG retrieval', 'Single source of truth'],
+    categories: ['engineering', 'ai-systems']
+  },
+  {
+    title: 'In-app bug-reporting pipeline',
+    description: 'A five-stage serverless pipeline behind the in-app report-a-bug button: a locked-down screenshot upload, a private GitHub issue, a signature-verified webhook when the bug is fixed, and a two-pass cleanup of old data. Shipped to all users, with about 1.3 lines of test for every line of code.',
+    image: '/images/bug-pipeline-hero.svg',
+    href: '/projects/bug-reporting-pipeline',
+    tags: ['Serverless', 'HMAC', 'Idempotency', 'PII handling'],
+    categories: ['engineering']
+  },
+  {
+    title: 'Distributed scraper CI orchestration',
+    description: 'The CI orchestration that keeps a fragile ~40-job scraping fleet reliable. One failing job can\'t sink the rest, large-file commits stay intact even when the main branch moves mid-run, and failures are sorted into infra-vs-bug so only the right ones auto-retry.',
+    image: '/images/scraper-ci-hero.svg',
+    href: '/projects/scraper-ci-orchestration',
+    tags: ['GitHub Actions', 'Git LFS', 'Reliability', 'CI/CD'],
+    categories: ['engineering']
+  },
+  {
+    title: 'Alex Chen: synthetic eval persona',
+    description: 'A synthetic user that reviews documentation the way a senior developer would, catching gaps before real developers hit them.',
+    image: '/images/alex-chen-hero.svg',
     href: '/projects/alex-chen-learner-persona',
-    tags: ['Persona Design', 'Prompt Engineering', 'Learning Design']
+    tags: ['Synthetic users', 'Prompt engineering', 'Evals'],
+    categories: ['ai-systems', 'learning']
+  },
+  {
+    title: 'B2B Commerce learning path',
+    description: 'Owned a B2B learning path end to end — built with subject-matter experts, written for the Functional Architect, with every API example checked against the RAML source. Module 2 passed the automated critique gate at 88/100.',
+    image: '/images/b2b-learning-hero.svg',
+    href: '/projects/b2b-learning-path',
+    tags: ['Curriculum architecture', 'SME synthesis', 'API-verified', 'Built & shipped'],
+    categories: ['learning', 'engineering']
   },
   {
     title: 'Modular learning path ecosystem',
-    description: 'Scalable learning architecture supporting 9 paths, 30+ modules, and 200+ pages of technical content.',
-    image: '/images/learn-commercetools-hero.webp',
+    description: 'One content structure behind 9 learning paths, 30+ modules, and 200+ pages of technical material — built to scale to thousands of developers.',
+    image: '/images/modular-paths-hero.svg',
     href: '/projects/modular-learning-paths',
-    tags: ['Information Architecture', 'Markdown', 'Git']
+    tags: ['Information architecture', 'Markdown', 'Git'],
+    categories: ['learning']
   },
   {
     title: 'Developer Essentials learning path',
-    description: 'Comprehensive 20-hour curriculum that transforms enterprise developers from zero to production-ready through hands-on mastery.',
-    image: '/images/dev-essentials-hero.webp',
+    description: 'A 20-hour, hands-on course that takes enterprise developers from zero to production-ready, API first.',
+    image: '/images/dev-essentials-hero.svg',
     href: '/projects/developer-essentials-learning-path',
-    tags: ['Curriculum Design', 'TypeScript', 'Java', 'API Education']
+    tags: ['Curriculum design', 'TypeScript', 'Java', 'API education'],
+    categories: ['learning']
   },
   {
-    title: 'Zen Electron case study system',
-    description: 'Multi-brand commerce scenario that teaches real-world problem-solving through unified business contexts.',
-    image: '/images/zen-electron-hero.webp',
-    href: '/projects/zen-electron',
-    tags: ['Scenario-Based Learning', 'Business Context', 'Technical Training']
+    title: 'Marcus Aurelius AI mentor',
+    description: 'A conversational AI that mentors through Socratic, in-character dialogue. An experiment in how far one well-designed prompt system can carry the whole experience.',
+    image: '/images/marcus-hero.svg',
+    href: '/projects/marcus-aurelius',
+    tags: ['Conversational AI', 'Prompt engineering', 'Next.js'],
+    categories: ['ai-systems']
   },
   {
-    title: '3 Steps Away: A social justice education platform',
-    description: 'Teaching high schoolers to respond to complex social issues through visual storytelling and experiential learning.',
-    image: '/images/3stepsaway-collage-hero.webp',
+    title: '3 Steps Away: social-justice education platform',
+    description: 'Co-founded an education company that taught high-schoolers to respond to complex social issues through visual storytelling and hands-on learning. Where the systems thinking started.',
+    image: '/images/3-steps-hero.svg',
     href: '/projects/3-steps-away',
-    tags: ['Service Learning', 'Visual Design', 'Social Constructivism', 'Youth Education']
+    tags: ['Founder', 'Experiential learning', 'Youth education'],
+    categories: ['learning']
   }
 ];
 
+const categoryFilters = [
+  { slug: 'all', label: 'All' },
+  { slug: 'ai-systems', label: 'AI Systems & Agents' },
+  { slug: 'engineering', label: 'Software Engineering' },
+  { slug: 'learning', label: 'Learning Systems' }
+];
+
+const agenticToolchain = [
+  'Subagents', 'Multi-agent orchestration', 'Dynamic workflows', 'Routines (scheduled agents)',
+  'Loops', 'Eval harnesses', 'Plan mode', 'Agentic loops', 'Worktrees',
+  'Headless / CLI in CI', 'MCP server development', 'Skills', 'CLAUDE.md schema design', 'CLI in VS Code'
+];
+
 const skills = {
-  'Learning Design': ['Instructional Design', 'Curriculum Development', 'Learning Analytics', 'Assessment Design'],
-  'AI & Automation': ['Prompt Engineering', 'ChatGPT/Claude/Gemini', 'AI Integration', 'Process Automation'],
-  'Development': ['Python', 'JavaScript/TypeScript', 'React/Next.js', 'Git/GitHub'],
-  'Tools': ['Articulate Rise', 'Camtasia', 'Adobe Creative Suite/Figma', 'Markdown/MDX']
+  'Agentic engineering (Claude Code)': ['Subagents & multi-agent orchestration', 'Dynamic workflows', 'Eval harnesses', 'MCP server development', 'Headless / CLI in CI', 'CLAUDE.md schema design'],
+  'AI Systems & Agents': ['Agent development & orchestration', 'Evals (LLM-as-judge, gold sets)', 'RAG & retrieval design', 'Prompt engineering', 'Claude API/SDK'],
+  'Software Engineering': ['TypeScript / Node.js', 'Python', 'Firestore + security rules', 'Stripe integrations', 'CI/CD (GitHub Actions)', 'Webhooks · idempotency · HMAC'],
+  'Learning Systems': ['Information architecture', 'Single-source-of-truth design', 'Curriculum architecture', 'SME synthesis'],
+  'Tools & Platforms': ['Git / GitHub', 'Astro / MDX', 'Vercel', 'Obsidian', 'Algolia']
 };
 ---
 
@@ -97,12 +191,12 @@ const skills = {
       <div class="relative max-w-7xl mx-auto px-6 py-24 md:py-40">
         <div class="max-w-4xl stagger-children">
           <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-text-primary mb-8 leading-[1.1]">
-            <span class="block">Building learning ecosystems</span>
-            <span class="block text-accent-primary">that drive impact</span>
+            <span class="block">I build production AI systems</span>
+            <span class="block text-accent-primary text-3xl md:text-5xl lg:text-6xl mt-2">and prove they work</span>
           </h1>
-          
+
           <p class="text-xl md:text-2xl text-text-secondary mb-12 leading-relaxed max-w-3xl">
-            Building scalable learning systems with AI—serving thousands of enterprise learners while transforming productivity through intelligent automation.
+            Applied AI with an educator's edge. I design, ship, and validate real systems: agentic pipelines, payment integrity, AI authoring tools. Then I make them usable.
           </p>
           
           <div class="flex flex-col sm:flex-row gap-4">
@@ -175,32 +269,32 @@ const skills = {
                         <path d="M13 7H7v6h6V7z"/>
                         <path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z" clip-rule="evenodd"/>
                       </svg>
-                      <span class="text-sm font-bold text-accent-primary uppercase tracking-wider">AI-Powered Learning</span>
+                      <span class="text-sm font-bold text-accent-primary uppercase tracking-wider">Applied AI · Eval-driven</span>
                     </div>
                     
                     <h2 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-text-primary mb-4 leading-[1.05] tracking-tight">
-                      <span class="block">Marcus Aurelius</span>
-                      <span class="block text-accent-primary">AI Mentor</span>
+                      <span class="block">Eval-driven</span>
+                      <span class="block text-accent-primary">AI authoring</span>
                     </h2>
-                    
+
                     <p class="text-lg md:text-xl text-text-primary leading-relaxed max-w-xl bg-bg-primary/95 p-4 rounded-lg -ml-4">
-                      An intelligent learning companion that brings ancient Stoic wisdom to modern challenges through conversational AI
+                      Every authoring job gets its own tool, with a hard gate that won't let an LLM grade its own work.
                     </p>
                   </div>
                   
                   <!-- Key Metrics with glass effect -->
                   <div class="flex flex-wrap gap-4">
                     <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
-                      <div class="text-3xl font-bold text-accent-primary mb-1">200+</div>
-                      <div class="text-sm text-text-tertiary font-semibold">Active Users</div>
+                      <div class="text-3xl font-bold text-accent-primary mb-1">0</div>
+                      <div class="text-sm text-text-tertiary font-semibold">False-passes at threshold</div>
                     </div>
                     <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
-                      <div class="text-3xl font-bold text-accent-primary mb-1">24/7</div>
-                      <div class="text-sm text-text-tertiary font-semibold">AI Guidance</div>
+                      <div class="text-3xl font-bold text-accent-primary mb-1">10</div>
+                      <div class="text-sm text-text-tertiary font-semibold">Gold-set items (2 adversarial)</div>
                     </div>
                     <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
-                      <div class="text-3xl font-bold text-accent-primary mb-1">∞</div>
-                      <div class="text-sm text-text-tertiary font-semibold">Scalable</div>
+                      <div class="text-3xl font-bold text-accent-primary mb-1">18</div>
+                      <div class="text-sm text-text-tertiary font-semibold">Prompts → agents &amp; skills</div>
                     </div>
                   </div>
                   
@@ -244,7 +338,7 @@ const skills = {
                   <img
                     src={featuredProject.image}
                     alt={featuredProject.title}
-                    class="w-full max-w-md h-auto object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-out relative z-10"
+                    class="w-full h-auto object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-out relative z-10"
                   />
                   
                   <!-- Floating decorative elements -->
@@ -261,28 +355,69 @@ const skills = {
     <!-- Projects Grid -->
     <section id="work" class="py-24 md:py-32 bg-bg-primary">
       <div class="max-w-7xl mx-auto px-6">
-        <div class="mb-16">
-          <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">Recent projects</h2>
-          <p class="text-xl text-text-secondary">Exploring the intersection of AI and instructional design</p>
+        <div class="mb-10">
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">Selected work</h2>
+          <p class="text-xl text-text-secondary">Production AI systems, hardened software, and the systems thinking that connects them.</p>
         </div>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Category filter -->
+        <div class="flex flex-wrap gap-3 mb-12" role="group" aria-label="Filter projects by category">
+          {categoryFilters.map((f) => (
+            <button
+              type="button"
+              data-filter={f.slug}
+              class={`px-5 py-2.5 rounded-lg text-sm font-bold border transition-all duration-300 ${f.slug === 'all' ? 'bg-gradient-accent text-bg-primary border-transparent' : 'text-text-secondary border-border-medium hover:border-accent-primary hover:text-accent-primary'}`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+
+        <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
             <ProjectCard {...project} />
           ))}
         </div>
       </div>
     </section>
+
+    <script>
+      const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+      const cards = document.querySelectorAll<HTMLElement>('#projects-grid [data-categories]');
+
+      function setActive(active: HTMLButtonElement) {
+        buttons.forEach((b) => {
+          const on = b === active;
+          b.classList.toggle('bg-gradient-accent', on);
+          b.classList.toggle('text-bg-primary', on);
+          b.classList.toggle('border-transparent', on);
+          b.classList.toggle('text-text-secondary', !on);
+          b.classList.toggle('border-border-medium', !on);
+        });
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter');
+          setActive(btn);
+          cards.forEach((card) => {
+            const cats = (card.getAttribute('data-categories') || '').split(' ').filter(Boolean);
+            const show = filter === 'all' || cats.includes(filter as string);
+            card.classList.toggle('hidden', !show);
+          });
+        });
+      });
+    </script>
     
     <!-- Skills Section -->
     <section class="py-24 md:py-32 bg-bg-secondary">
       <div class="max-w-7xl mx-auto px-6">
         <div class="mb-16">
-          <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">Skills & expertise</h2>
-          <p class="text-xl text-text-secondary">Tools and technologies I use to create impactful learning experiences</p>
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">Skills &amp; expertise</h2>
+          <p class="text-xl text-text-secondary">The stack I design, ship, and validate with.</p>
         </div>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {Object.entries(skills).map(([category, items]) => (
             <div class="bg-bg-elevated border border-border-subtle rounded-xl p-6 hover:border-accent-primary/30 transition-all duration-300 hover:-translate-y-1">
               <h3 class="font-bold text-accent-primary mb-4 text-sm uppercase tracking-wider">{category}</h3>
@@ -302,20 +437,38 @@ const skills = {
       </div>
     </section>
     
-    <!-- Brief About Section -->
+    <!-- How I Build - Agentic Toolchain -->
     <section class="py-24 md:py-32 bg-bg-primary">
       <div class="max-w-7xl mx-auto px-6">
-        <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-8 leading-tight">Building the future of learning, one system at a time</h2>
-        
+        <div class="mb-10 max-w-3xl">
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">How I build</h2>
+          <p class="text-xl text-text-secondary">I don't just call models. I build with the full agentic toolchain. What sets the work apart is that I actually <span class="text-accent-primary font-semibold">run the stack</span>, not just the API.</p>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          {agenticToolchain.map((tool) => (
+            <span class="inline-flex items-center px-4 py-2.5 bg-bg-elevated border border-border-medium rounded-lg text-sm font-semibold text-text-secondary hover:border-accent-primary hover:text-accent-primary hover:-translate-y-0.5 transition-all duration-300">
+              {tool}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Brief About Section -->
+    <section class="py-24 md:py-32 bg-bg-secondary">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-8 leading-tight">A builder whose years as an educator make the systems land</h2>
+
         <div class="space-y-6 text-lg text-text-secondary leading-relaxed max-w-5xl">
           <p>
-            My path to instructional design began in international classrooms spanning three continents—from political philosophy at Universiteit Maastricht to leading a humanities department of 30+ educators in Australia. Co-founding <span class="text-accent-primary font-semibold">3 Steps Away</span>, a social justice education enterprise, taught me how to scale learning solutions from concept to market—understanding both educational impact and business sustainability.
+            I design, build, and ship production AI systems: agentic CI pipelines, billing systems that don't lose money, AI authoring tools. Then I make them clear to the people and models that depend on them. Building something well and explaining it clearly don't always come from the same person, and I work at both.
           </p>
           <p>
-            At <span class="text-accent-primary font-semibold">commercetools</span>, I've built learning infrastructure serving thousands of enterprise developers across three continents. By pioneering AI-powered content workflows, I increased team efficiency by 60%—freeing 400+ hours annually to scale our learning ecosystem from 0 to 9 interconnected paths with 40+ modules. This work required partnering with Product, Engineering, and Customer Success leadership to align learning strategy with business objectives.
+            As a technical co-founder at <a href="https://storipro.ai" target="_blank" rel="noopener" class="text-accent-primary font-semibold hover:underline">storipro</a>, I shipped the production billing layer, hardened the data-security model, and built an autonomous issue-to-PR pipeline. At <a href="https://commercetools.com" target="_blank" rel="noopener" class="text-accent-primary font-semibold hover:underline">commercetools</a>, I architected an orchestrator-agent authoring system with an eval harness and drove a single-source-of-truth documentation program across the platform. On my own time I keep building. An LLM-maintained knowledge base, an MCP control layer for Ableton Live.
           </p>
           <p>
-            With a Graduate Certificate in Educational Design from Monash University and hands-on experience building production-ready AI tools, I combine rigorous learning theory with technical execution. I'm now seeking senior instructional design opportunities where I can establish comprehensive impact measurement frameworks—demonstrating how learning programs contribute to business outcomes like time-to-competency, user adoption, and customer retention.
+            I came up as an educator, a decade of it across three continents, and that's exactly why my systems land. The real craft of the classroom is earning enough trust that people actually engage. I build the same way, for the people and models that have to use the output.
           </p>
         </div>
         
@@ -341,7 +494,7 @@ const skills = {
       <div class="relative max-w-7xl mx-auto px-6">
         <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-6">Let's work together</h2>
         <p class="text-xl text-text-secondary mb-12 max-w-2xl">
-          If you're looking for an instructional designer who can leverage AI to transform your learning initiatives, I'd love to connect.
+          If you're building applied-AI systems, or you need someone who can architect them, ship them, and make them land, I'd love to connect.
         </p>
         
         <div class="flex flex-col sm:flex-row gap-4">
