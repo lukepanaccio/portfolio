@@ -1,8 +1,8 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
 title: 'The Second Brain: LLM-maintained wiki'
-tagline: 'Compile knowledge once and keep it current, a deliberate alternative to query-time RAG'
-description: 'RAG and file-upload tools re-derive knowledge from raw chunks on every query. Nothing accumulates, the cross-source synthesis never gets built, and contradictions stay hidden. This does the opposite: a compiled, LLM-maintained wiki where the model owns all writing and cross-referencing, governed by a schema-as-config harness.'
+tagline: 'Write the knowledge up once and keep it current — a deliberate alternative to RAG that rebuilds the answer every time you ask'
+description: 'RAG and file-upload tools rebuild knowledge from raw text chunks every time you ask a question. Nothing builds up over time, the connections between sources never get drawn, and contradictions stay hidden. This does the opposite: a written-up wiki that an LLM maintains, where the model does all the writing and cross-referencing, with the rules set in a checked-in config file.'
 client: 'Personal project'
 role: 'Knowledge architect & curator (the LLM authors the wiki layer)'
 timeline: '2026 (~2 months)'
@@ -23,41 +23,41 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-RAG and file-upload tools (NotebookLM, ChatGPT uploads) re-derive knowledge from raw chunks on every query. Nothing accumulates, the cross-source synthesis never gets built, and contradictions stay hidden. I was building knowledge over months across engineering work, the 2025-26 AI paradigm shift, CS foundations, and career strategy. That meant **paying the synthesis cost repeatedly** and losing the connections between sources. The obvious fix, a hand-maintained wiki, dies on its own, because the bookkeeping burden outgrows the value.
+RAG and file-upload tools (NotebookLM, ChatGPT uploads) rebuild knowledge from raw text chunks every time you ask a question. Nothing builds up over time, the connections between sources never get drawn, and contradictions stay hidden. I was learning across months — engineering work, the 2025-26 shift in AI, computer-science fundamentals, and career strategy. With these tools, that meant **doing the work of piecing it together again and again**, and losing the links between sources each time. The obvious fix is a wiki you maintain by hand. But that dies on its own, because the upkeep eventually costs more than it's worth.
 
 ## Architecture & why
 
-A compiled wiki the LLM *maintains*: ingest → compile → lint. The model owns all writing and cross-referencing, and a checked-in schema governs how it behaves.
+The spark came from **Andrej Karpathy** — his idea of having an LLM *maintain* a living knowledge base, instead of rebuilding it from raw chunks every time you ask. This is my build of that: a written-up wiki the LLM maintains in three steps — take in new sources, write them up, then check the result. The model does all the writing and cross-referencing, and a checked-in config file sets the rules it follows.
 
 <MermaidDiagram diagram={`flowchart TD
-    R["Raw sources (immutable)<br/>LLM reads, never writes"]
-    W["Wiki (LLM-owned)<br/>summaries · entities · concepts · synthesis · index · log"]
-    S["Schema: CLAUDE.md + SCHEMA.md<br/>single source of truth for conventions"]
-    R -- "Ingest: read → summarise → update pages → append log" --> W
-    W -- "Query/Synthesis: read index → drill in → file answers back as pages" --> W
-    W -- "Lint: orphans · contradictions · stale stats · link integrity" --> W
-    S -. "governs every operation" .-> W
+    R["Raw sources (never changed)<br/>LLM reads them, never edits them"]
+    W["Wiki (the LLM writes and owns this)<br/>summaries · people/things · concepts · synthesis · index · log"]
+    S["Config: CLAUDE.md + SCHEMA.md<br/>one place that sets the rules"]
+    R -- "Take in: read → summarise → update pages → add to the log" --> W
+    W -- "Ask a question: read the index → drill in → write the answer back as a page" --> W
+    W -- "Check: stranded pages · contradictions · out-of-date counts · broken links" --> W
+    S -. "sets the rules for every step" .-> W
 `} />
 
-- **Decision: a compiled, LLM-maintained wiki, not query-time RAG.** *Alternative rejected:* embedding retrieval (the NotebookLM / ChatGPT-upload default). *Why:* RAG rediscovers everything from scratch on every query and leaves no artifact behind. The wiki compiles *once* and stays current. Cross-references, flagged contradictions, and synthesis are already on the page when you get there. Knowledge becomes a persistent asset instead of a per-query re-derivation.
-- **Decision: markdown-in-git + Obsidian as the substrate.** *Alternative rejected:* a hosted SaaS knowledge tool or database-backed app. *Why:* plain text in git gives me version history, a diffable audit trail, and local-first ownership for free. Obsidian adds graph view and backlinks with no UI to build. Be the customer, not the product.
-- **Decision: a hand-curated `index.md` as the retrieval layer.** *Alternative rejected:* embedding-based search or a vector DB from day one. *Why:* at ~100 pages, an index file is enough, and it avoids embedding infra, re-indexing cost, and a retrieval black box. I documented it as an explicit "not yet," not a "never." Search gets built when scale forces it.
-- **Decision: schema-as-config.** *Alternative rejected:* ad-hoc per-session prompting of a generic chatbot. *Why:* I encoded the rules in config (*never modify raw sources · one concept per page · link back to sources · flag contradictions, don't resolve them · update, don't duplicate*). That turns the LLM into a disciplined maintainer whose behaviour holds across sessions. The config is the single source of truth for how the wiki is built.
+- **Decision: a written-up wiki the LLM maintains, not RAG that rebuilds the answer at question time.** *Alternative rejected:* embedding retrieval — matching by meaning at question time, the default in NotebookLM and ChatGPT uploads. *Why:* RAG works everything out from scratch on every question and leaves nothing behind. The wiki gets written up *once* and stays current. The cross-references, the flagged contradictions, and the synthesis are already on the page by the time you read it. Knowledge becomes something you keep, instead of something you rebuild for every question.
+- **Decision: markdown files in git, with Obsidian on top.** *Alternative rejected:* a hosted SaaS knowledge tool or a database-backed app. *Why:* plain text in git gives me version history, a record of every change I can diff, and full local ownership — all for free. Obsidian adds a graph view and backlinks with no interface for me to build. Be the customer, not the product.
+- **Decision: a hand-curated `index.md` as the way to find things.** *Alternative rejected:* search-by-meaning (embeddings) or a vector database from day one. *Why:* at ~100 pages, a single index file is plenty. It avoids the embedding setup, the cost of re-indexing, and a search system you can't see inside. I wrote this down as an explicit "not yet," not a "never." I'll build real search when the size of the thing forces it.
+- **Decision: put the rules in a config file.** *Alternative rejected:* ad-hoc prompting of a generic chatbot, fresh each session. *Why:* I wrote the rules into config (*never change the raw sources · one concept per page · always link back to sources · flag contradictions, don't resolve them · update a page rather than duplicate it*). That turns the LLM into a disciplined maintainer that behaves the same way across sessions. The config is the one place that defines how the wiki gets built.
 
 ## Evals / validation
 
-Validation here is knowledge-base *health*, run as an explicit discipline rather than a code test suite:
+Here, "validation" means checking the *health* of the knowledge base. I run it as a deliberate habit, not as a code test suite:
 
-- **Lint passes** verify zero orphan pages, full index coverage, and frontmatter discipline. They caught and fixed broken wikilinks, a stale source count, and a 0-byte legacy file.
-- **Contradiction discipline:** contradictions get *flagged, not silently resolved*. For example, instructional-design frameworks graded "well-evidenced vs. dogma," and a real deployment-model contradiction worked out on a dedicated synthesis page.
-- **A designed falsification protocol** borrows five practices from assessment science (predict-before-reading, retrieval-practice quizzing, contradiction sweeps, claim-canary auditing, expert spot-checks). The point is to tell a wiki that *teaches* understanding apart from one that only *performs* it.
-- **Refactor integrity:** raw-source renames verified byte-identical via git diff. A single page rename propagated cleanly across 17 inbound links in 13 files with zero stale references.
-- **Honest caveat (found during this writeup):** the wiki's self-reported page counter lagged the real file count (90 vs. 97). That's exactly the drift the lint pass exists to catch, and the next pass's first finding.
+- **Check passes** confirm there are no stranded pages, that the index covers everything, and that the page metadata is consistent. They caught and fixed broken wiki links, an out-of-date source count, and a leftover empty (0-byte) file.
+- **How contradictions are handled:** when sources disagree, the contradiction gets *flagged, not quietly resolved*. For example, I graded instructional-design frameworks as "well-evidenced vs. dogma," and worked out a real disagreement about deployment models on a dedicated synthesis page.
+- **A test for whether the wiki actually teaches:** I borrowed five practices from how learning is assessed — predict what a source will say before reading it, quiz myself from memory, sweep for contradictions, plant a "canary" claim and check it's still findable, and spot-check with an expert. The point is to tell apart a wiki that genuinely builds understanding from one that only looks like it does.
+- **Safe renaming:** when I renamed raw sources, I confirmed via git diff that the content was byte-for-byte identical. Renaming a single page updated cleanly across 17 links pointing to it, spread over 13 files, with no broken references left behind.
+- **Honest caveat (found while writing this up):** the wiki's own page counter had fallen behind the real file count (it said 90; there were 97). That's exactly the kind of drift the check pass exists to catch — and it'll be the first thing the next pass flags.
 
 ## Outcome
 
-- Grew from a 19-page seed to **100 markdown pages (97 content + 3 infrastructure) compiled from 66 hand-curated sources across 7 domain clusters**. Every page is LLM-authored, **0 written by hand**, maintained over ~25 commits across two months.
-- **Real maintenance payoff:** a single ingest routinely touches 10-15 pages. The largest batch absorbed **20 sources → 26 new pages + 12 updated pages in one compile**.
-- ~**10,700 lines** of interlinked markdown, with the heaviest synthesis pages running 250-385 lines. It's a living, queryable corpus that compounds instead of decaying.
+- It grew from a 19-page starting point to **100 markdown pages (97 content + 3 infrastructure), written up from 66 hand-curated sources across 7 topic areas**. Every page was written by the LLM, **0 written by hand**, maintained over ~25 commits across two months.
+- **The upkeep actually pays off:** taking in one new source routinely touches 10-15 pages. The biggest batch took in **20 sources and produced 26 new pages plus 12 updated pages, in a single run**.
+- It's roughly **10,700 lines** of interlinked markdown, with the densest synthesis pages running 250-385 lines. It's a living body of knowledge you can query, and it grows richer over time instead of going stale.
 
-> Personal project. The whole thesis is the division of labour. I own sourcing, curation, the schema design, and the questions. The LLM authored 100% of the wiki prose. The claim here is the **system design and curation**, not the writing. It's a months-long personal knowledge system with real architectural decisions, not a shipped product. The agentic footprint is deliberately light (a schema harness plus a read-raw/write-wiki loop), even though the wiki's *content* covers heavier primitives.
+> Personal project. The whole point is the split of who does what. I own finding the sources, curating them, designing the rules, and asking the questions. The LLM wrote 100% of the wiki's prose. So what I'm claiming credit for is the **system design and curation**, not the writing. It's a months-long personal knowledge system with real design decisions behind it, not a shipped product. The agent setup is deliberately light — a config file plus a read-the-raw-source, write-the-wiki loop — even though the wiki's *content* covers heavier ground.

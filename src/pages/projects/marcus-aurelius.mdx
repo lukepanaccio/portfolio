@@ -25,9 +25,9 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ### Project context
 
-This personal project explored how AI can enable conversational learning at scale. I applied instructional design principles to build an always-available Socratic mentor. I built it independently, but the capabilities map directly to enterprise learning: using AI to give personalized guidance, cut cognitive load through brief interactions, and create emotionally safe learning environments.
+This personal project was my way of testing how AI can teach through conversation, at scale. I used instructional design principles to build a Socratic mentor that's available any time. I built it on my own, but the same capabilities apply directly to corporate learning: using AI to give personalized guidance, keep interactions short so they don't overload people, and make it safe to learn.
 
-**Learning objective:** Prove that AI can teach using the Socratic method (guiding self-discovery through questions) rather than just delivering information. That would validate conversational AI as a viable learning modality for complex, nuanced subject matter.
+**Learning objective:** Prove that AI can teach with the Socratic method, guiding someone to discover the answer through questions, rather than just handing them information. If that worked, it would show conversational AI can teach genuinely complex, nuanced subjects.
 
 ### Core problem
 
@@ -48,15 +48,15 @@ Let learners have real conversations with Marcus Aurelius. Not read about Stoici
 
 ### Research & analysis
 
-Research revealed a fundamental gap: traditional philosophy study creates knowledge without transformation.
+Research showed a clear gap: studying philosophy the traditional way gives you knowledge, but it doesn't change how you live.
 
 **Learner needs identified:**
-- Philosophy students found texts interesting but couldn't apply concepts to their lives
-- People facing real challenges wanted immediate, practical wisdom, not academic theory
-- Existing AI chatbots felt impersonal and failed to create reflective space for dialogue
+- Philosophy students found the texts interesting but couldn't apply the ideas to their own lives
+- People dealing with real problems wanted practical wisdom right away, not academic theory
+- Existing AI chatbots felt impersonal and left no room to stop and reflect
 
 **Core insight:** 
-- The Socratic method teaches through dialogue, not lecture. Great philosophy teachers ask questions that guide self-discovery. This became the foundation of my design.
+- The Socratic method teaches through back-and-forth, not lecture. The best philosophy teachers ask questions that lead you to work it out yourself. That became the foundation of my design.
 
 ### Design approach
 
@@ -66,20 +66,20 @@ I applied four key learning principles to shape the experience:
 The AI guides self-discovery through questions, not answers. Example: If a user says "My boss is impossible," Marcus asks: "Is it your boss's actions that harm you, or your judgment about them?"
 
 **2. Cognitive load management**  
-Responses limited to 1-3 sentences. Testing showed shorter responses led to deeper reflection. Users needed space to think, not philosophy lectures.
+I capped responses at 1-3 sentences. Testing showed shorter responses led to deeper reflection. Users needed room to think, not a philosophy lecture.
 
 **3. Embodied presence**  
-Photorealistic avatar with synchronized lip movements creates a sense of "being with" Marcus. This design choice supports embodied cognition research: we learn better from "people" than disembodied text.
+A photorealistic avatar whose lips move in sync with the speech makes it feel like you're actually with Marcus. That backs up embodied cognition research, which finds we learn better from a "person" than from text on a screen.
 
 **4. Emotional safety**  
-Calm, non-judgmental persona (no exclamation marks, no judgment) creates safe space for exploring difficult topics like death, failure, and loss.
+A calm, non-judgmental persona (no exclamation marks, no judgment) makes it safe to talk about hard topics like death, failure, and loss.
 
 ### Development & iteration
 
 Three critical design decisions shaped the implementation:
 
 **Voice-first interface**  
-Chose voice over text chat, since natural speech creates authentic philosophical dialogue. Used OpenAI's Realtime API to eliminate the 2-4 second delays common in traditional speech processing.
+I chose voice over text chat, because speaking out loud makes the philosophical dialogue feel real. I used OpenAI's Realtime API to get rid of the 2-4 second delays you usually get when processing speech.
 
 **Four opening strategies**  
 Varied greetings prevent scripted feel across sessions:
@@ -89,17 +89,17 @@ Varied greetings prevent scripted feel across sessions:
 - Growth-focused: "What aspect of yourself are you working to strengthen?"
 
 **Explicit boundaries**  
-Refuses medical, legal, or financial advice. This serves dual purposes:
-- **Ethical:** Prevents harm from inappropriate guidance
-- **Pedagogical:** Teaches that philosophy addresses *how to think*, not *what to decide*
+Marcus refuses to give medical, legal, or financial advice. That does two things at once:
+- **Ethical:** it keeps him from causing harm with advice he's not equipped to give
+- **Pedagogical:** it teaches that philosophy is about *how to think*, not *what to decide*
 
 ### Testing & refinement
 
-**Problem identified:** Early versions were too agreeable. They validated users instead of challenging their reasoning.
+**Problem identified:** Early versions were too agreeable. They just validated whatever the user said instead of questioning their reasoning.
 
 **Solution implemented:**
-- Rebuilt system prompt with examples of productive pushback
-- Marcus now challenges faulty reasoning while remaining supportive
+- I rebuilt the system prompt with examples of how to push back well
+- Marcus now challenges faulty reasoning while staying supportive
 
 **Example exchange:**
 - **User:** "I just need to work harder and everything will be fine."
@@ -118,7 +118,7 @@ Refuses medical, legal, or financial advice. This serves dual purposes:
 
 ### What users experience
 
-Visit the site, authenticate, and within 8 seconds meet a photorealistic Marcus Aurelius. Speak naturally and receive brief, probing Stoic guidance focused on what's within your control.
+Visit the site, log in, and within 8 seconds you're face to face with a photorealistic Marcus Aurelius. Talk to him normally, and he gives you short, probing Stoic guidance that keeps you focused on what you can actually control.
 
 <video controls src="/videos/marcus-final.mp4" style="width: 100%; border-radius: 8px; margin-top: 1rem;"></video>
 
@@ -213,15 +213,15 @@ Users report the experience feels "surprisingly real" and "actually helpful." Br
 
 ## Key takeaways
 
-- **Presence drives engagement.** Photorealistic avatars create a sense of "being with" Marcus that lifts engagement well above text or voice-only. This validates embodied cognition research.
+- **Presence drives engagement.** A photorealistic avatar makes it feel like you're with Marcus, and that lifts engagement well above text or voice alone. It backs up embodied cognition research.
 
-- **Conversational scaffolding is instructional design.** Forcing Socratic questioning (not direct answers) keeps people thinking actively instead of listening passively. The system prompt works as a teaching strategy.
+- **Guiding the conversation is teaching.** Making Marcus ask Socratic questions instead of giving direct answers keeps people thinking actively rather than listening passively. The system prompt is really a teaching strategy.
 
-- **Less content enables deeper learning.** Limiting responses to 1-3 sentences creates space for reflection. Brief wisdom works better than long explanations. Users retain and apply shorter responses.
+- **Less content means deeper learning.** Keeping responses to 1-3 sentences leaves room to reflect. Short wisdom works better than long explanations. People remember and use the shorter responses.
 
-- **Cost-aware architecture matters.** Building rate limiting and monitoring from day one prevented runaway costs. Real-time AI is expensive (~$2-3 per session), so treating cost as a design constraint shaped better decisions.
+- **Design for cost from the start.** I built rate limiting and monitoring on day one, which stopped costs running away. Real-time AI is expensive (~$2-3 per session), so I treated cost as a design constraint, and that led to better decisions.
 
-- **Prompt engineering requires instructional design expertise.** Writing the system prompt meant defining learning objectives (apply Stoic principles), pedagogy (Socratic method), assessment criteria (quality responses), and boundaries. AI persona design is fundamentally a teaching task.
+- **Prompt engineering is instructional design.** Writing the system prompt meant defining what you want people to learn (apply Stoic principles), how to teach it (Socratic method), how to judge a good response, and where the boundaries are. Designing an AI persona is, at its core, a teaching task.
 
 ---
 
