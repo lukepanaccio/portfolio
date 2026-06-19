@@ -1,8 +1,8 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
 title: 'Geocoding accuracy campaign'
-tagline: 'Diagnosing a 5.8% per-run geocoding rate as a data-quality problem, and moving the number'
-description: 'A weekly job geocoding a large address dataset reported a 5.8% per-run success rate, which looked like a broken geocoder. The real cause was address shape. I wrote a normalizer that recovered 47% of the failing backlog and lifted whole-dataset coverage to 98.3%.'
+tagline: 'A 5.8% per-run success rate looked like a broken geocoder. It was a data problem, and I moved the number'
+description: 'A weekly job that geocodes a large address dataset reported a 5.8% per-run success rate, which looked like a broken geocoder. The real cause was the shape of the addresses themselves. I wrote a cleaner that recovered 47% of the failing backlog and lifted whole-dataset coverage to 98.3%.'
 client: 'storipro'
 role: 'Technical Co-Founder'
 timeline: '2026'
@@ -23,39 +23,39 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-A weekly job geocodes new address records via free-tier Nominatim and commits a SQLite database. One run reported **4,358 of 4,627 records failed, a 5.8% per-run success rate**, which looked like a broken geocoder. Records with no coordinates can't be placed on a map or used downstream, and a misdiagnosis ("the geocoder is broken") would have sent the fix in entirely the wrong direction.
+A weekly job takes new address records, looks up their coordinates through free-tier Nominatim (geocoding), and saves the results to a SQLite database. One run reported **4,358 of 4,627 records failed — a 5.8% per-run success rate**, which looked like a broken geocoder. An address with no coordinates can't be put on a map or used anywhere downstream. And blaming the geocoder would have sent the fix in completely the wrong direction.
 
 ## Architecture & why
 
-The honest frame: a colleague built the geocoder (the Nominatim client, the `au` country restriction, the rate-limit backoff, the cache, the resumable backfill). **My contribution was the diagnosis, the normalizer, and driving the metric.**
+To be clear about who did what: a colleague built the geocoder — the Nominatim client, the `au` country restriction, the rate-limit backoff, the cache, and the resumable backfill. **My part was the diagnosis, the normalizer, and moving the number.**
 
 <MermaidDiagram diagram={`flowchart TD
-    A["raw address record"] --> N["normalizeForGeocoding()  (mine)"]
-    N --> N1["strip PARENT- / COMMON PROPERTY prefixes"]
-    N1 --> N2["strip Unit/Suite/Shop/... (×2, keep AU street number)"]
-    N2 --> N3["strip floor modifiers; collapse &-lists"]
-    N3 --> N4["strip building-name prefix; append state token"]
-    N4 --> S{"empty input?"}
-    S -- "yes" --> Z["return null (don't burn rate-limit budget)"]
+    A["Raw address record"] --> N["normalizeForGeocoding()  (mine)"]
+    N --> N1["Remove PARENT- / COMMON PROPERTY prefixes"]
+    N1 --> N2["Remove Unit/Suite/Shop/... (×2, keep the AU street number)"]
+    N2 --> N3["Remove floor labels; flatten &-lists"]
+    N3 --> N4["Remove building-name prefix; add state token"]
+    N4 --> S{"Nothing left to look up?"}
+    S -- "yes" --> Z["Return null (don't waste a rate-limited request)"]
     S -- "no" --> G["Nominatim (colleague's: au, backoff, cache)"]
-    G --> W["write lat/lng to SQLite"]
+    G --> W["Save lat/lng to SQLite"]
 `} />
 
-- **Decision: reframe the failure as a *data-quality* problem, not a geocoder problem.** *Alternative rejected:* "fix the geocoder" via retry tuning or a paid provider, or per-scraper one-off munging. *Why:* the per-run diagnosis showed the geocoder matched fine on *clean* input. The failures were unit/floor/`PARENT -`/`COMMON PROPERTY`/building-name/`&`-list prefixes and missing state tokens. One shared normalizer at the single chokepoint fixes every source at once and keeps the free, public Nominatim dependency. A paid provider would have masked the root cause.
-- **Decision: order transforms most-specific-first and preserve the AU unit/street-number convention.** *Alternative rejected:* a single broad regex sweep, or "strip everything before the first street type." *Why:* AU addresses encode the real street number *after* the unit separator (e.g. the `17` in "Suite 101/17 Everage Street"). A naive strip discards it and produces a *worse* match than no normalization. Greedy strata prefixes have to be handled before building-name detection.
-- **Decision: validate empirically via a backlog backfill, run locally, with an empty-input short-circuit.** *Alternative rejected:* unit-testing the regexes, or running the backfill on CI runners. *Why:* there's no ground-truth oracle for "did this address geocode correctly" short of asking Nominatim, so the backlog recovery rate *is* the eval. Running locally spreads load on free public infrastructure, which is the good-citizen call.
-- **Decision: a git-based stale-DB pre-flight guard.** *Alternative rejected:* relying on the operator to remember to pull first. *Why:* a prior local backfill had clobbered 1,532 bot-scraped rows by pushing a stale binary SQLite over the bot's newer LFS snapshot. The guard aborts if `origin/main` is newer than HEAD, which closes the footgun without blocking legitimate runs.
+- **Decision: treat this as a *data-quality* problem, not a geocoder problem.** *Alternative rejected:* "fix the geocoder" by tuning retries or paying for a provider, or hand-cleaning each data source one at a time. *Why:* looking at the run showed the geocoder matched fine on *clean* input. The failures all came from messy address text — unit and floor labels, `PARENT -`, `COMMON PROPERTY`, building names, `&`-lists, and missing state names. One shared cleaner at the single point every address passes through fixes every source at once, and keeps the free, public Nominatim. A paid provider would have just hidden the real cause.
+- **Decision: run the cleanup steps most-specific-first, and keep the AU unit/street-number convention.** *Alternative rejected:* one big catch-all regex, or "strip everything before the first street type." *Why:* in AU addresses, the real street number comes *after* the unit separator (the `17` in "Suite 101/17 Everage Street"). A naive strip throws that away and gives a *worse* match than doing nothing. And the greedy strata prefixes have to be removed before you try to spot a building name.
+- **Decision: prove it works by re-running the failing backlog locally, and skip any address with nothing left to look up.** *Alternative rejected:* unit-testing the regexes, or running the backfill on CI runners. *Why:* there's no way to know for certain whether an address geocoded correctly except by asking Nominatim, so the share of the backlog it recovers *is* the test. Running it locally goes easy on free public infrastructure — the good-citizen call.
+- **Decision: add a git check before each run that catches a stale database.** *Alternative rejected:* trusting whoever runs it to remember to pull first. *Why:* an earlier local backfill had wiped out 1,532 bot-scraped rows by pushing an old SQLite file over the bot's newer LFS snapshot. The check stops the run if `origin/main` is ahead of HEAD, which closes that trap without getting in the way of normal runs.
 
 ## Evals / validation
 
-- **The eval is the recovery count** (no ground-truth oracle exists). The backlog backfill re-processed **3,460** previously-failing rows. The normalizer recovered **1,625 (47.0%)**, lifting whole-DB coverage from **96.7% → 98.3%**.
-- Failure-mode enumeration drove the regex design: Suite/Shop/Apt/Office/Warehouse prefixes, floor modifiers, strata prefixes, building names, `&`-lists, and missing-state tokens.
-- **Honest gaps:** `normalizeForGeocoding()` has no unit tests (it's validated empirically by backfill success rate). The headline came from a single ad-hoc local run, not a reproducible CI job. And ~1,835 backlog failures are genuinely unsolvable by normalization (`Lot N` rural addresses, "Unknown" suburbs, "Cnr X Y" relations, streets Nominatim simply doesn't carry).
+- **The test is simply how many addresses it recovered** — there's no other way to check it. The backfill re-ran **3,460** rows that had failed before. The normalizer recovered **1,625 (47.0%)**, which lifted whole-DB coverage from **96.7% → 98.3%**.
+- I built the cleanup rules by listing out every way an address was failing: Suite/Shop/Apt/Office/Warehouse prefixes, floor labels, strata prefixes, building names, `&`-lists, and missing state names.
+- **Honest gaps:** `normalizeForGeocoding()` has no unit tests — it's proven by how many rows the backfill recovers, not by tests. The headline number came from one off-the-cuff local run, not a repeatable CI job. And ~1,835 of the backlog failures simply can't be fixed by cleaning the text: `Lot N` rural addresses, "Unknown" suburbs, "Cnr X Y" corner descriptions, and streets that Nominatim just doesn't have.
 
 ## Outcome
 
-- **Backlog recovery: 5.8% → 47.0%** (1,625 rows recovered of 3,460 still-missing). These share a denominator family, so this is the honest before→after *rate*.
-- **Whole-DB coverage: 96.7% → 98.3%** across the ~110,356-record dataset, a *different* denominator, moved by that 47% backlog recovery. (The two are never collapsed into one "5.8% → 98.3%" figure. They measure different things.)
-- **Reliability fix:** the stale-DB guard closed the binary-LFS clobbering footgun that had silently overwritten 1,532 bot-scraped rows.
+- **Backlog recovery: 5.8% → 47.0%** (1,625 rows recovered of 3,460 still-missing). Both rates are measured against the same pool of rows, so this is an honest before-and-after on the same *rate*.
+- **Whole-DB coverage: 96.7% → 98.3%** across the ~110,356-record dataset. This is a *different* measurement on a different pool, moved by that 47% backlog recovery. (The two are never mashed into a single "5.8% → 98.3%" figure. They measure different things.)
+- **Reliability fix:** the stale-DB check closed the trap where an old SQLite file pushed over Git LFS had quietly overwritten 1,532 bot-scraped rows.
 
-> Built at storipro. Honest scope: the geocoder is a colleague's. The diagnosis, the `normalizeForGeocoding()` cleaner, the metric gains, and the stale-DB guard are mine.
+> Built at storipro. Honest scope: the geocoder is a colleague's. The diagnosis, the `normalizeForGeocoding()` cleaner, the gains in the numbers, and the stale-DB check are mine.

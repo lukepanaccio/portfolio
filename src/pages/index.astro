@@ -9,7 +9,7 @@ const base = import.meta.env.BASE_URL;
 // Define projects data
 const featuredProject = {
   title: 'Eval-driven AI authoring system',
-  description: 'An orchestrator-agent authoring system. The judge and fixer are separate, a three-part hard gate runs through a zero-dependency validator, and the judge is calibrated against a human gold set. Fluent-but-wrong content can\'t pass.',
+  description: 'An AI writing pipeline where one agent writes and a separate one grades it — because nothing should grade its own work. A three-part pass/fail gate, enforced by a dependency-free validator and calibrated against human-graded examples, keeps polished-but-wrong content from getting through.',
   image: '/images/featured-hero.svg',
   href: '/projects/ai-authoring-system',
   tags: ['Agent orchestration', 'Evals', 'LLM-as-judge', 'CLAUDE.md']
@@ -17,16 +17,16 @@ const featuredProject = {
 
 const projects = [
   {
-    title: 'Stripe billing, productionized',
-    description: 'A stale customer ID silently double-charged a card $138, so I made a test-mode billing system safe to take real money: a 95-case test harness from zero, a self-healing webhook resilience layer, and the live migration.',
+    title: 'Stripe billing, productionized & secured',
+    description: 'A founder\'s billing prototype had to start taking real money — and a stale test-mode ID had already silently charged a card $138 with no record of it anywhere. I locked the billing data down at the database, made the webhooks heal their own bad data, and wrote 142 tests from zero.',
     image: '/images/stripe-billing-hero.svg',
-    href: '/projects/stripe-billing-productionization',
-    tags: ['Stripe', 'Payments', 'Webhooks', 'Idempotency'],
+    href: '/projects/stori-stripe-billing-reliability',
+    tags: ['Stripe', 'Payments', 'Security', 'Webhooks'],
     categories: ['engineering']
   },
   {
     title: 'Voice-to-Prototype agentic pipeline',
-    description: 'A GitHub-native agentic pipeline: a labelled issue triggers a constrained Claude Code run that opens a draft PR plus preview. The workflow owns git, not the model. Trust-gated and injection-hardened. I debugged it across a live 4-PR arc, then honestly held it behind a pivot.',
+    description: 'Label a GitHub issue, and a locked-down, automated Claude Code run opens a draft pull request and a preview. The workflow handles git, not the AI. Trust-gated and hardened against prompt injection. I debugged it across a live run of 4 pull requests, then honestly parked it behind a product pivot.',
     image: '/images/voice-to-prototype-hero.svg',
     href: '/projects/voice-to-prototype-pipeline',
     tags: ['Agent development', 'GitHub Actions', 'Prompt-injection hygiene', 'Claude Code'],
@@ -34,7 +34,7 @@ const projects = [
   },
   {
     title: 'Second Brain: LLM-maintained wiki',
-    description: 'A compounding personal wiki where the LLM compiles knowledge once and keeps it current. It summarises, cross-references, and flags contradictions across 100 interlinked pages (0 hand-written) from 66 sources. A deliberate alternative to query-time RAG.',
+    description: 'A personal wiki the LLM writes once and keeps current, instead of rebuilding an answer every time you ask. It summarises, cross-links, and flags contradictions across 100 linked pages (none written by hand) drawn from 66 sources. A deliberate alternative to query-time RAG.',
     image: '/images/second-brain-hero.svg',
     href: '/projects/second-brain-knowledge-base',
     tags: ['Knowledge engineering', 'RAG alternative', 'CLAUDE.md', 'Obsidian'],
@@ -42,7 +42,7 @@ const projects = [
   },
   {
     title: 'Firestore security rules + emulator suite',
-    description: 'Threat-modelled the economic attack surface of a SaaS data layer (no self-granting a paid tier, no inflating credits) and defended it with field allowlisting and diff-based update guards. Proven with 59 allow/deny cases against the shipped rules in the Firebase emulator.',
+    description: 'Worked out how a user could cheat a SaaS billing system from the browser — give themselves a paid tier, inflate their own credits — and shut it down at the database. Every protected field is locked, and each edit is checked against what actually changed. Proven with 59 allow/deny tests against the real rules in the Firebase emulator.',
     image: '/images/firestore-security-hero.svg',
     href: '/projects/firestore-security-rules',
     tags: ['Firestore', 'Security', 'Emulator testing', 'Threat modeling'],
@@ -50,7 +50,7 @@ const projects = [
   },
   {
     title: 'Natural-language control for Ableton Live',
-    description: 'Integrated an open-source MCP bridge to drive a live Ableton session by voice or text. The real work wasn\'t building the bridge. It was a one-command idempotent install (7 steps to 1) and a log-driven diagnosis.',
+    description: 'Control a live Ableton session by voice or text, built on an open-source MCP bridge I didn\'t write. The real work was the setup and the debugging: a one-command install that runs safely every time (7 steps down to 1), and a log-driven diagnosis of why it wouldn\'t load.',
     image: '/images/ableton-mcp-hero.svg',
     href: '/projects/ableton-mcp-control-layer',
     tags: ['MCP', 'Systems integration', 'macOS', 'Debugging'],
@@ -58,7 +58,7 @@ const projects = [
   },
   {
     title: 'Content drift detection (agentic)',
-    description: 'A three-skill agent pipeline (release-analyzer → content-mapper → change-generator) that detects which docs an API release impacts and drafts the updates. A human reviews them before they reach developers.',
+    description: 'A three-step agent pipeline that reads an API release, works out which docs it affects, and drafts the updates. A human reviews them before they reach developers.',
     image: '/images/content-drift-hero.svg',
     href: '/projects/content-drift-detection-system',
     tags: ['Agent skills', 'Progressive disclosure', 'Drift detection', 'Human-in-the-loop'],
@@ -66,7 +66,7 @@ const projects = [
   },
   {
     title: 'AI grading & evaluation system',
-    description: 'An LLM evaluation system that scores submissions against a structured rubric, with quality gates that catch ungrounded or hallucinated judgments. It runs at a fraction of the cost and time of manual assessment.',
+    description: 'An LLM that scores submissions against a clear rubric, with checks that catch judgments it can\'t back up. It runs at a fraction of the cost and time of grading by hand.',
     image: '/images/paper-grader-hero.svg',
     href: '/projects/paper-grader',
     tags: ['Claude API', 'Evals', 'Quality gates', 'Python'],
@@ -74,7 +74,7 @@ const projects = [
   },
   {
     title: 'Geocoding accuracy campaign',
-    description: 'A diagnose-and-fix campaign on ~110K planning permits. I reframed a 5.8% per-run geocoding rate as a data-quality problem and wrote the address normalizer that recovered 47% of the failing backlog, lifting whole-dataset coverage to 98.3%.',
+    description: 'A diagnose-and-fix campaign on a ~110K-record address dataset. A 5.8% per-run success rate looked like a broken geocoder — but the real problem was the shape of the addresses. I wrote the normalizer that recovered 47% of the failing backlog and lifted whole-dataset coverage to 98.3%.',
     image: '/images/geocoding-hero.svg',
     href: '/projects/geocoding-accuracy-campaign',
     tags: ['Data quality', 'Geocoding', 'Address normalization', 'Debugging'],
@@ -82,7 +82,7 @@ const projects = [
   },
   {
     title: 'Single-source-of-truth docs program',
-    description: 'A 5-person program that killed the cross-microsite duplication degrading search and RAG retrieval. One canonical source per concept, codified as a reusable 0-4 classification skill. ~2,660 lines consolidated across 8 domains, 1 microsite sunset.',
+    description: 'A 5-person program that ended the duplicate docs hurting search and AI retrieval. One source of truth per concept, with a reusable 0-4 classifier deciding what stays. ~2,660 lines consolidated across 8 domains, with one site retired.',
     image: '/images/dedup-hero.svg',
     href: '/projects/single-source-of-truth-docs-program',
     tags: ['Information architecture', 'RAG retrieval', 'Single source of truth'],
@@ -90,7 +90,7 @@ const projects = [
   },
   {
     title: 'In-app bug-reporting pipeline',
-    description: 'A five-stage serverless pipeline (scoped screenshot upload, private GitHub issue, HMAC-verified resolution webhook, two-pass retention GC) shipped to all users with distributed-systems hygiene and a ~1.3:1 test-to-source ratio.',
+    description: 'A five-stage serverless pipeline behind the in-app report-a-bug button: a locked-down screenshot upload, a private GitHub issue, a signature-verified webhook when the bug is fixed, and a two-pass cleanup of old data. Shipped to all users, with about 1.3 lines of test for every line of code.',
     image: '/images/bug-pipeline-hero.svg',
     href: '/projects/bug-reporting-pipeline',
     tags: ['Serverless', 'HMAC', 'Idempotency', 'PII handling'],
@@ -98,7 +98,7 @@ const projects = [
   },
   {
     title: 'Distributed scraper CI orchestration',
-    description: 'The CI orchestration that keeps a brittle ~40-job scraping fleet reliable: matrix failure isolation, an LFS-safe concurrent-commit loop that survives main moving mid-run, and an infra-vs-bug failure taxonomy with bounded auto-rerun.',
+    description: 'The CI orchestration that keeps a fragile ~40-job scraping fleet reliable. One failing job can\'t sink the rest, large-file commits stay intact even when the main branch moves mid-run, and failures are sorted into infra-vs-bug so only the right ones auto-retry.',
     image: '/images/scraper-ci-hero.svg',
     href: '/projects/scraper-ci-orchestration',
     tags: ['GitHub Actions', 'Git LFS', 'Reliability', 'CI/CD'],
@@ -106,7 +106,7 @@ const projects = [
   },
   {
     title: 'Alex Chen: synthetic eval persona',
-    description: 'A synthetic user that validates documentation by simulating a senior developer\'s feedback patterns. An evaluation persona for catching gaps before real developers hit them.',
+    description: 'A synthetic user that reviews documentation the way a senior developer would, catching gaps before real developers hit them.',
     image: '/images/alex-chen-hero.svg',
     href: '/projects/alex-chen-learner-persona',
     tags: ['Synthetic users', 'Prompt engineering', 'Evals'],
@@ -114,7 +114,7 @@ const projects = [
   },
   {
     title: 'B2B Commerce learning path',
-    description: 'Owned a B2B modeling path end to end. SME-validated, authored for the Functional Architect persona, with every API example verified against the RAML source. Module 2 passed the eval-driven critique gate at 88/100.',
+    description: 'Owned a B2B learning path end to end — built with subject-matter experts, written for the Functional Architect, with every API example checked against the RAML source. Module 2 passed the automated critique gate at 88/100.',
     image: '/images/b2b-learning-hero.svg',
     href: '/projects/b2b-learning-path',
     tags: ['Curriculum architecture', 'SME synthesis', 'API-verified', 'Built & shipped'],
@@ -122,7 +122,7 @@ const projects = [
   },
   {
     title: 'Modular learning path ecosystem',
-    description: 'Scalable content architecture supporting 9 paths, 30+ modules, and 200+ pages of technical material. One information architecture serving thousands of developers.',
+    description: 'One content structure behind 9 learning paths, 30+ modules, and 200+ pages of technical material — built to scale to thousands of developers.',
     image: '/images/modular-paths-hero.svg',
     href: '/projects/modular-learning-paths',
     tags: ['Information architecture', 'Markdown', 'Git'],
@@ -130,7 +130,7 @@ const projects = [
   },
   {
     title: 'Developer Essentials learning path',
-    description: 'A 20-hour curriculum that takes enterprise developers from zero to production-ready through hands-on, API-first mastery.',
+    description: 'A 20-hour, hands-on course that takes enterprise developers from zero to production-ready, API first.',
     image: '/images/dev-essentials-hero.svg',
     href: '/projects/developer-essentials-learning-path',
     tags: ['Curriculum design', 'TypeScript', 'Java', 'API education'],
@@ -138,7 +138,7 @@ const projects = [
   },
   {
     title: 'Marcus Aurelius AI mentor',
-    description: 'A conversational AI companion built on Socratic, persona-driven dialogue. An experiment in how far a single well-designed prompt system can carry an experience.',
+    description: 'A conversational AI that mentors through Socratic, in-character dialogue. An experiment in how far one well-designed prompt system can carry the whole experience.',
     image: '/images/marcus-hero.svg',
     href: '/projects/marcus-aurelius',
     tags: ['Conversational AI', 'Prompt engineering', 'Next.js'],
@@ -146,7 +146,7 @@ const projects = [
   },
   {
     title: '3 Steps Away: social-justice education platform',
-    description: 'Co-founded an education enterprise teaching high schoolers to respond to complex social issues through visual storytelling and experiential learning. Where the systems thinking started.',
+    description: 'Co-founded an education company that taught high-schoolers to respond to complex social issues through visual storytelling and hands-on learning. Where the systems thinking started.',
     image: '/images/3-steps-hero.svg',
     href: '/projects/3-steps-away',
     tags: ['Founder', 'Experiential learning', 'Youth education'],
@@ -278,7 +278,7 @@ const skills = {
                     </h2>
 
                     <p class="text-lg md:text-xl text-text-primary leading-relaxed max-w-xl bg-bg-primary/95 p-4 rounded-lg -ml-4">
-                      Each authoring concern maps to the right primitive, with a hard gate that refuses to let an LLM grade its own work.
+                      Every authoring job gets its own tool, with a hard gate that won't let an LLM grade its own work.
                     </p>
                   </div>
                   
@@ -442,7 +442,7 @@ const skills = {
       <div class="max-w-7xl mx-auto px-6">
         <div class="mb-10 max-w-3xl">
           <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-4">How I build</h2>
-          <p class="text-xl text-text-secondary">I don't just call models. I build with the full agentic toolchain. What sets the work apart is fluency <span class="text-accent-primary font-semibold">operating the stack</span>, not just the API.</p>
+          <p class="text-xl text-text-secondary">I don't just call models. I build with the full agentic toolchain. What sets the work apart is that I actually <span class="text-accent-primary font-semibold">run the stack</span>, not just the API.</p>
         </div>
 
         <div class="flex flex-wrap gap-3">
@@ -462,13 +462,13 @@ const skills = {
 
         <div class="space-y-6 text-lg text-text-secondary leading-relaxed max-w-5xl">
           <p>
-            I design, build, and ship production AI systems: agentic CI pipelines, payment-integrity infrastructure, AI authoring architectures. Then I make them legible to the people and models that depend on them. Building something well and explaining it clearly don't always come from the same person, and I work at both.
+            I design, build, and ship production AI systems: agentic CI pipelines, billing systems that don't lose money, AI authoring tools. Then I make them clear to the people and models that depend on them. Building something well and explaining it clearly don't always come from the same person, and I work at both.
           </p>
           <p>
             As a technical co-founder at <a href="https://storipro.ai" target="_blank" rel="noopener" class="text-accent-primary font-semibold hover:underline">storipro</a>, I shipped the production billing layer, hardened the data-security model, and built an autonomous issue-to-PR pipeline. At <a href="https://commercetools.com" target="_blank" rel="noopener" class="text-accent-primary font-semibold hover:underline">commercetools</a>, I architected an orchestrator-agent authoring system with an eval harness and drove a single-source-of-truth documentation program across the platform. On my own time I keep building. An LLM-maintained knowledge base, an MCP control layer for Ableton Live.
           </p>
           <p>
-            I came up as an educator, a decade of it across three continents, and that's exactly why my systems land. The real craft of the classroom is earning enough trust that people actually engage. I build the same way, for the people and models that have to use the output. That's the edge, not the lane I'm leaving.
+            I came up as an educator, a decade of it across three continents, and that's exactly why my systems land. The real craft of the classroom is earning enough trust that people actually engage. I build the same way, for the people and models that have to use the output.
           </p>
         </div>
         

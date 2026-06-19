@@ -1,8 +1,8 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
 title: 'Voice-to-Prototype agentic pipeline'
-tagline: 'An agentic CI pipeline where the workflow owns git, not the model, debugged from a flawed design into a clean separation'
-description: 'A GitHub-native pipeline: a labelled issue triggers a constrained Claude Code run that authors files, then deterministic CI commits and opens a draft PR with a live preview. Trust-gated on repo permission, hardened against prompt injection, debugged across a live 4-PR arc, then candidly held behind a product pivot.'
+tagline: 'An agentic CI pipeline where the automated workflow handles git, not the AI model, debugged from a flawed design into a clean split'
+description: 'A GitHub-native pipeline: a labelled issue triggers a constrained Claude Code run that writes the files, then deterministic CI commits them and opens a draft PR with a live preview. Access is gated on repo permission, the pipeline is hardened against prompt injection, it was debugged across a live 4-PR arc, then held honestly behind a product pivot.'
 client: 'storipro'
 role: 'Technical Co-Founder'
 timeline: '2026'
@@ -23,39 +23,39 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-A non-technical co-founder is full of product ideas but is the bottleneck to *starting* any of them. The two engineers are the bottleneck to *building* them. So good ideas die in the gap. The bet: let him describe an idea and get a clickable, brand-faithful prototype on a preview link with **no engineer in the loop to start it**, while engineers stay the only people who can merge.
+A non-technical co-founder has plenty of product ideas, but he can't *start* any of them on his own. The two engineers are the only ones who can *build* them. So good ideas die in the gap between the two. The bet: let him describe an idea and get back a clickable, on-brand prototype on a preview link, with **no engineer needed to start it** — while engineers stay the only people who can merge.
 
-Done naively, that's dangerous. An untrusted, non-engineer-authored brief drives an AI agent *inside the real repo*. The failure modes are prompt injection, writes outside the sandbox, leaked secrets, and runaway spend. The real question wasn't *can an agent build a prototype*. It was **where do you put the trust boundary.**
+Do this carelessly and it's dangerous. You're letting an AI agent run *inside the real repo*, driven by a brief that a non-engineer wrote and that you can't fully trust. Things that can go wrong: prompt injection, the agent writing files outside its sandbox, leaked secrets, and runaway spend. So the real question wasn't *can an agent build a prototype*. It was **where do you draw the line on what the agent is trusted to do.**
 
 ## Architecture & why
 
 <MermaidDiagram diagram={`flowchart TD
-    A["Idea → labelled issue<br/>(template auto-applies label)"] --> B{"Trust gate:<br/>repo permission ≠ none"}
-    B -- "no" --> X["Explanatory comment<br/>(no silent skip)"]
-    B -- "yes" --> C["Constrained Claude Code<br/>authors files only"]
-    C --> D["Deterministic YAML:<br/>branch · commit subtree · push · draft PR"]
+    A["Idea → labelled issue<br/>(template adds the label for you)"] --> B{"Permission check:<br/>does the author have repo access?"}
+    B -- "no" --> X["Post a comment explaining why<br/>(don't just skip silently)"]
+    B -- "yes" --> C["Constrained Claude Code<br/>writes files only"]
+    C --> D["Deterministic workflow:<br/>branch · commit files · push · open draft PR"]
     D --> E["Vercel preview link"]
 `} />
 
-- **Decision: the deterministic workflow owns all git and PR work, and the agent only authors files.** *Alternative rejected:* letting the agent (or the Claude Code action) run `git`/`gh` itself. *Why:* both proved unreliable in live dry runs. The model finished its turns and never opened the PR, and the action doesn't auto-push on issue events at all. An imperative must-happen step can't be delegated to a non-deterministic agent. Keep the AI on authoring, the YAML on plumbing.
-- **Decision: trust-gate on the author's repo *permission level*, not `author_association`.** *Alternative rejected:* the obvious `author_association ∈ {OWNER, MEMBER, COLLABORATOR}` check. *Why:* `author_association` reports `NONE` for **private** org members, so that gate silently skipped the owner's own run. Permission level is visibility-agnostic and also handles the intended outside-collaborator case.
-- **Decision: treat the issue body as untrusted data, never instructions.** *Alternative rejected:* inlining issue text into the prompt/shell. *Why:* non-engineer-authored text fed into an in-repo agent invites both prompt injection and shell injection. So the brief is framed as product-brief-only and passed via environment, never inlined.
-- **Decision: route and spend isolation.** *Alternative rejected:* rendering the real authed app shell on previews and sharing the org-wide API key. *Why:* per-branch preview URLs aren't authorized auth domains, so a real sign-in *can't* work. Route isolation is forced, not chosen. A dedicated spend-capped key keeps prototype runs from throttling other pipelines and tracks cost separately (~$5 per ~50 runs).
+- **Decision: the automated workflow does all the git and PR work; the agent only writes files.** *Alternative rejected:* letting the agent (or the Claude Code action) run `git`/`gh` itself. *Why:* both proved unreliable when I tested them live. The model would finish its turns and never open the PR, and the action doesn't auto-push on issue events at all. A step that *must* happen every time can't be left to an agent whose behaviour varies run to run. So the AI writes the code, and the workflow handles the plumbing.
+- **Decision: check the author's actual repo *permission level*, not `author_association`.** *Alternative rejected:* the obvious check that the author is an `OWNER`, `MEMBER`, or `COLLABORATOR` (`author_association`). *Why:* `author_association` reports `NONE` for members of a **private** org, so that check silently skipped the owner's own runs. Permission level works the same whether the org is public or private, and it still handles the case I wanted — an outside collaborator running the pipeline.
+- **Decision: treat the issue text as data to act on, never as instructions to obey.** *Alternative rejected:* pasting the issue text straight into the prompt or a shell command. *Why:* text a non-engineer wrote, fed into an agent running in the repo, opens the door to both prompt injection (the text hijacking the AI) and shell injection (the text running as a command). So I label the brief as product-brief-only and pass it in through an environment variable instead of pasting it inline.
+- **Decision: keep prototype previews and prototype spend separate from the real app.** *Alternative rejected:* rendering the real signed-in app on previews and reusing the org-wide API key. *Why:* per-branch preview URLs aren't on the list of domains allowed to sign in, so a real login *can't* work there anyway — keeping previews on their own routes was forced, not a choice. And a dedicated key with its own spend cap stops prototype runs from slowing down other pipelines and tracks their cost on its own (~$5 per ~50 runs).
 
 ## Evals / validation
 
-The validation *is* the iteration arc. Across a **4-PR sequence merged in ~75 minutes**, each PR is a live debugging log that disproves an assumption from the previous run:
+The validation *is* the debugging arc. I merged a **4-PR sequence in ~75 minutes**, and each PR is a live debugging log that disproves an assumption the previous run had relied on:
 
-1. The trust gate silently skipped the owner's run (`author_association = NONE` for private org members).
-2. The model generated a correct page but never opened the PR within its turn cap.
-3. The fallback assumption, that the *action* auto-pushes on issue events, was itself false, so fix #2 was built on a wrong premise and had to be replaced.
+1. The permission check silently skipped the owner's own run (`author_association` reads `NONE` for members of a private org).
+2. The model generated a correct page but ran out of turns before it opened the PR.
+3. My fallback assumed the *action* would auto-push on issue events — but that was also false, so fix #2 was built on a wrong premise and had to be replaced.
 
-Failure handling is explicit. The commit step is robust to files being left either uncommitted or committed locally. A "run produced nothing" guard short-circuits empty runs. Untrusted authors get a comment, not a silent skip. Guardrails act as quality gates: pinned model, capped turns, an allowlisted tool set, and a best-effort per-author rate cap.
+I handle failures explicitly. The commit step works whether the agent left files uncommitted or committed them locally. A "this run produced nothing" guard stops empty runs early. Authors without access get a comment, not a silent skip. And several guardrails act as quality gates: the model is pinned to a fixed version, the number of turns is capped, the agent's tools are limited to an allowlist, and there's a best-effort per-author rate cap.
 
 ## Outcome
 
-A clean **"model authors, deterministic YAML plumbs"** architecture, converged on by debugging a flawed two-unreliable-agents design across three real dry-run failure modes. The intended cycle (spoken idea → labelled issue → constrained agent run → draft PR → preview link) is **proven green through dry runs**, with zero engineers needed to start and merge still fully gated.
+A clean design where **the model writes the code and the automated workflow handles git**. I got there by debugging a flawed first design — two unreliable agents — across three real failures I hit while testing. The intended flow (spoken idea → labelled issue → constrained agent run → draft PR → preview link) **passes end to end in dry runs**, with zero engineers needed to start a prototype and merge still fully gated.
 
-**Held honestly:** it was **never run as a live production generation**, and is **on hold behind a product pivot**. It was already blocked, independent of the pivot, on two org-level gates. Branch protection requires a paid GitHub plan, and giving the co-founder repo access would expose bug-report PII (the trust gate and the PII exposure are the same knob). The durable deliverable is the architecture and a candid retrospective that separates "proven green" from "rolled out", with the failure analysis written down rather than papered over.
+**Held honestly:** it was **never run as a live production generation**, and is **on hold behind a product pivot**. Even setting the pivot aside, it was already blocked by two org-level limits. Branch protection requires a paid GitHub plan. And giving the co-founder repo access would expose the PII in bug-report issues — the same access that lets him run the pipeline is the access that exposes the PII. The lasting deliverable is the design itself, plus a candid write-up that's clear about the difference between "passes in dry runs" and "rolled out", with the failure analysis written down rather than glossed over.
 
 > Built at storipro (100% mine). Framed honestly: a built-and-merged pipeline, proven through dry runs, parked behind a pivot. Not a shipped production feature.

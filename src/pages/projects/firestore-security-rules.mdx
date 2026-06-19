@@ -1,8 +1,8 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
 title: 'Firestore security rules + emulator suite'
-tagline: 'Defending monetization fields against client-side privilege escalation, and proving it'
-description: 'The browser client talks to Firestore directly with the user’s own token, and the original rule let any logged-in user self-grant the top paid tier or inflate their credit balance before any Stripe webhook ran. I authored the field-level defense and a 59-case regression suite run against the shipped rules in the Firebase emulator.'
+tagline: 'Stopping users from granting themselves paid access in the browser, and proving it stays stopped'
+description: 'The browser talks to Firestore directly using the user’s own login token. The original rule let any logged-in user give themselves the top paid tier or pad their credit balance before any Stripe webhook ran. I wrote the rule that locks those fields and a 59-case test suite that runs against the shipped rules in the Firebase emulator.'
 client: 'storipro'
 role: 'Technical Co-Founder'
 timeline: '2026'
@@ -23,40 +23,40 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-The browser client talks to Firestore directly with the user's own auth token, and the original `users/{uid}` rule allowed a blanket `write: if isOwner(userId)`. So any logged-in user could set their subscription tier to the top paid plan at signup, or inflate a metered credit balance from the console. That's **self-provisioning paid access before any Stripe webhook ever ran.** Every feature-gating decision reads those fields off that document, so the paywall was cosmetic and the revenue loss would be silent. The rules layer was the only thing between an attacker's token and the monetization source of truth.
+The browser talks to Firestore directly using the user's own login token. The original `users/{uid}` rule said `write: if isOwner(userId)` — meaning a user could write anything in their own document. So at signup, a logged-in user could set their subscription tier to the top paid plan, or pad a metered credit balance straight from the browser console. **That's giving yourself paid access before any Stripe webhook ever ran.** Every paywall check reads those fields from that document, so the paywall was for show and the lost revenue would never surface. The rules layer was the only thing standing between an attacker's token and the data that decides what people pay for.
 
 ## Architecture & why
 
-The defense rests on one principle. A client may never write the fields that decide what they've paid for. (Disclosed as a pattern. The literal rule source stays private.)
+The whole defense comes down to one rule. The browser can never write the fields that decide what a user has paid for. (I'm describing the pattern here. The actual rule source stays private.)
 
 <MermaidDiagram diagram={`flowchart TD
-    A["Browser write (user's own token)"] --> B{"CREATE or UPDATE?"}
-    B -- "create" --> C{"monetization field present?"}
-    C -- "equals safe default" --> OK1["allow"]
-    C -- "non-default / Stripe ID" --> D1["DENY"]
-    B -- "update" --> E{"diff().affectedKeys()<br/>∩ server-owned set?"}
-    E -- "empty (e.g. displayName)" --> OK2["allow"]
-    E -- "intersects (tier/credits)" --> D2["DENY"]
-    A2["Admin SDK (Stripe webhooks, metering)"] --> W["bypasses rules, the only legitimate writer"]
+    A["Browser write (user's own token)"] --> B{"New document or edit?"}
+    B -- "new document" --> C{"Is a billing field being set?"}
+    C -- "Set to the safe default" --> OK1["Allow"]
+    C -- "Set to anything else / a Stripe ID" --> D1["DENY"]
+    B -- "edit" --> E{"Does the edit touch any<br/>server-owned field?"}
+    E -- "No (e.g. just displayName)" --> OK2["Allow"]
+    E -- "Yes (tier / credits)" --> D2["DENY"]
+    A2["Admin SDK (Stripe webhooks, metering)"] --> W["Skips the rules — the only writer that's meant to touch these fields"]
 `} />
 
-- **Decision: field-level segmentation, not a whole-document lockdown.** *Alternative rejected:* lock `users/{uid}` to `write: if false` and route every profile edit through a server endpoint. *Why:* the doc legitimately mixes user-editable profile data with server-owned billing state. A full lockdown forces a server round-trip for every display-name change. Segmentation keeps the cheap client-direct path for safe fields while making the ~19 monetization fields untouchable.
-- **Decision: a value-pinned create allowlist, not an outright create denial.** *Alternative rejected:* the original blanket `allow create`, or forbidding those fields at create-time. *Why:* real signup legitimately writes the *safe defaults* (free tier, zero credits), so a blanket deny breaks onboarding. Value-pinning lets the default through but blocks "enterprise-tier-at-signup."
-- **Decision: a diff-based update guard using `diff().affectedKeys().hasAny(...)`.** *Alternative rejected:* key-presence checks (deny if a server field is *present* in the payload). *Why:* presence checks break legitimate updates that echo unchanged fields back. Diffing to the set that *actually changes* lets a user freely edit their display name while denying the exact moment they mutate a credit balance.
-- **Decision: pin the test suite to the *literal shipped* rules file, run in the real emulator.** *Alternative rejected:* testing a copied/inline rules string or a mocked evaluator. *Why:* a copy drifts from production. Loading the actual deployed file means any future edit that re-opens a monetization field fails CI deterministically. The test is a contract on the production artifact, not an approximation.
+- **Decision: lock the billing fields one by one, not the whole document.** *Alternative rejected:* lock `users/{uid}` to `write: if false` and send every profile edit through a server endpoint. *Why:* this one document mixes two things — profile data the user is allowed to edit, and billing state only the server should touch. Locking the whole thing means a server round-trip just to change a display name. Locking field by field keeps the fast, direct path for the safe fields and makes the ~19 billing fields off-limits.
+- **Decision: at signup, allow the billing fields only if they're set to the safe default value.** *Alternative rejected:* the original blanket `allow create`, or banning those fields at signup entirely. *Why:* a real signup does write those fields — but only to their safe defaults (free tier, zero credits). Banning them outright breaks onboarding. Pinning the allowed value lets the default through and blocks anyone trying to sign up straight onto the enterprise tier.
+- **Decision: on edits, check which fields actually changed, using `diff().affectedKeys().hasAny(...)`.** *Alternative rejected:* just checking whether a server field is *present* in the request. *Why:* the present-or-not check breaks normal edits, because clients often send back unchanged fields too. Comparing against the fields that *actually changed* lets a user edit their display name freely, and denies the request only at the moment they try to change a credit balance.
+- **Decision: run the tests against the *exact rules file that ships*, in the real emulator.** *Alternative rejected:* testing a copied or inline rules string, or a stand-in evaluator. *Why:* a copy drifts away from what's actually live. Loading the real deployed file means any future edit that re-opens a billing field fails CI every time. The test checks the thing that actually ships, not a stand-in for it.
 
 ## Evals / validation
 
-- **59 test cases / 61 assertions** (13 allow, 48 deny) across 9 `describe` blocks, one per collection, run against the **real Firestore emulator**, loading the **literal shipped rules file**. Zero skipped.
-- The core is **18 individually-named "authenticated user cannot update `<field>`" denial tests**, one per server-owned field, plus create-path tests pinning the signup defaults.
-- Positive controls prevent over-locking. A display-name update succeeds. An owner can read their own doc but **cannot** read another user's, so the suite catches both under- and over-restriction. Server-only collections are locked to `write: if false` with a deny-by-default catch-all.
-- **Honest gaps:** the suite proves the *client contract* (the client can't write monetization fields). It does not prove the server writes them correctly. That's covered by the separate Stripe webhook tests. The admin check is case-sensitive while the JS guard lowercases, a real asymmetry, but it's stricter on the rules side, so it's not exploitable. No positive `teams` assertion yet (Teams is Admin-SDK-only, protected by deny-by-default).
+- **59 test cases / 61 assertions** (13 allow, 48 deny) across 9 `describe` blocks, one per collection. They run against the **real Firestore emulator** and load the **exact rules file that ships**. None are skipped.
+- The heart of it is **18 separately-named "a logged-in user cannot change `<field>`" tests**, one for each server-owned field, plus signup tests that confirm the safe defaults go through.
+- I also test the things that *should* work, so the rules aren't too strict. A display-name edit succeeds. A user can read their own document but **cannot** read anyone else's. So the suite catches both kinds of mistake: rules that are too loose and rules that are too tight. Server-only collections are locked to `write: if false`, and anything not explicitly allowed is denied.
+- **Honest gaps:** the suite proves the *browser side* — that the client can't write billing fields. It does not prove the server writes them correctly. The separate Stripe webhook tests cover that. The admin check is case-sensitive while the JS guard lowercases, which is a real mismatch — but the rules side is the stricter of the two, so it can't be exploited. There's no positive `teams` test yet (Teams is written only by the Admin SDK, and protected by the deny-everything-else default).
 
 ## Outcome
 
-- **Blanket `allow write` → field-level denial** across ~19 server-owned monetization fields on both create and update, with server-only collections locked and a deny-by-default catch-all.
-- **0 → 59** automated rules regression tests run against the literal shipped rules in the real emulator, the safety net that didn't exist before.
-- **A concrete attack class closed:** browser-side self-provisioning of the top paid tier and credit inflation, previously possible against the original blanket rule.
-- **Deterministic regression safety:** any future edit that re-opens a monetization field fails CI field-by-field against the rules that actually ship.
+- **Went from blanket `allow write` to a field-by-field lock** on the ~19 server-owned billing fields, on both new documents and edits. Server-only collections are locked, and anything not explicitly allowed is denied.
+- **Went from 0 to 59** automated tests, run against the exact shipped rules in the real emulator — a safety net that didn't exist before.
+- **Closed a real attack:** a user could no longer give themselves the top paid tier or inflate their credits from the browser, which the original blanket rule had allowed.
+- **Future edits can't quietly re-open a hole:** if anyone re-opens a billing field, CI fails on that exact field, checked against the rules that actually ship.
 
-> Built at storipro (100% mine, since the prior rules contained no privilege-escalation defense whatsoever). The rule source and admin allowlist stay private. This describes the pattern and its proof.
+> Built at storipro (100% mine, since the earlier rules had no protection against this at all). The rule source and admin allowlist stay private. This describes the pattern and the proof behind it.

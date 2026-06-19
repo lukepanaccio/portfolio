@@ -1,8 +1,8 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
 title: 'Single-source-of-truth docs program'
-tagline: 'Eliminating cross-microsite duplication that was degrading search and RAG retrieval'
-description: 'The same API concepts were copied verbatim across Docs, Tutorials, and Learning microsites. Competing near-identical sources degraded RAG retrieval and multiplied maintenance cost. A 5-person program established one canonical source per concept, codified as a reusable classification skill.'
+tagline: 'Cutting duplicate docs across three sites that were hurting search and AI retrieval'
+description: 'The same API concepts were copied word-for-word across the Docs, Tutorials, and Learning sites. Those near-identical copies competed with each other, which hurt AI retrieval (RAG) and multiplied the upkeep. A 5-person program set one official source per concept, captured as a reusable classification skill.'
 client: 'commercetools'
 role: 'Engineer / program contributor (5-person initiative)'
 timeline: '2026'
@@ -24,30 +24,30 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-The same API concepts were copied verbatim across the Docs, Tutorials, and Learning microsites. Past the obvious maintenance multiplier, the duplication had a sharper cost: **competing near-identical sources degrade search and RAG retrieval.** The assistant (and the search index) can't tell which of three almost-identical chunks is canonical. The goal was one authoritative source per concept, with everything else cross-linking to it.
+The same API concepts were copied word-for-word across the Docs, Tutorials, and Learning sites. The obvious cost is having to maintain three copies of everything. The sharper cost: **near-identical copies compete with each other and hurt both search and AI retrieval (RAG).** When three chunks are almost the same, the assistant and the search index can't tell which one is the real one. The goal was one official source per concept, with everything else linking to it.
 
 ## Architecture & why
 
 <MermaidDiagram diagram={`flowchart LR
-    A["Duplicated chunks<br/>(Docs · Tutorials · Learning)"] --> B["Transformation-level<br/>classifier (0–4)"]
-    B --> C["Canonical source<br/>(domain-specific home)"]
-    C --> D["Crosslinks replace copies"]
-    C --> E["Link-checker CI<br/>guards the removals"]
+    A["Duplicate chunks<br/>(Docs · Tutorials · Learning)"] --> B["Score how different each copy is<br/>(0–4 classifier)"]
+    B --> C["Pick the one official source<br/>(the right home for that topic)"]
+    C --> D["Replace the copies with links"]
+    C --> E["Link-checker CI<br/>catches anything the removals break"]
 `} />
 
-- **Decision: one canonical source per concept; replace copies with crosslinks.** *Alternative rejected:* keeping duplicates in sync via review discipline. *Why:* drift is inevitable at scale. Humans miss silent divergence between near-identical pages.
-- **Decision: codify a 5-level "transformation framework" (0 Identical → 4 Synthesis) as a reusable skill.** *Alternative rejected:* ad-hoc per-reviewer judgment. *Why:* five contributors needed a repeatable rule to classify duplication *identically*. A deterministic 0–4 table plus a "practical test" gate made the call consistent rather than subjective.
-- **Decision: make canonical homes domain-specific.** *Alternative rejected:* teaching the same concept in two places. *Why:* learning context isn't canonical reference. One site must own each chunk, so reference-grade material moves to its canonical home rather than being maintained in parallel.
-- **Decision: sunset a redundant microsite, folding it into an implementation guide.** *Alternative rejected:* maintaining it alongside the canonical sources. *Why:* it duplicated the implementation narrative, and removing the surface removes a whole class of future drift.
+- **Decision: one official source per concept; replace the copies with links.** *Alternative rejected:* keeping the duplicates in sync by being careful in review. *Why:* at this scale the copies always drift apart. People miss the small differences that creep in between near-identical pages.
+- **Decision: write down a 5-level scoring guide (0 Identical → 4 Synthesis) and turn it into a reusable skill.** *Alternative rejected:* letting each reviewer judge it however they saw fit. *Why:* five people needed to score the same duplication the *same way*. A fixed 0–4 table plus a "practical test" gate made the call consistent instead of a matter of opinion.
+- **Decision: put each official source on the site that owns that topic.** *Alternative rejected:* teaching the same concept in two places. *Why:* a learning page isn't the place for reference material. One site has to own each chunk, so reference-grade content moves to its proper home instead of being kept up to date in two places at once.
+- **Decision: retire a redundant site and fold it into an implementation guide.** *Alternative rejected:* keeping it running alongside the official sources. *Why:* it repeated the same implementation story, and removing the page removes a whole category of future drift.
 
 ## Evals / validation
 
-The reusable `content-deduplication` skill carries a deterministic 0–4 classification table with a "practical test" gate, so the judgment is repeatable across reviewers. Link-checker CI guards against broken crosslinks after each removal, and every domain shipped as an isolated, individually reviewable PR. A regression traces back to one domain, not the whole program.
+The reusable `content-deduplication` skill holds a fixed 0–4 scoring table with a "practical test" gate, so any reviewer reaches the same call. After each removal, link-checker CI catches any links that broke. And each domain shipped as its own PR that could be reviewed on its own — so if something goes wrong, it traces back to one domain, not the whole program.
 
 ## Outcome
 
-- **8 API-domain consolidations merged**, with **~2,660 lines removed or consolidated** into canonical homes.
-- **1 redundant microsite sunset**, folded into a single implementation guide.
-- The program was reported **100% complete** at the mid-year review. The structural win, *treating documentation as a single information architecture rather than three competing ones*, became a team talking point.
+- **8 API domains consolidated and merged**, with **~2,660 lines removed or consolidated** into their official homes.
+- **1 redundant site retired**, folded into a single implementation guide.
+- The program was reported **100% complete** at the mid-year review. The bigger win — *treating the docs as one structure instead of three competing ones* — became a team talking point.
 
-> Delivered at commercetools (a 5-person program; I authored all 8 domain PRs). The ~2,660 figure is gross deletions, including content *moved* to canonical homes. I frame it as removed/consolidated, not purely deleted.
+> Delivered at commercetools (a 5-person program; I wrote all 8 domain PRs). The ~2,660 figure is total lines deleted, including content that was *moved* to its official home. That's why I call it removed/consolidated, not purely deleted.
