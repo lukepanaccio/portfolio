@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /*.pdf$
 
 Sitemap: https://www.lukepanaccio.com/sitemap-index.xml

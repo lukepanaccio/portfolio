@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="AI Authoring">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c1122"/>
+      <stop offset="60%" stop-color="#0a0e1a"/>
+      <stop offset="100%" stop-color="#070a13"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx="80%" cy="14%" r="70%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.26"/>
+      <stop offset="34%" stop-color="#fbbf24" stop-opacity="0.09"/>
+      <stop offset="72%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coolbloom" cx="14%" cy="92%" r="62%">
+      <stop offset="0%" stop-color="#1e3a5f" stop-opacity="0.20"/>
+      <stop offset="70%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="44%" r="78%">
+      <stop offset="55%" stop-color="#05070d" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#05070d" stop-opacity="0.55"/>
+    </radialGradient>
+    <radialGradient id="gridmask" cx="64%" cy="40%" r="62%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gmask"><rect width="1600" height="900" fill="url(#gridmask)"/></mask>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="barfade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0"/>
+      <stop offset="18%" stop-color="#f59e0b" stop-opacity="1"/>
+      <stop offset="82%" stop-color="#fbbf24" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="cardfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c2740"/>
+      <stop offset="100%" stop-color="#0e1626"/>
+    </linearGradient>
+    <linearGradient id="gatefill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#26324a"/>
+      <stop offset="100%" stop-color="#161f33"/>
+    </linearGradient>
+    <filter id="glow" x="-90%" y="-90%" width="280%" height="280%">
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#f59e0b" flood-opacity="0.55"/>
+    </filter>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#coolbloom)"/>
+  <rect width="1600" height="900" fill="url(#bloom)"/>
+  <g mask="url(#gmask)" stroke="#f59e0b" stroke-opacity="0.07" stroke-width="1">
+    <path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/>
+  </g>
+  <g font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif">
+<g fill="none" stroke="#3b4761" stroke-width="3">
+  <path d="M800 222 V262 M560 308 V288 H1040 V308 M800 288 V308"/>
+  <path d="M560 352 L770 428 M800 354 V428 M1040 352 L830 428"/>
+</g>
+<rect x="664" y="152" width="272" height="70" rx="14" fill="url(#cardfill)" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+<text x="800" y="195" text-anchor="middle" font-size="28" fill="#f8fafc">orchestrator</text>
+<g text-anchor="middle" font-size="22" fill="#cbd5e1">
+  <circle cx="560" cy="330" r="24" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+  <circle cx="800" cy="330" r="24" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+  <circle cx="1040" cy="330" r="24" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+  <text x="800" y="392">isolated skills</text>
+</g>
+<rect x="686" y="430" width="228" height="78" rx="14" fill="url(#gatefill)" stroke="#fbbf24" stroke-width="3" filter="url(#glow)"/>
+<text x="800" y="478" text-anchor="middle" font-size="26" fill="#fbbf24">HARD GATE</text>
+<polyline points="1120,476 1152,508 1216,432" fill="none" stroke="#f59e0b" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+<text x="1168" y="556" text-anchor="middle" font-size="24" fill="#9ca3af">0 false-passes</text>
+  </g>
+  <rect width="1600" height="900" fill="url(#vignette)"/>
+  <rect width="1600" height="900" filter="url(#grain)" opacity="0.05"/>
+  <rect x="0" y="0" width="1600" height="56" fill="url(#barfade)" opacity="0.16" filter="url(#glow)"/>
+  <rect width="1600" height="5" fill="url(#barfade)"/>
+  <text x="112" y="688" font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial" font-size="30" letter-spacing="6" font-weight="700" fill="url(#amber)">APPLIED AI · EVAL-DRIVEN</text>
+  <text x="106" y="788" font-family="Georgia,Times New Roman,serif" font-size="76" font-weight="700" fill="#f8fafc">AI Authoring</text>
+</svg>

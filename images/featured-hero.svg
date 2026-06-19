@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1320" width="1100" height="1320" role="img" aria-label="Eval-driven AI authoring system">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c1122"/><stop offset="60%" stop-color="#0a0e1a"/><stop offset="100%" stop-color="#070a13"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx="80%" cy="11%" r="72%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.26"/><stop offset="34%" stop-color="#fbbf24" stop-opacity="0.09"/><stop offset="72%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coolbloom" cx="14%" cy="94%" r="60%">
+      <stop offset="0%" stop-color="#1e3a5f" stop-opacity="0.20"/><stop offset="70%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="44%" r="80%">
+      <stop offset="56%" stop-color="#05070d" stop-opacity="0"/><stop offset="100%" stop-color="#05070d" stop-opacity="0.55"/>
+    </radialGradient>
+    <radialGradient id="gridmask" cx="60%" cy="34%" r="68%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gmask"><rect width="1100" height="1320" fill="url(#gridmask)"/></mask>
+    <linearGradient id="famber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="barfade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0"/><stop offset="18%" stop-color="#f59e0b" stop-opacity="1"/><stop offset="82%" stop-color="#fbbf24" stop-opacity="1"/><stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="cardfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c2740"/><stop offset="100%" stop-color="#0e1626"/>
+    </linearGradient>
+    <linearGradient id="gatefill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#26324a"/><stop offset="100%" stop-color="#161f33"/>
+    </linearGradient>
+    <filter id="glow" x="-90%" y="-90%" width="280%" height="280%">
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#f59e0b" flood-opacity="0.55"/>
+    </filter>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0"/>
+    </filter>
+  </defs>
+  <rect width="1100" height="1320" fill="url(#bg)"/>
+  <rect width="1100" height="1320" fill="url(#coolbloom)"/>
+  <rect width="1100" height="1320" fill="url(#bloom)"/>
+  <g mask="url(#gmask)" stroke="#f59e0b" stroke-opacity="0.07" stroke-width="1">
+    <path d="M0 220H1100M0 440H1100M0 660H1100M0 880H1100M0 1100H1100M220 0V1320M440 0V1320M660 0V1320M880 0V1320"/>
+  </g>
+  <rect width="1100" height="1320" fill="url(#vignette)"/>
+  <rect width="1100" height="1320" filter="url(#grain)" opacity="0.05"/>
+  <rect x="0" y="0" width="1100" height="56" fill="url(#barfade)" opacity="0.16" filter="url(#glow)"/>
+  <rect width="1100" height="6" fill="url(#barfade)"/>
+  <text x="70" y="98" font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial" font-size="26" letter-spacing="6" font-weight="700" fill="url(#famber)">EVAL-DRIVEN AI AUTHORING</text>
+  <path d="M70 122 H1030" stroke="#f59e0b" stroke-opacity="0.2" stroke-width="2" filter="url(#glow)"/>
+
+  <!-- orchestrator -->
+  <rect x="370" y="166" width="360" height="86" rx="16" fill="url(#cardfill)" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+  <text x="550" y="218" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="30" fill="#f8fafc">orchestrator agent</text>
+
+  <!-- bus to skills -->
+  <g fill="none" stroke="#3b4761" stroke-width="3">
+    <path d="M550 252 V292 M200 292 H900 M200 292 V322 M433 292 V322 M666 292 V322 M900 292 V322"/>
+  </g>
+  <g fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)">
+    <circle cx="200" cy="352" r="30"/><circle cx="433" cy="352" r="30"/><circle cx="666" cy="352" r="30"/><circle cx="900" cy="352" r="30"/>
+  </g>
+  <text x="550" y="426" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="24" fill="#9ca3af">isolated per-stage skills</text>
+
+  <!-- judge <-> fixer loop -->
+  <g fill="none" stroke="#3b4761" stroke-width="3"><path d="M550 446 V470 M250 470 H850 M250 470 V496 M850 470 V496"/></g>
+  <rect x="150" y="496" width="220" height="76" rx="14" fill="url(#cardfill)" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+  <text x="260" y="544" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="26" fill="#f8fafc">judge</text>
+  <rect x="730" y="496" width="220" height="76" rx="14" fill="url(#cardfill)" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+  <text x="840" y="544" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="26" fill="#f8fafc">fixer</text>
+  <path d="M370 520 C500 476 600 476 730 520" fill="none" stroke="#fbbf24" stroke-width="3" filter="url(#glow)"/>
+  <path d="M730 520 l-24 -6 l10 22 z" fill="#fbbf24"/>
+  <text x="550" y="486" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="22" fill="#fbbf24">critique</text>
+  <path d="M730 548 C600 592 500 592 370 548" fill="none" stroke="#fbbf24" stroke-width="3" filter="url(#glow)"/>
+  <path d="M370 548 l24 6 l-10 -22 z" fill="#fbbf24"/>
+  <text x="550" y="600" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="22" fill="#fbbf24">refine</text>
+
+  <!-- hard gate -->
+  <path d="M550 612 V648" fill="none" stroke="#3b4761" stroke-width="3"/>
+  <rect x="360" y="648" width="380" height="132" rx="18" fill="url(#gatefill)" stroke="#fbbf24" stroke-width="4" filter="url(#glow)"/>
+  <rect x="376" y="664" width="348" height="100" rx="12" fill="none" stroke="#fbbf24" stroke-opacity="0.3" stroke-width="2" filter="url(#glow)"/>
+  <text x="550" y="708" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="34" font-weight="800" fill="#fbbf24">HARD GATE</text>
+  <text x="550" y="744" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="21" fill="#cbd5e1">total &#8805; 80 &#183; every floor &#183; no veto</text>
+
+  <!-- pass / block -->
+  <g fill="none" stroke="#3b4761" stroke-width="3"><path d="M550 780 V812 M360 812 H740 M360 812 V840 M740 812 V840"/></g>
+  <polyline points="330,856 358,884 410,826" fill="none" stroke="#10b981" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="370" y="936" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="24" fill="#9ca3af">PASS</text>
+  <g stroke="#7f8597" stroke-width="9" stroke-linecap="round"><path d="M712 828 L768 884 M768 828 L712 884"/></g>
+  <text x="740" y="936" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="24" fill="#9ca3af">BLOCK</text>
+
+  <!-- gold-set calibration panel -->
+  <rect x="210" y="1000" width="680" height="150" rx="16" fill="#0d1320" stroke="#f59e0b" stroke-opacity="0.5" stroke-width="2" filter="url(#glow)"/>
+  <text x="246" y="1052" font-family="ui-sans-serif,system-ui,Arial" font-size="24" fill="#f8fafc">gold set &#183; 10 items</text>
+  <text x="854" y="1052" text-anchor="end" font-family="ui-sans-serif,system-ui,Arial" font-size="20" fill="#9ca3af">2 adversarial</text>
+  <g>
+    <circle cx="252" cy="1100" r="16" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="316" cy="1100" r="16" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="380" cy="1100" r="16" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="444" cy="1100" r="16" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="508" cy="1100" r="16" fill="#f59e0b" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="572" cy="1100" r="16" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="636" cy="1100" r="16" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="700" cy="1100" r="16" fill="#fbbf24" stroke="#fbbf24" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="764" cy="1100" r="16" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="828" cy="1100" r="16" fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+  </g>
+
+  <text x="550" y="1232" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="28" font-weight="800" fill="#f59e0b">0 false-passes</text>
+  <text x="550" y="1272" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="20" fill="#9ca3af">a judge that never grades its own work</text>
+</svg>
