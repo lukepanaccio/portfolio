@@ -1,0 +1,53 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Single-source-of-truth docs program'
+tagline: 'Cutting duplicate docs across three sites that were hurting search and AI retrieval'
+description: 'The same API concepts were copied word-for-word across the Docs, Tutorials, and Learning sites. Those near-identical copies competed with each other, which hurt AI retrieval (RAG) and multiplied the upkeep. A 5-person program set one official source per concept, captured as a reusable classification skill.'
+client: 'commercetools'
+role: 'Engineer / program contributor (5-person initiative)'
+timeline: '2026'
+audience: 'Documentation, platform, and developer-experience teams'
+tools: ['MDX', 'RAML', 'YAML', 'GitHub Actions']
+agenticStack: ['content-deduplication skill (0–4 classifier)', 'CLAUDE.md / AGENTS.md', 'Instruction files', 'CLI in VS Code']
+demoLink: 'https://docs.commercetools.com'
+heroImage: '/images/dedup-hero.svg'
+metrics:
+  - label: 'Lines removed / consolidated'
+    value: '~2,660'
+  - label: 'API domains consolidated'
+    value: '8'
+  - label: 'Redundant microsite sunset'
+    value: '1'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+The same API concepts were copied word-for-word across the Docs, Tutorials, and Learning sites. The obvious cost is having to maintain three copies of everything. The sharper cost: **near-identical copies compete with each other and hurt both search and AI retrieval (RAG).** When three chunks are almost the same, the assistant and the search index can't tell which one is the real one. The goal was one official source per concept, with everything else linking to it.
+
+## Architecture & why
+
+<MermaidDiagram diagram={`flowchart LR
+    A["Duplicate chunks<br/>(Docs · Tutorials · Learning)"] --> B["Score how different each copy is<br/>(0–4 classifier)"]
+    B --> C["Pick the one official source<br/>(the right home for that topic)"]
+    C --> D["Replace the copies with links"]
+    C --> E["Link-checker CI<br/>catches anything the removals break"]
+`} />
+
+- **Decision: one official source per concept; replace the copies with links.** *Alternative rejected:* keeping the duplicates in sync by being careful in review. *Why:* at this scale the copies always drift apart. People miss the small differences that creep in between near-identical pages.
+- **Decision: write down a 5-level scoring guide (0 Identical → 4 Synthesis) and turn it into a reusable skill.** *Alternative rejected:* letting each reviewer judge it however they saw fit. *Why:* five people needed to score the same duplication the *same way*. A fixed 0–4 table plus a "practical test" gate made the call consistent instead of a matter of opinion.
+- **Decision: put each official source on the site that owns that topic.** *Alternative rejected:* teaching the same concept in two places. *Why:* a learning page isn't the place for reference material. One site has to own each chunk, so reference-grade content moves to its proper home instead of being kept up to date in two places at once.
+- **Decision: retire a redundant site and fold it into an implementation guide.** *Alternative rejected:* keeping it running alongside the official sources. *Why:* it repeated the same implementation story, and removing the page removes a whole category of future drift.
+
+## Evals / validation
+
+The reusable `content-deduplication` skill holds a fixed 0–4 scoring table with a "practical test" gate, so any reviewer reaches the same call. After each removal, link-checker CI catches any links that broke. And each domain shipped as its own PR that could be reviewed on its own — so if something goes wrong, it traces back to one domain, not the whole program.
+
+## Outcome
+
+- **8 API domains consolidated and merged**, with **~2,660 lines removed or consolidated** into their official homes.
+- **1 redundant site retired**, folded into a single implementation guide.
+- The program was reported **100% complete** at the mid-year review. The bigger win — *treating the docs as one structure instead of three competing ones* — became a team talking point.
+
+> Delivered at commercetools (a 5-person program; I wrote all 8 domain PRs). The ~2,660 figure is total lines deleted, including content that was *moved* to its official home. That's why I call it removed/consolidated, not purely deleted.

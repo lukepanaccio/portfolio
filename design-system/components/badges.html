@@ -1,0 +1,63 @@
+<!-- @dsCard group="Components" name="Badges, Tags & Status" subtitle="Eyebrow · featured pill · tag chips · status markers" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Badges, Tags & Status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg-1:#0a0e1a;--bg-3:#1a2234;--bg-4:#222d42;--amber:#f59e0b;--gold:#fbbf24;--deep:#d97706;
+    --t1:#f9fafb;--t2:#d1d5db;--t3:#9ca3af;--display:'Crimson Pro',Georgia,serif;--body:'Manrope',system-ui,sans-serif;}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg-1);color:var(--t1);font-family:var(--body);
+    background-image:radial-gradient(60% 50% at 84% 6%,rgba(245,158,11,.14),transparent 70%);}
+  .wrap{max-width:1000px;margin:0 auto;padding:56px}
+  .eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;
+    background:linear-gradient(90deg,var(--amber),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 10px}
+  h1{font-family:var(--display);font-weight:700;font-size:46px;letter-spacing:-.02em;margin:0 0 8px}
+  .lede{color:var(--t2);font-size:16px;max-width:64ch;margin:0 0 40px}
+  h2{font-family:var(--display);font-weight:600;font-size:20px;margin:34px 0 16px}
+  .row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .eb{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+  .featured{padding:7px 14px;background:linear-gradient(135deg,var(--amber),var(--deep));color:#0a0e1a;
+    font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;border-radius:999px;box-shadow:0 6px 18px rgba(245,158,11,.3)}
+  .tag{font-size:13px;padding:7px 14px;background:var(--bg-4);border:1px solid rgba(255,255,255,.05);color:var(--t3);border-radius:8px;font-weight:500}
+  .tag.on{border-color:rgba(245,158,11,.35);color:var(--t2)}
+  .status{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--t2)}
+  .dot{width:10px;height:10px;border-radius:999px}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg-3);border:1px solid rgba(255,255,255,.08);
+    border-radius:10px;padding:8px 14px;font-size:13px;color:var(--t2)}
+  .chip b{color:var(--gold)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Components</p>
+    <h1>Badges &amp; Tags</h1>
+    <p class="lede">Small labels that classify and signal state. Eyebrows set context above headings; tags categorize projects; status markers report pass/block at a glance.</p>
+
+    <h2>Eyebrow labels</h2>
+    <div class="row"><span class="eb">Applied AI · Eval-driven</span><span class="eb">Production engineering</span><span class="eb">Agentic CI</span></div>
+
+    <h2>Featured pill</h2>
+    <div class="row"><span class="featured">Featured</span></div>
+
+    <h2>Tag chips</h2>
+    <div class="row"><span class="tag">Python</span><span class="tag on">LLM evaluation</span><span class="tag">GitHub Actions</span><span class="tag on">Stripe</span><span class="tag">Firestore</span></div>
+    <div class="row" style="margin-top:8px;color:var(--t3);font-size:12px">Default → hover/active raises the border to amber and lightens the label.</div>
+
+    <h2>Status markers</h2>
+    <div class="row" style="gap:26px">
+      <span class="status"><span class="dot" style="background:#10b981;box-shadow:0 0 10px rgba(16,185,129,.6)"></span>Pass</span>
+      <span class="status"><span class="dot" style="background:#7f8597"></span>Block</span>
+      <span class="status"><span class="dot" style="background:var(--gold);box-shadow:0 0 10px rgba(245,158,11,.6)"></span>Flagged</span>
+    </div>
+
+    <h2>Metric chips</h2>
+    <div class="row"><span class="chip"><b>0</b> false-passes</span><span class="chip"><b>87</b>/100 quality</span><span class="chip"><b>9</b> paths · 30+ modules</span></div>
+  </div>
+</body>
+</html>

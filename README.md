@@ -45,7 +45,8 @@ luke-portfolio/
           description: 'Short description for the card.',
           image: '/portfolio/images/new-project-hero.webp', // Make sure image exists in public/images/
           href: '/portfolio/projects/new-project', // Matches the filename created in step 1
-          tags: ['Tag1', 'Tag2']
+          tags: ['Tag1', 'Tag2'],
+          categories: ['ai-systems'] // One or more of: 'ai-systems', 'engineering', 'learning' — drives the homepage filter
         },
         ```
 

@@ -1,0 +1,56 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'In-app bug-reporting pipeline'
+tagline: 'In-app report → private GitHub issue → resolution email, shipped to all users and built with distributed-systems care'
+description: 'A five-stage pipeline that turns an in-app bug report (with optional screenshot) into a labelled private GitHub issue and emails the reporter when it is resolved. It uses upload tokens the server hands out with tight limits, signature-verified webhooks, duplicate-event protection, and a two-pass cleanup job that deletes old screenshots. Shipped to 100% of users.'
+client: 'storipro'
+role: 'Technical Co-Founder'
+timeline: '2026'
+audience: 'Engineering teams building feedback/telemetry loops'
+tools: ['TypeScript', 'Next.js', 'Vercel Functions + Cron', 'Vercel Blob', 'GitHub Issues API', 'Resend', 'Vitest']
+agenticStack: ['OpenSpec spec-driven workflow', 'CLAUDE.md project memory', 'Authored .claude skills + commands alongside', 'Git worktrees', 'Agent-assisted test authoring']
+heroImage: '/images/bug-pipeline-hero.svg'
+metrics:
+  - label: 'Rolled out to all users (GA)'
+    value: '100%'
+  - label: 'Lines of dedicated tests (~1.3:1)'
+    value: '~1,900'
+  - label: 'Hardened pipeline stages'
+    value: '5'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+Pilot users had no way to report a bug from inside the product. They'd have to leave the page and file it in a tool they don't even have access to, so most bugs just went unreported. The catch: a report you can actually act on has to include real personal data (PII) — the reporter's user ID, email, and the exact URL they were on. That means one wrong setting on who can see the repo turns into a direct data leak. So the parts that capture the report, store the screenshot, and handle the "resolved" notification all have to be **hardened, not just working.**
+
+## Architecture & why
+
+<MermaidDiagram diagram={`flowchart TD
+    A["In-app trigger (behind a feature flag)"] --> B["screenshot → Vercel Blob<br/>using a server-issued, tightly-scoped token"]
+    B --> C["POST: check login → rate-limit → strict schema<br/>→ confirm the file is theirs"]
+    C --> D["create PRIVATE GitHub issue<br/>(PII + machine-readable markers)"]
+    D --> E["send receipt email, don't wait on it"]
+    F["maintainer closes issue"] --> G["webhook: verify signature on raw body<br/>→ skip duplicates → send resolved email"]
+    H["daily cron"] --> I["Pass 1: delete screenshots older than 90 days<br/>Pass 2: delete orphans older than 24h"]
+`} />
+
+- **Decision: the server hands out a screenshot upload token with tight limits baked in.** *Alternative rejected:* the standard upload flow (where you can't control the file's path) or handing the storage credential to the browser. *Why:* because the server picks the path, a user can only ever write to one path, of one file type (a MIME allowlist), up to one size (10 MB cap), inside their own area. Then, on submit, the server re-checks that the file really is theirs. That's two independent checks on a value the user supplied — defense in depth.
+- **Decision: the GitHub issue is the one source of truth, and emails are sent without waiting on them.** *Alternative rejected:* waiting for the email to send before responding to the user, or returning a 5xx error to GitHub when an email fails. *Why:* a hiccup at the email provider must never break the user's submit, and it must never send a 5xx error back to GitHub — GitHub retries on errors, so that would just trigger more duplicate deliveries. Three separate guard layers keep the issue as the authoritative record.
+- **Decision: verify the webhook signature over the raw body (HMAC-SHA256), and skip duplicate events.** *Alternative rejected:* parsing the JSON before verifying it (which changes the bytes, so the signature no longer matches), comparing the signature in a way that leaks timing, or not checking for duplicates at all. *Why:* checking the signature against the exact bytes that were signed, using a comparison that takes constant time, is the standard correct way to do it — a timing-based comparison can leak the secret. And keeping a short list of recently-closed issues stops a repeated `closed` event from emailing the reporter twice.
+- **Decision: put machine-readable markers in the issue that drive a two-pass cleanup job, including a `'none'` marker meaning "already deleted."** *Alternative rejected:* a separate database tracking which screenshot belongs to which issue, or no cleanup at all (keeping PII screenshots forever). *Why:* the markers let the issue describe itself, so there's no extra storage to maintain. Reading a marker gives one of three answers — a real path, the "already deleted" marker, or nothing at all — and the missing case raises a warning instead of being silently skipped. A 24-hour grace period stops the cleanup job from deleting a screenshot for a report that's still being submitted.
+
+## Evals / validation
+
+- **~1,900 lines of dedicated tests across 12 files**, roughly **1.3 lines of test for every line of code**, all aimed at the *failure* and edge cases: duplicate webhook events, the three possible marker states, the 24-hour orphan grace period, the per-user rate-limit returning a 429, the upload-token ownership re-check, and mapping each GitHub error to the right response.
+- Security hardening verified: an admin-only proxy that streams private screenshots and logs every access; a strict schema that rejects unknown fields and round-trips dates through ISO-8601; descriptions stored as plain text and never rendered as markdown, which blocks stored XSS (a script saved in a field that runs when someone views it); and email markers re-checked every time they're read, because a maintainer can edit the issue body, so it can't be trusted.
+- **Honest tradeoffs (stated plainly, not buried):** the rate limit and the duplicate-event check live in the memory of each running instance, which is right-sized for pilot scale — not a global, Redis-backed limiter. The GitHub client is a small two-endpoint `fetch` wrapper I wrote by hand: no dependencies and full control over error handling, but no automatic backoff-and-retry like the Octokit library would give. **The PII in issue bodies is protected by policy, not encryption.** That means a private repo, code-owners, and branch protection that's still to come — so the repo has to stay private. The runbook calls this out as the central risk, which is the right call.
+
+## Outcome
+
+- **Shipped to all users at 100% (GA)**, rolled out from an internal allowlist to everyone. A production feature, not a prototype.
+- **From nothing to a complete loop:** a report (with an optional screenshot) becomes a labelled private GitHub issue, and the reporter gets an email when it's resolved. It runs on tightly-scoped upload tokens, signature-verified webhooks, duplicate-event protection, and a two-pass cleanup job (delete screenshots after 90 days, orphans after 24 hours).
+- **~1,900 lines of app code plus ~1,900 lines of dedicated tests**, and a 332-line operational runbook covering how often to triage, how to rotate secrets, how the markers work, and the PII constraint. (The feature itself is ~1,900 lines of code — not the bigger raw PR number, which also bundled in unrelated spec-workflow scaffolding.)
+
+> Built at storipro (100% mine). Real issue bodies are never reproduced. They carry reporter PII, which is exactly why the repo stays private.

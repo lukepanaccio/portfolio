@@ -1,15 +1,15 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
-title: 'AI-powered academic grading system'
-tagline: 'Privacy-preserving batch grading that provides detailed, consistent feedback at scale'
-description: 'A command-line tool that helps university educators grade reflective writing assignments using AI, maintaining privacy and pedagogical standards while saving 60-80 hours per semester.'
+title: 'AI grading & evaluation system'
+tagline: 'A tool that uses an LLM to grade student writing against a rubric, keeps student data private, and flags judgments it can''t back up'
+description: 'A command-line tool that uses an LLM to grade reflective-writing submissions against a rubric. It keeps student data private, grades consistently, and flags any judgment it can''t back up against the paper, saving 60-80 hours per semester.'
 client: 'An Australian University (Internal Tool)'
-role: 'Learning designer & Full-stack developer'
+role: 'Full-stack developer'
 timeline: '1 month (October 2025)'
 audience: 'University faculty grading writing assignments'
 tools: ['Python', 'Claude API (Sonnet 4.5)', 'pdfplumber', 'mammoth', 'python-docx']
 deliverables: ['Command-line grading automation tool', 'Privacy-preserving anonymization system', 'Quality control workflows']
-heroImage: '/images/paper-grader-hero.webp'
+heroImage: '/images/paper-grader-hero.svg'
 metrics:
   - label: 'Papers Graded'
     value: '125+'
@@ -25,25 +25,25 @@ import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ### The grading workload challenge
 
-University educators face an unsustainable grading workload. A single assignment requiring detailed feedback takes 30-45 minutes per student. For a cohort of 90 students, this translates to 45-70 hours of manual marking—often completed over weekends and breaks.
+University educators have too much grading to do. One assignment with detailed feedback takes 30-45 minutes per student. For a class of 90 students, that's 45-70 hours of marking, usually done over weekends and breaks.
 
-This creates three critical problems:
-- **Delayed feedback:** Students receive grades weeks after submission, when learning value is diminished
-- **Inconsistent standards:** Fatigue leads to grading drift, where papers marked on day one receive different treatment than day five
-- **Faculty burnout:** Repetitive assessment tasks consume time that should be spent on teaching and research
+That causes three real problems:
+- **Feedback comes too late:** students get their grades weeks after handing the work in, when the learning value has faded
+- **Standards drift:** as graders get tired, the papers they mark on day one get treated differently from the ones they mark on day five
+- **Faculty burnout:** the same repetitive marking eats time that should go to teaching and research
 
 ### Why this matters for learning
 
-In education programs, detailed feedback is pedagogically essential. Students submit reflective portfolios analyzing their teaching practices through theoretical frameworks. They need specific, criterion-based guidance to develop professional judgment; not just a grade and brief comment.
+In education programs, detailed feedback isn't a nice-to-have. Students hand in reflective portfolios where they analyze their own teaching through theoretical frameworks. To build professional judgment, they need specific, rubric-based guidance — not just a grade and a quick comment.
 
-Traditional solutions fail:
-- **Teaching assistants** cost $50-60/hour and still face consistency challenges
-- **Peer review** lacks the theoretical depth students need
-- **Auto-graders** work for multiple-choice tests, not complex reflective writing
+The usual fixes don't hold up:
+- **Teaching assistants** cost $50-60/hour and still grade inconsistently
+- **Peer review** doesn't have the theoretical depth these students need
+- **Auto-graders** work for multiple-choice tests, not deep reflective writing
 
 ### The design challenge
 
-Create a system that maintains privacy, ensures grading consistency, preserves the nuance of rubric-based assessment, and generates feedback detailed enough to support student learning; all while processing 90+ papers in hours instead of days.
+Build a tool that keeps student data private, grades consistently, holds onto the nuance of rubric-based marking, and writes feedback detailed enough to actually help students learn — all while getting through 90+ papers in hours, not days.
 
 ---
 
@@ -51,13 +51,13 @@ Create a system that maintains privacy, ensures grading consistency, preserves t
 
 ### Research & analysis
 
-I interviewed faculty members across three education courses and discovered consistent pain points:
+I interviewed faculty across three education courses and kept hearing the same problems:
 
-**Grading inconsistency stems from fatigue, not incompetence.** Experienced educators grade the same paper differently on Monday versus Friday. The problem isn't lack of standards—it's cognitive load during marathon grading sessions.
+**Inconsistent grading comes from fatigue, not lack of skill.** Experienced educators grade the same paper differently on Monday than on Friday. It's not that they lack standards. It's the mental load of grading for hours on end.
 
-**Students submit mixed document formats.** Some courses require PDFs, others accept Word documents. Many papers contain complex tables showing analytical frameworks. Standard text extraction loses this structure, making papers incomprehensible.
+**Students hand in different file formats.** Some courses require PDFs, others accept Word documents. Many papers have complex tables laying out analytical frameworks. Standard text extraction throws that structure away, which makes the papers unreadable.
 
-**Privacy concerns block AI adoption.** Faculty expressed strong ethical concerns about sending student work to third-party APIs, even when tools showed promise. This wasn't technophobia—it was legitimate concern about privacy compliance and student consent.
+**Privacy worries stop faculty adopting AI.** Faculty had serious ethical concerns about sending student work to outside APIs, even when a tool looked promising. This wasn't fear of technology. It was a fair concern about privacy compliance and student consent.
 
 ### Design approach
 
@@ -65,51 +65,51 @@ I applied three core learning design principles:
 
 **1. Consistency through calibration, not automation**
 
-Human graders undergo "moderation" training where they review exemplar papers at each grade band to calibrate their judgment. I replicated this for AI.
+Before human graders mark, they do "moderation" training: they review example papers at each grade band so their judgment lines up. I did the same thing for the AI.
 
-Instead of just providing rubrics (which define *what* to assess), I created detailed moderation notes describing *how* to interpret borderline cases. These notes include:
-- Exemplar descriptions from actual papers at each grade level
-- Common student mistakes to recognize
-- Field-specific guidance (e.g., early childhood education vs. secondary education contexts)
+A rubric only tells you *what* to assess. So on top of the rubric, I wrote detailed moderation notes that tell the AI *how* to read the borderline cases. Those notes include:
+- Descriptions of real example papers at each grade level
+- Common mistakes students make, so the AI can spot them
+- Guidance specific to the field (for example, early childhood education versus secondary education)
 
-This 6,500-character moderation context essentially trains the AI the same way we train human markers.
+That moderation context runs to 6,500 characters. It trains the AI the same way we'd train a human marker.
 
 **2. Privacy-preserving architecture**
 
-Built a two-phase anonymization system:
-- **Phase 1:** Regex patterns detect and replace student IDs, emails, and names with anonymous identifiers (Student_001, Student_002)
-- **Phase 2:** Secure JSON mapping file (excluded from version control) enables post-grading re-identification
+I built anonymization in two phases:
+- **Phase 1:** pattern-matching rules (regex) find student IDs, emails, and names and swap them for anonymous labels (Student_001, Student_002)
+- **Phase 2:** a secure JSON file maps those labels back to real students. It's kept out of version control, and it's what lets you re-identify students after grading
 
-Students' work never reaches the API with identifiable information. The AI grades "Student_023's reflective portfolio," not "Sarah Johnson's assignment."
+Identifiable student work never reaches the API. The AI grades "Student_023's reflective portfolio," not "Sarah Johnson's assignment."
 
 **3. Cognitive load reduction for educators**
 
-The system doesn't replace educator judgment—it handles the mechanical first pass. Faculty receive detailed AI-generated feedback to review, edit, and approve rather than writing from scratch. This shifts cognitive work from "generate 90 sets of detailed feedback" to "spot-check and refine 90 drafts."
+The tool doesn't replace the educator's judgment. It does the mechanical first pass. Faculty get detailed AI-written feedback to review, edit, and approve, instead of writing it all from scratch. The job changes from "write 90 sets of detailed feedback" to "check and polish 90 drafts."
 
 ### Development & iteration
 
 **Solving the document format problem**
 
-Early testing revealed that PDF and Word documents required completely different processing approaches. I built dual conversion pipelines:
-- **PDFs:** `pdfplumber` with table-aware extraction preserves rows/columns as pipe-delimited text
-- **Word:** `mammoth` converts to Markdown while maintaining table structure
+Early testing showed PDFs and Word documents needed completely different handling. So I built two conversion paths:
+- **PDFs:** `pdfplumber` reads tables as well as text, keeping rows and columns as pipe-separated text
+- **Word:** `mammoth` converts to Markdown while keeping table structure intact
 
-The system auto-detects file type and routes to the appropriate converter. 
+The tool detects the file type and sends each paper to the right converter. 
 
 **Teaching the AI to grade like an expert**
 
-Initial versions produced accurate but generic feedback. The breakthrough came when I treated prompt engineering as instructional design.
+The first versions gave accurate but generic feedback. The breakthrough was treating prompt engineering as instructional design — writing the prompt the way you'd design a lesson.
 
-I structured the grading prompt in three parts:
-1. **Assignment context:** What students were asked to do and why
-2. **Rubric:** Criteria and point values (what to assess)
-3. **Moderation notes:** Calibration examples (how to interpret quality)
+I built the grading prompt in three parts:
+1. **Assignment context:** what students were asked to do, and why
+2. **Rubric:** the criteria and point values (what to assess)
+3. **Moderation notes:** worked examples (how to judge quality)
 
-This mimics how universities train new markers—explain the assignment goals, provide assessment criteria, then calibrate judgment through exemplars.
+That's exactly how universities train new markers: explain the goals, hand over the criteria, then calibrate judgment with examples.
 
 **Building quality control workflows**
 
-I designed the system to save both graded feedback AND anonymized papers. This enables faculty to spot-check AI decisions against original student work—building trust through transparency rather than asking for blind acceptance.
+I made the tool save both the graded feedback AND the anonymized papers. That way faculty can check the AI's decisions against the original student work. They build trust by seeing the evidence, not by taking the AI on faith.
 
 ---
 
@@ -121,19 +121,19 @@ I designed the system to save both graded feedback AND anonymized papers. This e
 <MermaidDiagram diagram={`flowchart TD
     subgraph INPUT["📥 INPUT"]
         PAPERS["📄 Student Papers<br/>PDF & DOCX"]
-        CONFIG["⚙️ Configuration<br/>Rubric & Moderation"]
+        CONFIG["⚙️ Configuration<br/>Rubric & Moderation Notes"]
     end
     
     subgraph PROCESS["⚙️ PROCESSING"]
-        CONVERT["📑 Convert<br/>Extract Text & Tables"]
-        ANON["🔒 Anonymize<br/>Remove Identifiers"]
+        CONVERT["📑 Convert<br/>Pull Out Text & Tables"]
+        ANON["🔒 Anonymize<br/>Strip Names & IDs"]
         GRADE["🤖 Grade with AI<br/>Claude Sonnet 4.5"]
         SAVE["💾 Save Results<br/>Feedback & Logs"]
     end
     
     subgraph OUTPUT["📤 OUTPUT"]
         FEEDBACK["📝 Graded Papers<br/>Detailed Feedback"]
-        MAPPING["🔐 Student Mapping<br/>Secure Identity Map"]
+        MAPPING["🔐 Student Mapping<br/>Secure Name Lookup"]
     end
     
     subgraph REIDENT["🔄 RE-IDENTIFICATION"]
@@ -171,16 +171,16 @@ I designed the system to save both graded feedback AND anonymized papers. This e
 
 ![Paper Grader README showing features and setup](/images/paper-grader-readme.webp)
 
-Faculty configure one JSON file with their rubric, moderation notes, and assignment description. They run a quick setup check to validate dependencies and API credentials, then test on a single paper to verify output quality.
+Faculty fill in one JSON file with their rubric, moderation notes, and assignment description. They run a quick setup check to confirm the dependencies and API credentials are in place, then test on a single paper to make sure the output looks right.
 
-Satisfied with the test, they place 90 student papers (mixed PDF and Word formats) into a folder and run the grading command. The system shows real-time progress: "Processing student_paper_1.pdf... Extracting text... Anonymizing... Grading as Student_001... SUCCESS."
+Once the test looks good, they drop 90 student papers (a mix of PDF and Word) into a folder and run the grading command. The tool shows progress as it goes: "Processing student_paper_1.pdf... Extracting text... Anonymizing... Grading as Student_001... SUCCESS."
 
-Within 60-90 minutes, they have 90 detailed feedback files to review. Each contains:
-- Criterion-by-criterion analysis (strengths, development areas, specific suggestions)
-- Grade justifications aligned to university standards (HD/D/C/P)
-- Personalized summary addressed to the student by first name
+In 60-90 minutes, they have 90 detailed feedback files to review. Each one has:
+- A point-by-point look at every criterion (strengths, areas to develop, specific suggestions)
+- Reasons for the grade, tied to university standards (HD/D/C/P)
+- A personal summary that addresses the student by first name
 
-Faculty check the feedback against the papers, make any needed edits, then export grades to their university gradebook.
+Faculty check the feedback against the papers, make any edits they want, then export the grades to their university gradebook.
 
 ---
 
@@ -195,41 +195,41 @@ Faculty check the feedback against the papers, make any needed edits, then expor
 
 ### Quality validation
 
-The moderation notes system enabled the AI to:
-- Correctly identify and penalize critical conceptual errors (e.g., incorrect definition of "lazy multiculturalism")
-- Recognize exceptional work with sophisticated critique and specific scholarly citations
-- Maintain consistency comparable to experienced human markers
+The moderation notes let the AI:
+- Catch and mark down serious conceptual errors (for example, a wrong definition of "lazy multiculturalism")
+- Spot excellent work with sharp critique and specific scholarly citations
+- Stay as consistent as an experienced human marker
 
-**Quality assurance verification:** A separate LLM-based QA prompt cross-checked generated feedback against original papers, providing reliability scores for each assessment. This independent validation layer detected edge cases where feedback didn't accurately reflect paper content, enabling targeted review before final distribution.
+**A second AI check on the first one.** I ran a separate QA prompt that compared each piece of feedback back against the original paper and gave it a reliability score. This second pass caught the cases where the feedback didn't match what the paper actually said, so those could be reviewed before anything went out.
 
-Faculty reviewer feedback: "Caught the exact error I specifically flagged in moderation notes. Feedback more detailed than I would have written manually."
+What a faculty reviewer said: "Caught the exact error I specifically flagged in moderation notes. Feedback more detailed than I would have written manually."
 
 ### Student impact
 
-Several students noted in course evaluations that feedback was "more specific than previous assignments" and "helped me understand exactly what the rubric meant." This suggests AI assessment's value extends beyond efficiency to enabling pedagogically desirable feedback detail that's practically impossible at scale with human-only grading.
+In course evaluations, several students said the feedback was "more specific than previous assignments" and "helped me understand exactly what the rubric meant." So the value isn't just speed. The AI can give the kind of detailed feedback that's almost impossible to deliver at scale by hand.
 
 ---
 
 ## Key takeaways
 
-**Privacy-preserving design builds necessary trust.** Faculty initially expressed concerns about "sending student work to AI companies." The anonymization pipeline, combined with transparent documentation of data handling, transformed those concerns into confidence. EdTech AI adoption hinges not just on capability but on visible, auditable privacy safeguards.
+**Privacy-preserving design is what built the trust.** At first, faculty worried about "sending student work to AI companies." Anonymizing the data, plus clear documentation of how the data is handled, turned that worry into confidence. In EdTech, AI adoption rides not just on what the tool can do, but on privacy safeguards people can see and check.
 
-**AI amplifies pedagogical expertise, not replaces it.** The system doesn't automate judgment—it scales the instructor's ability to apply assessment criteria consistently across cohorts too large for sustained human attention. The moderation notes component essentially externalizes expert mental models, making tacit knowledge explicit.
+**AI scales the educator's expertise, it doesn't replace it.** The tool doesn't automate judgment. It lets one instructor apply the same standards across a class too big to give every paper full attention. The moderation notes pull the expert's mental model out of their head and write it down.
 
-**Document format diversity is a real constraint.** Initially planned for PDF-only processing, but student submission realities demanded Word support. Accommodating existing practices rather than dictating compliance created a more usable tool.
+**Different file formats are a real constraint.** I planned for PDFs only, but students submit Word documents too, so I had to support both. Fitting how people already work, instead of forcing them to change, made the tool far more usable.
 
-**Quality control must be designed into the workflow.** Saving anonymized papers alongside feedback enables spot-checking. Timestamp logging enables performance tracking. Clear file naming enables rapid manual review. These weren't add-ons—they were core to building faculty trust.
+**Quality control has to be built in from the start.** Saving the anonymized papers next to the feedback is what makes spot-checking possible. Timestamp logging tracks performance, and clear file names make manual review fast. None of this was bolted on later. It was central to earning faculty trust.
 
-**Prompt engineering is instructional design.** Writing the grading prompt meant defining learning objectives (what quality work looks like), pedagogy (how to provide constructive feedback), and assessment criteria (how to interpret rubric boundaries). Creating effective AI assessment tools requires instructional design expertise, not just technical skills.
+**Writing the grading prompt is instructional design.** To write it, I had to define what good work looks like (the learning objectives), how to give constructive feedback (the teaching), and how to read the edges of the rubric (the assessment criteria). Building a good AI grading tool takes instructional design skill, not just technical skill.
 
 ---
 
 ## Future enhancements
 
-**Build the web interface first.** Faculty adoption would be higher with drag-and-drop upload versus command line. Would enable collaborative review workflows with multiple markers spot-checking different papers.
+**Build the web interface first.** More faculty would use it with drag-and-drop upload than with a command line. It would also let several markers review together, each spot-checking different papers.
 
-**Involve students in process design earlier.** Built entirely from faculty perspective. Student input on feedback preferences would have been valuable (e.g., do they prefer strengths/weaknesses separated? Do they want specific page references?).
+**Bring students into the design earlier.** I built this entirely from the faculty point of view. Asking students what they want from feedback would have helped — for example, do they want strengths and weaknesses kept separate? Do they want specific page references?
 
-**Establish formal success metrics upfront.** Informally tracked "Does the grade match what I would give?" but formal inter-rater reliability testing (AI grades vs. human grades on calibration set) would provide quantitative validation.
+**Set formal success metrics up front.** I informally tracked "does the grade match what I would give?" But proper inter-rater reliability testing — comparing AI grades to human grades on a calibration set — would give a real number to point to.
 
-**Change management is as important as technical implementation.** The code works brilliantly, but faculty adoption requires trust-building, training, and clear quality control demonstration. If launching at other institutions, I'd spend 40% effort on technical development and 60% on pedagogy-aware rollout strategy.
+**The rollout matters as much as the code.** The code works well, but getting faculty to adopt it takes trust-building, training, and a clear demonstration of the quality checks. If I launched this at other institutions, I'd put 40% of the effort into the technical build and 60% into a rollout that respects how people teach.

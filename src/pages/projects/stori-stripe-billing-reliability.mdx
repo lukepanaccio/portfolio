@@ -1,0 +1,82 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Productionizing & securing a Stripe billing system'
+tagline: "A founder's billing prototype had to start taking real money. After a stale ID silently charged a customer $138 with nothing recorded, I locked down the data layer, made the webhooks heal themselves, and wrote 142 tests from zero."
+description: 'A founder built a working billing prototype; it had to start charging real money safely. I built the database-level security lockdown, a self-healing webhook recovery path, and 142 tests from zero — after a stale test-mode customer ID silently charged a card $138 with no record in the system.'
+client: 'storipro (storiventures)'
+role: 'Technical Co-Founder'
+timeline: 'Mar–May 2026'
+audience: 'Engineering teams taking a billing prototype to real-money production'
+tools: ['TypeScript', 'Next.js 15', 'React 19', 'Stripe', 'Firebase / Firestore', 'Resend', 'Vitest', 'Playwright', 'Vercel']
+agenticStack: ['OpenSpec change workflow', 'Stripe MCP (programmatic provisioning)', 'Custom subagents (.claude/agents)', 'CLAUDE.md project instructions', 'Git worktrees (multi-instance)']
+heroImage: '/images/stripe-billing-hero.svg'
+metrics:
+  - label: 'Silent double-billing — found, root-caused, recovered'
+    value: '$138 → $0'
+  - label: 'Billing test cases authored (Vitest + Playwright)'
+    value: '142'
+  - label: 'Client-tamperable billing fields after lockdown'
+    value: '0'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+A founder had built a working billing prototype, and it had to start taking real money. Real money changes what "working" means: a user must never be able to give themselves a paid plan, every Stripe webhook has to land on the right user, and a charge that doesn't get recorded means a card gets billed with nothing to show for it.
+
+That last one actually happened. A live customer was charged **$138 over two billing cycles, and none of it was recorded on our side.** They noticed on their bank statement. We hadn't.
+
+## Architecture & why
+
+My job was to take this from "works in test mode" to "safe with real money" — lock it down, and make sure a silent failure like the $138 one couldn't happen again. I didn't build the billing engine; the founder did. What I owned: the plan that sequenced the build, the security rules, the webhook recovery, the launch-day fixes, and the tests. (Full breakdown of who did what at the end.)
+
+<MermaidDiagram diagram={`flowchart TD
+    A["Stripe sends a signed webhook"] --> B["Verify the signature"]
+    B --> C["Which user is this for?"]
+    C --> D{"Look up by Stripe customer ID"}
+    D -- "found" --> U["Update the user in Firestore<br/>(backend only)"]
+    D -- "not found" --> E{"Fall back to the user ID in the event<br/>(and confirm the user exists)"}
+    E -- "match" --> H["Self-heal: save the correct customer ID"]
+    H --> U
+    E -- "conflict" --> K["Keep the customer-ID match · log the mismatch"]
+    K --> U
+    E -- "no match" --> O["Record as an orphan event + log it<br/>(never silently dropped)"]
+    U --> S["UI updates live"]
+`} />
+
+- **Sequence the build so payments land on already-hardened routes.** Before any of this code existed, I wrote the backend plan that ordered the whole build as three pull requests: first auth and security hardening, then Stripe checkout and webhooks, then user management and usage limits. The plan also pinned the contracts the rest of the system leans on — tagging each checkout with the user's ID so a webhook can find the right person, verifying the raw webhook signature, and merging webhook writes so they don't clobber a profile that lands a moment later. *Alternative rejected:* build the payment flow first and bolt the auth and usage limits on afterward. *Why:* a security review had just turned up 21 vulnerabilities, five of them critical, on unauthenticated AI routes. Putting checkout on top of that would have monetized an insecure system. Doing the hardening first meant payments landed on routes that were already locked down — and the tag-the-checkout-with-the-user's-ID contract I specified here is exactly what let the webhook heal itself two months later.
+
+- **Lock the billing fields in the database, not just the API.** A user's tier, credit balance, Stripe customer ID, subscription status, and usage counters all live on their own user document. I made the Firestore security rules reject any client write to those fields, set safe defaults when the document is created, and made the transactions list read-only. *Alternative rejected:* check tier and credit limits only in the API routes, and trust the client everywhere else. *Why:* if the API is the only guard, a user can skip it and write `subscriptionTier: 'enterprise'` straight onto their own document. The check has to live on the data itself. I backed the rules with their own test suite so they can't quietly break later.
+
+- **Make the webhook fix its own bad data instead of just retrying.** When Stripe sends an event, the app has to work out which user it belongs to. My resolver looks up the Stripe customer ID first. If that misses, it falls back to the user ID Stripe carries inside the event — and confirms that user actually exists. If neither works, it records the event as an "orphan" instead of dropping it. And when the fallback works, it writes the correct customer ID back, so the next event for that user just works. *Alternative rejected:* return an error so Stripe keeps retrying, or run a big job at startup that re-checks every customer ID. *Why:* the bug wasn't a flaky network call — it was stale data. A test-mode customer ID had survived the move to live mode, so retrying would hit the same bad ID and fail the same way. Healing the ID on the next event means no batch job to babysit; the data fixes itself as events come in.
+
+- **Record every refund as a negative transaction.** A refund goes in the same transactions list as a charge, just with a negative amount, and each refund is keyed so it can't be recorded twice. *Alternative rejected:* a separate refunds collection, or — like before the incident — no refund record at all. *Why:* with one list of signed amounts, net revenue is just a sum, with nothing to join. A single charge can be refunded more than once, so the "only count this once" key goes on the refund, not the charge. This was the audit gap the $138 incident exposed.
+
+- **Fix the two things that broke checkout on launch day.** First: if a stored customer ID has gone missing in live mode, retry the checkout using the customer's email instead. Second: stop handing Stripe an explicit list of payment methods, and let Stripe Tax pick them. *Alternative rejected:* just fail checkout when the customer ID is stale, and keep passing `payment_method_types: ['card']`. *Why:* users who'd signed up during testing carried test-mode customer IDs that error against the live key — on launch day they'd have been unable to pay at all. And that explicit payment-method list conflicts with automatic tax, which made checkout throw for everyone. Both fixes shipped the day we went live.
+
+- **Two test layers: fast unit tests, plus one real-browser check.** Most tests are fast Vitest units running against in-memory fakes of Stripe and Firestore. On top of that, a Playwright suite drives a real browser against the Firebase emulators to confirm the gating actually works end to end. *Alternative rejected:* run everything through the emulator (slow and painful in CI), or skip the browser tests and never really prove the gating. *Why:* the unit tests stay fast enough to run on every change, and the browser tests prove the thing a paying user cares about — a free account sees the blur and the upsell, a paid account sees everything.
+
+> A few of the lower-level choices here were the founder's, not mine: a Stripe client that starts up lazily so it survives Vercel's build, a price-to-tier map driven by environment config so the test→live switch is just settings, and handling upgrades by updating the existing subscription instead of starting a fresh checkout. I'm listing them so the picture stays honest.
+
+## Evals / validation
+
+- **The acceptance criteria came before the code.** The backend plan wrote down the pass/fail check for each stage up front — put a user on a paid plan, use up their monthly AI credits, and the next request comes back with a "limit reached" error; a free account that's hit its saved-property limit can't save another. Those checks are the same ones the Vitest and Playwright suites encode now.
+- **142 billing tests across 11 Vitest files, written from zero** — the webhook handlers, the Stripe-to-tier mapping, tier limits, gating, server-side usage limits, webhook signature checking, the usage and portal APIs, and the usage writer.
+- **4 Playwright browser tests** covering free / starter / pro gating and the prices shown in the upgrade modal. They only run when the Firebase emulators are up, and fail loudly if they aren't.
+- **The recovery code is tested on the paths that actually go wrong, not just the happy one:** orphan events for every event type, the fallback and self-heal, the stale-customer-ID case, the conflict case (customer ID wins, no self-heal), and refunds in full, partial, repeated, and orphaned forms.
+- **A separate suite tests the security rules directly,** so the lockdown can't quietly regress.
+- **One deliberate tradeoff, worth naming:** the webhook handlers return a success code even on an error, on purpose — they're safe to re-run, and it stops Stripe from hammering us with retries. The downside is exactly what bit us: a data bug can fail quietly. That's the gap the orphan-recording now closes.
+- **Before going live I ran a real-money test end to end** — charge, refund, cancel — and, to find the root cause of the $138 charge, swept every user and transaction until I found the branch that was silently dropping the event.
+
+The incident was written up and specced — proposal, design, tasks — before I touched the fix.
+
+## Outcome
+
+- **$138 silent double-charge → $0.** Root cause: a test-mode customer ID that survived the switch to live. The customer was refunded, and the self-healing recovery means this kind of bug can't fail silently again — orphaned events get written down and logged instead of dropped.
+- **0 → 142 billing tests, plus 4 browser tests.** There was no test coverage before; I built it from scratch.
+- **Editable billing fields: all → none.** Every server-controlled field is now writable only by the backend, with tests to keep it that way.
+- **Checkout: broken → live.** Two launch-day blockers fixed the day we went live on real Australian dollars.
+- **Refund records: none → complete.** Every refund is now a transaction you can sum.
+
+> Built at storipro. The honest framing is **productionized, secured, and hardened** — not "built Stripe billing." This was a co-build. The founder wrote most of the billing files and owns the engine and the UI. What's cleanly mine: the backend plan that sequenced the build (security first, payments onto already-hardened routes), the whole test suite (142 tests plus 4 browser tests, from zero), the Firestore security rules and their tests, the incident response end to end (the resolver, self-heal, orphan capture, and refund recovery), both launch-day checkout fixes, and the payment-failure messaging — a map of Stripe's decline codes behind a banner the user actually sees. The $138 is real; the customer is never named.

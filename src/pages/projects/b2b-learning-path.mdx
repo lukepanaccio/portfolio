@@ -1,0 +1,55 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'B2B Commerce learning path'
+tagline: 'Research, design, and build for a dense domain — with every API example checked against the source'
+description: 'commercetools had no structured path for B2B modeling (business units, associates, permissions). I owned it end to end. I grounded it in SME interviews and a claims-validation pass, wrote it through an eval-driven pipeline for the Functional Architect persona, and checked every API example against the RAML source instead of writing it from memory.'
+client: 'commercetools'
+role: 'Owner (research → design → build)'
+timeline: '2026'
+audience: 'Solution and functional architects modeling B2B commerce'
+tools: ['MDX', 'YAML navigation', 'Mermaid', 'RAML / GraphQL references']
+agenticStack: ['learning-content-creation coordinator agent', 'learning-qa-loop (critique gate)', 'content-deduplication skill', 'Instruction files']
+demoLink: 'https://lp-b2b-module-2.preview-docs.commercetools.com/learning-model-b2b-commerce'
+heroImage: '/images/b2b-learning-hero.svg'
+metrics:
+  - label: 'Modules shipped'
+    value: '2'
+  - label: 'Module-2 critique score'
+    value: '88/100'
+  - label: 'New content (Module 2, 8 pages)'
+    value: '+2,318'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+commercetools had no structured learning path for B2B modeling (business units, associates, permissions). It's a valuable area for solution architects, but it's dense and hard to get right. The modeling constraints aren't obvious. Get an error shape wrong, or teach an assumption that was never checked, and you train architects to build the wrong thing.
+
+## Architecture & why
+
+This is where learning design and engineering meet. I designed the path and I shipped it, running it through the eval-driven pipeline.
+
+<MermaidDiagram diagram={`flowchart LR
+    A["Interview the experts +<br/>check every claim"] --> B["Write for the Functional Architect<br/>(raw HTTP, no SDK)"]
+    B --> C["Check every API example<br/>against the RAML source"]
+    C --> D["Critique gate (≥ 88/100)"]
+    D --> E["Deduplicate<br/>(crosslink, don't repeat)"]
+`} />
+
+- **Decision: interview the experts and check every claim before writing a word.** *Alternative rejected:* drafting straight from the existing reference docs. *Why:* B2B modeling has constraints that aren't obvious. I had to strip out any assumption I couldn't verify (for example, about certain endpoints and unit-based pricing) before it ever became something I taught.
+- **Decision: write for the Functional Architect persona, using raw HTTP and no SDK.** *Alternative rejected:* hand-writing each page freely. *Why:* running pages through the eval pipeline holds every page to the same accuracy bar and the same persona, page after page.
+- **Decision: check every API example against the RAML source, not from memory.** *Alternative rejected:* made-up sample responses. *Why:* a wrong error shape teaches wrong error handling. I corrected a `403` example to the real `AssociateMissingPermissionError` shape and confirmed it against the RAML. I also confirmed the shapes of the `as-associate` and `inheritedAssociates` responses.
+- **Decision: run deduplication on the new path before merging it.** *Alternative rejected:* skipping it because "it's new content." *Why:* B2B overlaps the existing associate and permission reference docs. Where the new pages paraphrase the old ones, I crosslink instead of writing near-duplicates. That keeps the search index from pulling up two versions of the same thing.
+
+## Evals / validation
+
+A three-part critique gate scores each module and either passes it or sends it back. **Module 2 scored 88/100** for the Functional Architect persona. The refine pass fixed the error-shape example and added responses I'd shape-checked, and dedup added crosslinks at four paraphrase points. Every module ends with a scenario-based learning check.
+
+## Outcome
+
+- **2 modules on a new microsite**: "Model buyer organizations" and "Configure associate access."
+- **Module 2: +2,318 lines across 8 pages** (overview, six chapters, learning check). It passed the critique gate at **88/100**, with API examples checked against the source instead of made up from memory.
+- Proof that I can do both halves of this job and repeat it. I didn't hand off a spec. I designed the system and shipped it.
+
+> Delivered at commercetools. I was the sole author of the path content. The expert services team gave me the domain facts as SME input; the synthesis is mine. Module 2 is in review. Live preview linked above.

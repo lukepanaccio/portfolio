@@ -1,0 +1,60 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Distributed scraper CI orchestration'
+tagline: 'Keeping a fragile fleet of scrapers reliable, and committing a large versioned file safely even as main keeps changing underneath it'
+description: 'A data pipeline depends on a weekly feed assembled by a fleet of ~40 fragile browser-automation jobs pulling from dozens of third-party sites that have no API. I built the CI orchestration that keeps it reliable: isolating failures so one broken source can''t sink the rest, a commit loop that safely handles large Git-LFS files even when main moves mid-run, and a way to tell an infrastructure crash apart from a real bug so only the recoverable failures retry.'
+client: 'storipro'
+role: 'Technical Co-Founder'
+timeline: '2026'
+audience: 'Platform / reliability engineers running scheduled data pipelines'
+tools: ['GitHub Actions', 'Git LFS', 'TypeScript', 'Node.js', 'SQLite']
+agenticStack: ['CLAUDE.md project memory + multi-instance worktree workflow', 'Git worktrees (LFS objects deduped across instances)', 'Subagent-per-task research strategy']
+heroImage: '/images/scraper-ci-hero.svg'
+metrics:
+  - label: 'Brittle scrapers orchestrated'
+    value: '~40'
+  - label: 'Sources that can block the rest'
+    value: '0'
+  - label: 'Slowest source run, sped up'
+    value: '~27×'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+A data pipeline depends on a fresh weekly feed pulled together from dozens of third-party sites that have no API and no shared format. A fleet of ~40 fragile browser-automation jobs has to run on its own every week and commit a large Git-LFS file safely — *while `main` keeps changing underneath it*. Build this carelessly and you lose the entire week's data the moment one source breaks, a runner crashes, or the push gets rejected.
+
+## Architecture & why
+
+To be clear about credit: most of the individual scrapers are a colleague's. **What I built is the CI orchestration, the resilience, and the LFS strategy that keep the fleet reliable** — not the scrapers themselves.
+
+<MermaidDiagram diagram={`flowchart TD
+    A["Weekly cron"] --> L["list: find all the scrapers → build a job list"]
+    L --> S["scrape: run them in parallel (up to 10 at once),<br/>don't cancel the rest if one fails"]
+    S --> C["consolidate: run as long as the list step succeeded,<br/>even if some scrapers failed"]
+    C --> CM["LFS-safe commit loop:<br/>snapshot → hard reset → pull LFS files → restore<br/>→ push LFS files → push commit → retry ×3"]
+    C -. "no data came back at all" .-> INF["flag an infrastructure failure"]
+    F["workflow failed & this is attempt 1"] --> R["auto-rerun ONLY jobs with an empty step list<br/>(= the runner crashed, not a real bug)"]
+`} />
+
+- **Decision: split the work into three stages — list the scrapers, run them in parallel, then combine the results.** *Alternative rejected:* scraping everything in one big loop in a single process. *Why:* in one loop, a single slow, broken, or blocked source takes down all the others. Running each source in its own isolated job, with `fail-fast: false` so a failure doesn't cancel the rest, means one broken source can't block the others — and a combine step that always runs still commits whatever did succeed.
+- **Decision: a commit loop that snapshots the data → hard-resets → pulls the LFS files → restores the data → commits → retries on top of the latest `main`.** *Alternative rejected:* a plain `git push` (which gets rejected the moment `main` moves) and, earlier, a `git reset --soft`. *Why:* `reset --soft` left the staged files pointing at the commit the run started from. So when `main` moved mid-run, the next commit's diff *silently deleted every file other people had added upstream* — including workflow files the token isn't even allowed to push back. The hard-reset-plus-restore approach makes the commit contain *only the new data and nothing else.* And pushing the large LFS files *before* the commit that points to them clears the rejection GitHub otherwise throws. That last point is the key insight the whole thing hangs on.
+- **Decision: tell infrastructure failures apart from source failures, and only auto-rerun within a limit.** *Alternative rejected:* "rerun the whole workflow whenever anything fails," and treating every failed run as a real bug. *Why:* rerunning everything pays the full cost of the whole fleet again (and risks an infinite loop) just to recover from a runner that crashed for a few seconds. So I only flag an infrastructure failure when *no* data comes back at all, and I only auto-rerun failed jobs whose step list is *empty* — the tell-tale sign of a hosted runner crashing rather than a real bug — and only up to a set number of attempts. That retries only the failures that are genuinely recoverable.
+- **Decision: commit the raw rows *before* the expensive post-processing step, and protect every PR with a live smoke test.** *Alternative rejected:* processing and committing in one shot, and trusting the page selectors until the weekly run breaks. *Why:* post-processing can hit its time limit, so committing the raw rows first means a timeout never throws away the scrape you already paid for. And a smoke test that runs one source end to end on every PR catches a broken selector as a red check before it ever reaches the weekly schedule. (Selectors are the rules that pick data out of a page; sites change, so they quietly rot.)
+
+## Evals / validation
+
+- **Failure isolation, measured:** up to 10 sources running at once with `fail-fast: false`, a hard timeout per source (raised over time as the heaviest sources kept hitting it), empty results turned into a clean empty set so the combine step never chokes on them, and a screenshot saved whenever a source fails so I can see what broke.
+- **Safe commits under concurrency:** up to three push retries with a growing wait between them, a hard failure after the third, and the large LFS files always pushed before the commit that points to them.
+- **Crash recovery, bounded:** the auto-rerun only fires on failed jobs with an empty step list, and only up to a set number of attempts, so it can't loop forever. A shared retry helper (3 attempts, growing wait, only for errors that look temporary) wraps the flaky page-navigation calls.
+- **Honest gaps:** the timeout is "a signal to cut scope," not a real fix. The proper replacement — scrapers that manage their own time budget and can resume from a checkpoint — is specced but not built yet, and the wait-for-deploy step sleeps for a fixed time instead of checking when the deploy is actually done. Both are flagged as next steps.
+
+## Outcome
+
+- **One broken source used to sink the whole run → now isolated:** running each source on its own means a failing source no longer cancels the others. The pipeline has run on a weekly schedule in production for months on this design.
+- **Commits used to corrupt data or get rejected → now safe under concurrency:** the snapshot / hard-reset / retry loop survives `main` moving mid-run, and the LFS-push fix cleared the rejection, so the large Git-LFS file commits reliably every week.
+- **Runner crashes used to waste whole runs → now auto-recovered:** the empty-step-list check tells an infrastructure crash apart from a real bug, so only the recoverable failures retry.
+- **A concrete speed win:** the slowest source's weekly run was cut by roughly **27×** (from well over an hour to a few minutes) by making its most expensive phase opt-in — which also got rid of a recurring timeout that kept cancelling it.
+
+> Built at storipro. This is reliability and distributed-systems engineering, not scraper authorship. Most of the individual scrapers are a colleague's. The orchestration, the LFS-safe commit strategy, and the failure taxonomy are mine. Source and domain specifics are intentionally omitted.

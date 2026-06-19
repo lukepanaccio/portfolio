@@ -1,15 +1,15 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
-title: 'Alex Chen: AI-powered learner persona'
-tagline: 'Transforming user research by creating an interactive AI agent that provides real-time feedback on documentation'
-description: 'A psychologically grounded synthetic learner persona that simulates a senior developer, enabling continuous content validation without relying on scarce SME access.'
+title: 'Alex Chen: synthetic eval persona'
+tagline: 'A synthetic user that validates documentation by simulating a senior developer’s feedback'
+description: 'A psychologically grounded synthetic user that simulates a senior developer, enabling continuous documentation validation without relying on scarce SME access.'
 client: 'commercetools'
-role: 'Instructional Designer & AI Researcher'
+role: 'Prompt engineer & researcher'
 timeline: '2 days'
-audience: 'Instructional designers, UX researchers, technical writers, product managers'
+audience: 'Documentation, developer-experience, and product teams'
 tools: ['LLM Prompt Engineering', 'Deep Research Tools', 'User Research Synthesis']
 deliverables: ['Interactive AI persona agent', 'Structured psychological profile', 'Content auditing framework']
-heroImage: '/images/alex-chen-learner-persona-hero.webp'
+heroImage: '/images/alex-chen-hero.svg'
 metrics:
   - label: 'SME Availability'
     value: '24/7'
@@ -21,15 +21,15 @@ metrics:
 
 ### The SME access problem
 
-Technical instructional designers at commercetools struggled to access senior architects for user research. Without consistent SME feedback, documentation became either too marketing-focused or overly theoretical, missing the practical needs of experienced developers working under pressure.
+At commercetools, the instructional designers writing the docs couldn't get enough time with senior architects, the experts (SMEs) whose feedback the docs depended on. Without that feedback, the docs drifted. They got too marketing-focused or too theoretical, and missed what busy, experienced developers actually need.
 
 ### The opportunity
 
-Create a synthetic learner persona sophisticated enough to **interact** rather than just represent. Instead of a static PDF describing a user type, build an AI agent that could actively critique documentation drafts, simulating the perspective of a time-constrained senior architect.
+Build a synthetic user that does more than describe a user type. Instead of a static PDF, build an AI agent that can **interact** by reading a documentation draft and critiquing it, as if it were a senior architect who is short on time.
 
 ### Key design challenge
 
-Move beyond demographic stereotypes ("35-year-old developer with 10 years experience") to capture the **psychological relationship** between expert users and their tools—including their specific stressors, trust patterns, and learning preferences under deadline pressure.
+Get past demographic stereotypes like "35-year-old developer with 10 years experience." Capture the **psychological relationship** instead: how expert users actually feel about the tools they use. What stresses them, what makes them trust or distrust the docs, and how they prefer to learn when they're up against a deadline.
 
 ---
 
@@ -37,43 +37,43 @@ Move beyond demographic stereotypes ("35-year-old developer with 10 years experi
 
 ### Research & synthesis
 
-I used Deep Research to aggregate real developer experiences from technical forums, Gartner reviews, and commercetools community discussions. The goal: understand not just **what** senior architects do, but **why** they make certain documentation choices.
+I used Deep Research to pull together real developer experiences from technical forums, Gartner reviews, and commercetools community discussions. I wanted to understand not just **what** senior architects do, but **why** they make the documentation choices they make.
 
 **Key patterns identified:**
-- **Time poverty:** Senior architects skim conceptual material to find code, viewing "why" explanations as obstacles unless immediately relevant
-- **Context switching cost:** Navigating between multiple docs breaks flow; they prefer scoped navigation showing only relevant content
-- **Trust through specificity:** Vague error messages or theoretical frameworks trigger immediate distrust; they want copy-paste-ready examples
+- **Time poverty:** Senior architects skim the concepts to get to the code. They treat "why" explanations as obstacles unless those explanations matter right now
+- **Context switching cost:** Jumping between multiple docs breaks their flow. They prefer navigation that shows only what's relevant to the task in front of them
+- **Trust through specificity:** Vague error messages or theoretical frameworks make them distrust the docs instantly. They want examples they can copy and paste
 
 **Critical insight:**
-The persona needed to embody frustration patterns, not just demographic facts. When documentation wastes an architect's time, they experience it as disrespect—this emotional relationship shaped the entire design.
+The persona had to feel the frustration, not just list demographic facts. When documentation wastes an architect's time, they take it as disrespect. That emotional reaction shaped the whole design.
 
 ### Design approach
 
-I applied [Dr. Philippa Hardman's structured AI persona framework](https://drphilippahardman.substack.com/p/from-guesswork-to-simulation-how), specifically focusing on psychological depth over surface demographics:
+I used [Dr. Philippa Hardman's structured AI persona framework](https://drphilippahardman.substack.com/p/from-guesswork-to-simulation-how), and leaned on the parts that go deeper than surface demographics:
 
 **1. Episode categorization**
 
-Mapped success and failure narratives:
-- **Success:** "Found headless frontend integration guide with working React code—saved 4 hours"
+I mapped out stories of when things went well and when they went wrong:
+- **Success:** "Found headless frontend integration guide with working React code. Saved 4 hours"
 - **Failure:** "Spent 2 hours debugging because docs didn't mention the API returns cached data by default"
 
 **2. Emotional mapping**
 
-Identified confidence triggers (clear error messages, modular docs) versus anxiety triggers (forced linear learning paths, marketing language disguised as technical content)
+I worked out what builds his confidence (clear error messages, docs broken into self-contained pieces) versus what makes him anxious (being forced through a fixed learning path, or marketing language dressed up as technical content).
 
 **3. Behavioral modeling**
 
-Defined specific stress responses:
-- When blocked: Takes walks, seeks community help on Slack, blames vendor if root cause is unclear
-- When successful: Shares solutions with team, builds internal wikis to avoid repeating documentation hunts
+I defined how he reacts under stress:
+- When blocked: takes walks, asks the community for help on Slack, blames the vendor if he can't find the root cause
+- When successful: shares the fix with his team, builds internal wikis so nobody has to go hunting through the docs again
 
 **4. Voice engineering**
 
-Created a "brutally honest, pragmatic" communication style. Alex doesn't soften feedback—he tells you exactly where content fails to respect his intelligence or time constraints.
+I gave Alex a "brutally honest, pragmatic" way of talking. He doesn't soften his feedback. He tells you exactly where the content wastes his time or treats him like he doesn't know what he's doing.
 
 ### Development & iteration
 
-Built the persona as an **interactive agent** using structured system prompting:
+I built the persona as an **interactive agent**, driven by a carefully structured system prompt:
 
 **System prompt architecture:**
 ```
@@ -84,19 +84,19 @@ COMMUNICATION STYLE: Direct, impatient with theory, appreciates brevity
 ```
 
 **Validation approach:**
-Tested the persona by having it audit existing documentation. Alex flagged real issues that matched actual user complaints—validating psychological accuracy.
+I tested the persona by having it audit existing documentation. Alex flagged real issues that matched complaints actual users had made. That told me the psychology was accurate.
 
 ### Testing & refinement
 
-**Initial problem:** Early versions were too polite, softening critiques with "maybe" or "you might consider." This failed to match real architect communication patterns.
+**Initial problem:** Early versions were too polite. They softened the criticism with "maybe" or "you might consider," which is not how a real architect talks.
 
-**Solution:** Added behavioral constraints:
+**Solution:** I added rules for his behavior:
 - Never apologizes for being critical
 - Demands specific examples, rejects abstract explanations
-- Explicitly calls out when content wastes his time
+- Says it directly when content wastes his time
 
 **Quality validation:**
-The persona successfully predicted that forcing senior developers through "Getting Started" content would cause immediate disengagement—later confirmed when actual architects provided identical feedback.
+The persona predicted that forcing senior developers through "Getting Started" content would make them give up right away. Real architects later said exactly the same thing.
 
 ---
 
@@ -104,7 +104,7 @@ The persona successfully predicted that forcing senior developers through "Getti
 
 ### What the team experiences
 
-Feed a documentation draft or UX design to the Alex Chen agent. Within seconds, receive first-person critique highlighting exactly where content fails to meet senior architect needs: "This forces me through basics I already know—show me integration patterns or let me skip ahead."
+Drop a documentation draft or a UX design into the Alex Chen agent. Within seconds, you get back a first-person critique that points to exactly where the content lets a senior architect down: "This forces me through basics I already know. Show me integration patterns or let me skip ahead."
 
 **First Gemini version:**
 
@@ -117,18 +117,18 @@ Following the success of the Gemini Gem solution, the learner persona was integr
 **Input:** Proposed learning path with mandatory "CT 101" introduction module
 
 **Alex's response:**
-*"Hard pass. I'm a senior architect—I know what headless commerce is. Forcing me through beginner content tells me you don't understand your audience. Give me a 'Skip to Integration Patterns' option or I'm closing this tab and finding a Stack Overflow answer instead."*
+*"Hard pass. I'm a senior architect. I know what headless commerce is. Forcing me through beginner content tells me you don't understand your audience. Give me a 'Skip to Integration Patterns' option or I'm closing this tab and finding a Stack Overflow answer instead."*
 
 **Impact:** Led to creating separate entry points for beginner versus experienced developers, reducing bounce rates for advanced users.
 
 ### How it works
 
-The persona functions as an AI-powered "use of force" model:
+The persona acts as an AI-powered stress test for content:
 
-1. **Input content:** Documentation draft, site structure, or learning path
-2. **Psychological analysis:** Agent evaluates against Alex's stress triggers and trust patterns
-3. **First-person critique:** Delivers specific, actionable feedback from architect perspective
-4. **Design validation:** Flags content that would cause disengagement before publication
+1. **Input content:** a documentation draft, a site structure, or a learning path
+2. **Psychological analysis:** the agent checks it against Alex's stress triggers and what earns his trust
+3. **First-person critique:** it gives back specific, actionable feedback in the architect's own voice
+4. **Design validation:** it flags content that would make a reader give up, before you publish
 
 ---
 
@@ -137,37 +137,37 @@ The persona functions as an AI-powered "use of force" model:
 ### Content strategy pivots
 
 **Navigation redesign:**
-Alex's feedback that "context switching kills productivity" led to designing scoped navigation (showing only relevant content for the current module). Before investing engineering resources, we validated the design with Alex, who confirmed it was "exactly what I need."
+Alex's point that "context switching kills productivity" led us to design scoped navigation, which shows only the content relevant to the current module. Before we spent any engineering time on it, we ran the design past Alex, who confirmed it was "exactly what I need."
 
 **Feature prioritization:**
-Validated that filterable documentation catalogs were "non-negotiable" for power users, influencing product roadmap decisions.
+Alex confirmed that filterable documentation catalogs were "non-negotiable" for power users, which shaped product roadmap decisions.
 
 **Risk prevention:**
-Identified that manual progress checklists would seem "cheap and unintelligent" to senior architects, preventing a feature launch that would have damaged credibility.
+Alex flagged that manual progress checklists would feel "cheap and unintelligent" to senior architects. That stopped us launching a feature that would have hurt our credibility.
 
 ### Research efficiency gains
 
-- **15+ content audits** conducted without requiring SME time
-- **8 major design decisions** informed by persona feedback before user testing
-- **Continuous validation** without scheduling conflicts or limited SME availability
+- **15+ content audits** done without taking up any SME time
+- **8 major design decisions** shaped by persona feedback before user testing
+- **Continuous validation**, with no scheduling conflicts and no waiting on limited SME availability
 
 ### Scalability value
 
-The structured psychological framework (Episode/Emotion/Behavior) created a reusable template. The team can now build adjacent personas (junior developers, merchant users) using the same research methodology.
+The structured framework (Episode / Emotion / Behavior) became a reusable template. The team can now build related personas (junior developers, merchant users) with the same research method.
 
 ---
 
 ## Key takeaways
 
-- **Psychology over demographics.** Traditional personas focus on age, role, and experience level. The breakthrough came from modeling Alex's **emotional relationship** with documentation—how he experiences time pressure, when he trusts versus distrusts content, and what triggers frustration versus confidence.
+- **Psychology beats demographics.** Traditional personas focus on age, role, and years of experience. The breakthrough here was modeling Alex's **emotional relationship** with the docs: how he feels under time pressure, when he trusts the content versus when he doesn't, and what flips him from confident to frustrated.
 
-- **Interactive beats descriptive.** A static persona PDF gets referenced once then forgotten. Making Alex an interactive agent that **responds** to content drafts ensures continuous use. The team now defaults to "ask Alex" when evaluating new documentation.
+- **Interactive beats descriptive.** A static persona PDF gets read once and forgotten. Making Alex an agent that **responds** to your drafts keeps people using it. The team now defaults to "ask Alex" whenever they're reviewing new documentation.
 
-- **Stress drives decisions.** Alex's behavior under deadline pressure (skim theory, grab code, blame vendor when blocked) explains why standard documentation structures fail. Designing for stress states rather than ideal learning conditions produces more effective content.
+- **Stress drives decisions.** Watch how Alex behaves under deadline pressure: he skims the theory, grabs the code, and blames the vendor when he's stuck. That explains why standard documentation layouts fail. Design for how people behave when they're stressed, not for ideal conditions, and the content works better.
 
-- **Voice authenticity matters.** Making Alex "brutally honest" rather than diplomatically critical increased trust in his feedback. When he says documentation is good, the team believes it—because he's harsh when it's bad.
+- **An authentic voice matters.** Making Alex "brutally honest" rather than politely critical made the team trust his feedback more. When he says the docs are good, they believe him, because they've seen how harsh he is when the docs are bad.
 
-- **Prompt engineering requires instructional design expertise.** Building this persona meant defining learning objectives (what architects need to accomplish), identifying cognitive load factors (context switching costs), and modeling authentic task behavior. AI persona creation is fundamentally a learning design challenge.
+- **Prompt engineering is instructional design.** Building this persona meant spelling out what architects are trying to get done, spotting what overloads them (like context switching), and modeling how they really behave on a task. Creating an AI persona is, at heart, a learning-design problem.
 
 ---
 
