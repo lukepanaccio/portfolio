@@ -1,61 +1,79 @@
 ---
 layout: '../../layouts/ProjectLayout.astro'
-title: 'Natural-language control for Ableton Live'
-tagline: 'I took an open-source MCP bridge and wrapped it in a one-command, low-error setup, then traced the bug that stopped it loading'
-description: 'Control a live Ableton session by typing or speaking plain English, built on top of an open-source MCP bridge. My work was the one-command install that runs safely every time, and the log-driven diagnosis. I did not build the bridge.'
-client: 'Personal project'
-role: 'Engineer (integration, automation & diagnosis)'
-timeline: '2026'
-audience: 'Builders integrating LLMs with desktop applications'
-tools: ['macOS', 'Ableton Live 12', 'Claude Desktop', 'MCP', 'Python', 'bash', 'jq']
-agenticStack: ['MCP (integration & deployment)', 'CLAUDE.md (user-level standing rule)', 'Shell / CLI automation']
+title: 'Closing the read–modify–write loop in an Ableton MCP server'
+tagline: 'The open-source bridge could write MIDI but never read it back — so an AI agent had to regenerate every clip from memory, blind to manual edits. I designed and shipped two MCP tools, submitted upstream as PR #106, that close the read → modify → write loop.'
+description: 'AbletonMCP, an open-source MCP bridge, could author MIDI clips but never read or truly modify one. I added two tools — a read-only note reader and a main-thread-scheduled clear — backed by a 13-test hermetic suite, turning the agent''s write-only access into a genuine read → modify → write loop. Submitted upstream as PR #106 (+612 / −0). Built as an agentic pair via Claude Code.'
+client: 'Open-source contribution · AbletonMCP'
+role: 'Open-source contributor — design, implementation, tests & upstream PR'
+timeline: 'Q2 2026'
+audience: 'Builders integrating LLM agents with desktop applications via MCP'
+tools: ['Python', 'MCP / Model Context Protocol', 'Ableton Live Object Model', 'Remote Script (ControlSurface API)', 'socket IPC', 'pytest', 'uv', 'Ableton Live 12', 'macOS']
+agenticStack: ['MCP server development', 'Plan mode', 'Headless / CLI (Claude Code)', 'Agentic pair-authoring']
 heroImage: '/images/ableton-mcp-hero.svg'
+githubLink: 'https://github.com/lukepanaccio/ableton-mcp'
 metrics:
-  - label: 'Setup steps → one command'
-    value: '7 → 1'
-  - label: 'Silent launch-failures pre-empted'
-    value: '2'
-  - label: 'Root cause found via log diagnostics'
-    value: '1'
+  - label: 'Unit tests passing'
+    value: '13 / 13'
+  - label: 'Net change · purely additive'
+    value: '+612 / −0'
+  - label: 'Integration steps · Live 12.4.2'
+    value: '5 / 5'
 ---
 
 import MermaidDiagram from '../../components/MermaidDiagram.astro';
 
 ## The problem
 
-You have a musical idea. Getting it into Ableton costs you time and focus. You dive through menus, hunt for the right selector, and lose your flow. I wanted to skip that. The goal: control tracks, clips, devices, MIDI, and transport in a *live* session by typing or speaking plain English, with **as little code as possible and a setup that works the same way every time.** The hard part wasn't the bridge protocol. It was making the integration install reliably, and figuring out why it didn't.
+[AbletonMCP](https://github.com/ahujasid/ableton-mcp) is an open-source bridge that lets an AI agent drive a live Ableton session over the Model Context Protocol. But it could only *author* MIDI — `add_notes_to_clip` was the single note-path tool, and it was **write-only and purely additive.** There was no way to read what was in a clip, and no way to replace its contents.
+
+So "iterate on this loop" forced the model into a bad place: hold the entire clip in context, regenerate it from memory, and append. It was blind to any edit you'd made by hand in Live, had no way to verify what actually landed, and couldn't replace anything. The agent was composing with its eyes closed.
+
+I'd already spent time inside this codebase getting it to run reliably (more on that below), so I knew where the gap was. The fix was a feature contribution: give the agent the ability to read a clip and to clear it.
 
 ## Architecture & why
 
-First, who did what. The MCP bridge itself is **open-source, and I didn't write it.** (MCP is the protocol that lets Claude talk to other software. This bridge is the Remote Script and socket server that expose Ableton's Live API.) My work is the layer that integrates and installs it, plus the diagnosis when it broke.
+First, ownership. The framework — `add_notes_to_clip`, the threading/dispatch architecture, the socket protocol, the telemetry decorator — is **Siddharth Ahuja's** ([ahujasid/ableton-mcp](https://github.com/ahujasid/ableton-mcp), MIT). My contribution is the two new tools, their tests, and the docs, following his existing patterns. Naming what isn't mine is the point: the judgment is in *how* the two tools were added, not in the surrounding machinery.
 
-<MermaidDiagram diagram={`flowchart TD
-    A["You speak or type"] --> B["macOS Dictation"]
-    B --> C["Claude Desktop"]
-    C --> D["MCP server (uvx)"]
-    D --> E["TCP socket"]
-    E --> F["Ableton Remote Script<br/>(open-source bridge)"]
-    F --> G["Live API → your session"]
+<MermaidDiagram diagram={`flowchart LR
+    A["AI agent"] --> B["get_notes_from_clip<br/>read-only · off main thread"]
+    B --> C["edit the note list<br/>in context"]
+    C --> D["clear_notes_from_clip<br/>mutating · main-thread scheduled"]
+    D --> E["add_notes_to_clip<br/>(upstream)"]
+    E --> F["clip now holds ONLY<br/>the edited notes"]
 `} />
 
-- **Decision: use a mature open-source MCP server, driven from Claude Desktop.** *Alternative rejected:* Ableton's brand-new official Extensions SDK (released days earlier). *Why:* the SDK is still in beta, only works in the Suite edition, and runs once then stops. I needed a bridge that stays open for a back-and-forth conversation. The MCP path was proven and worked right then.
-- **Decision: pick the bridge built around Session view.** *Alternative rejected:* a server focused on Arrangement view, and heavier servers with 220-322 tools. *Why:* my real pain was in Session view. The lighter server had the biggest community and did exactly that. The heavyweight options did far more than I needed.
-- **Decision: use macOS's built-in dictation for speech.** *Alternative rejected:* writing my own push-to-talk daemon (Whisper or Deepgram) that pipes audio to a headless model. *Why:* zero code to write, and it's good enough to talk and have it type into Claude. I'm keeping the custom daemon in my back pocket, only if I ever truly need fully hands-free control.
-- **Decision: ship the setup as shell scripts you can safely re-run any number of times.** *Alternative rejected:* a manual step-by-step guide, a script that just overwrites the config, and a plain `uvx` command. *Why:* my scripts merge into Claude's config safely (they use jq and keep a backup), hard-code the *full* path to `uvx`, and check the file is writable first. That cuts out manual mistakes, avoids wiping out your other MCP servers, and heads off a macOS bug where the app launches with a stripped-down PATH and silently fails to find `uvx`.
+The `clear` step is the whole game: it's what turns upstream's additive "add" into a genuine read → modify → write loop, instead of an ever-growing pile of appended notes.
+
+- **Decision: triage the gap by *layer* — `[SERVER]` vs `[API-CEILING]` vs `[ECOSYSTEM]` — and verify the Live Object Model surface *before* writing code.** *Alternative rejected:* take the README's "can't read notes" at face value and treat it as an Ableton limitation. *Why:* the LOM already exposes `get_notes_extended` / `remove_notes_extended`. This wasn't an API ceiling — it was an **unwrapped server gap**, the kind of thing that's trivial to fix once you stop assuming the platform is the blocker. The same layered triage correctly kept a *genuine* ceiling (no native fill-range call) out of scope. Knowing which gaps are real is the judgment.
+- **Decision: two deliberate thread models — read-only `get_notes_from_clip` runs off the main thread; mutating `clear_notes_from_clip` is main-thread-scheduled and registered in *all three* dispatch sites.** *Alternative rejected:* route everything through the main thread uniformly (simpler to reason about), or skip the registration. *Why:* it matches the codebase's existing read/write split, and a mutating command that *isn't* main-thread-registered silently **races** the audio engine — a footgun this codebase doesn't surface, so it had to be wired into the main-thread list, the dispatch block, and the modifying-command set on the server side.
+- **Decision: call the modern `*_extended` LOM API with a legacy fallback, and document the pitch-first argument order in code.** *Alternative rejected:* use only legacy `get_notes` / `remove_notes`. *Why:* `*_extended` is note-id-aware (Live 11+) and future-proof, the fallback keeps older Live working — and `get_notes_extended(from_pitch, pitch_span, …)` *inverts* the legacy time-first order. That's a trivial-to-invert bug waiting to happen, so it's flagged in a comment rather than left as a trap.
+- **Decision: return read output in the *exact dict shape* `add_notes_to_clip` already consumes** (pitch / start / duration / velocity / mute), with richer LOM fields riding along harmlessly. *Alternative rejected:* a bespoke, richer read schema. *Why:* it makes read → edit → clear → write a closed loop with **no translation layer** — the output of one tool is valid input to the next. The full round-trip is proven by `test_true_replace_loop_read_clear_add`.
+- **Scope decision: ship small and finished — note read/clear only — and defer the drum-rack / per-pad cluster.** *Alternative rejected:* build the flashier drum-rack sample-loading feature instead. *Why:* the gap analysis judged drum-rack an *execution* play, not a moat — reachable through Live's standard browser-and-selection API, and a standing maintenance cost against Live's version churn. A small, correct, finished contribution is more useful upstream than a big speculative one.
 
 ## Evals / validation
 
-No eval harness. This was an integration job, so I tested it by running it and reading the logs. I won't pretend it was more than that:
-
-- **Smoke tests against a live session:** read session info, create a MIDI track, load a device, change transport and tempo. Check each one works.
-- **Reading the logs to verify:** a script reads (but never changes) Ableton's `Log.txt` to confirm which Remote Scripts actually loaded, and to surface any load errors. This is what pinpointed the failure.
-- **Failure handling built into the installers:** back up before changing anything, check the file is writable, and handle three clear outcomes (installed / found but not writable / drive not mounted).
+- **A 13-test pytest suite** (`test_get_notes_from_clip.py`), fully **hermetic** — the Ableton socket is mocked via a `fake_conn` fixture and a telemetry-noop fixture, so it runs with no DAW and no network. Coverage by intent: command/param correctness for both tools, output formatting, empty-clip-is-zero-not-an-error, connection errors caught, graceful fallback on missing metadata, and the full **read → clear → add replace loop**. Result: **13 / 13 passing.**
+- I caught and replaced a **stale 9-test version** (which had no coverage for `clear_notes_from_clip`) with the 13-test canonical suite before shipping, so both new tools are actually exercised — not just the one I started with.
+- **A 5-step manual integration procedure** (`INTEGRATION_TEST.md`) against a real Set, which pre-documents the expected LOM quirks (notes reorder on read, ints come back as floats, extra per-note fields appear) as **non-failures**, plus both error guards (`No clip in slot`, `not a MIDI clip`). Verified on **Live 12.4.2 / macOS — steps 1–5 pass**, notes round-trip exactly.
+- **Zero regression surface:** the diff is purely additive (**+612 / −0**); no existing tool or behavior changed.
 
 ## Outcome
 
-- It works: **you can control a live Ableton session by typing or speaking.**
-- Setup dropped from a ~7-step guide to **1 command you run once, plus 3 clicks you can't avoid** (select the control surface, toggle dictation, verify).
-- **2 silent failures headed off** in the installer: the plain `uvx` PATH problem, and overwriting your config file.
-- **1 root cause that wasn't obvious,** found by reading Ableton's own logs. The control surface wouldn't load because the User Library had been moved to an external drive. Live 12 only loads Remote Scripts from `<User Library>/Remote Scripts/` — not the default or older paths.
+- **Before:** one note-path tool (`add_notes_to_clip`), write-only and additive — no read-back, no replace.
+- **After:** two new MCP tools close the loop. read → modify → **clear** → write is now a genuine replace, and the agent can verify, and build on, edits you made by hand in Live.
+- Submitted upstream as **[PR #106](https://github.com/ahujasid/ableton-mcp/pull/106)** — **+612 / −0** across 6 files, **13 / 13** unit tests green, integration verified on Live 12.4.2. Runnable as a [fork](https://github.com/lukepanaccio/ableton-mcp) today.
 
-> A personal project, and I'll call it what it is: **systems integration, tooling, and debugging**. The MCP bridge is open-source and not my work. What's mine: the install, fix, and diagnostic scripts (the ones you can safely re-run), and tracking down the moved-User-Library problem. I kept it deliberately light: no eval harness, thin usage metrics.
+> **Honesty note.** PR #106 is **open, not merged** — it's a proposed contribution, not an accepted one. Integration was verified on a **single platform** (Live 12.4.2 / macOS); the unit tests stop at the socket boundary, so they prove the server logic, not the LOM itself — that half rests on the one-machine integration run. The deferred drum-rack work includes one claim (programmatic drum-pad selection from a headless Remote Script) I've explicitly flagged as **unverified**; I'm not presenting it as proven.
+
+## Before the feature: getting the bridge to run reliably
+
+The reason I knew where the note-path gap was is that I'd already done the unglamorous work of making this bridge install and run the same way every time — and debugging it when it didn't.
+
+- **One-command install instead of a 7-step guide.** The setup scripts merge into Claude's MCP config with `jq` and a backup (rather than overwriting it and wiping your other servers), hard-code the *full* path to `uvx`, and check the file is writable first. That last detail heads off a real macOS footgun: launched from the GUI, the app gets a stripped-down `PATH` and silently can't find `uvx`.
+- **A log-driven root-cause diagnosis.** A script reads — never modifies — Ableton's `Log.txt` to confirm which Remote Scripts actually loaded. That's what pinpointed why the control surface wouldn't load: the User Library had been moved to an external drive, and Live 12 only loads Remote Scripts from `<User Library>/Remote Scripts/`, not the older default paths.
+
+It's integration and debugging, and I'll name it as that. But it's also how I earned the context to make a clean feature contribution on top.
+
+## How this was built
+
+This was built as an **agentic pair** via Claude Code (plan mode, headless CLI); the contribution commit lists **Claude Opus 4.8 as co-author**. The MCP tooling itself — designing and wiring the two tools across the server and Remote Script — is the deliverable. The LOM facts behind the design synthesize Ableton's published Live Object Model reference and the Max-for-Live API stub; that's research, not original API.

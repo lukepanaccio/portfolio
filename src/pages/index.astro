@@ -49,11 +49,11 @@ const projects = [
     categories: ['engineering']
   },
   {
-    title: 'Natural-language control for Ableton Live',
-    description: 'Control a live Ableton session by voice or text, built on an open-source MCP bridge I didn\'t write. The real work was the setup and the debugging: a one-command install that runs safely every time (7 steps down to 1), and a log-driven diagnosis of why it wouldn\'t load.',
+    title: 'Read–modify–write loop for an Ableton MCP server',
+    description: 'AbletonMCP, an open-source MCP bridge, could write MIDI clips but never read or truly modify one — so an AI agent had to regenerate each clip from memory, blind to manual edits. I designed and shipped two MCP tools that close the read → modify → write loop, with a 13-test suite. Submitted upstream as PR #106 (+612 / −0).',
     image: '/images/ableton-mcp-hero.svg',
     href: '/projects/ableton-mcp-control-layer',
-    tags: ['MCP', 'Systems integration', 'macOS', 'Debugging'],
+    tags: ['MCP', 'Live Object Model', 'OSS contribution', 'pytest'],
     categories: ['ai-systems', 'engineering']
   },
   {
