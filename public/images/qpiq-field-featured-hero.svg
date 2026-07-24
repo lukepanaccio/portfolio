@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1320" width="1100" height="1320" role="img" aria-label="Field-deployed buyer survey pilot">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c1122"/><stop offset="60%" stop-color="#0a0e1a"/><stop offset="100%" stop-color="#070a13"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx="80%" cy="11%" r="72%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.26"/><stop offset="34%" stop-color="#fbbf24" stop-opacity="0.09"/><stop offset="72%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coolbloom" cx="14%" cy="94%" r="60%">
+      <stop offset="0%" stop-color="#1e3a5f" stop-opacity="0.20"/><stop offset="70%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="44%" r="80%">
+      <stop offset="56%" stop-color="#05070d" stop-opacity="0"/><stop offset="100%" stop-color="#05070d" stop-opacity="0.55"/>
+    </radialGradient>
+    <radialGradient id="gridmask" cx="60%" cy="34%" r="68%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gmask"><rect width="1100" height="1320" fill="url(#gridmask)"/></mask>
+    <linearGradient id="famber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="barfade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0"/><stop offset="18%" stop-color="#f59e0b" stop-opacity="1"/><stop offset="82%" stop-color="#fbbf24" stop-opacity="1"/><stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="cardfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c2740"/><stop offset="100%" stop-color="#0e1626"/>
+    </linearGradient>
+    <linearGradient id="gatefill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#26324a"/><stop offset="100%" stop-color="#161f33"/>
+    </linearGradient>
+    <filter id="glow" x="-90%" y="-90%" width="280%" height="280%">
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#f59e0b" flood-opacity="0.55"/>
+    </filter>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0"/>
+    </filter>
+  </defs>
+  <rect width="1100" height="1320" fill="url(#bg)"/>
+  <rect width="1100" height="1320" fill="url(#coolbloom)"/>
+  <rect width="1100" height="1320" fill="url(#bloom)"/>
+  <g mask="url(#gmask)" stroke="#f59e0b" stroke-opacity="0.07" stroke-width="1">
+    <path d="M0 220H1100M0 440H1100M0 660H1100M0 880H1100M0 1100H1100M220 0V1320M440 0V1320M660 0V1320M880 0V1320"/>
+  </g>
+  <rect width="1100" height="1320" fill="url(#vignette)"/>
+  <rect width="1100" height="1320" filter="url(#grain)" opacity="0.05"/>
+  <rect x="0" y="0" width="1100" height="56" fill="url(#barfade)" opacity="0.16" filter="url(#glow)"/>
+  <rect width="1100" height="6" fill="url(#barfade)"/>
+  <text x="70" y="98" font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial" font-size="26" letter-spacing="6" font-weight="700" fill="url(#famber)">FIELD-DEPLOYED PILOT</text>
+  <path d="M70 122 H1030" stroke="#f59e0b" stroke-opacity="0.2" stroke-width="2" filter="url(#glow)"/>
+
+  <!-- the Saturday -->
+  <rect x="350" y="166" width="400" height="86" rx="16" fill="url(#cardfill)" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+  <text x="550" y="218" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="30" fill="#f8fafc">Saturday open home</text>
+
+  <!-- three intake paths -->
+  <g fill="none" stroke="#3b4761" stroke-width="3">
+    <path d="M550 252 V292 M265 292 H835 M265 292 V322 M550 292 V322 M835 292 V322"/>
+  </g>
+  <g fill="#0a0e1a" stroke="#f59e0b" stroke-width="3" filter="url(#glow)">
+    <rect x="140" y="322" width="250" height="64" rx="14"/>
+    <rect x="425" y="322" width="250" height="64" rx="14"/>
+    <rect x="710" y="322" width="250" height="64" rx="14"/>
+  </g>
+  <g text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="21" fill="#cbd5e1">
+    <text x="265" y="361">QR self-signup</text>
+    <text x="550" y="361">typed at the door</text>
+    <text x="835" y="361" font-size="19">invite from their phone</text>
+  </g>
+  <text x="550" y="424" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="22" fill="#9ca3af">the buyer submits the data &#183; never the agent&#8217;s guess</text>
+
+  <!-- the survey -->
+  <path d="M550 442 V468" fill="none" stroke="#3b4761" stroke-width="3"/>
+  <rect x="250" y="468" width="600" height="200" rx="18" fill="url(#gatefill)" stroke="#fbbf24" stroke-width="4" filter="url(#glow)"/>
+  <text x="550" y="514" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="28" fill="#f8fafc">buyer answers on their phone</text>
+  <g fill="#fbbf24">
+    <circle cx="350" cy="556" r="13"/><circle cx="417" cy="556" r="13"/><circle cx="483" cy="556" r="13"/>
+    <circle cx="550" cy="556" r="13"/><circle cx="617" cy="556" r="13"/><circle cx="683" cy="556" r="13"/>
+    <circle cx="750" cy="556" r="13"/>
+  </g>
+  <text x="550" y="606" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="22" font-weight="700" fill="#fbbf24">7 questions &#183; no login &#183; under 90 seconds</text>
+  <text x="550" y="640" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="19" fill="#9ca3af">sealed campaign silo &#183; no global buyer identity</text>
+
+  <!-- the Monday -->
+  <path d="M550 668 V700" fill="none" stroke="#3b4761" stroke-width="3"/>
+  <rect x="210" y="700" width="680" height="250" rx="16" fill="#0d1320" stroke="#f59e0b" stroke-opacity="0.5" stroke-width="2" filter="url(#glow)"/>
+  <text x="246" y="746" font-family="ui-sans-serif,system-ui,Arial" font-size="24" fill="#f8fafc">Monday call list</text>
+  <text x="854" y="746" text-anchor="end" font-family="ui-sans-serif,system-ui,Arial" font-size="19" fill="#9ca3af">ranked from what buyers said</text>
+  <rect x="246" y="766" width="608" height="52" rx="10" fill="#0a0e1a" stroke="#f59e0b" stroke-width="2.5" filter="url(#glow)"/>
+  <circle cx="282" cy="792" r="11" fill="#f59e0b"/>
+  <text x="312" y="800" font-family="ui-sans-serif,system-ui,Arial" font-size="22" font-weight="700" fill="#f8fafc">HOT</text>
+  <text x="826" y="800" text-anchor="end" font-family="ui-sans-serif,system-ui,Arial" font-size="19" fill="#7c8aa3">ready to offer</text>
+  <rect x="246" y="828" width="608" height="52" rx="10" fill="#0a0e1a" stroke="#3b4761" stroke-width="2"/>
+  <circle cx="282" cy="854" r="11" fill="#fbbf24"/>
+  <text x="312" y="862" font-family="ui-sans-serif,system-ui,Arial" font-size="22" font-weight="700" fill="#cbd5e1">WARM</text>
+  <text x="826" y="862" text-anchor="end" font-family="ui-sans-serif,system-ui,Arial" font-size="19" fill="#7c8aa3">price is the gap</text>
+  <rect x="246" y="890" width="608" height="52" rx="10" fill="#0a0e1a" stroke="#3b4761" stroke-width="2"/>
+  <circle cx="282" cy="916" r="11" fill="#64748b"/>
+  <text x="312" y="924" font-family="ui-sans-serif,system-ui,Arial" font-size="22" font-weight="700" fill="#cbd5e1">COOL</text>
+  <text x="826" y="924" text-anchor="end" font-family="ui-sans-serif,system-ui,Arial" font-size="19" fill="#7c8aa3">wrong floor plan</text>
+
+  <!-- the thing that lets the pilot fail -->
+  <path d="M550 950 V982" fill="none" stroke="#3b4761" stroke-width="3"/>
+  <rect x="210" y="982" width="680" height="188" rx="18" fill="url(#gatefill)" stroke="#fbbf24" stroke-width="4" filter="url(#glow)"/>
+  <rect x="226" y="998" width="648" height="156" rx="12" fill="none" stroke="#fbbf24" stroke-opacity="0.3" stroke-width="2" filter="url(#glow)"/>
+  <text x="550" y="1042" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="27" font-weight="800" fill="#fbbf24">PRE-REGISTERED COUNTERFACTUAL</text>
+  <text x="550" y="1080" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="21" fill="#cbd5e1">the agent&#8217;s own top 3 from memory &#183; confidence 1&#8211;5</text>
+  <text x="550" y="1112" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="21" fill="#cbd5e1">sealed before the ranked list is visible</text>
+  <text x="550" y="1142" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="18" fill="#9ca3af">so the pilot is allowed to come back: no change</text>
+
+  <text x="550" y="1232" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="28" font-weight="800" fill="#f59e0b">7 questions, under 90 seconds</text>
+  <text x="550" y="1272" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="20" fill="#9ca3af">against ~2 minutes of agent time per open</text>
+</svg>
