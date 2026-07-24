@@ -8,14 +8,38 @@ const base = import.meta.env.BASE_URL;
 
 // Define projects data
 const featuredProject = {
-  title: 'Eval-driven AI authoring system',
-  description: 'An AI writing pipeline where one agent writes and a separate one grades it — because nothing should grade its own work. A three-part pass/fail gate, enforced by a dependency-free validator and calibrated against human-graded examples, keeps polished-but-wrong content from getting through.',
-  image: '/images/featured-hero.svg',
-  href: '/projects/ai-authoring-system',
-  tags: ['Agent orchestration', 'Evals', 'LLM-as-judge', 'CLAUDE.md']
+  title: 'Field-deployed buyer survey pilot',
+  description: 'A production pilot running inside a real estate agent\'s week: buyers answer 7 questions on their phone in under 90 seconds, the agent gets a ranked Monday call list. The engineering that mattered was refusing the features that would have made the data untrustworthy, and pre-registering a counterfactual so the pilot was allowed to come back with an unwelcome answer.',
+  image: '/images/qpiq-field-featured-hero.svg',
+  href: '/projects/qpiq-field-deployment',
+  tags: ['Field deployment', 'Pilot design', 'Pre-registered evals', 'Privacy by design']
 };
 
 const projects = [
+  {
+    title: 'Spec-driven development with coding agents',
+    description: 'Reviewing a 2,000-line agent diff is theatre. I moved the review upstream: requirements in WHEN/THEN form are canonical, agents work as deltas against them, and previews are structurally unable to touch production. The rule file records its own near-misses — including two archive bugs that would have silently deleted live requirements.',
+    image: '/images/qpiq-specdriven-hero.svg',
+    href: '/projects/spec-driven-agentic-development',
+    tags: ['Agentic workflows', 'OpenSpec', 'Claude Code', 'Human-in-the-loop'],
+    categories: ['ai-systems', 'engineering']
+  },
+  {
+    title: 'Per-agent isolation on a deny-all datastore',
+    description: 'Firestore rules deny every client read and write, so authorisation lives entirely in server code with no database backstop. I built the three-layer auth chain and a suite that forges nothing: it mints real session cookies through the app\'s own sign-in route, then proves all 16 mutating actions are denied across the boundary and write zero bytes.',
+    image: '/images/qpiq-isolation-hero.svg',
+    href: '/projects/multi-tenant-isolation',
+    tags: ['Multi-tenancy', 'Authorization', 'Fail-closed', 'Emulator testing'],
+    categories: ['engineering']
+  },
+  {
+    title: 'Eval-driven AI authoring system',
+    description: 'An AI writing pipeline where one agent writes and a separate one grades it — because nothing should grade its own work. A three-part pass/fail gate, enforced by a dependency-free validator and calibrated against human-graded examples, keeps polished-but-wrong content from getting through.',
+    image: '/images/ai-authoring-hero.svg',
+    href: '/projects/ai-authoring-system',
+    tags: ['Agent orchestration', 'Evals', 'LLM-as-judge', 'CLAUDE.md'],
+    categories: ['ai-systems']
+  },
   {
     title: 'Stripe billing, productionized & secured',
     description: 'A founder\'s billing prototype had to start taking real money — and a stale test-mode ID had already silently charged a card $138 with no record of it anywhere. I locked the billing data down at the database, made the webhooks heal their own bad data, and wrote 142 tests from zero.',
@@ -269,32 +293,32 @@ const skills = {
                         <path d="M13 7H7v6h6V7z"/>
                         <path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z" clip-rule="evenodd"/>
                       </svg>
-                      <span class="text-sm font-bold text-accent-primary uppercase tracking-wider">Applied AI · Eval-driven</span>
+                      <span class="text-sm font-bold text-accent-primary uppercase tracking-wider">Applied AI · Field-deployed</span>
                     </div>
-                    
+
                     <h2 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-text-primary mb-4 leading-[1.05] tracking-tight">
-                      <span class="block">Eval-driven</span>
-                      <span class="block text-accent-primary">AI authoring</span>
+                      <span class="block">Open home</span>
+                      <span class="block text-accent-primary">→ Monday</span>
                     </h2>
 
                     <p class="text-lg md:text-xl text-text-primary leading-relaxed max-w-xl bg-bg-primary/95 p-4 rounded-lg -ml-4">
-                      Every authoring job gets its own tool, with a hard gate that won't let an LLM grade its own work.
+                      Deployed into a real agent's Saturday — and instrumented so the pilot was allowed to come back with an unwelcome answer.
                     </p>
                   </div>
-                  
+
                   <!-- Key Metrics with glass effect -->
                   <div class="flex flex-wrap gap-4">
                     <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
+                      <div class="text-3xl font-bold text-accent-primary mb-1">7</div>
+                      <div class="text-sm text-text-tertiary font-semibold">Questions, no login, &lt;90 seconds</div>
+                    </div>
+                    <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
+                      <div class="text-3xl font-bold text-accent-primary mb-1">3</div>
+                      <div class="text-sm text-text-tertiary font-semibold">Defects only field use could find</div>
+                    </div>
+                    <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
                       <div class="text-3xl font-bold text-accent-primary mb-1">0</div>
-                      <div class="text-sm text-text-tertiary font-semibold">False-passes at threshold</div>
-                    </div>
-                    <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
-                      <div class="text-3xl font-bold text-accent-primary mb-1">10</div>
-                      <div class="text-sm text-text-tertiary font-semibold">Gold-set items (2 adversarial)</div>
-                    </div>
-                    <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
-                      <div class="text-3xl font-bold text-accent-primary mb-1">18</div>
-                      <div class="text-sm text-text-tertiary font-semibold">Prompts → agents &amp; skills</div>
+                      <div class="text-sm text-text-tertiary font-semibold">Cross-campaign identity keys</div>
                     </div>
                   </div>
                   

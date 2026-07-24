@@ -1,0 +1,72 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Per-agent isolation on a deny-all datastore'
+tagline: 'When the database enforces nothing, every authorisation decision is application code — so the surface has to be small, ordered, and provable'
+description: 'Firestore rules deny every client read and write, so the Admin SDK bypasses them and authorisation lives entirely in server code. I built the three-layer auth chain that isolates each agent’s data, and an end-to-end suite that forges nothing: it mints real session cookies through the app’s own sign-in route, then drives all 16 campaign-scoped mutating actions across the boundary and proves each one is denied and writes nothing.'
+client: 'qpIQ · Stori Ventures'
+role: 'Solo Founder & Engineer'
+timeline: '2026'
+audience: 'Engineering teams whose datastore rules are off and whose authorisation is therefore all application code'
+tools: ['Firestore', 'Firebase Admin SDK', 'Next.js App Router', 'TypeScript', 'Firebase Emulator Suite', 'Server Actions']
+agenticStack: ['OpenSpec requirement/scenario specs', 'CLAUDE.md invariants as project memory', 'Agent-assisted security review pass', 'Emulator-backed isolation harness']
+heroImage: '/images/qpiq-isolation-hero.svg'
+metrics:
+  - label: 'Mutating actions proven denied, writing zero bytes'
+    value: '16'
+  - label: 'Auth layers — none a substitute for another'
+    value: '3'
+  - label: 'Forged sessions anywhere in the test suite'
+    value: '0'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+Firestore's security rules are **deny-all for clients**. The browser SDK is used for Firebase Auth and nothing else; every read and write goes through the Admin SDK on the server — and the Admin SDK bypasses rules entirely.
+
+That is a deliberate trade, and it has a bill attached. There is no database-level backstop. If one server action forgets to check who is asking, one agent reads another agent's buyers — names, mobile numbers, and what those people said about a property while believing it stayed anonymous. The rules file cannot save you, because you turned it off on purpose. **Every authorisation decision is now application code**, so the only defensible version is one where that code is small enough to audit and ordered correctly enough to trust.
+
+## Architecture & why
+
+<MermaidDiagram diagram={`flowchart TD
+    R["Request → /console/campaigns/{id}"] --> P["1 · Edge proxy<br/>cookie PRESENT? redirect if not<br/><i>reads no attendee data — edge is non-AU compute</i>"]
+    P --> A["2 · requireAgent()<br/>verifySessionCookie(checkRevoked)<br/>+ allowlist re-check, every request"]
+    A --> O["3 · requireOwnedCampaign(campaignId, agentId)<br/>await FIRST — never raced in Promise.all"]
+    O -->|"owns it"| Y["Campaign returned → reused, not re-fetched"]
+    O -->|"doesn't own it, or doesn't exist"| N["notFound() — 404, never 403"]
+    Y --> S["opens · attendees · participations<br/>responses · reports<br/><i>subcollections — protected transitively</i>"]
+`} />
+
+- **Decision: deny-all rules plus server-side checks, rather than token-scoped client rules.** *Alternative rejected:* per-token Firestore rules letting unauthenticated buyers read their own survey document directly. *Why:* rules for unauthenticated token-scoped reads are fiddly and easy to get subtly wrong, and the blast radius of "subtly wrong" here is attendee PII. A deny-all rule set with authorisation in reviewable server code is a smaller, more auditable attack surface — provided you then treat that server code as the security boundary it now is.
+
+- **Decision: one data-access module is the only legal import surface.** *Alternative rejected:* importing `firebase-admin` wherever a query is convenient. *Why:* with the rules enforcing nothing, the property worth having is *"every read and write in this system goes through one directory."* Adding a query means adding a function there. Reaching around it doesn't just break a convention — it defeats the entire authorisation model, so the rule is stated in project memory as a hard invariant rather than left to taste.
+
+- **Decision: three layers, each doing one job, none a substitute for another.** *Alternative rejected:* a single middleware check, which is what most App Router codebases do. *Why:* middleware runs at the edge, and the edge is non-Australian compute — reading attendee data there is a cross-border disclosure under APP 8. So layer 1 checks cookie *presence* and redirects, deliberately reading nothing. Layer 2 does the real verification. Layer 3 is the per-agent boundary.
+
+- **Decision: nest everything under the campaign.** Opens, attendees, participations, responses and reports are all subcollections of `campaigns/{campaignId}`, so **one ownership check at the campaign boundary transitively protects everything beneath it**. *Alternative rejected:* top-level collections carrying a `campaignId` field. *Why:* those look identical in a data browser and behave completely differently — a new top-level collection silently escapes the boundary, and nothing fails to tell you.
+
+- **Decision: `requireOwnedCampaign` is `await`ed *before* any campaign-scoped read, never racing it in a `Promise.all`.** *Alternative rejected:* the obvious parallelisation, saving a round-trip on every console page. *Why:* racing them means the nested read is already in flight when ownership is denied — and on the two pages that also *write*, it means writing on behalf of an agent who does not own the campaign. Those two carry a comment marking the ordering as load-bearing, because it looks exactly like a missed optimisation to the next person who reads it.
+
+- **Decision: 404, never 403.** *Alternative rejected:* an honest "forbidden". *Why:* a 403 confirms the thing exists. A non-owned campaign and a non-existent one must be indistinguishable, and the admin surface must not reveal it exists to a signed-in non-admin.
+
+- **Decision: fail closed as the default shape, not as error handling.** Environment accessors return `null` when unset and every caller treats that as deny — an empty admin list means nobody is an admin, an unset cron secret refuses every cron hit, a missing campaign is denied. Two of these were bugs once: `verifySessionCookie` is called **with `checkRevoked`**, without which a 14-day cookie outlives the Firebase user being disabled or deleted; and the allowlist's Firestore read is bounded at **3 seconds with the timeout resolving to "not a match"**, so an unreachable Firestore degrades fast and closed instead of hanging 45 seconds into a gateway timeout.
+
+## Evals / validation
+
+The suite's defining property is that **nothing is forged**. It signs in through the Auth emulator's REST API for a genuine ID token, exchanges it at the app's own `POST /api/auth/session`, and uses the session cookie that `createSession()` actually minted. So the allowlist gate, the `email_verified` gate and `requireOwnedCampaign` all execute exactly as they would for a browser — a suite that hand-built a cookie would prove nothing about the code that checks it.
+
+- **The mutation harness is the centrepiece: all 16 campaign-scoped mutating server actions**, each invoked as agent B against agent A's campaign. Server actions can't be driven over HTTP without Next's build-time action ids, so they're called in-process with *only* Next's request-context modules stubbed — `next/headers` returns agent B's real session cookie, `next/navigation` throws catchable sentinels. Every security-relevant step still runs for real. Each action must satisfy **two** conditions: throw `notFound()`, **and** leave agent A's data byte-identical, verified by snapshotting before and after every single call. A denial that quietly wrote first would pass a naive assertion and fail this one.
+- **A control case that proves the harness isn't lying.** The same action against agent B's *own* campaign must succeed — otherwise 16 green 404s are equally consistent with a correct boundary and a broken test rig.
+- **71 pass/fail checks** across the HTTP walkthrough (GET surfaces 404 for a second agent, an outsider, and an `email_verified: false` address), the onboarding and access-request queue, and the remaining spec scenarios.
+- **A fail-closed drill that runs as its own process**, because it needs environment the application can never be in: the env allowlist fallbacks *unset* — otherwise they'd grant access without a Firestore read and the collection's real behaviour would never be exercised — and Firestore pointed at a dead port. Four probes: healthy member ⇒ granted, empty allowlist ⇒ denied, blank email ⇒ denied, unreadable allowlist with a genuine member ⇒ **denied**. Crucially, a **throw is reported as its own outcome and is not a pass**: a 500 is not a denial, and the distinction is the whole point of the drill.
+- **148 unit tests across 22 files** on the pure modules the gates are built from — allowlist normalisation and parsing, campaign ownership, the purge clock, scoring, funnel maths — each kept dependency-free specifically so the membership rules are directly testable without a server.
+
+## Outcome
+
+- **16 of 16 mutating actions denied across the boundary, with agent A's data byte-identical after every attempt** — the "denied but wrote anyway" failure mode is excluded by construction, not by inspection.
+- **Zero forged credentials in the entire suite.** Every session it uses was minted by the application's own sign-in path.
+- **An unreachable allowlist backend degrades in ~3 seconds to *denied*** rather than hanging into a gateway timeout — and the drill proves the difference between denying and merely erroring.
+- **The isolation rules are written down as requirements with WHEN/THEN scenarios**, not carried as tribal knowledge — including the ones that are counter-intuitive enough to be "optimised away" later: await ordering, 404-never-403, and the ban on new top-level campaign-keyed collections.
+
+> Built solo. The threat model here is mundane and unglamorous — no attacker, just an ordinary missing check on an ordinary Tuesday — which is exactly why the proof has to be mechanical rather than a reading of the code.
