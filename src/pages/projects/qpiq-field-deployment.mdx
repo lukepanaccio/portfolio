@@ -1,0 +1,73 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'Field-deployed buyer survey pilot'
+tagline: 'Shipping into a real-estate agent’s Saturday — and designing the pilot so it was allowed to fail'
+description: 'After a Saturday open home, Monday is a guessing game: who was actually interested, and who was being polite. I built qpIQ — buyers answer 7 questions on their phone in under 90 seconds, the agent gets a ranked call list and a vendor-ready report. The engineering that mattered was not the survey. It was refusing the features that would have made the data untrustworthy, and pre-registering a counterfactual so the pilot could return a real answer.'
+client: 'qpIQ · Stori Ventures'
+role: 'Solo Founder & Engineer'
+timeline: '2026'
+audience: 'Teams deploying a system into someone else’s workflow, where adoption is the hard part'
+tools: ['Next.js App Router', 'TypeScript', 'Firestore', 'Firebase Auth', 'Vercel', 'Resend', 'Australian Privacy Principles']
+agenticStack: ['OpenSpec spec-driven change process', 'CLAUDE.md project memory', 'Path-scoped rules', 'Claude Code GitHub Action', 'Per-PR preview environments']
+heroImage: '/images/qpiq-field-hero.svg'
+demoLink: 'https://qpiq.app'
+metrics:
+  - label: 'Buyer questions — no login, under 90 seconds'
+    value: '7'
+  - label: 'Defects found by real field use, all fixed and spec’d'
+    value: '3'
+  - label: 'Cross-campaign buyer identity keys'
+    value: '0'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+After a Saturday open home, an agent has a stack of business cards and a fading memory. Monday morning they ring people in whatever order feels right, and the vendor call is *"people seemed interested"* — because that is genuinely all they have. Every incumbent attempt to fix this fails the same way: it asks the agent to type their impression of each buyer into a form. That is not data. That is the agent's gut feel, relabelled, and it is work nobody does at 4pm on a Saturday.
+
+So the product had exactly one wedge — **the buyer submits the data, not the agent** — and the deployment had one real risk, which was never technical. A tool that an agent uses twice and abandons produces a clean event log and a worthless answer.
+
+## Architecture & why
+
+Most of these decisions are about what the system refuses to do.
+
+<MermaidDiagram diagram={`flowchart LR
+    A["Buyer at the open"] -->|"scans per-open QR"| B["Self-registration<br/>name + mobile + express consent"]
+    A2["Agent types a name"] --> B
+    B --> C["Attendee + participation<br/>inside ONE campaign silo"]
+    C -->|"agent sends from<br/>their own phone"| D["Personal survey link"]
+    D --> E["7 questions · no login · &lt;90s"]
+    E --> F["Ranked Monday call list<br/>Hot / Warm / Cool + reason"]
+    E --> G["Vendor report<br/>aggregates only, never a name"]
+    C -.->|"90-day clock"| H["PII purge"]
+`} />
+
+- **Decision: the buyer submits the data; there is no per-attendee agent transcription anywhere in the loop.** *Alternative rejected:* the incumbent pattern — the agent rates each attendee after the open. *Why:* it recreates the exact failure it claims to solve. It costs the agent the most time at the moment they have the least, and what comes out is the gut feel you were trying to replace, now wearing a number.
+
+- **Decision: the invite SMS is sent from the agent's own phone. No SMS provider in v0.** *Alternative rejected:* automated sends through Twilio or a local aggregator. *Why:* a text from the number of the agent you just shook hands with gets opened. An unknown shortcode arriving an hour later does not — and in v0 the thing most likely to kill the pilot was a buyer not trusting the message. It also deferred Australian sender-ID registration and per-message cost until there was a reason to pay them. The provider work was later split into its own spec, deliberately blocked on a provider decision rather than guessed at.
+
+- **Decision: a per-open QR code buyers scan to register themselves.** *Alternative rejected:* keep the agent typing names at the door. *Why:* the agent-facing cost of the whole product was about two minutes of typing per open, and that two minutes *was* the adoption risk. Because self-registration is unattended, it can never stop to ask a question: a mobile that already exists in the campaign silently reuses that attendee and adds a participation, rather than forking into two people or blocking on a prompt nobody is standing there to answer.
+
+- **Decision: every campaign is a sealed PII silo. There is no global buyer identity.** *Alternative rejected:* one buyer record linked across properties — the obvious flywheel, and the thing that makes the dataset valuable. *Why:* correlating a person across properties engages the "trading in personal information" carve-out in Australian privacy law, and more importantly it breaks the promise the survey makes to the buyer. A buyer is disclosing negotiating-relevant information to the counterparty's agent. The anonymisation promise is load-bearing: break it once and the model is dead. Attendee identity, tokens, opt-out state, and the 90-day purge clock are all campaign-scoped, and the same person at two properties is two unrelated records that nothing joins.
+
+- **Decision: custom domain, and zero third-party requests on any public page.** *Alternative rejected:* a `*.vercel.app` preview host and the usual analytics tag. *Why:* link distrust is the first filter — a buyer who doesn't trust the link never reaches question one, so legitimacy here is functional, not cosmetic. Compute is pinned to Sydney as well as storage, because US-default serverless reading attendee PII is a cross-border disclosure under APP 8, not merely a latency choice.
+
+## Evals / validation
+
+The pilot's question was never "does the software work." It was **does structured buyer feedback change what the agent actually does on Monday** — and that question is only answerable if it can come back *no*.
+
+- **A pre-registered counterfactual.** Before each open's follow-up list is visible, the agent submits their own top 3 from memory, plus anyone who surprised them, plus a **1–5 confidence rating** so a miss on a "5" weighs more than a miss on a "1". Without that capture, *"the list matched who I'd have called anyway"* is unfalsifiable — it is equally consistent with the tool being brilliant and with it being useless. Deliberately a Google Form and not a product feature, so building it could never become a reason to skip it.
+- **Pass/fail gates committed before the pilot ran**, not chosen afterwards from whatever the data supported: 35% invite→complete, 80% start→finish, as distinct-attendee rates.
+- **Honest denominators, enforced in code.** `link_opened` fires on the bare GET but creates no response document, so link-preview scanners and mail-scanner fetches cannot mint phantom starts. `survey_started` fires only on the first *persisted answer*. The vendor report's "first viewed" is stamped by a first-party human-interaction beacon, never by the raw fetch that mail scanners fire on delivery. One shared funnel module serves the digests and the admin stats page, so no two surfaces can quietly disagree about capture rate.
+- **Dead-man's-switch reporting.** The daily and weekly digests send even when there is no activity, stating so. A missing email therefore always means breakage and never a quiet week — the failure mode where instrumentation dies silently and the pilot keeps "running" is designed out.
+- **A weekly debrief script written to avoid leading the witness** — the agent is asked to walk through their Monday calls *before* being shown the tool's ranking.
+
+## Outcome
+
+- **Live in production with a real agent on a real campaign**, running the full cycle: intake → invite → survey → ranked call list → vendor report → 90-day purge.
+- **Three defects that only field use could find, all fixed and folded back into the specs.** Closing a campaign hid QR self-signup, invites and report sending with **no way back** — found live on a production property, fixed as a `reopenCampaign` counterpart. Reopening that same property surfaced a duplicate QR block left over from an earlier layout. And an agency's Microsoft 365 / MailGuard gateway **silently swallowed** an invite: SPF, DKIM and DMARC were all clean on our side, and the identical email to a personal address delivered instantly.
+- **That third one changed the runbook, not just the code.** Nothing in the product could fix another company's mail filter, so in-person onboarding now watches the invite land before leaving, and switches to a personal address on the spot if it hasn't arrived in two minutes. Cheaper to catch while standing next to the agent than to have them quietly assume they were forgotten.
+- **7 questions, under 90 seconds, no login** — against an agent-side cost of roughly two minutes per open, which is the number that decides whether any of the rest of it matters.
+
+> Built solo as founder and engineer. The pilot's behaviour-change read is still open at the time of writing — the buyer-side numbers are deliberately not claimed here. What this piece defends is the deployment: the constraints chosen, the features refused, and a pilot instrumented so it can return an unwelcome answer instead of a flattering one.
