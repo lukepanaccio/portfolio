@@ -8,7 +8,11 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "npm run build && npx gh-pages -d dist -t"
+    "deploy": "npm run build && npx gh-pages -d dist -t",
+    "jobs:index": "node .claude/skills/job-application/scripts/index-case-studies.mjs",
+    "jobs:new": "node .claude/skills/job-application/scripts/new-application.mjs",
+    "jobs:pdf": "node .claude/skills/job-application/scripts/render-doc.mjs",
+    "jobs:bundle": "node .claude/skills/job-application/scripts/bundle-skill.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^3.1.9",
