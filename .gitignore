@@ -3,8 +3,11 @@ node_modules
 # macOS system files
 .DS_Store
 
-# Job applications (private)
+# Job applications (private — per-role analyses, fit verdicts, comp notes)
 job-applications/
+
+# Packaged job-application skill for Claude chat upload (build artifact)
+dist-skill/
 
 # Case-study intake briefs (private — contain confidential internal detail)
 intake briefs/
