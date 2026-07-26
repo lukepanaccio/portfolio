@@ -36,7 +36,49 @@ if (!existsSync(srcPath)) {
   process.exit(1);
 }
 
+const rawFlag = args.includes('--raw'); // opt out of ATS sanitisation (rarely wanted)
+
 let raw = readFileSync(srcPath, 'utf8');
+
+/* ── ATS sanitisation ─────────────────────────────────────────────────────────
+ * Applicant tracking systems extract plain text and match it against the
+ * requisition. Non-ASCII "typographic" characters are where that quietly breaks:
+ * strict parsers (Workday is the usual culprit) strip them, replace them with a
+ * question mark, or skip the whole line — and a skipped skills line is a lost
+ * keyword set, which is the difference between a screen-in and a silent reject.
+ *
+ * So the SENT document is normalised to ASCII. This is not cosmetic — it's the
+ * one transform standing between a nicely-typeset markdown file and a resume that
+ * parses everywhere. The map covers the characters this system actually emits
+ * (middot separators, arrows, math signs, smart quotes, the U+2212 minus, en/em
+ * dashes). Dashes collapse to hyphens too: it removes a mild parse risk AND the
+ * single most-cited "this was written by AI" tell, at no cost to meaning.
+ *
+ * `--raw` opts out, for the rare case the output isn't going through an ATS.
+ */
+const ATS_MAP = [
+  [/[\u00A0\u2007\u202F\u2009\u2002\u2003]/g, " "], // no-break / figure / narrow / thin / en / em spaces
+  [/[\u2018\u2019\u201A\u201B]/g, "'"],           // smart single quotes
+  [/[\u201C\u201D\u201E\u201F]/g, '"'],           // smart double quotes
+  [/\u2026/g, "..."],                             // ellipsis
+  [/\s*[\u2192\u21D2\u279C\u2794\u276F\u27A4\u2799]\s*/g, " to "], // arrows -> "to"
+  [/\u00D7/g, "x"],                               // multiplication sign
+  [/\u2212/g, "-"],                               // minus sign
+  [/[\u2013\u2014\u2015]/g, "-"],               // en / em / horizontal dash -> hyphen
+  [/\s*[\u00B7\u2022\u2023\u2043\u25AA\u25CF\u2027]\s*/g, ", "], // middot / bullet separators -> comma
+  [/\u2011/g, "-"],                               // non-breaking hyphen
+  [/[\u200B\uFEFF]/g, ""],                       // zero-width space / BOM
+];
+
+function sanitizeForATS(s) {
+  let out = s;
+  let changes = 0;
+  for (const [re, sub] of ATS_MAP) {
+    out = out.replace(re, (m) => { changes += 1; return sub; });
+  }
+  out = out.replace(/ {2,}/g, ' ').replace(/ +$/gm, ''); // tidy the doubled spaces the map can leave
+  return { text: out, changes };
+}
 
 /* ── guards: things that must never reach a sent document ─────────────────── */
 
@@ -49,6 +91,25 @@ if (/`(applied-AI|platform|security|forward-deployed|devex|founding|learning|lea
 }
 if (/<!--/.test(raw)) {
   warnings.push('contains HTML comments (scaffold instructions) — they are stripped from the PDF, but check nothing was left unwritten.');
+}
+if (/^\s*\|.*\|\s*$/m.test(raw)) {
+  warnings.push('contains a markdown table — tables are ATS-hostile (strict parsers scramble or drop them) and this renderer does not lay them out. Rewrite the rows as plain lines or bullets.');
+}
+
+/* Sanitise, then report. Silent normalisation would hide a real change to the
+ * document from the person about to send it, so the count is surfaced. */
+let sanitisedNote = null;
+if (!rawFlag) {
+  const { text, changes } = sanitizeForATS(raw);
+  raw = text;
+  if (changes) sanitisedNote = `normalised ${changes} non-ASCII character(s) to ATS-safe ASCII (use --raw to keep the originals)`;
+}
+
+/* Anything non-ASCII left after sanitising is unexpected — an accented name is
+ * fine, an exotic glyph the map missed is worth a look before it ships. */
+const residual = [...new Set((raw.match(/[^\x00-\x7F]/g) || []))];
+if (residual.length) {
+  warnings.push(`still contains non-ASCII after sanitising: ${residual.map((c) => JSON.stringify(c)).join(' ')} — confirm these parse, or replace them.`);
 }
 
 /* ── markdown → html (deliberately small subset) ──────────────────────────── */
@@ -137,8 +198,13 @@ const CSS = `
   h1 + ul li { margin-bottom: 1.5pt; }
 `;
 
+// PDF title metadata: prefer the document's own H1 (e.g. "Luke Panaccio") over the
+// filename, so the PDF identifies itself sensibly in a viewer's title bar.
+const h1 = /^#\s+(.*)$/m.exec(raw);
+const docTitle = (h1 ? h1[1] : outName || basename(srcPath, '.md')).replace(/[*_`]/g, '').trim();
+
 const html = `<!doctype html><html lang="en-AU"><head><meta charset="utf-8">
-<title>${esc(basename(srcPath, '.md'))}</title><style>${CSS}</style></head>
+<title>${esc(docTitle)}</title><style>${CSS}</style></head>
 <body>${toHtml(raw)}</body></html>`;
 
 /* ── render ──────────────────────────────────────────────────────────────── */
@@ -167,6 +233,7 @@ await page.pdf({ path: outPath, format: 'A4', printBackground: false, preferCSSP
 await browser.close();
 
 console.log(`✓ ${outPath.replace(process.cwd() + '/', '')}`);
+if (sanitisedNote) console.log(`  ${sanitisedNote}`);
 
 if (warnings.length) {
   console.error('\n! Before sending:');

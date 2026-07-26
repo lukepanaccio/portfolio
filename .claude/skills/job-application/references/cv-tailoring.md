@@ -38,6 +38,7 @@ Applicant tracking systems parse text and match against the requisition. What ma
 - **Single column, standard headings** (Experience, Education, Skills). Multi-column layouts, text boxes, and header/footer content parse unreliably.
 - **No tables for content.** Some parsers flatten them into unreadable order.
 - **No images, icons, or graphics** carrying information. A logo is fine; a skills chart is a black hole.
+- **ASCII characters only.** Strict parsers (Workday especially) strip, question-mark, or skip lines containing typographic glyphs — and a skipped skills line is a lost keyword set. Separate skills and tools with **commas, not middots (`·`)**; write ranges and diffs with hyphens (`0 to 9`, `60-80 hours`, not `0→9`, `60–80`); avoid arrows (`→`), math signs (`×`, `−`, `≥`) and smart quotes. `render-doc.mjs` normalises these to ASCII automatically and reports what it changed, but write ASCII in `02-cv.md` so the source is clean and you can see exactly what ships.
 - **PDF unless the portal specifies .docx.** Generate the PDF from text, not from a design tool that outlines fonts.
 - **Skills section is real estate, not decoration.** List the tools and methods the ad names, if true. Skip proficiency bars — they parse as nothing and mean nothing.
 

@@ -36,6 +36,16 @@ These are the failure modes that make a letter read as generated or generic. Che
 - **Overclaiming.** Anything in the letter is fair game in the interview. Never write a claim the user can't defend for five minutes under questioning.
 - **Em-dash-and-triad rhythm.** Long sentences that stack three parallel clauses, chained with dashes, in a rhythm that reads as machine-smooth. Vary sentence length aggressively. Let some sentences be short.
 
+## AI-detection — the gate you can actually lose on
+
+Most employers now run cover letters past an AI-slop detector (Originality.ai, GPTZero, Copyleaks and similar), and a 2026 TopResume survey found ~67% of hiring managers believe they can spot an AI letter and ~54% view it negatively. These tools are triage flags, not verdicts — but a flag gets the letter deprioritised or skimmed, and that's a rejection you never see. The important distinction in the current market: **AI-as-editor is accepted** (cleaning up phrasing of real accomplishments, like using a resume coach); **AI-as-ghostwriter is penalised** (generic prose with no specific, defensible content). This whole workflow is built to stay on the right side of that line, so the letter must read as Luke-with-an-editor, never as a generated draft. Concretely:
+
+- **Kill the em-dash reflex.** Heavy em-dash use is the single most-cited AI tell. Luke's real writing uses none (see `voice.md`); use his semicolons and full stops. The renderer converts any stray dash to a hyphen, but the prose should not lean on them in the first place.
+- **Specificity is the strongest signal of a human.** A real number, a named system, a decision only Luke could describe defeats a detector far more reliably than any phrasing trick, because generated prose is generic by nature.
+- **Vary sentence length and opening.** Uniform medium-length sentences all opening with the subject read as machine output. His accreting, semicolon-joined rhythm with the occasional four-word line is the antidote.
+- **No boilerplate enthusiasm, no tricolons, no "moreover/furthermore".** These are register markers detectors and humans both key on.
+- **Do not run the final letter through an AI paraphraser to "beat" a detector.** It strips the voice and the specificity, which is exactly backwards. Fix the prose, don't launder it.
+
 ## Voice
 
 The letter must sound like the user. Draw on:

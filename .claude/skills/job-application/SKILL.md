@@ -156,9 +156,16 @@ marcus-aurelius-bot.fly.dev, docs.commercetools.com/docs/learning.
 ## Step 7 — Produce the sendable files
 
 ```bash
-npm run jobs:pdf -- job-applications/<slug>/02-cv.md
-npm run jobs:pdf -- job-applications/<slug>/03-cover-letter.md
+npm run jobs:pdf -- job-applications/<slug>/02-cv.md --name "Panaccio-Luke-CV-<Company>"
+npm run jobs:pdf -- job-applications/<slug>/03-cover-letter.md --name "Panaccio-Luke-CoverLetter-<Company>"
 ```
+
+The renderer produces ATS-safe output on purpose — single column, standard headings, real selectable
+text, no graphics — and **normalises every non-ASCII character to ASCII** (middots to commas, arrows
+to "to", en/em dashes to hyphens, smart quotes to straight), because strict parsers drop lines that
+contain them. It prints how many it changed and refuses to pass clean while `[verify]` markers,
+role-family tags, or a markdown table remain. Read that output; a non-zero exit means something still
+needs fixing before the file is sendable.
 
 Naming, per `references/cv-tailoring.md`: `Panaccio-Luke-CV-<Company>.pdf` and
 `Panaccio-Luke-CoverLetter-<Company>.pdf`. Before declaring done, run the pre-send checklist in

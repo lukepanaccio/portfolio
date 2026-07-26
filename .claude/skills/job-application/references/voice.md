@@ -37,22 +37,27 @@ plausible-but-wrong voice fails at interview, when the person doesn't match the 
 6. **State conviction plainly.** "At 3 Steps Away, we don't wonder; we know it is worthwhile." No
    "I believe I could." He asserts, then backs it.
 7. **Build by accretion, not by triads.** Sentences open with "And", "But", "So". Long sentences grow
-   clause-by-clause joined with "and" — the opposite of the machine-smooth parallel-triad rhythm.
-   Keep this; it's also *why* his em-dashes read human — the clauses around them are uneven and
-   alive.
+   clause-by-clause joined with "and", the opposite of the machine-smooth parallel-triad rhythm. His
+   connective punctuation is the **semicolon and the parenthesis**, not the em-dash (see Mechanics).
 
 ## Mechanics
 
 - **Contractions: yes, throughout.** "it's", "we're", "don't", "can't". He does not write "cannot"
-  for gravitas — that was the Claude case-study voice. Keep him contracted.
+  for gravitas; that was the Claude case-study voice. Keep him contracted.
 - **Sentence length: vary hard, lean flowing.** A three-to-six-word line for the turn, then a longer
   accreting sentence. Not uniformly clipped.
-- **Semicolons, used loosely and a little idiosyncratically.** "It's challenging; but as Micah
-  Bournes speaks below, it's also very much rewarding." Fine to keep one; don't litter a formal
-  letter with them.
-- **Em-dashes: genuinely his** — conversational, not the parallel-triad the cover-letter reference
-  warns against. The triad is the thing to avoid; his uneven dashes are not that, so don't strip
-  them.
+- **The semicolon is his signature join.** "It's one of those things you will hear us repeat over
+  and over; how can you break this down into manageable chunks?" He reaches for a semicolon where
+  many would use a full stop or a dash. Keep them; they read as him. (Ease off in a very formal
+  letter, but they're an asset, not a tic.)
+- **Parenthetical asides**, warm and frequent: "(ask your parents!)", "(yet again)". Dial the
+  chattiness down for a hiring manager, but a dry parenthetical is on-voice.
+- **Em-dashes: NOT his — this was miscalibrated and is corrected here.** His own writing uses **zero**
+  em-dashes across ~2,500 words; the em-dash-heavy style in the portfolio case studies is Claude's,
+  not Luke's. So don't reach for em-dashes to sound like him — you'll sound like the wrong author,
+  and heavy em-dash use is also the single most-cited "written by AI" tell (see the AI-detection note
+  in `cover-letter.md`). Use his semicolons, colons, and full stops instead. The renderer converts
+  any stray dash to a hyphen on the way to PDF, but fix it in the prose first.
 - **Australian spelling** throughout: colour, colonisation, realise, centre, programme, prioritise.
 - **Repetition for rhythm:** "people, all people, all around the world"; "over and over". Sparingly
   in a letter, but it's his.
