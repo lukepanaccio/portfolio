@@ -276,33 +276,36 @@ worth making reviewable.
 
 ## Voice samples
 
-Unedited excerpts from Luke's own case-study prose. A letter must sound like this. Fuller guidance
-in `references/voice.md`; the source of truth is `src/pages/projects/*.mdx`.
+Short excerpts from Luke's **own** writing — the 3 Steps Away platform copy, written for an audience
+of educated teenagers. **This is the voice source, not the portfolio case studies** — those were
+drafted by Claude and must not be used to calibrate his voice. The register here is informal and
+applications aren't; `references/voice.md` explains which parts carry over and which to dial up. The
+full corpus is in `job-applications/_private/voice-samples.md` (gitignored).
 
-**On agent-scale code review:**
+**Plain opener, then a personal stake:**
 
-> An agent can produce a plausible thousand-line pull request in a few minutes. One person cannot
-> review a thousand plausible lines in a few minutes, and "plausible" is precisely the failure mode
-> — the code compiles, the tests it wrote pass, and a requirement nobody restated has quietly gone
-> missing.
+> Big things are always made up of many small things. Whenever I'm feeling overwhelmed by a
+> particular project, I settle my anxiety down by breaking down the project into smaller chunks and
+> turning them into a list of some sort.
 
-**On the real-estate product's wedge:**
+**The italic pivot — the turn of the argument, on its own short line:**
 
-> After a Saturday open home, an agent has a stack of business cards and a fading memory. Monday
-> morning they ring people in whatever order feels right, and the vendor call is *"people seemed
-> interested"* — because that is genuinely all they have. Every incumbent attempt to fix this fails
-> the same way: it asks the agent to type their impression of each buyer into a form. That is not
-> data. That is the agent's gut feel, relabelled, and it is work nobody does at 4pm on a Saturday.
+> It can feel like none of us have any power to change even a small bit of it; it's all just so big.
+> *But we can affect change.*
 
-**On why a documented failure beats a fixed one:**
+**Defining by grounding, not abstracting:**
 
-> The agent re-reads the rule file every session and remembers nothing between them. A documented
-> failure mode is a permanent fix; a remembered one lasts until the next context window.
+> Justice is one of those words that is super tricky to have a simple and clear cut definition […]
+> *Justice is fairness.* It's doing what is right.
 
-**On guarantees:**
+**Personal reaction as the way in:**
 
-> The guarantee has to survive a tired person on a Friday. A new email module that called the
-> provider directly would silently escape the guard, so the guard is the only door.
+> The war in Ukraine has been dominating headlines the past week. Personally, it has felt like I'm
+> watching a history textbook play out in real time.
+
+**Conviction, stated plainly:**
+
+> At 3 Steps Away, we don't wonder; we know it is worthwhile.
 
 ---
 
