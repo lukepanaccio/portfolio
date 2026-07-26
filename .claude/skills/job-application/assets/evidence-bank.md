@@ -263,14 +263,17 @@ Regenerate with `npm run jobs:index` after editing `portfolio-judgements.md` or 
 |---|---|
 | AbletonMCP PR #106 — public repo, upstream PR, 13 tests | https://github.com/lukepanaccio/ableton-mcp |
 | qpIQ — live product | https://qpiq.app |
+| storipro — live product (branded "Stori") | https://storipro.ai |
 | Marcus Aurelius — live voice demo | https://marcus-aurelius-bot.fly.dev |
 | commercetools learning platform — shipped work | https://docs.commercetools.com/docs/learning |
 | This portfolio — 21 case studies | https://www.lukepanaccio.com |
 
-**Not linkable** — qpIQ, storipro, Marcus and Second Brain repos are private; commercetools work is
-internal. For those, link the case study, which is written to carry the architecture and the
-reasoning without the source. If a role probes deeply, the `marcus` and `brain` repos are the two
-worth making reviewable.
+**Not linkable (source only)** — qpIQ, storipro, Marcus and Second Brain **repos** are private, and
+commercetools work is internal, so none of those can be handed over as code. The live products
+themselves are a different matter: qpIQ and storipro both have public product pages worth including
+directly wherever those companies come up, not just the case study. For those, link the case study
+too, since it carries the architecture and reasoning the product page doesn't show. If a role probes
+deeply, the `marcus` and `brain` repos are the two worth making reviewable.
 
 ---
 
