@@ -62,3 +62,34 @@ Project copy follows a strict, documented standard — match it rather than writ
 - Vocabulary: production · ship · architecture · agentic · evals · pipeline · RAG · MCP · latency · cost · accuracy · single source of truth. Say **users / customers / developers**, never "learners."
 
 The full rules live in `case-study-intake.md` (the repo's intake template for turning a source repo into a calibrated case study) and `portfolio-reframing-guide.md` (the positioning/voice layer). Consult them before substantive content work.
+
+## The job-application system
+
+`.claude/skills/job-application/` is a **project skill** that turns a job ad into a targeted application: analyse the ad → assess honest fit → tailor the CV → draft a cover letter → pick portfolio evidence. Invoke it by pasting or linking a job ad, or via `/apply <url or text>`.
+
+It treats the case studies as the evidence base, which is why it lives here rather than in a separate repo.
+
+**The three-layer data model matters — don't collapse it:**
+
+| Layer | File | Who owns it |
+|---|---|---|
+| Mechanical facts | `assets/portfolio-index.md` | **Generated** from `src/pages/projects/*.mdx` frontmatter. Never hand-edit. |
+| Judgement | `assets/portfolio-judgements.md` | Hand-maintained: what each project *proves*, which role families to use it for, the linking one-liner, whether the artefact is presentable. |
+| Career inventory | `assets/evidence-bank.md`, `assets/master-cv.md` | Hand-maintained: proof stories, defensible numbers, voice samples, and the superset CV. |
+
+`master-cv.md` is the superset — **every bullet is tagged by role family** (`applied-AI`, `platform`, `security`, `forward-deployed`, `devex`, `founding`, `learning`, `leadership`). Tailoring is subtraction and reordering against those tags, not rewriting, so thirty applications can't contradict each other.
+
+**Adding a case study now has a third step.** Beyond creating the MDX file and adding it to the `projects` array in `index.astro`, add a `## <slug>` block to `portfolio-judgements.md` and run `npm run jobs:index`. The generator exits non-zero if any case study has no judgement block, so the omission surfaces rather than silently producing an index with holes in the two fields cover letters actually draw on.
+
+```bash
+npm run jobs:index                            # regenerate portfolio-index.md
+npm run jobs:new -- "Company" "Role Title"    # scaffold job-applications/<slug>/
+npm run jobs:pdf -- <file.md>                 # markdown → ATS-safe PDF (needs npm install)
+npm run jobs:bundle                           # → dist-skill/job-application.skill for Claude chat
+```
+
+**Privacy — this repo is public.** `job-applications/` is gitignored and holds per-role work plus `_private/strategy.md` (comp floor, non-negotiables, honest gaps, references, application log). Nothing from `_private/` goes into the chat bundle. The committed assets contain only material already published on the site. Keep it that way: if a new asset would embarrass or undercut Luke in a negotiation, it belongs under `job-applications/_private/`, not in the skill folder.
+
+`references/voice.md` is the voice layer for anything written *as* Luke, derived from his **own** writing in `references/Copywriting Samples.md` — **not** the portfolio case-study prose, which was written by Claude and calibrates to the wrong voice. Read it before drafting a letter. Note in particular that Luke's real signature is the **semicolon and the parenthetical**, and that his writing contains **no em-dashes** — the em-dash-heavy style on the site is Claude's, and heavy em-dash use is also a well-known AI-detection tell, so don't reproduce it.
+
+The Claude chat copy of this skill is a **snapshot** built by `jobs:bundle`. It drifts silently once the repo copy changes; rerun the bundle and re-upload after editing anything in the skill folder.
