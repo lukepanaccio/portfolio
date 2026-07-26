@@ -28,7 +28,9 @@
 - **Location:** Melbourne, Australia
 - **Work rights:** Australian and Italian citizen (dual passports) — full work rights across
   Australia, and the EU/EEA via Italian (EU) citizenship. No sponsorship required for AU or EU roles.
-- **Phone:** +61 449 540 092
+- **Phone:** kept out of this public file — see `job-applications/_private/strategy.md` and pull it
+  from there (or ask Luke directly) when generating a sendable CV. Never hardcode it here; this file
+  is committed to a public repo and the number is not published anywhere on the live site.
 
 ---
 
@@ -289,5 +291,7 @@ commercetools composable commerce — B2B modelling, carts and checkout, pricing
 
 ## References
 
-- **Sherif Ali** — Team Lead, Digital Learning, commercetools
-- Others on request
+Available on request. Named contacts, the relationship, and what each would vouch for are kept in
+`job-applications/_private/strategy.md`, not in this public file — naming a colleague here, in a
+public repo, in a job-application context is a real exposure for that person and for Luke's
+visibility with his current employer.

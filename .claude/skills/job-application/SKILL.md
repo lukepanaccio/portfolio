@@ -119,6 +119,11 @@ Two things specific to this profile:
 - **Resolve every `[verify]` marker** in `master-cv.md` before generating a sendable document —
   contact details, work rights, and the storipro/qpIQ dates. Ask him; don't guess. Work
   authorisation in particular is a hard gate on a lot of ads.
+- **Phone number is deliberately not in the public `master-cv.md`.** Pull it from
+  `../../../job-applications/_private/strategy.md` when writing `02-cv.md`. If that file is
+  unreachable (running from the Claude chat bundle), ask Luke for it directly rather than leaving it
+  blank or inventing a placeholder — never write a real phone number back into the committed
+  `master-cv.md`.
 
 Show the changes as before/after pairs so he can approve each one. See `references/cv-tailoring.md`
 for ATS mechanics, bullet patterns and the pre-send checklist.
