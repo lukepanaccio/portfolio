@@ -211,6 +211,7 @@ something a reader could go and look at.
 - `references/cover-letter.md` — structure and the anti-pattern list
 - `references/cv-tailoring.md` — ATS mechanics, bullet patterns, pre-send checklist
 - `references/voice.md` — Luke's voice, and the transition framing
+- `references/Copywriting Samples.md` — Luke's own writing; the voice source `voice.md` is built from
 - `assets/evidence-bank-template.md` — the blank template, kept for reuse
 - `scripts/extract_portfolio.py` — indexes *other* repos; the portfolio's own case studies come from
   `index-case-studies.mjs` instead

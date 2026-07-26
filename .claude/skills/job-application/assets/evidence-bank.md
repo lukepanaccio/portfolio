@@ -280,7 +280,7 @@ Short excerpts from Luke's **own** writing — the 3 Steps Away platform copy, w
 of educated teenagers. **This is the voice source, not the portfolio case studies** — those were
 drafted by Claude and must not be used to calibrate his voice. The register here is informal and
 applications aren't; `references/voice.md` explains which parts carry over and which to dial up. The
-full corpus is in `job-applications/_private/voice-samples.md` (gitignored).
+full corpus is in `references/Copywriting Samples.md`.
 
 **Plain opener, then a personal stake:**
 

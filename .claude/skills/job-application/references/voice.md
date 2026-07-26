@@ -13,10 +13,9 @@ you turn up for a hiring manager. Copy the skeleton, not the exclamation marks.
 
 ## Voice source
 
-Short excerpts are in `assets/evidence-bank.md`. The full corpus is in
-`job-applications/_private/voice-samples.md` (gitignored). Read the excerpts before drafting, not
-after — a letter in a plausible-but-wrong voice fails at interview, when the person doesn't match
-the page.
+The full corpus is `references/Copywriting Samples.md`; short excerpts are in
+`assets/evidence-bank.md`. Read one of them before drafting, not after — a letter in a
+plausible-but-wrong voice fails at interview, when the person doesn't match the page.
 
 ## The structural fingerprint — this is Luke, keep it
 
