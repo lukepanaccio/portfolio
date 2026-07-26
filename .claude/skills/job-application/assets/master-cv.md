@@ -24,10 +24,11 @@
 - **Email:** lukepanaccio@gmail.com
 - **Portfolio:** https://www.lukepanaccio.com
 - **GitHub:** https://github.com/lukepanaccio
-- **LinkedIn:** [verify — add URL]
-- **Location / work rights:** [verify — Melbourne, Australia? Add citizenship/visa status, since
-  it's a hard gate on a lot of ads]
-- **Phone:** [verify]
+- **LinkedIn:** https://www.linkedin.com/in/luke-p-b444b124b/
+- **Location:** Melbourne, Australia
+- **Work rights:** Australian and Italian citizen (dual passports) — full work rights across
+  Australia, and the EU/EEA via Italian (EU) citizenship. No sponsorship required for AU or EU roles.
+- **Phone:** +61 449 540 092
 
 ---
 
@@ -99,7 +100,7 @@ docs-as-code, frontend, and AI automation.
   platform for SaaS customers and partners.
 
 ### Solo Founder & Engineer — qpIQ (Stori Ventures)
-**2026** [verify dates] · B2B SaaS for Australian real-estate agents · https://qpiq.app
+**Feb 2026 – present** (primary focus from Jul 2026) · B2B SaaS for Australian real-estate agents · https://qpiq.app
 
 Solo-built: 146 commits, ~18k LOC TypeScript, ~22 test files plus an end-to-end isolation suite.
 Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Resend.
@@ -129,7 +130,7 @@ Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Rese
   PR-and-merge workflow.
 
 ### Technical Co-Founder — storipro (Stori Ventures)
-**2026** [verify dates]
+**Feb 2026 – present**
 
 - `platform` `security` Took a founder's billing prototype to real-money production after a stale
   test-mode customer ID silently charged a card $138 with nothing recorded in the system: root-caused
