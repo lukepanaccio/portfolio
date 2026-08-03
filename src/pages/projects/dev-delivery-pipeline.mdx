@@ -1,0 +1,68 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'An autonomous delivery pipeline that ships its own code'
+tagline: 'Nine loops write, review and ship the code. Two structural GitHub gates decide what goes live — never the agents’ good behaviour.'
+description: 'qpIQ runs nine autonomous Claude Code loops — backlog triage, reliability, security, maintenance, UX review and spec archival among them — that plan, implement and ship its own code on a schedule. Every consequential action is blocked by a structural GitHub mechanism, not agent good behaviour, so a prompt-injection attempt buried in an issue has no path to production. The system has already caught two of its own governance bugs and fixed both through the identical gate every other change goes through.'
+client: 'qpIQ'
+role: 'Technical Co-Founder'
+timeline: 'Jul-Aug 2026'
+audience: 'Teams that want AI to write and ship code unattended without betting the business on the AI behaving itself'
+tools: ['TypeScript', 'Next.js App Router', 'Vercel', 'Firebase Auth', 'Firestore', 'Resend', 'GitHub Actions', 'GitHub CLI/API', 'OpenSpec']
+agenticStack: ['Claude Code cloud scheduled sessions — 9 independently-scheduled loops', 'Event-driven claude-code-action GitHub Actions workflows', 'CLAUDE.md as the single guardrail every loop and entry point reads first', 'OpenSpec propose/apply/archive skills driving spec-then-code', 'Headless/CLI execution inside GitHub Actions runners']
+heroImage: '/images/dev-delivery-pipeline-hero.svg'
+demoLink: 'https://qpiq.app'
+metrics:
+  - label: 'PRs merged through the two-gate pipeline, zero gate breaches'
+    value: '115'
+  - label: 'Autonomous loops running unattended in production'
+    value: '9'
+  - label: 'Conflicting PRs from one flaw, fixed by one same-day change'
+    value: '6 → 1'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+A solo technical co-founder cannot personally implement, review, test and ship every change to a production SaaS product while also running the business behind it. qpIQ — a 90-second SMS survey tool that touches Australian real-estate agents' buyer PII — needed the throughput of several always-on engineers. But handing that throughput to unattended agents creates the opposite problem: a system that can touch the authorisation chain, campaign-ownership boundaries or PII handling incorrectly, with nobody watching in real time, is not a risk a live product with real user data can absorb.
+
+What runs today is nine separate Claude Code loops in production — the same agents that write, review, monitor and ship qpIQ's code, unattended, on a daily or weekly cadence. The interesting engineering problem was never getting agents to write code. It was designing the two things that decide whether any of that code reaches a real user: what stops an agent, and what happens when the system itself gets something wrong.
+
+## Architecture & why
+
+<MermaidDiagram diagram={`flowchart TD
+    L["9 loops — backlog · runsheet · triage<br/>reliability · security · maintenance<br/>UX review · spec archival · implementation"] --> W["Work: issues filed,<br/>PRs opened, findings raised"]
+    W --> G1{"Gate 1 — approved label<br/>owner-only, enforced in the workflow's own if:"}
+    G1 --> IM["Combined spec + implementation PR<br/>opened on its own branch"]
+    IM --> CI["CI: typecheck · lint · format · tests"]
+    IM --> RV["Automated review vs a fixed rubric<br/>+ a security pass on sensitive paths"]
+    CI --> G2{"Gate 2 — branch protection<br/>1 required owner approval, no bypass"}
+    RV --> G2
+    G2 --> M["Merge to main"]
+    M -.->|"folds into the canonical specs"| L
+`} />
+
+- **Decision: two gates, both enforced by GitHub itself, not by a prompt telling an agent to behave.** An `approved` label promotes an idea to implementation, and it can only be applied by the owner — checked in the workflow's own `if:` condition, since GitHub cannot enforce per-label write permissions on a personal repo. Branch protection requires one owner approval before `main`, with no bypass available to a non-admin. *Alternative rejected:* a third gate that approved the spec separately from the code, before implementation started. *Why:* a guardrail written into `CLAUDE.md` is a norm every loop restates to itself on every run; the real enforcement is structural. Folding the spec-approval gate into the same PR as the code it specifies removed a mergeable event without removing the review — the spec is still read, it just isn't a separately-mergeable step anymore.
+
+- **Decision: a PR claiming "no security review needed" must positively address every category in a fixed five-group table, not just the ones the author already suspected applied.** *Alternative rejected:* trusting the author's own scoped reasoning about which categories were relevant — which is exactly what the exemption process did before. *Why:* the weekly automated security loop, not a human, caught a merged PR whose exemption claim named two of the five groups and silently omitted the one its change actually fell under. The fix targets the shape of an incomplete claim generally, not just that one PR — a follow-up check confirmed the original PR's actual sentence would now visibly fail the new rule.
+
+- **Decision: every loop is a fresh, stateless session with no memory of its own last run; all durable state lives in GitHub, never in the loop.** *Alternative rejected:* a long-running or memory-persisting process that "remembers" prior runs. *Why:* one loop's first run hit a real sandbox limit — no network route to the product, no admin credential — and its own instruction (report what you can't verify, never guess a verdict) made it escalate honestly instead of asserting an all-clear. A stateless loop that says "I couldn't check" on a bad day is a safer failure mode than a stateful one that quietly assumes "probably fine, like usual."
+
+- **Decision: same-run archive branches now chain off each other instead of each forking fresh off `main`.** *Alternative rejected:* the original design, where every qualifying change gets its own branch off `main`. *Why:* six same-run archive PRs all touched the same append-point in a shared rules file; the instant the first one merged, the rest went conflicting and each needed manual reconciliation — a mechanical daily job turning into manual toil, the exact thing the loop exists to remove. Honest caveat: a milder version of the same defect had already happened once, at smaller scale, and wasn't fixed until it recurred at six times the size two days later. The fix was reactive to a second, bigger incident, not caught in the original design.
+
+## Evals / validation
+
+Two real production incidents doubled as an unplanned eval of the governance layer itself, and both closed through the identical two-gate pipeline they were testing — no carve-out for fixing the system's own bugs. A routine weekly security audit found the exemption-claim gap and closed it through a normally reviewed PR. The archive-loop conflict was diagnosed and fixed the same way, the same day the six PRs jammed.
+
+Every new loop goes through a fixed first-run checklist before it's left scheduled: did it produce a trace even on a quiet run, did it label a failure correctly, did it respect its per-run cap, did it fail closed rather than guess on an unreachable signal, did it write nothing to a gate it isn't allowed to touch. Several of these were tested adversarially, not just designed and hoped for: a seeded idea run end-to-end through capture to a filed, attributed GitHub issue; a deliberately adversarial issue confirmed labelled and escalated rather than acted on; the pending-work queue pushed artificially past its backpressure threshold, confirming generative loops go quiet while a genuinely urgent finding still lands; a deliberately malformed spec change confirmed reported as skipped rather than silently folded into the source of truth, next to a genuinely clean change confirmed to archive correctly.
+
+The data layer got the same treatment. Point-in-time recovery and scheduled encrypted backups cover every collection, including the buyer-PII ones a routine analytics export deliberately omits. A restore drill actually ran: a production backup restored to a scratch database in around 13 minutes, spot-checked record by record against the live data, and the scratch copy deleted immediately after. Separately, the crons that touch that data got bounded concurrency and per-item fault isolation, so one bad record can't abort or silently truncate an entire run, with idempotency preserved even under concurrency — a stamp is written only after its side effect actually succeeds.
+
+## Outcome
+
+- **Nine autonomous loops run in production** — eight independently-scheduled Claude Code sessions plus one event-driven GitHub Actions workflow — covering backlog triage, a daily owner runsheet, reliability and security monitoring, weekly maintenance and UX review, and daily spec archival.
+- **95 issues filed and 115 PRs merged in the first eight days at full roster, with zero recorded breaches of either structural gate** — no loop-authored merge, no loop-applied approval label, no push to `main` outside the gate.
+- **31 canonical capability specs and 33 archived changes**, the reviewable unit staying the spec delta rather than the diff, at a scale that would have made diff-by-diff review unworkable.
+- **Two real governance bugs, both caught by the system itself and fixed through the same gate as everything else** — a security-review process gap, and a same-run merge-conflict pattern that six parallel PRs exposed in one afternoon, redesigned by chaining branches instead of forking each one from `main`.
+
+> The interesting claim here isn't "an AI wrote nine loops of automation." It's that the safety property — nothing ships without a human-approved PR and a human-applied label — held structurally even when the agents writing the code were also the agents finding and fixing bugs in the pipeline that reviews them. Eight days at full roster is an honest window, not a claim to a long track record — but the two incidents in it are real, not hypothetical, and neither needed a carve-out to fix.

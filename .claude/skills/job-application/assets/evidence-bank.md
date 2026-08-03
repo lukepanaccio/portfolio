@@ -88,13 +88,21 @@ told properly beats four mentioned in passing.
   plausible thousand-line PR in minutes; one person cannot review a thousand plausible lines in
   minutes, and *plausible* is the failure mode.
 - **My action:** Made specs canonical and code downstream — RFC-2119 SHALL prose with WHEN/THEN
-  scenarios, in-flight work existing only as delta files, three fixed human gates (backlog
-  promotion, spec approval, merge), agents never pushing to `main`, and per-PR previews that refuse
-  to initialise the Admin SDK if their project ID equals production's.
-- **Outcome:** 24 canonical capability specs, 13 changes shipped spec-first and archived, and two
-  archive bugs caught that would have silently deleted live requirements.
+  scenarios, in-flight work existing only as delta files, two fixed human gates (backlog promotion,
+  merge — collapsed from an original three once a separate spec-approval gate turned out to just
+  duplicate the merge review), agents never pushing to `main`, and per-PR previews that refuse to
+  initialise the Admin SDK if their project ID equals production's. The system has since grown into
+  a nine-loop autonomous pipeline (backlog, owner runsheet, triage, reliability, security,
+  maintenance, UX review, spec archival, plus event-driven implementation) where every loop treats
+  issue and PR text as data, never instructions, and the two human gates are structural — enforced
+  by GitHub branch protection and an owner-only label — not by agent good behaviour.
+- **Outcome:** 28 canonical capability specs, 26 changes shipped spec-first and archived, and two
+  archive bugs caught that would have silently deleted live requirements. The weekly security loop
+  later caught a live process gap of its own — a previously-merged PR's "no review needed" claim had
+  quietly addressed only two of five required risk categories — and the fix was verified by
+  re-checking that PR's actual claim against the new rule.
 - **Proves:** that I design the process, not just the code; judgment about where review is real and
-  where it's theatre.
+  where it's theatre; that the system catches its own gaps rather than needing a human to spot them.
 - **Follow-up I'd get:** *"Doesn't this slow you down?"* — it moves the cost. Writing a 60-line spec
   delta is slower than starting to code and faster than reviewing the 2,000-line diff properly, and
   the second option is the one people skip.
@@ -228,9 +236,12 @@ caught inflating is worse than not having the number.
 | Privilege-escalation paths left open | 0 | storipro | Emulator suite |
 | Mutating actions proven denied | 16, writing 0 bytes | qpIQ isolation suite | E2E suite, real session cookies |
 | Auth layers | 3 | qpIQ | Architecture |
-| Canonical capability specs | 24 | qpIQ spec-driven system | OpenSpec repo |
-| Changes shipped spec-first | 13 | qpIQ | Archived changes |
+| Canonical capability specs | 28 | qpIQ spec-driven system | OpenSpec repo |
+| Changes shipped spec-first | 26 | qpIQ | Archived changes |
 | Silent-drop archive bugs caught | 2 | qpIQ | Rule file "known gaps" |
+| Autonomous delivery loops | 9 | qpIQ dev-delivery-pipeline | docs/dev-automation.md |
+| Restore drill, backup to scratch DB | ~13 min, verified record-by-record | qpIQ data-durability | Dated backup runbook log |
+| Security-review categories a claim must address | 5 of 5 (was silently 2 of 5) | qpIQ review rubric fix | REVIEW.md / CLAUDE.md, regression-checked against the original PR |
 | Bug-pipeline test lines (~1.3:1) | ~1,900 | storipro | Repo count |
 | Bug pipeline rollout | 100% of users | storipro | GA |
 | Scrapers orchestrated | ~40 | storipro CI | Workflow count |
@@ -240,7 +251,7 @@ caught inflating is worse than not having the number.
 | AbletonMCP contribution | +612 / −0, 13/13 tests, PR #106 | Open source | Public PR |
 | Voice AI response latency | <1s | Marcus Aurelius | Measured; live demo |
 | Second Brain pages / sources / clusters | 100 (0 hand-written) / 66 / 7 | Personal | Repo counts |
-| qpIQ codebase | 146 commits, ~18k LOC TS, ~22 test files | Solo-built | Git history |
+| qpIQ codebase | 298 commits, ~25.7k LOC TS, 29 test files | Solo-built | Git history |
 | commercetools 12-month git history | 82 commits, ~+36,100 / −16,000 | Verified from git | Git log |
 | Buyer survey completion time | 7 questions, <90s, no login | qpIQ field pilot | Field use |
 | 3 Steps Away | 150 students, 3 schools, 97% completion | 2019–2022 | Programme records |

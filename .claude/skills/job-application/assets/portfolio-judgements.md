@@ -23,6 +23,13 @@ Role-family vocabulary for `best-for`: `forward-deployed` · `applied-AI` · `pl
 
 ---
 
+## dev-delivery-pipeline
+
+- proves: running a multi-agent system unattended in production, safe by structural design rather than by trusting agent behaviour
+- best-for: applied-AI · platform · security · founding
+- one-liner: Nine Claude Code loops write, review and ship qpIQ's own code on a schedule, gated by two structural GitHub mechanisms rather than agent good behaviour — 115 PRs merged with zero gate breaches, and two real governance bugs caught and fixed by the system itself.
+- presentable: link case study only — qpIQ repo is private; qpiq.app is the live product
+
 ## spec-driven-agentic-development
 
 - proves: designing a review process that scales when agents write more code than a human can read

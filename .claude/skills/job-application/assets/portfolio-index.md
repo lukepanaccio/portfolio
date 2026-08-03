@@ -5,7 +5,7 @@
 > Judgement fields (Proves / Best for / One-liner / Presentable) come from
 > `assets/portfolio-judgements.md` — edit that file, then rerun `npm run jobs:index`.
 
-21 case studies. Live at https://www.lukepanaccio.com
+22 case studies. Live at https://www.lukepanaccio.com
 
 ## At a glance
 
@@ -18,6 +18,7 @@
 | [B2B Commerce learning path](#b2b-commerce-learning-path) | commercetools | owning a dense technical domain end to end, with claims checked against source | devex · learning · forward-deployed |
 | [In-app bug-reporting pipeline](#in-app-bug-reporting-pipeline) | storipro | shipping a multi-stage pipeline with distributed-systems care, to 100% of users | platform · founding · devex |
 | [Content Drift Detection System](#content-drift-detection-system) | commercetools | agentic systems that maintain other artefacts, running in CI with a human in the loop | applied-AI · devex · learning |
+| [An autonomous delivery pipeline that ships its own code](#an-autonomous-delivery-pipeline-that-ships-its-own-code) | qpIQ | running a multi-agent system unattended in production, safe by structural design rather than by trusting agent behaviour | applied-AI · platform · security · founding |
 | [Developer Essentials learning path](#developer-essentials-learning-path) | commercetools | technical curriculum for developers, in two languages, ending in a real challenge | learning · devex |
 | [Firestore security rules + emulator suite](#firestore-security-rules-emulator-suite) | storipro | closing a live privilege-escalation path and proving it stays closed | security · platform |
 | [Geocoding accuracy campaign](#geocoding-accuracy-campaign) | storipro | diagnosing a metric that lies, then actually moving the number | platform · applied-AI · founding |
@@ -160,6 +161,24 @@
 - **Presentable:** link case study only — commercetools internal
 
 > An agentic system that keeps documentation in step with fast-moving API changes, running in CI
+
+### An autonomous delivery pipeline that ships its own code
+
+- **Slug:** `dev-delivery-pipeline`
+- **Title:** An autonomous delivery pipeline that ships its own code
+- **Client:** qpIQ
+- **Role:** Technical Co-Founder
+- **Timeline:** Jul-Aug 2026
+- **Stack:** TypeScript · Next.js App Router · Vercel · Firebase Auth · Firestore · Resend · GitHub Actions · GitHub CLI/API · OpenSpec
+- **Agentic stack:** Claude Code cloud scheduled sessions — 9 independently-scheduled loops · Event-driven claude-code-action GitHub Actions workflows · CLAUDE.md as the single guardrail every loop and entry point reads first · OpenSpec propose/apply/archive skills driving spec-then-code · Headless/CLI execution inside GitHub Actions runners
+- **Numbers:** **115** PRs merged through the two-gate pipeline, zero gate breaches · **9** Autonomous loops running unattended in production · **6 → 1** Conflicting PRs from one flaw, fixed by one same-day change
+- **Links:** [demo](https://qpiq.app) · [case study](https://www.lukepanaccio.com/projects/dev-delivery-pipeline)
+- **Proves:** running a multi-agent system unattended in production, safe by structural design rather than by trusting agent behaviour
+- **Best for:** applied-AI · platform · security · founding
+- **One-liner:** Nine Claude Code loops write, review and ship qpIQ's own code on a schedule, gated by two structural GitHub mechanisms rather than agent good behaviour — 115 PRs merged with zero gate breaches, and two real governance bugs caught and fixed by the system itself.
+- **Presentable:** link case study only — qpIQ repo is private; qpiq.app is the live product
+
+> Nine loops write, review and ship the code. Two structural GitHub gates decide what goes live — never the agents’ good behaviour.
 
 ### Developer Essentials learning path
 

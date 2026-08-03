@@ -104,9 +104,18 @@ docs-as-code, frontend, and AI automation.
 ### Technical Co-Founder — qpIQ
 **Feb 2026 – present** · B2B SaaS for Australian real-estate agents · https://qpiq.app
 
-Solo-built: 146 commits, ~18k LOC TypeScript, ~22 test files plus an end-to-end isolation suite.
-Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Resend.
+Solo-built: 298 commits, ~25.7k LOC TypeScript, 29 test files plus an end-to-end isolation suite.
+Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Resend · GitHub Actions.
 
+- `applied-AI` `platform` `security` Designed and operate a nine-loop autonomous delivery system —
+  backlog triage, a daily owner runsheet, daily reliability and security monitoring, weekly
+  maintenance and UX review, and daily spec archival — feeding an implementation pipeline of 28
+  canonical capability specs and 26 changes shipped spec-first. Every consequential action (merging
+  code, promoting work, touching main) is blocked by a structural GitHub mechanism — branch
+  protection, an owner-only label — rather than by agent good behaviour, so a prompt-injection
+  attempt buried in an issue has no path to production. Diagnosed a same-run merge-conflict pattern
+  in the archival loop, caused by parallel branches sharing one base, and redesigned it to chain
+  branches sequentially, eliminating the conflict by construction.
 - `security` `platform` Built the three-layer authorisation chain isolating each tenant's data on a
   deny-all datastore, where Firestore rules deny every client read and write so authz lives entirely
   in application code — plus an end-to-end suite that forges nothing, minting real session cookies
@@ -116,7 +125,7 @@ Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Rese
   scoping on token URLs, fail-closed authz throughout (unset config denies), revocation-aware
   cookies, and 404-never-403 so responses don't disclose which resources exist.
 - `applied-AI` `platform` Built a spec-driven system where WHEN/THEN requirements are canonical and
-  coding agents work as deltas against them — 24 capability specs, 13 changes shipped spec-first,
+  coding agents work as deltas against them — 28 capability specs, 26 changes shipped spec-first,
   per-PR preview environments structurally unable to touch production, and two archive bugs caught
   that would have silently deleted live requirements. Reviewing a 60-line spec delta beats reviewing
   the 2,000-line diff it produced.
@@ -127,9 +136,17 @@ Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Rese
   field use, all fixed and spec'd.
 - `security` `platform` Designed per-customer PII silos where a single ownership check transitively
   protects all nested data, under the Australian Privacy Principles.
-- `platform` `founding` Ran the whole delivery loop solo: design docs, a living task ledger, a
-  backlog loop, a CI gate, and ops monitoring — orchestrating AI agents against a
-  PR-and-merge workflow.
+- `platform` Took production reliability and data durability from assumed to proven: added bounded
+  concurrency and per-item fault isolation across three scheduled production jobs so one bad record
+  can't take down a run, wired Sentry-compatible error reporting straight over fetch with zero new
+  dependencies and built-in PII scrubbing, then proved the backup path itself — point-in-time
+  recovery plus scheduled encrypted backups — by restoring a production snapshot to a scratch
+  database and verifying the data record-by-record before deleting it.
+- `security` `platform` Closed a real gap the weekly automated security loop found: a
+  previously-merged PR's "no security review needed" claim had silently addressed only two of five
+  required risk categories. Rewrote the review rubric so an exemption claim must positively address
+  all five, then re-checked the original PR's claim against the new rule to confirm it would now
+  correctly fail.
 
 ### Technical Co-Founder — storipro (Stori Ventures)
 **Feb 2026 – present**
