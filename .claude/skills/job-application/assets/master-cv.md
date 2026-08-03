@@ -101,7 +101,7 @@ docs-as-code, frontend, and AI automation.
 - `learning` `leadership` Led end-to-end design and rollout of the public-facing digital learning
   platform for SaaS customers and partners.
 
-### Solo Founder & Engineer — qpIQ (Stori Ventures)
+### Technical Co-Founder — qpIQ
 **Feb 2026 – present** (primary focus from Jul 2026) · B2B SaaS for Australian real-estate agents · https://qpiq.app
 
 Solo-built: 146 commits, ~18k LOC TypeScript, ~22 test files plus an end-to-end isolation suite.

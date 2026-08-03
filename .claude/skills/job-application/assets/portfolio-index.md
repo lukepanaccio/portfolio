@@ -23,13 +23,13 @@
 | [Geocoding accuracy campaign](#geocoding-accuracy-campaign) | storipro | diagnosing a metric that lies, then actually moving the number | platform · applied-AI · founding |
 | [Marcus Aurelius: AI-powered Stoic mentor](#marcus-aurelius-ai-powered-stoic-mentor) | Personal Project | real-time voice AI, latency-constrained, shipped and running | applied-AI · forward-deployed |
 | [Modular learning path ecosystem](#modular-learning-path-ecosystem) | commercetools | architecting a content system that scales across roles over three years | learning · devex |
-| [Per-agent isolation on a deny-all datastore](#per-agent-isolation-on-a-deny-all-datastore) | qpIQ · Stori Ventures | authorisation design when the datastore enforces nothing and every decision is application code | security · platform · founding |
+| [Per-agent isolation on a deny-all datastore](#per-agent-isolation-on-a-deny-all-datastore) | qpIQ | authorisation design when the datastore enforces nothing and every decision is application code | security · platform · founding |
 | [AI grading & evaluation system](#ai-grading-evaluation-system) | An Australian University (Internal Tool) | shipping a real LLM tool to a real client with privacy and honesty constraints | applied-AI · forward-deployed |
-| [Field-deployed buyer survey pilot](#field-deployed-buyer-survey-pilot) | qpIQ · Stori Ventures | deploying into someone else's workflow, where adoption is the hard part | forward-deployed · founding |
+| [Field-deployed buyer survey pilot](#field-deployed-buyer-survey-pilot) | qpIQ | deploying into someone else's workflow, where adoption is the hard part | forward-deployed · founding |
 | [Distributed scraper CI orchestration](#distributed-scraper-ci-orchestration) | storipro | keeping a fragile third-party-dependent pipeline reliable in CI | platform · founding |
 | [The Second Brain: LLM-maintained wiki](#the-second-brain-llm-maintained-wiki) | Personal project | having a considered position on RAG, backed by a built alternative | applied-AI · devex |
 | [Single-source-of-truth docs program](#single-source-of-truth-docs-program) | commercetools | working inside a cross-functional programme, not just solo | devex · learning · applied-AI |
-| [Spec-driven development with coding agents](#spec-driven-development-with-coding-agents) | qpIQ · Stori Ventures | designing a review process that scales when agents write more code than a human can read | applied-AI · founding · platform |
+| [Spec-driven development with coding agents](#spec-driven-development-with-coding-agents) | qpIQ | designing a review process that scales when agents write more code than a human can read | applied-AI · founding · platform |
 | [Productionizing & securing a Stripe billing system](#productionizing-securing-a-stripe-billing-system) | storipro (storiventures) | taking someone else's prototype to real-money production, including the incident work | platform · founding · security |
 | [Voice-to-Prototype agentic pipeline](#voice-to-prototype-agentic-pipeline) | storipro | running autonomous coding agents inside a real repository without handing them the keys | applied-AI · platform · founding |
 
@@ -252,8 +252,8 @@
 
 - **Slug:** `multi-tenant-isolation`
 - **Title:** Per-agent isolation on a deny-all datastore
-- **Client:** qpIQ · Stori Ventures
-- **Role:** Solo Founder & Engineer
+- **Client:** qpIQ
+- **Role:** Technical Co-Founder
 - **Timeline:** 2026
 - **Stack:** Firestore · Firebase Admin SDK · Next.js App Router · TypeScript · Firebase Emulator Suite · Server Actions
 - **Agentic stack:** OpenSpec requirement/scenario specs · CLAUDE.md invariants as project memory · Agent-assisted security review pass · Emulator-backed isolation harness
@@ -287,8 +287,8 @@
 
 - **Slug:** `qpiq-field-deployment`
 - **Title:** Field-deployed buyer survey pilot
-- **Client:** qpIQ · Stori Ventures
-- **Role:** Solo Founder & Engineer
+- **Client:** qpIQ
+- **Role:** Technical Co-Founder
 - **Timeline:** 2026
 - **Stack:** Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Resend · Australian Privacy Principles
 - **Agentic stack:** OpenSpec spec-driven change process · CLAUDE.md project memory · Path-scoped rules · Claude Code GitHub Action · Per-PR preview environments
@@ -359,8 +359,8 @@
 
 - **Slug:** `spec-driven-agentic-development`
 - **Title:** Spec-driven development with coding agents
-- **Client:** qpIQ · Stori Ventures
-- **Role:** Solo Founder & Engineer
+- **Client:** qpIQ
+- **Role:** Technical Co-Founder
 - **Timeline:** 2026
 - **Stack:** OpenSpec · Claude Code · GitHub Actions · Vercel preview deployments · Firebase · TypeScript
 - **Agentic stack:** OpenSpec propose/apply/archive skills · Path-scoped rules (auto-loading on file match) · CLAUDE.md project memory · Claude Code GitHub Action (@claude) · Automated PR review workflow · Per-PR preview environments · Scheduled maintenance loops · Three fixed human approval gates
