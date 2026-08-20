@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1320" width="1100" height="1320" role="img" aria-label="An autonomous delivery pipeline that ships its own code">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c1122"/><stop offset="60%" stop-color="#0a0e1a"/><stop offset="100%" stop-color="#070a13"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx="80%" cy="11%" r="72%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.26"/><stop offset="34%" stop-color="#fbbf24" stop-opacity="0.09"/><stop offset="72%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coolbloom" cx="14%" cy="94%" r="60%">
+      <stop offset="0%" stop-color="#1e3a5f" stop-opacity="0.20"/><stop offset="70%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="44%" r="80%">
+      <stop offset="56%" stop-color="#05070d" stop-opacity="0"/><stop offset="100%" stop-color="#05070d" stop-opacity="0.55"/>
+    </radialGradient>
+    <radialGradient id="gridmask" cx="60%" cy="34%" r="68%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gmask"><rect width="1100" height="1320" fill="url(#gridmask)"/></mask>
+    <linearGradient id="famber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="barfade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0"/><stop offset="18%" stop-color="#f59e0b" stop-opacity="1"/><stop offset="82%" stop-color="#fbbf24" stop-opacity="1"/><stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="cardfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c2740"/><stop offset="100%" stop-color="#0e1626"/>
+    </linearGradient>
+    <linearGradient id="gatefill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#26324a"/><stop offset="100%" stop-color="#161f33"/>
+    </linearGradient>
+    <linearGradient id="nodefill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#26324a"/><stop offset="100%" stop-color="#161f33"/>
+    </linearGradient>
+    <filter id="glow" x="-90%" y="-90%" width="280%" height="280%">
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#f59e0b" flood-opacity="0.55"/>
+    </filter>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0"/>
+    </filter>
+  </defs>
+  <rect width="1100" height="1320" fill="url(#bg)"/>
+  <rect width="1100" height="1320" fill="url(#coolbloom)"/>
+  <rect width="1100" height="1320" fill="url(#bloom)"/>
+  <g mask="url(#gmask)" stroke="#f59e0b" stroke-opacity="0.07" stroke-width="1">
+    <path d="M0 220H1100M0 440H1100M0 660H1100M0 880H1100M0 1100H1100M220 0V1320M440 0V1320M660 0V1320M880 0V1320"/>
+  </g>
+  <rect width="1100" height="1320" fill="url(#vignette)"/>
+  <rect width="1100" height="1320" filter="url(#grain)" opacity="0.05"/>
+  <rect x="0" y="0" width="1100" height="56" fill="url(#barfade)" opacity="0.16" filter="url(#glow)"/>
+  <rect width="1100" height="6" fill="url(#barfade)"/>
+  <text x="70" y="98" font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial" font-size="26" letter-spacing="6" font-weight="700" fill="url(#famber)">AUTONOMOUS DELIVERY</text>
+  <path d="M70 122 H1030" stroke="#f59e0b" stroke-opacity="0.2" stroke-width="2" filter="url(#glow)"/>
+
+  <!-- nine loops -->
+  <text x="550" y="172" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="21" letter-spacing="3" font-weight="700" fill="#7c8aa3">NINE LOOPS &#183; SCHEDULED &#183; UNATTENDED</text>
+  <g font-family="ui-sans-serif,system-ui,Arial" font-size="21" text-anchor="middle">
+    <rect x="80" y="196" width="300" height="74" rx="12" fill="url(#nodefill)" stroke="#3b4761" stroke-width="2"/>
+    <text x="230" y="242" fill="#cbd5e1">Backlog</text>
+    <rect x="400" y="196" width="300" height="74" rx="12" fill="url(#nodefill)" stroke="#3b4761" stroke-width="2"/>
+    <text x="550" y="242" fill="#cbd5e1">Runsheet</text>
+    <rect x="720" y="196" width="300" height="74" rx="12" fill="url(#nodefill)" stroke="#3b4761" stroke-width="2"/>
+    <text x="870" y="242" fill="#cbd5e1">Triage</text>
+
+    <rect x="80" y="282" width="300" height="74" rx="12" fill="url(#nodefill)" stroke="#3b4761" stroke-width="2"/>
+    <text x="230" y="328" fill="#cbd5e1">Reliability</text>
+    <rect x="400" y="282" width="300" height="74" rx="12" fill="url(#nodefill)" stroke="#f59e0b" stroke-width="2.5"/>
+    <text x="550" y="328" fill="#fbbf24">Security</text>
+    <rect x="720" y="282" width="300" height="74" rx="12" fill="url(#nodefill)" stroke="#3b4761" stroke-width="2"/>
+    <text x="870" y="328" fill="#cbd5e1">Maintenance</text>
+
+    <rect x="80" y="368" width="300" height="74" rx="12" fill="url(#nodefill)" stroke="#3b4761" stroke-width="2"/>
+    <text x="230" y="414" fill="#cbd5e1">UX review</text>
+    <rect x="400" y="368" width="300" height="74" rx="12" fill="url(#nodefill)" stroke="#f59e0b" stroke-width="2.5"/>
+    <text x="550" y="414" fill="#fbbf24">Spec archival</text>
+    <rect x="720" y="368" width="300" height="74" rx="12" fill="url(#nodefill)" stroke="#3b4761" stroke-width="2"/>
+    <text x="870" y="414" fill="#cbd5e1">Implementation</text>
+  </g>
+
+  <!-- gate 1 -->
+  <path d="M230 442 V462 M550 442 V462 M870 442 V462 M230 462 H870 M550 462 V478" fill="none" stroke="#3b4761" stroke-width="3"/>
+  <rect x="210" y="478" width="680" height="112" rx="18" fill="url(#gatefill)" stroke="#fbbf24" stroke-width="4" filter="url(#glow)"/>
+  <text x="550" y="524" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="27" font-weight="800" fill="#fbbf24">GATE 1 &#183; APPROVED LABEL</text>
+  <text x="550" y="560" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="20" fill="#cbd5e1">owner-only &#183; enforced in the workflow&#8217;s own if:</text>
+
+  <!-- ci + review -->
+  <path d="M550 590 V626" fill="none" stroke="#3b4761" stroke-width="3"/>
+  <rect x="210" y="626" width="680" height="112" rx="16" fill="#0d1320" stroke="#f59e0b" stroke-opacity="0.5" stroke-width="2" filter="url(#glow)"/>
+  <text x="550" y="672" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="24" fill="#f8fafc">CI &#183; typecheck &#183; lint &#183; format &#183; tests</text>
+  <text x="550" y="708" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="20" fill="#9ca3af">automated review vs a fixed rubric &#183; security pass</text>
+
+  <!-- gate 2 -->
+  <path d="M550 738 V774" fill="none" stroke="#3b4761" stroke-width="3"/>
+  <rect x="210" y="774" width="680" height="112" rx="18" fill="url(#gatefill)" stroke="#fbbf24" stroke-width="4" filter="url(#glow)"/>
+  <text x="550" y="820" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="27" font-weight="800" fill="#fbbf24">GATE 2 &#183; BRANCH PROTECTION</text>
+  <text x="550" y="856" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="20" fill="#cbd5e1">1 required owner approval &#183; no bypass</text>
+  <text x="550" y="924" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="21" fill="#9ca3af">enforced by GitHub, never by agent good behaviour</text>
+
+  <!-- main -->
+  <path d="M550 940 V972" fill="none" stroke="#3b4761" stroke-width="3"/>
+  <rect x="210" y="972" width="680" height="198" rx="16" fill="url(#cardfill)" stroke="#f59e0b" stroke-width="3" filter="url(#glow)"/>
+  <text x="246" y="1022" font-family="ui-sans-serif,system-ui,Arial" font-size="24" letter-spacing="4" font-weight="700" fill="#fbbf24">MAIN</text>
+  <path d="M756 1008 l32 36 l62 -70" fill="none" stroke="#10b981" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="246" y="1076" font-family="ui-sans-serif,system-ui,Arial" font-size="22" fill="#f8fafc">115 PRs merged through both gates</text>
+  <text x="246" y="1112" font-family="ui-sans-serif,system-ui,Arial" font-size="22" fill="#f8fafc">0 gate breaches</text>
+  <text x="246" y="1146" font-family="ui-sans-serif,system-ui,Arial" font-size="19" fill="#9ca3af">a prompt injection in an issue has no path here</text>
+
+  <text x="550" y="1232" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="28" font-weight="800" fill="#f59e0b">2 governance bugs it caught in itself</text>
+  <text x="550" y="1272" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="20" fill="#9ca3af">both fixed through the same gate as every other change</text>
+</svg>

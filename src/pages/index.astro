@@ -8,20 +8,20 @@ const base = import.meta.env.BASE_URL;
 
 // Define projects data
 const featuredProject = {
-  title: 'Field-deployed buyer survey pilot',
-  description: 'A production pilot running inside a real estate agent\'s week: buyers answer 7 questions on their phone in under 90 seconds, the agent gets a ranked Monday call list. The engineering that mattered was refusing the features that would have made the data untrustworthy, and pre-registering a counterfactual so the pilot was allowed to come back with an unwelcome answer.',
-  image: '/images/qpiq-field-featured-hero.svg',
-  href: '/projects/qpiq-field-deployment',
-  tags: ['Field deployment', 'Pilot design', 'Pre-registered evals', 'Privacy by design']
+  title: 'An autonomous delivery pipeline that ships its own code',
+  description: 'Nine Claude Code loops write, review, monitor and ship qpIQ\'s code, unattended, on a schedule. Every consequential action is blocked by a structural GitHub mechanism, not agent good behaviour, so a prompt-injection attempt buried in an issue has no path to production. The system has already caught two of its own governance bugs and fixed both through the same gate every other change goes through.',
+  image: '/images/dev-delivery-pipeline-featured-hero.svg',
+  href: '/projects/dev-delivery-pipeline',
+  tags: ['Autonomous agents', 'GitHub governance', 'Claude Code', 'Self-correcting systems']
 };
 
 const projects = [
   {
-    title: 'An autonomous delivery pipeline that ships its own code',
-    description: 'Nine Claude Code loops write, review, monitor and ship qpIQ\'s code, unattended, on a schedule. Every consequential action is blocked by a structural GitHub mechanism, not agent good behaviour, so a prompt-injection attempt has no path to production. The system has already caught two of its own governance bugs and fixed both through the same gate every other change goes through.',
-    image: '/images/dev-delivery-pipeline-hero.svg',
-    href: '/projects/dev-delivery-pipeline',
-    tags: ['Autonomous agents', 'GitHub governance', 'Claude Code', 'Self-correcting systems'],
+    title: 'Field-deployed buyer survey pilot',
+    description: 'A production pilot running inside a real estate agent\'s week: buyers answer 7 questions on their phone in under 90 seconds, the agent gets a ranked Monday call list. The engineering that mattered was refusing the features that would have made the data untrustworthy, and pre-registering a counterfactual so the pilot was allowed to come back with an unwelcome answer.',
+    image: '/images/qpiq-field-hero.svg',
+    href: '/projects/qpiq-field-deployment',
+    tags: ['Field deployment', 'Pilot design', 'Pre-registered evals', 'Privacy by design'],
     categories: ['ai-systems', 'engineering']
   },
   {
@@ -70,7 +70,7 @@ const projects = [
     image: '/images/second-brain-hero.svg',
     href: '/projects/second-brain-knowledge-base',
     tags: ['Knowledge engineering', 'RAG alternative', 'CLAUDE.md', 'Obsidian'],
-    categories: ['ai-systems', 'learning']
+    categories: ['ai-systems']
   },
   {
     title: 'Firestore security rules + emulator suite',
@@ -137,60 +137,19 @@ const projects = [
     categories: ['engineering']
   },
   {
-    title: 'Alex Chen: synthetic eval persona',
-    description: 'A synthetic user that reviews documentation the way a senior developer would, catching gaps before real developers hit them.',
-    image: '/images/alex-chen-hero.svg',
-    href: '/projects/alex-chen-learner-persona',
-    tags: ['Synthetic users', 'Prompt engineering', 'Evals'],
-    categories: ['ai-systems', 'learning']
-  },
-  {
-    title: 'B2B Commerce learning path',
-    description: 'Owned a B2B learning path end to end — built with subject-matter experts, written for the Functional Architect, with every API example checked against the RAML source. Module 2 passed the automated critique gate at 88/100.',
-    image: '/images/b2b-learning-hero.svg',
-    href: '/projects/b2b-learning-path',
-    tags: ['Curriculum architecture', 'SME synthesis', 'API-verified', 'Built & shipped'],
-    categories: ['learning', 'engineering']
-  },
-  {
-    title: 'Modular learning path ecosystem',
-    description: 'One content structure behind 9 learning paths, 30+ modules, and 200+ pages of technical material — built to scale to thousands of developers.',
-    image: '/images/modular-paths-hero.svg',
-    href: '/projects/modular-learning-paths',
-    tags: ['Information architecture', 'Markdown', 'Git'],
-    categories: ['learning']
-  },
-  {
-    title: 'Developer Essentials learning path',
-    description: 'A 20-hour, hands-on course that takes enterprise developers from zero to production-ready, API first.',
-    image: '/images/dev-essentials-hero.svg',
-    href: '/projects/developer-essentials-learning-path',
-    tags: ['Curriculum design', 'TypeScript', 'Java', 'API education'],
-    categories: ['learning']
-  },
-  {
     title: 'Marcus Aurelius AI mentor',
     description: 'A conversational AI that mentors through Socratic, in-character dialogue. An experiment in how far one well-designed prompt system can carry the whole experience.',
     image: '/images/marcus-hero.svg',
     href: '/projects/marcus-aurelius',
     tags: ['Conversational AI', 'Prompt engineering', 'Next.js'],
     categories: ['ai-systems']
-  },
-  {
-    title: '3 Steps Away: social-justice education platform',
-    description: 'Co-founded an education company that taught high-schoolers to respond to complex social issues through visual storytelling and hands-on learning. Where the systems thinking started.',
-    image: '/images/3-steps-hero.svg',
-    href: '/projects/3-steps-away',
-    tags: ['Founder', 'Experiential learning', 'Youth education'],
-    categories: ['learning']
   }
 ];
 
 const categoryFilters = [
   { slug: 'all', label: 'All' },
   { slug: 'ai-systems', label: 'AI Systems & Agents' },
-  { slug: 'engineering', label: 'Software Engineering' },
-  { slug: 'learning', label: 'Learning Systems' }
+  { slug: 'engineering', label: 'Software Engineering' }
 ];
 
 const agenticToolchain = [
@@ -201,9 +160,9 @@ const agenticToolchain = [
 
 const skills = {
   'Agentic engineering (Claude Code)': ['Subagents & multi-agent orchestration', 'Dynamic workflows', 'Eval harnesses', 'MCP server development', 'Headless / CLI in CI', 'CLAUDE.md schema design'],
-  'AI Systems & Agents': ['Agent development & orchestration', 'Evals (LLM-as-judge, gold sets)', 'RAG & retrieval design', 'Prompt engineering', 'Claude API/SDK'],
+  'AI Systems & Agents': ['Agent development & orchestration', 'Evals (LLM-as-judge, gold sets)', 'Retrieval design & RAG trade-offs', 'Prompt engineering', 'Claude API/SDK'],
   'Software Engineering': ['TypeScript / Node.js', 'Python', 'Firestore + security rules', 'Stripe integrations', 'CI/CD (GitHub Actions)', 'Webhooks · idempotency · HMAC'],
-  'Learning Systems': ['Information architecture', 'Single-source-of-truth design', 'Curriculum architecture', 'SME synthesis'],
+  'Knowledge & Content Systems': ['Information architecture', 'Single-source-of-truth design', 'Docs as contract', 'SME synthesis'],
   'Tools & Platforms': ['Git / GitHub', 'Astro / MDX', 'Vercel', 'Obsidian', 'Algolia']
 };
 ---
@@ -228,7 +187,7 @@ const skills = {
           </h1>
 
           <p class="text-xl md:text-2xl text-text-secondary mb-12 leading-relaxed max-w-3xl">
-            Applied AI with an educator's edge. I design, ship, and validate real systems: agentic pipelines, payment integrity, AI authoring tools. Then I make them usable.
+            I design, ship, and validate real systems: agentic pipelines, payment integrity, AI authoring tools. Then I make them usable, for the people and the models downstream.
           </p>
           
           <div class="flex flex-col sm:flex-row gap-4">
@@ -301,32 +260,32 @@ const skills = {
                         <path d="M13 7H7v6h6V7z"/>
                         <path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z" clip-rule="evenodd"/>
                       </svg>
-                      <span class="text-sm font-bold text-accent-primary uppercase tracking-wider">Applied AI · Field-deployed</span>
+                      <span class="text-sm font-bold text-accent-primary uppercase tracking-wider">Applied AI · Running in production</span>
                     </div>
 
                     <h2 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-text-primary mb-4 leading-[1.05] tracking-tight">
-                      <span class="block">Open home</span>
-                      <span class="block text-accent-primary">→ Monday</span>
+                      <span class="block">Nine loops.</span>
+                      <span class="block text-accent-primary">Two gates.</span>
                     </h2>
 
                     <p class="text-lg md:text-xl text-text-primary leading-relaxed max-w-xl bg-bg-primary/95 p-4 rounded-lg -ml-4">
-                      Deployed into a real agent's Saturday — and instrumented so the pilot was allowed to come back with an unwelcome answer.
+                      Nine Claude Code loops write, review and ship the code unattended; two structural GitHub gates decide what reaches production, never the agents' good behaviour.
                     </p>
                   </div>
 
                   <!-- Key Metrics with glass effect -->
                   <div class="flex flex-wrap gap-4">
                     <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
-                      <div class="text-3xl font-bold text-accent-primary mb-1">7</div>
-                      <div class="text-sm text-text-tertiary font-semibold">Questions, no login, &lt;90 seconds</div>
+                      <div class="text-3xl font-bold text-accent-primary mb-1">115</div>
+                      <div class="text-sm text-text-tertiary font-semibold">PRs merged, 0 gate breaches</div>
                     </div>
                     <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
-                      <div class="text-3xl font-bold text-accent-primary mb-1">3</div>
-                      <div class="text-sm text-text-tertiary font-semibold">Defects only field use could find</div>
+                      <div class="text-3xl font-bold text-accent-primary mb-1">9</div>
+                      <div class="text-sm text-text-tertiary font-semibold">Loops running unattended</div>
                     </div>
                     <div class="backdrop-blur-md bg-bg-elevated/80 rounded-xl p-4 border border-border-medium hover:border-accent-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-primary/20">
-                      <div class="text-3xl font-bold text-accent-primary mb-1">0</div>
-                      <div class="text-sm text-text-tertiary font-semibold">Cross-campaign identity keys</div>
+                      <div class="text-3xl font-bold text-accent-primary mb-1">2</div>
+                      <div class="text-sm text-text-tertiary font-semibold">Own governance bugs it caught</div>
                     </div>
                   </div>
                   
@@ -490,7 +449,7 @@ const skills = {
     <!-- Brief About Section -->
     <section class="py-24 md:py-32 bg-bg-secondary">
       <div class="max-w-7xl mx-auto px-6">
-        <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-8 leading-tight">A builder whose years as an educator make the systems land</h2>
+        <h2 class="text-4xl md:text-5xl font-display font-bold text-text-primary mb-8 leading-tight">Production AI systems, shipped and validated</h2>
 
         <div class="space-y-6 text-lg text-text-secondary leading-relaxed max-w-5xl">
           <p>
@@ -500,7 +459,7 @@ const skills = {
             As a technical co-founder at <a href="https://storipro.ai" target="_blank" rel="noopener" class="text-accent-primary font-semibold hover:underline">storipro</a>, I shipped the production billing layer, hardened the data-security model, and built an autonomous issue-to-PR pipeline. At <a href="https://commercetools.com" target="_blank" rel="noopener" class="text-accent-primary font-semibold hover:underline">commercetools</a>, I architected an orchestrator-agent authoring system with an eval harness and drove a single-source-of-truth documentation program across the platform. On my own time I keep building. An LLM-maintained knowledge base, an MCP control layer for Ableton Live.
           </p>
           <p>
-            I came up as an educator, a decade of it across three continents, and that's exactly why my systems land. The real craft of the classroom is earning enough trust that people actually engage. I build the same way, for the people and models that have to use the output.
+            The edge behind that is a decade in education before this: the craft there is earning enough trust that people actually engage. I build the same way, for the humans and the models that have to use the output.
           </p>
         </div>
         

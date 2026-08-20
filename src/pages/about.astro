@@ -61,6 +61,36 @@ const timeline = [
     description: 'Focus on history, philosophy, international politics and sociology.'
   }
 ];
+
+// Kept off the main work grid: the learning-systems case studies that sit behind the
+// current positioning rather than in front of it. Pages stay live at these URLs.
+const earlierWork = [
+  {
+    title: 'Alex Chen: synthetic eval persona',
+    href: '/projects/alex-chen-learner-persona',
+    note: 'A synthetic senior developer that reviews documentation and catches gaps before real developers hit them.'
+  },
+  {
+    title: 'B2B Commerce learning path',
+    href: '/projects/b2b-learning-path',
+    note: 'Owned end to end, every API example checked against the RAML source; passed an automated critique gate at 88/100.'
+  },
+  {
+    title: 'Modular learning path ecosystem',
+    href: '/projects/modular-learning-paths',
+    note: 'One content structure behind 9 paths, 30+ modules and 200+ pages of technical material.'
+  },
+  {
+    title: 'Developer Essentials learning path',
+    href: '/projects/developer-essentials-learning-path',
+    note: 'A 20-hour, API-first course taking enterprise developers to production-ready.'
+  },
+  {
+    title: '3 Steps Away',
+    href: '/projects/3-steps-away',
+    note: 'Co-founded an education company and took it from concept to market. Where the systems thinking started.'
+  }
+];
 ---
 
 <Layout title="About - Luke Panaccio">
@@ -90,7 +120,7 @@ const timeline = [
             </div>
             <div class="flex-1 text-center md:text-left">
               <p class="text-xl md:text-2xl text-text-secondary leading-relaxed">
-                I build production AI systems, then make them usable. The edge is an unusual one: years as an educator, so I build for the people and models that actually have to use the output.
+                I build production AI systems: agentic delivery pipelines, payment integrity, hardened data layers. Then I make them usable for the people and the models downstream; a decade in education before this is the edge behind that second half.
               </p>
             </div>
           </div>
@@ -111,11 +141,11 @@ const timeline = [
               </p>
 
               <p>
-                I got here from an unusual direction. I came up as an educator, a decade of it across three continents. I taught political philosophy at Universiteit Maastricht, English to Italian executives and at La Trobe University, then led a humanities department of 30+ educators in Australian secondary education. Co-founding <span class="text-accent-primary font-semibold">3 Steps Away</span>, a social-justice education enterprise, taught me to take a system from concept to market.
+                I got here from an unusual direction: a decade in education first, ending as a humanities department lead over 30+ educators, with a co-founded education company (<span class="text-accent-primary font-semibold">3 Steps Away</span>) that taught me to take a system from concept to market.
               </p>
 
               <p>
-                Building something well and explaining it clearly don't always come from the same person. I spent years making complex ideas land for real people, so I design systems for the humans and agents that use them. That means clear interfaces, honest failure modes, and docs that actually double as a contract. I formalized the craft with a Graduate Certificate in Educational Design from Monash University. The engineering I formalized by shipping.
+                Building something well and explaining it clearly don't always come from the same person, and that's the compounding part. I design for the humans and agents that use the output: clear interfaces, honest failure modes, docs that double as a contract. The engineering I formalized by shipping.
               </p>
             </div>
           </div>
@@ -131,7 +161,7 @@ const timeline = [
               <div class="bg-bg-elevated border border-border-subtle rounded-xl p-6 hover:border-accent-primary/30 transition-all duration-300 hover:-translate-y-1">
                 <h3 class="font-bold text-accent-primary mb-3 text-base uppercase tracking-wider">AI Systems &amp; Agents</h3>
                 <p class="text-text-secondary text-base leading-relaxed">
-                  I design and ship agentic systems: orchestrator-agent architectures, RAG and retrieval, autonomous pipelines. I built an AI authoring system with its own eval harness, and an autonomous issue-to-PR pipeline running in production CI.
+                  I design and ship agentic systems: orchestrator-agent architectures, autonomous delivery pipelines, eval harnesses. On retrieval I work the corpus side and the trade-off (three separate builds where I weighed embedding retrieval against a cheaper, inspectable alternative, and documented which one won and why).
                 </p>
               </div>
               <div class="bg-bg-elevated border border-border-subtle rounded-xl p-6 hover:border-accent-primary/30 transition-all duration-300 hover:-translate-y-1">
@@ -147,9 +177,9 @@ const timeline = [
                 </p>
               </div>
               <div class="bg-bg-elevated border border-border-subtle rounded-xl p-6 hover:border-accent-primary/30 transition-all duration-300 hover:-translate-y-1">
-                <h3 class="font-bold text-accent-primary mb-3 text-base uppercase tracking-wider">Learning Systems (the edge)</h3>
+                <h3 class="font-bold text-accent-primary mb-3 text-base uppercase tracking-wider">Knowledge &amp; Content Systems</h3>
                 <p class="text-text-secondary text-base leading-relaxed">
-                  A decade spent making complex ideas land. I bring information architecture, single-source-of-truth design, and curriculum thinking to the systems I build, so the agents and humans that depend on them can actually use them.
+                  Information architecture, single-source-of-truth design, and retrieval corpora that RAG can actually work against. I ran a 5-person programme that cut the duplicate docs competing with each other in search and in a production RAG assistant.
                 </p>
               </div>
             </div>
@@ -164,7 +194,7 @@ const timeline = [
               </p>
 
               <p>
-                I treat <strong>documentation as data and interfaces as contracts</strong>. The hardest part of an AI system isn't the model. It's making the behaviour clear and the output trustworthy to the humans and agents downstream. That's where the years in education compound. The real work there was earning enough trust that people would engage, then making hard things click. I design systems with the same instinct and an eye on developer experience: build for whoever has to use the output, human or model.
+                I treat <strong>documentation as data and interfaces as contracts</strong>. The hardest part of an AI system isn't the model. It's making the behaviour clear and the output trustworthy to the humans and agents downstream. That's where the teaching years compound: build for whoever has to use the output, human or model.
               </p>
 
               <p>
@@ -198,6 +228,32 @@ const timeline = [
               </div>
             </div>
           ))}
+        </div>
+
+        <div class="mt-20 pt-12 border-t border-border-subtle">
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-text-primary mb-4">Earlier work</h2>
+          <p class="text-lg text-text-secondary leading-relaxed mb-8 max-w-3xl">
+            The learning-systems case studies. They sit behind the current work rather than in front of it, but the write-ups are still here.
+          </p>
+
+          <ul class="space-y-4">
+            {earlierWork.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="group block rounded-xl border border-border-subtle bg-bg-elevated p-5 hover:border-accent-primary/40 transition-all duration-300"
+                >
+                  <span class="flex items-center font-bold text-text-primary group-hover:text-accent-primary transition-colors">
+                    {item.title}
+                    <svg class="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                  </span>
+                  <span class="mt-1 block text-text-secondary text-base leading-relaxed">{item.note}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
