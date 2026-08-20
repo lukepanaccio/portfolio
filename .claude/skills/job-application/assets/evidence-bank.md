@@ -45,7 +45,7 @@ that is exactly what developer-facing AI companies need.
 
 ## Proof stories
 
-Nine stories. Each survives fifteen minutes of questioning. Pick one primary per letter — one story
+Ten stories. Each survives fifteen minutes of questioning. Pick one primary per letter — one story
 told properly beats four mentioned in passing.
 
 ### Story: the $138 silent charge
@@ -188,6 +188,34 @@ told properly beats four mentioned in passing.
   across properties engages the trading-in-personal-information carve-out in Australian privacy law,
   and it breaks what the survey promises someone disclosing to the counterparty's agent. Break that
   once and the model is dead.
+
+### Story: the trial that captured nobody
+
+- **Context:** qpIQ's first live trial at a real estate agent's open home captured **zero buyers**.
+  The reported symptom came back as *"the buyer tried opening the QR code but the link had expired"*,
+  and that sentence was false in every part: the token still resolved a day later, the agent hadn't
+  seen the error himself, and the word "expired" came from our own not-found page, which asserts it
+  as a default without checking. A wrong symptom is more expensive than no symptom; it cost a
+  working day.
+- **My action:** Stopped trusting the report and reconstructed the morning from production request
+  logs. Three requests hit the join route, all 404, none from the QR. One was the correct URL plus a
+  newline plus the reassurance line printed beneath it on the sign; two were that URL one character
+  short, which is exactly the first rendered line of the link at phone width, because Apple's data
+  detector terminates a URL at a line break. Rejected the three obvious fixes (shorten the URL,
+  forgive the whitespace, fix the error copy) because every failure had one shape and each fix still
+  had a link in it, and shipped a spoken 8-digit code instead, plus telemetry separating the three
+  failure modes that had been producing identical silence.
+- **Outcome:** QR payload 55 → 27 characters, buying error correction M → Q (~15% → ~25% recovery)
+  and an 11% larger module from one change. A capture failure is now visible within a day instead of
+  reconstructed from raw logs. Capture is still 0; the re-pilot hasn't run.
+- **Proves:** the demo-versus-production distinction as an artefact rather than a claim; diagnosing a
+  field failure whose cause was outside the code; fixing the failure *class* rather than the
+  instance; and the willingness to publish an open root cause.
+- **Follow-up I'd get:** *"So what number actually moved?"* — not the one that matters yet, and I'd
+  say so. The re-pilot is the test, and the spoken code sits behind a default-off flag whose removal
+  condition is written down: one open that confirms buyers registered through it. The finding I'd
+  keep if I could keep only one is that a working day went to a sentence in an error page that
+  asserted a cause nobody had checked.
 
 ### Story: 0 → 9 learning paths
 
