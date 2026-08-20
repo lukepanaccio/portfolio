@@ -17,6 +17,22 @@ const featuredProject = {
 
 const projects = [
   {
+    title: 'The trial that captured nobody',
+    description: 'The first live trial produced zero data, and the reported symptom — "the link expired" — was false, sent by our own error page. Reconstructing the morning from production logs found a URL wrapping mid-string on a phone and a text detector that stops at the line break. Every fix that kept a link kept the failure, so I shipped an entry path with no link in it.',
+    image: '/images/zero-capture-hero.svg',
+    href: '/projects/zero-capture-postmortem',
+    tags: ['Postmortem', 'Field diagnosis', 'Failure analysis', 'Observability'],
+    categories: ['engineering']
+  },
+  {
+    title: 'An eval harness for a UI that asserts nothing',
+    description: 'A weekly agent walks the product at two viewports and judges it from what it captured — screenshots, page text, console errors, every confirm dialog. The harness asserts nothing, because one that fails on an assertion only teaches you what its author already knew. Every design decision in it targets the same failure: the silent pass.',
+    image: '/images/ux-harness-hero.svg',
+    href: '/projects/ux-walkthrough-harness',
+    tags: ['Evals', 'Agentic loops', 'Playwright', 'Silent-pass detection'],
+    categories: ['ai-systems', 'engineering']
+  },
+  {
     title: 'Field-deployed buyer survey pilot',
     description: 'A production pilot running inside a real estate agent\'s week: buyers answer 7 questions on their phone in under 90 seconds, the agent gets a ranked Monday call list. The engineering that mattered was refusing the features that would have made the data untrustworthy, and pre-registering a counterfactual so the pilot was allowed to come back with an unwelcome answer.',
     image: '/images/qpiq-field-hero.svg',

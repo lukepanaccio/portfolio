@@ -93,6 +93,20 @@ Role-family vocabulary for `best-for`: `forward-deployed` · `applied-AI` · `pl
 - one-liner: Buyers answer 7 questions on their phone in under 90 seconds and the agent gets a ranked call list — the engineering that mattered was refusing the features that would have made the data untrustworthy and pre-registering a counterfactual so the pilot could return a real answer.
 - presentable: yes — live at qpiq.app; repo private
 
+## zero-capture-postmortem
+
+- proves: diagnosing a live field failure whose cause was outside the code, and fixing the failure class rather than the instance
+- best-for: forward-deployed · platform · founding
+- one-liner: Our first live trial captured zero buyers and the reported symptom was false — I reconstructed the morning from production logs to a URL wrapping mid-string and a phone text detector that terminates at the line break, then shipped a spoken 8-digit entry path because every fix that kept a link in it kept the failure.
+- presentable: yes — live at qpiq.app; repo private, and the write-up anonymises the agent and agency
+
+## ux-walkthrough-harness
+
+- proves: building evals for a property no test can express, run unattended, designed around the silent pass
+- best-for: applied-AI · devex · platform
+- one-liner: A weekly agent walks the product at two viewports and judges it from captured artifacts rather than assertions — it survives a sandbox that kills every process it starts by keeping all state on disk, and one scan produced 37 findings batched into 8 issues by shared mechanism.
+- presentable: link case study only — qpIQ repo is private
+
 ## ableton-mcp-control-layer
 
 - proves: shipping into an unfamiliar open-source codebase, with tests, upstream

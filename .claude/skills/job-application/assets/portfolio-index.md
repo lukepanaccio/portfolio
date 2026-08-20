@@ -5,7 +5,7 @@
 > Judgement fields (Proves / Best for / One-liner / Presentable) come from
 > `assets/portfolio-judgements.md` — edit that file, then rerun `npm run jobs:index`.
 
-22 case studies. Live at https://www.lukepanaccio.com
+24 case studies. Live at https://www.lukepanaccio.com
 
 ## At a glance
 
@@ -32,7 +32,9 @@
 | [Single-source-of-truth docs program](#single-source-of-truth-docs-program) | commercetools | working inside a cross-functional programme, not just solo | devex · learning · applied-AI |
 | [Spec-driven development with coding agents](#spec-driven-development-with-coding-agents) | qpIQ | designing a review process that scales when agents write more code than a human can read | applied-AI · founding · platform |
 | [Productionizing & securing a Stripe billing system](#productionizing-securing-a-stripe-billing-system) | storipro (storiventures) | taking someone else's prototype to real-money production, including the incident work | platform · founding · security |
+| [An eval harness for a UI that asserts nothing](#an-eval-harness-for-a-ui-that-asserts-nothing) | qpIQ | building evals for a property no test can express, run unattended, designed around the silent pass | applied-AI · devex · platform |
 | [Voice-to-Prototype agentic pipeline](#voice-to-prototype-agentic-pipeline) | storipro | running autonomous coding agents inside a real repository without handing them the keys | applied-AI · platform · founding |
+| [The trial that captured nobody](#the-trial-that-captured-nobody) | qpIQ | diagnosing a live field failure whose cause was outside the code, and fixing the failure class rather than the instance | forward-deployed · platform · founding |
 
 ---
 
@@ -410,6 +412,24 @@
 
 > A founder's billing prototype had to start taking real money. After a stale ID silently charged a customer $138 with nothing recorded, I locked down the data layer, made the webhooks heal themselves, and wrote 142 tests from zero.
 
+### An eval harness for a UI that asserts nothing
+
+- **Slug:** `ux-walkthrough-harness`
+- **Title:** An eval harness for a UI that asserts nothing
+- **Client:** qpIQ
+- **Role:** Technical Co-Founder
+- **Timeline:** Aug 2026
+- **Stack:** TypeScript · Playwright · Firebase Emulator Suite · Next.js App Router · Firestore · Node.js
+- **Agentic stack:** Scheduled Claude Code loop — weekly UX review, stateless between runs · Artifact-based judgement pass (screenshots, page text, console errors) rather than assertions · Per-run caps and backpressure on generative output · Deterministic ISO-week rotation replacing persisted loop state · Snapshot/resume sandbox execution with on-disk checkpointing · OpenSpec change proposals for every finding that became work
+- **Numbers:** **37** Findings from one scan, batched into 8 issues by shared mechanism · **5** Sandbox teardowns measured in 90 minutes — every run survives them · **0** Assertions in the harness
+- **Links:** [demo](https://qpiq.app) · [case study](https://www.lukepanaccio.com/projects/ux-walkthrough-harness)
+- **Proves:** building evals for a property no test can express, run unattended, designed around the silent pass
+- **Best for:** applied-AI · devex · platform
+- **One-liner:** A weekly agent walks the product at two viewports and judges it from captured artifacts rather than assertions — it survives a sandbox that kills every process it starts by keeping all state on disk, and one scan produced 37 findings batched into 8 issues by shared mechanism.
+- **Presentable:** link case study only — qpIQ repo is private
+
+> A weekly agent walks the product at two viewports and judges it from what it captured. The harness makes no assertions — one that fails on an assertion only teaches you what its author already knew.
+
 ### Voice-to-Prototype agentic pipeline
 
 - **Slug:** `voice-to-prototype-pipeline`
@@ -427,3 +447,21 @@
 - **Presentable:** link case study only — storipro repo is private
 
 > An agentic CI pipeline where the automated workflow handles git, not the AI model, debugged from a flawed design into a clean split
+
+### The trial that captured nobody
+
+- **Slug:** `zero-capture-postmortem`
+- **Title:** The trial that captured nobody
+- **Client:** qpIQ
+- **Role:** Technical Co-Founder
+- **Timeline:** Aug 2026
+- **Stack:** Next.js App Router · TypeScript · Firestore · Vercel · Vercel CLI log analysis · QR/Reed–Solomon encoding · WebKit/Blink text detection · Playwright
+- **Agentic stack:** OpenSpec change proposals — harden-qr-entry-point, shorten-qr-payload, add-capture-observability · CLAUDE.md sensitive-path rules forcing a security review on the diff · Agent-assisted log reconstruction and device-width measurement · Default-off feature flags with written removal conditions · Postmortem committed to the repo as the spec’s own source document
+- **Numbers:** **0** Buyers captured on the first live trial · **3** Join requests during the open — all 404, none from the QR · **55 → 27** QR payload characters, which bought error correction M → Q
+- **Links:** [demo](https://qpiq.app) · [case study](https://www.lukepanaccio.com/projects/zero-capture-postmortem)
+- **Proves:** diagnosing a live field failure whose cause was outside the code, and fixing the failure class rather than the instance
+- **Best for:** forward-deployed · platform · founding
+- **One-liner:** Our first live trial captured zero buyers and the reported symptom was false — I reconstructed the morning from production logs to a URL wrapping mid-string and a phone text detector that terminates at the line break, then shipped a spoken 8-digit entry path because every fix that kept a link in it kept the failure.
+- **Presentable:** yes — live at qpiq.app; repo private, and the write-up anonymises the agent and agency
+
+> A live pilot produced zero data. The cause was a CSS line break, an iOS text detector, and an error message that lied — and the fix was an entry path with no link in it at all.

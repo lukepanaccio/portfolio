@@ -1,0 +1,111 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'The trial that captured nobody'
+tagline: 'A live pilot produced zero data. The cause was a CSS line break, an iOS text detector, and an error message that lied — and the fix was an entry path with no link in it at all.'
+description: 'The first real trial of qpIQ captured zero buyers. The reported symptom was “the link expired”, which was false and sent diagnosis after a bug that does not exist. Reconstructing the morning from production request logs found a 36-character URL wrapping mid-string on a phone, a text detector that terminates a URL at a line break, and a not-found page making a claim nobody had checked. I shipped a spoken 8-digit code instead — an entry path with no artefact in the middle for a camera or a line break to corrupt — and the telemetry that makes the next silent failure visible in a day instead of reconstructed from logs.'
+client: 'qpIQ'
+role: 'Technical Co-Founder'
+timeline: 'Aug 2026'
+audience: 'Engineers deploying into someone else’s workplace, where the failure is rarely in the code'
+tools: ['Next.js App Router', 'TypeScript', 'Firestore', 'Vercel', 'Vercel CLI log analysis', 'QR/Reed–Solomon encoding', 'WebKit/Blink text detection', 'Playwright']
+agenticStack: ['OpenSpec change proposals — harden-qr-entry-point, shorten-qr-payload, add-capture-observability', 'CLAUDE.md sensitive-path rules forcing a security review on the diff', 'Agent-assisted log reconstruction and device-width measurement', 'Default-off feature flags with written removal conditions', 'Postmortem committed to the repo as the spec’s own source document']
+heroImage: '/images/zero-capture-hero.svg'
+demoLink: 'https://qpiq.app'
+metrics:
+  - label: 'Buyers captured on the first live trial'
+    value: '0'
+  - label: 'Join requests during the open — all 404, none from the QR'
+    value: '3'
+  - label: 'QR payload characters, which bought error correction M → Q'
+    value: '55 → 27'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+qpIQ captures buyers at an open home: they scan a QR code on a sign, register in one tap, and answer seven questions in under 90 seconds. The agent gets a ranked call list on Monday and a vendor-ready report. All of it depends on one moment — a stranger's phone reading a code off a sign, once, in a room they are about to leave.
+
+On a Saturday morning in August the product ran its first proper trial with a live agent. It captured **zero buyers**. No registration, no survey, no report. The open produced nothing.
+
+What came back was: *"the buyer tried opening the QR code but the link had expired."*
+
+That sentence was false in every part. The link had not expired — the join token from that morning still returned a live registration page the next day. The agent had not seen the error himself; it was relayed. And the word "expired" came from our own not-found page, which asserts it as a default without checking. **A wrong symptom is more expensive than no symptom**, because it points diagnosis at a bug that does not exist. It cost a working day.
+
+Two things had failed, and only one of them was in the code.
+
+## The diagnosis
+
+Three requests reached the join route during the open. All three 404'd, and none of them came from the QR code.
+
+That last part is not an inference from telemetry — it is a property of the format. QR decoding is all-or-nothing: Reed–Solomon error correction either reconstructs the exact payload or fails outright. There is no partial decode, no truncation, no appended text. Whatever phone the buyer used, **a successful scan would have delivered the URL perfectly**. So both malformed URLs came from somewhere else, and the only other place the address appears is the sign's own words.
+
+Decoded, the first request was the complete, correct join URL, then a newline, then *"Takes 10 seconds — your details go to the agent, never the owner."* — the reassurance line printed directly beneath it. A two-line text capture. The second and third were the same URL one character short: the final `b` of the UUID, gone.
+
+Nobody typed anything. That 35-character string is **exactly the first rendered line of the link** as the page draws it.
+
+The on-screen fallback renders the URL at 14px with `word-break: break-all` and centred text, so it wraps mid-string. Measured in a browser with the product's own markup, stylesheet and typeface at a 430px viewport, the final character lands alone on line two. And phones run text detection in the same viewfinder as QR detection: iOS Live Text and Google Lens both surface a detected URL as a tappable link whether or not a code is present, and **Apple's data detector terminates a URL at a line break**. A URL wrapped onto two lines becomes a tappable link containing only the first line. One tap. No copying, no typing, no human error to blame.
+
+The URL wraps on effectively every phone below about 440px; the one-character orphan was just the case that made the pattern legible.
+
+| Viewport | Devices | Characters dropped by a line-wise capture |
+|---|---|---|
+| 375 | iPhone SE / 8 / mini | 8 |
+| 390 | iPhone 12 / 13 / 14 | 6 |
+| 402 | iPhone 16 Pro | 5 |
+| 414 | iPhone 11 Pro Max / 8 Plus | 3 |
+| **428 / 430** | **Pro Max and Plus class** | **1** |
+| 440 | iPhone 16 Pro Max | no wrap |
+
+The link needs a 436px viewport to fit on one line. Printed at 12pt across A4 it has about 49% width headroom, so **the printed sign never wraps** — which relocates the defect, because the agent had said he intended to show the code from his phone rather than print the sign. If the buyer read text off the agent's display, the number of characters lost was set by the agent's screen width. That yields a prediction the reconstruction can lose: only the Max/Plus class drops exactly one character.
+
+The whole chain, and the honest gap in it:
+
+<MermaidDiagram diagram={`flowchart TD
+    A["The QR did not scan<br/>— reason unrecorded, still open"] --> B["Fallback offers the URL as readable text,<br/>with body copy directly beneath"]
+    B --> C["A camera or cursor takes that text.<br/>The capture runs past the URL into the sentence,<br/>or stops dead at the line break"]
+    C --> D["resolveJoinToken does an exact document lookup.<br/>Anything not byte-identical misses"]
+    D --> E["notFound() renders: 'This link isn't valid<br/>or may have expired' — a claim nobody checked"]
+    E --> F["'Expired' is relayed back as the symptom.<br/>Diagnosis chases an expiry bug for a working day"]
+    A --> G["No event records a join-page view<br/>or a failed token"]
+    G --> H["Nothing surfaces in the console, the stats page,<br/>or the daily digest. The failure is silent"]
+`} />
+
+Seven candidate causes were checked and cleared with evidence: not an expiry (the token still resolves), not the QR image (re-encoded and independently decoded correctly at every raster size down to one pixel per module), not the token, campaign or signup cap, not a preview-environment link, not the deployment (the same build served three other join tokens the day before, two through to completed registrations), not the on-screen code size (~60mm physically, comfortable at arm's length), not scrolled out of view.
+
+Which leaves the part that actually cost the trial, and the part the logs cannot answer: **why the code failed to scan in the first place.** Every remaining candidate — specular glare off a glossy screen, auto-brightness dimming exactly when ambient light is highest, screen-to-camera moiré, OLED flicker banding, auto-lock on a propped phone — is specific to displaying the code on a screen rather than on paper. That question is still open, is written up as open, and the fixes below are explicit about not claiming to have answered it.
+
+## Architecture & why
+
+- **Decision: an entry path with no link in it at all — an 8-digit code the agent says out loud, typed by the buyer at a short spoken address.** *Alternative rejected:* the obvious set of fixes — shorten the URL, forgive the whitespace, stop lying in the error copy. *Why:* every failure that morning had one shape, which is that something rendered an address, a phone read it imperfectly, and the buyer got a 404. Each of those fixes makes that shape less likely and **none of them removes it, because every one of them still has a link in it.** A spoken code has no artefact in the middle for a camera, a text detector, or a line break to corrupt. It also degrades in exactly the right direction: it works when the screen is glare-blown, when the phone has auto-locked, when the buyer's camera app is uncooperative, and when the agent never printed a sign — which is the entire list of open candidates for why the code didn't scan. The open question stays open; this stops it mattering as much.
+
+- **Decision: eight digits, not six, and not alphanumeric.** *Alternative rejected:* a 6-character alphanumeric code, the familiar shape from SMS verification. *Why:* two independent reasons, and neither is aesthetic. The code's hardest requirement is surviving being said across a busy room, and `B`/`P`/`T`/`D`/`E`/`G`/`V`/`Z` are mutually confusable in speech while any alphanumeric set adds "letter O or zero" — digits are unambiguous spoken and get the buyer a numeric keypad. Length is the security decision: **a globally-resolvable code is searchable by everyone at once, unlike an SMS code, which is 6 digits only because it is bound to one identity, making its effective search space one.** With ~50 opens live simultaneously, 6 digits means an attacker expects roughly 20,000 guesses to land on a real one — an hour of scripted traffic. Eight digits needs ~2,000,000, which is uninteresting before rate limiting even applies. Two extra digits buy about 100× for the cost of saying four more syllables. Stored as a string, never a number, because a leading zero is significant and parsing to an integer silently destroys 10% of the code space.
+
+- **Decision: rate-limit failed resolutions, never successful ones.** *Alternative rejected:* an IP-keyed limit on all resolutions of the new, deliberately lower-entropy address. *Why:* the obvious implementation reintroduces the exact failure being fixed. A real open home puts many buyers on one carrier NAT, so limiting all resolutions throttles precisely the busy open the product exists to serve. Enumeration produces overwhelmingly failures; genuine buyers produce successes, so a buyer who scans and lands is never limited no matter how many share their IP. This needed a second pass in production, because the miss budget was still masking genuine hits behind a shared NAT for up to ten minutes: the read-only page has no side effect to protect and stopped masking hits at all, while the mutating signup action still opts in, since a resolution there ends in a real write.
+
+- **Decision: the resolution path becomes tolerant of transport damage without becoming fuzzy, and stops claiming the link expired.** *Alternative rejected:* prefix or edit-distance matching, which would have recovered all three failed requests. *Why:* the route now normalises what arrives — first whitespace-delimited segment, trimmed, case-folded, trailing punctuation stripped — then performs the same exact lookup as before. That recovers the first request verbatim and deliberately **not** the other two: a truncated token is a different token, and a system that resolves a wrong address to a right one is worse than one that 404s honestly. The error copy is the smallest change here and caused the largest share of the wasted time — the page asserted a specific cause it had not checked, that assertion was relayed as the reported symptom, and the investigation started from it. Non-disclosure is preserved, so unknown, mistyped and purged addresses stay indistinguishable, but the page now offers code entry as a recovery path rather than being a dead end.
+
+- **Decision: refuse to switch the capture channel to SMS.** *Alternative rejected:* abandoning QR entry after it failed its first live trial. *Why:* the two are not substitutes, and treating them as such misreads the product. There is no SMS gateway here — the control builds a deep link that opens the *agent's own* Messages app, and it only exists once a buyer's name and mobile are already in the console. QR is how identity gets **in**; SMS is how the survey link goes **out** to someone already captured. Switching means the agent hand-types every buyer during the busiest thirty minutes of their week, which is the exact work the QR was built to remove. The trial did not show the approach was wrong. It showed the fallback around it was unguarded.
+
+- **Decision: a shorter payload buys higher error correction, and both axes improve at once.** *Alternative rejected:* leaving the encoder alone, which the first change had listed as an explicit non-goal because the QR image was verified to decode correctly. *Why:* that verification established "correct under ideal conditions", which is a different claim from "robust in a lit room at arm's length" — and every open candidate for the scan failure is a form of damage to the captured image, which is what error correction buys. Meanwhile the sign was still encoding the 55-character UUID URL when the new 27-character code URL reached the same page. Measured with the project's own encoder, the short payload at level Q needs 29 modules against the long payload's 33 at level M, so at the same rendered size it delivers **two-thirds more error correction and an 11% larger module simultaneously.** The trade-off the encoder's own comment described — that a lower level keeps the grid coarser and more scannable at distance — stops applying, because the payload shrank faster than the level grew.
+
+- **Decision: three PII-free arrival events, so the three failure modes stop producing identical silence.** *Alternative rejected:* a client-side analytics SDK or a log-drain vendor. *Why:* "nobody scanned", "people scanned and abandoned the form", and "people typed a truncated URL and hit a not-found" were indistinguishable — the system logged success and nothing else, which is why diagnosis needed a human reconstructing a morning from raw request logs. One detail decided the design: **a join token is shared by every buyer at an open**, so the existing one-event-per-token-per-hour throttle would have collapsed thirty real scans into one and destroyed the signal. These use a bounded window carrying an elapsed count instead. The attempted token on the unresolved path is attacker-controlled and is never stored, and both events are classified as scanner-inflated context, excluded from every funnel denominator.
+
+## Evals / validation
+
+The diagnosis is the artefact that had to be validated first, because everything downstream inherits its errors. It rests on four independent lines of evidence: deduplicated production request logs across five days, an independent re-encode and decode of the join URL at multiple raster sizes, browser measurement of the sign's own markup and typeface across eight device widths, and a control group — three tokens served successfully by the same deployment the day before, two through to completed registrations. Two operational notes went into the write-up because they cost real time: the log CLI returns each record roughly 100 times and caps at about 50 unique rows per call regardless of the limit flag, so you deduplicate on ID and page backwards; and three requests dated the following day were diagnostic fetches made while investigating, not user traffic. **An investigation that mistakes its own footprints for evidence reaches a confident wrong answer.**
+
+The changes went through the repo's normal gates rather than an expedited path. The security review was required and treated as substantive: this introduces a **deliberately lower-entropy address for a public unauthenticated endpoint**, so the review question was whether code length, the failed-resolution limiter, the per-open signup cap and the bounded validity window together keep enumeration uninteresting, and separately whether the new normalisation could widen resolution beyond exact match. A guessed code yields a registration page showing an address and agent name that are already public listing data; the real exposure is spam registrations, which the existing cap bounds.
+
+Both behavioural changes shipped behind default-off flags with **written removal conditions**. The code on the sign stays flagged until one open confirms buyers registered through it; the alert thresholds stay flagged until two consecutive weeks where every raised alert was a real capture failure and no real failure went unraised. Telemetry itself was deliberately not flagged — it is additive, PII-free, and useless if it only starts recording once someone remembers to enable it.
+
+The alerting was then tuned against the incident that motivated it. The first threshold would not have caught a single-open zero-capture, so the floor came down until it would, and the unresolved-address count was windowed to 24 hours after an all-time counter proved unreadable as a signal. Both are cases of the same thing: an alert that exists but does not fire is worse than no alert, because it reads as an all-clear.
+
+## Outcome
+
+- **The failure produced a spoken entry path that has no link in it**, alongside the QR and the written address. Three ways in, one of which cannot be corrupted by a camera, a text detector, or a line wrap, because nothing passes between the two devices.
+- **The QR payload went from 55 characters to 27**, which paid for error correction rising from level M (~15% recovery) to level Q (~25%) *and* an 11% larger module at the same rendered size — both axes improved by one change. Explicitly not claimed as a diagnosis of the original scan failure; it raises the margin against the whole class of causes rather than identifying which one fired.
+- **A capture failure is now visible within a day instead of reconstructed from request logs.** The three failure modes that previously produced identical silence are separable, and four threshold conditions on the existing daily job raise an alert without failing the run — scoped to the digest's window so an open is assessed the day after it locks and cannot re-alert forever.
+- **One working day was lost to a sentence in a not-found page** that asserted a cause nobody had checked. That is the finding I would keep if I could keep only one.
+
+> The root cause of the scan failure is still open, and the postmortem says so in its own heading. What the incident actually produced was a conclusion that outlived it: every failure that morning had the same shape, and every fix that kept a link in the middle would have left that shape intact. The engineering judgement was recognising that the fix had to remove the artefact rather than improve it — and being willing to say, in writing, that we shipped four changes without ever answering the question that cost us the trial.

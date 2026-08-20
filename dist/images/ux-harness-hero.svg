@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="An eval harness for a UI that asserts nothing — capture, survive teardown, hand the judgement to an agent">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c1122"/>
+      <stop offset="60%" stop-color="#0a0e1a"/>
+      <stop offset="100%" stop-color="#070a13"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx="80%" cy="14%" r="70%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.26"/>
+      <stop offset="34%" stop-color="#fbbf24" stop-opacity="0.09"/>
+      <stop offset="72%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coolbloom" cx="14%" cy="92%" r="62%">
+      <stop offset="0%" stop-color="#1e3a5f" stop-opacity="0.20"/>
+      <stop offset="70%" stop-color="#0a0e1a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="44%" r="78%">
+      <stop offset="55%" stop-color="#05070d" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#05070d" stop-opacity="0.55"/>
+    </radialGradient>
+    <radialGradient id="gridmask" cx="64%" cy="40%" r="62%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="gmask"><rect width="1600" height="900" fill="url(#gridmask)"/></mask>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="barfade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0"/>
+      <stop offset="18%" stop-color="#f59e0b" stop-opacity="1"/>
+      <stop offset="82%" stop-color="#fbbf24" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="nodefill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#26324a"/>
+      <stop offset="100%" stop-color="#161f33"/>
+    </linearGradient>
+    <linearGradient id="diskfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c2740"/>
+      <stop offset="100%" stop-color="#0e1626"/>
+    </linearGradient>
+    <filter id="glow" x="-90%" y="-90%" width="280%" height="280%">
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#f59e0b" flood-opacity="0.55"/>
+    </filter>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#coolbloom)"/>
+  <rect width="1600" height="900" fill="url(#bloom)"/>
+  <g mask="url(#gmask)" stroke="#f59e0b" stroke-opacity="0.07" stroke-width="1">
+    <path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/>
+  </g>
+  <g font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif">
+
+    <!-- the walk -->
+    <text x="128" y="140" font-size="19" letter-spacing="3" font-weight="700" fill="#7c8aa3">DRIVE &amp; CAPTURE</text>
+    <g font-size="14" fill="#cbd5e1">
+      <rect x="128" y="168" width="150" height="54" rx="10" fill="url(#nodefill)" stroke="#3b4761" stroke-width="1.5"/>
+      <text x="148" y="200">screenshot</text>
+      <rect x="292" y="168" width="150" height="54" rx="10" fill="url(#nodefill)" stroke="#3b4761" stroke-width="1.5"/>
+      <text x="312" y="200">page text</text>
+      <rect x="128" y="236" width="150" height="54" rx="10" fill="url(#nodefill)" stroke="#3b4761" stroke-width="1.5"/>
+      <text x="148" y="268">console errors</text>
+      <rect x="292" y="236" width="150" height="54" rx="10" fill="url(#nodefill)" stroke="#3b4761" stroke-width="1.5"/>
+      <text x="312" y="268">failed requests</text>
+      <rect x="128" y="304" width="314" height="54" rx="10" fill="url(#nodefill)" stroke="#3b4761" stroke-width="1.5"/>
+      <text x="148" y="336">every confirm dialog it met</text>
+    </g>
+    <text x="128" y="386" font-size="15" font-weight="700" fill="#64748b">after every step · phone 390 · desktop 1280</text>
+
+    <!-- disk -->
+    <g>
+      <path d="M466 300 H540" stroke="#f59e0b" stroke-width="4" stroke-opacity="0.7"/>
+      <path d="M536 286 L564 300 L536 314 Z" fill="#fbbf24"/>
+    </g>
+    <rect x="586" y="216" width="286" height="168" rx="14" fill="url(#diskfill)" stroke="#f59e0b" stroke-width="2.5" filter="url(#glow)"/>
+    <text x="729" y="266" font-size="19" letter-spacing="3" font-weight="700" fill="#fbbf24" text-anchor="middle">ON DISK</text>
+    <text x="729" y="304" font-size="15" fill="#f8fafc" text-anchor="middle">manifest rewritten</text>
+    <text x="729" y="330" font-size="15" fill="#f8fafc" text-anchor="middle">after every unit</text>
+    <text x="729" y="364" font-size="14" font-weight="700" fill="#94a3b8" text-anchor="middle">nothing a SIGKILL would cost</text>
+
+    <!-- teardown / resume loop -->
+    <path d="M586 400 C 540 486, 470 496, 390 496 C 320 496, 258 480, 256 452" fill="none" stroke="#7c8aa3" stroke-width="3" stroke-dasharray="9 8"/>
+    <path d="M242 466 L256 436 L270 466 Z" fill="#94a3b8"/>
+    <text x="450" y="538" font-size="15" font-weight="700" fill="#94a3b8" text-anchor="middle">teardown · fresh PID · resume</text>
+    <text x="450" y="562" font-size="14" fill="#64748b" text-anchor="middle">5 rebuilds measured in 90 minutes</text>
+
+    <!-- judgement -->
+    <g>
+      <path d="M898 300 H978" stroke="#f59e0b" stroke-width="4" stroke-opacity="0.7"/>
+      <path d="M974 286 L1002 300 L974 314 Z" fill="#fbbf24"/>
+    </g>
+    <text x="1020" y="140" font-size="19" letter-spacing="3" font-weight="700" fill="#7c8aa3">JUDGEMENT, NOT PASS/FAIL</text>
+    <rect x="1020" y="168" width="440" height="88" rx="12" fill="url(#nodefill)" stroke="#3b4761" stroke-width="1.5"/>
+    <text x="1046" y="202" font-size="16" font-weight="700" fill="#cbd5e1">report.md</text>
+    <text x="1046" y="230" font-size="14" fill="#94a3b8">every flow arrives with its question attached</text>
+
+    <rect x="1020" y="272" width="440" height="88" rx="12" fill="#0a0e1a" stroke="#f59e0b" stroke-width="2.5" filter="url(#glow)"/>
+    <text x="1046" y="306" font-size="16" font-weight="700" fill="#fbbf24">weekly Claude Code loop</text>
+    <text x="1046" y="334" font-size="14" fill="#f8fafc">reads the artifacts, forms the judgement</text>
+
+    <rect x="1020" y="376" width="440" height="88" rx="12" fill="url(#nodefill)" stroke="#3b4761" stroke-width="1.5"/>
+    <text x="1046" y="410" font-size="16" font-weight="700" fill="#cbd5e1">capped output</text>
+    <text x="1046" y="438" font-size="14" font-weight="700" fill="#94a3b8">3 friction issues · 2 doc-drift PRs · per run</text>
+
+    <text x="1020" y="506" font-size="15" font-weight="700" fill="#7c8aa3">37 findings from one scan → 8 issues</text>
+
+    <!-- the headline number -->
+    <text x="1462" y="626" font-size="112" font-weight="700" fill="url(#amber)" text-anchor="end">0</text>
+    <text x="1462" y="666" font-size="19" letter-spacing="4" font-weight="700" fill="#7c8aa3" text-anchor="end">ASSERTIONS</text>
+  </g>
+  <rect width="1600" height="900" fill="url(#vignette)"/>
+  <rect width="1600" height="900" filter="url(#grain)" opacity="0.05"/>
+  <rect x="0" y="0" width="1600" height="56" fill="url(#barfade)" opacity="0.16" filter="url(#glow)"/>
+  <rect width="1600" height="5" fill="url(#barfade)"/>
+  <text x="112" y="688" font-family="ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial" font-size="30" letter-spacing="6" font-weight="700" fill="url(#amber)">UX EVAL HARNESS</text>
+  <text x="106" y="788" font-family="Georgia,Times New Roman,serif" font-size="76" font-weight="700" fill="#f8fafc">Capture, Don’t Assert</text>
+</svg>
