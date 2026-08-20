@@ -1,0 +1,286 @@
+<!DOCTYPE html><html lang="en"> <head><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-6L6KLC0DHV"></script><meta charset="UTF-8"><meta name="description" content="The first real trial of qpIQ captured zero buyers. The reported symptom was “the link expired”, which was false and sent diagnosis after a bug that does not exist. Reconstructing the morning from production request logs found a 36-character URL wrapping mid-string on a phone, a text detector that terminates a URL at a line break, and a not-found page making a claim nobody had checked. I shipped a spoken 8-digit code instead — an entry path with no artefact in the middle for a camera or a line break to corrupt — and the telemetry that makes the next silent failure visible in a day instead of reconstructed from logs."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" href="/favicon.png" sizes="any"><meta name="generator" content="Astro v4.16.19"><!-- SEO --><title>The trial that captured nobody - Luke Panaccio</title><meta property="og:title" content="The trial that captured nobody - Luke Panaccio"><meta property="og:description" content="The first real trial of qpIQ captured zero buyers. The reported symptom was “the link expired”, which was false and sent diagnosis after a bug that does not exist. Reconstructing the morning from production request logs found a 36-character URL wrapping mid-string on a phone, a text detector that terminates a URL at a line break, and a not-found page making a claim nobody had checked. I shipped a spoken 8-digit code instead — an entry path with no artefact in the middle for a camera or a line break to corrupt — and the telemetry that makes the next silent failure visible in a day instead of reconstructed from logs."><meta property="og:type" content="website"><meta property="og:url" content="https://www.lukepanaccio.com/projects/zero-capture-postmortem/"><meta property="og:image" content="/og-image.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="The trial that captured nobody - Luke Panaccio"><meta name="twitter:description" content="The first real trial of qpIQ captured zero buyers. The reported symptom was “the link expired”, which was false and sent diagnosis after a bug that does not exist. Reconstructing the morning from production request logs found a 36-character URL wrapping mid-string on a phone, a text detector that terminates a URL at a line break, and a not-found page making a claim nobody had checked. I shipped a spoken 8-digit code instead — an entry path with no artefact in the middle for a camera or a line break to corrupt — and the telemetry that makes the next silent failure visible in a day instead of reconstructed from logs."><meta name="twitter:image" content="/og-image.png"><link rel="canonical" href="https://www.lukepanaccio.com/projects/zero-capture-postmortem/"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.CYkj-Kn8.css">
+<link rel="stylesheet" href="/_astro/3-steps-away.DFjWOgu8.css">
+<style>.mermaid-container[data-astro-cid-6vqylkyd]{background:var(--color-bg-elevated, #1a2234);border:1px solid var(--color-border-medium, rgba(255, 255, 255, .1));border-radius:.75rem;padding:clamp(1.5rem,4vw,3rem);margin:3rem 0;overflow-x:auto;box-shadow:0 4px 6px -1px #0000004d,0 2px 4px -1px #0003;cursor:zoom-in;position:relative}.mermaid-container[data-astro-cid-6vqylkyd]:after{content:"Click to expand";position:absolute;top:1rem;right:1rem;background:#000000b3;color:#fff;padding:.25rem .5rem;border-radius:.25rem;font-size:.75rem;opacity:0;transition:opacity .2s;pointer-events:none}.mermaid-container[data-astro-cid-6vqylkyd]:hover:after{opacity:1}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar{height:8px}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar-track{background:var(--color-bg-secondary, #111827);border-radius:4px}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar-thumb{background:var(--color-accent-primary, #f59e0b);border-radius:4px}.mermaid-container[data-astro-cid-6vqylkyd]::-webkit-scrollbar-thumb:hover{background:var(--color-accent-secondary, #fbbf24)}.mermaid[data-astro-cid-6vqylkyd]{display:flex;justify-content:center;min-height:300px}.mermaid[data-astro-cid-6vqylkyd] svg[data-astro-cid-6vqylkyd]{max-width:100%;height:auto;min-width:800px}@media (prefers-reduced-motion: reduce){.mermaid[data-astro-cid-6vqylkyd] [data-astro-cid-6vqylkyd]{animation:none!important;transition:none!important}}@media (max-width: 768px){.mermaid-container[data-astro-cid-6vqylkyd]{padding:1rem;margin:2rem -1rem;border-radius:0;border-left:none;border-right:none}}
+</style>
+<link rel="stylesheet" href="/_astro/3-steps-away.ChTAzUSw.css"><script type="module" src="/_astro/hoisted.Ci_3s4E_.js"></script></head> <body> <div class="grain-overlay"></div>  <header class="sticky top-0 z-50 bg-bg-primary/80 backdrop-blur-xl border-b border-border-subtle" data-astro-cid-3ef6ksr2> <nav class="max-w-7xl mx-auto px-6 py-5" data-astro-cid-3ef6ksr2> <div class="flex items-center justify-between" data-astro-cid-3ef6ksr2> <!-- Logo/Name --> <a href="/" class="group text-3xl font-display font-bold text-text-primary hover:text-accent-primary transition-colors duration-300" data-astro-cid-3ef6ksr2> <span class="relative" data-astro-cid-3ef6ksr2>
+Luke Panaccio
+<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-accent group-hover:w-full transition-all duration-300" data-astro-cid-3ef6ksr2></span> </span> </a> <!-- Desktop Navigation --> <div class="hidden md:flex items-center space-x-8" data-astro-cid-3ef6ksr2> <a href="/#work" class="relative text-sm font-semibold transition-colors duration-300 group text-text-secondary hover:text-text-primary" data-astro-cid-3ef6ksr2> Work <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-accent transition-all duration-300 w-0 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a><a href="/about/" class="relative text-sm font-semibold transition-colors duration-300 group text-text-secondary hover:text-text-primary" data-astro-cid-3ef6ksr2> About <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-accent transition-all duration-300 w-0 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a><a href="/#contact" class="relative text-sm font-semibold transition-colors duration-300 group text-text-secondary hover:text-text-primary" data-astro-cid-3ef6ksr2> Contact <span class="absolute -bottom-1 left-0 h-0.5 bg-gradient-accent transition-all duration-300 w-0 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a> </div> <!-- Mobile menu button --> <button class="md:hidden p-2 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" aria-label="Toggle menu" data-astro-cid-3ef6ksr2> <svg class="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-3ef6ksr2></path> </svg> </button> </div> <!-- Mobile menu --> <div id="mobile-menu" class="hidden md:hidden mt-6 pb-2 border-t border-border-subtle pt-6" data-astro-cid-3ef6ksr2> <div class="flex flex-col space-y-3" data-astro-cid-3ef6ksr2> <a href="/#work" class="text-sm font-semibold px-4 py-3 rounded-lg transition-all duration-300 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-transparent" data-astro-cid-3ef6ksr2> Work </a><a href="/about/" class="text-sm font-semibold px-4 py-3 rounded-lg transition-all duration-300 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-transparent" data-astro-cid-3ef6ksr2> About </a><a href="/#contact" class="text-sm font-semibold px-4 py-3 rounded-lg transition-all duration-300 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-transparent" data-astro-cid-3ef6ksr2> Contact </a> </div> </div> </nav> </header>  <main data-astro-cid-eo3wme6m> <!-- Hero Section with atmospheric gradient --> <section class="relative overflow-hidden" data-astro-cid-eo3wme6m> <!-- Atmospheric background --> <div class="absolute inset-0 overflow-hidden" data-astro-cid-eo3wme6m> <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-accent-primary/10 rounded-full blur-[120px] animate-glow" data-astro-cid-eo3wme6m></div> </div> <div class="relative max-w-7xl mx-auto px-6 py-20 md:py-32" data-astro-cid-eo3wme6m> <div class="max-w-4xl stagger-children" data-astro-cid-eo3wme6m> <!-- Breadcrumb --> <div class="flex items-center gap-2 text-sm text-text-tertiary mb-8" data-astro-cid-eo3wme6m> <a href="/#work" class="hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m>Projects</a> <span data-astro-cid-eo3wme6m>/</span> <span class="text-text-secondary" data-astro-cid-eo3wme6m>The trial that captured nobody</span> </div> <h1 class="text-5xl md:text-7xl font-bold text-text-primary mb-6 leading-tight" data-astro-cid-eo3wme6m> The trial that captured nobody </h1> <p class="text-xl md:text-2xl text-text-secondary font-light leading-relaxed max-w-3xl" data-astro-cid-eo3wme6m> A live pilot produced zero data. The cause was a CSS line break, an iOS text detector, and an error message that lied — and the fix was an entry path with no link in it at all. </p> <!-- Quick Actions --> <div class="flex flex-wrap gap-4 mt-10" data-astro-cid-eo3wme6m> <a href="https://qpiq.app" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center px-6 py-3 bg-gradient-accent text-bg-primary rounded-lg font-semibold hover:shadow-xl hover:shadow-accent-primary/20 transition-all duration-300 hover:-translate-y-0.5" data-astro-cid-eo3wme6m> <svg class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-eo3wme6m> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" data-astro-cid-eo3wme6m></path> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-astro-cid-eo3wme6m></path> </svg>
+View Live Demo
+</a>  </div> </div> </div> </section> <!-- Hero Image with dramatic presentation --> <section class="max-w-7xl mx-auto px-6 -mt-8 mb-20 animate-fade-in" style="animation-delay: 0.6s; opacity: 0;" data-astro-cid-eo3wme6m> <div class="relative group" data-astro-cid-eo3wme6m> <!-- Glow effect behind image --> <div class="absolute -inset-4 bg-gradient-accent opacity-20 blur-2xl rounded-2xl group-hover:opacity-30 transition-opacity duration-500" data-astro-cid-eo3wme6m></div> <div class="relative rounded-2xl overflow-hidden border border-border-medium shadow-2xl" data-astro-cid-eo3wme6m> <img src="/images/zero-capture-hero.svg" alt="The trial that captured nobody" class="w-full h-auto" data-astro-cid-eo3wme6m> </div> </div> </section> <!-- Project Overview --> <section class="py-16 md:py-24" data-astro-cid-eo3wme6m> <div class="max-w-7xl mx-auto px-6" data-astro-cid-eo3wme6m> <div class="grid xl:grid-cols-5 gap-12 lg:gap-16" data-astro-cid-eo3wme6m> <!-- Sidebar Info --> <div class="xl:col-span-1" data-astro-cid-eo3wme6m> <div class="sticky top-24 space-y-8" data-astro-cid-eo3wme6m> <!-- Project Meta Card --> <div class="bg-bg-elevated border border-border-medium rounded-xl p-6 space-y-6" data-astro-cid-eo3wme6m> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Client/Context</h3> <p class="text-text-primary font-medium" data-astro-cid-eo3wme6m>qpIQ</p> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Role</h3> <p class="text-text-primary font-medium" data-astro-cid-eo3wme6m>Technical Co-Founder</p> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Timeline</h3> <p class="text-text-primary font-medium" data-astro-cid-eo3wme6m>Aug 2026</p> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-2" data-astro-cid-eo3wme6m>Audience</h3> <p class="text-text-secondary text-sm leading-relaxed" data-astro-cid-eo3wme6m>Engineers deploying into someone else’s workplace, where the failure is rarely in the code</p> </div> </div> <!-- Tools --> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-3" data-astro-cid-eo3wme6m>Technologies</h3> <div class="flex flex-wrap gap-2" data-astro-cid-eo3wme6m> <span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> Next.js App Router </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> TypeScript </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> Firestore </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> Vercel </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> Vercel CLI log analysis </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> QR/Reed–Solomon encoding </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> WebKit/Blink text detection </span><span class="inline-flex items-center px-3 py-1.5 bg-bg-hover border border-border-subtle text-text-secondary text-xs rounded-md font-medium hover:border-accent-primary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> Playwright </span> </div> </div> <div data-astro-cid-eo3wme6m> <h3 class="text-xs font-bold text-accent-primary uppercase tracking-wider mb-3" data-astro-cid-eo3wme6m>Agentic toolchain</h3> <div class="flex flex-wrap gap-2" data-astro-cid-eo3wme6m> <span class="inline-flex items-center px-3 py-1.5 bg-accent-primary/10 border border-accent-primary/30 text-accent-primary text-xs rounded-md font-medium hover:bg-accent-primary/20 transition-colors" data-astro-cid-eo3wme6m> OpenSpec change proposals — harden-qr-entry-point, shorten-qr-payload, add-capture-observability </span><span class="inline-flex items-center px-3 py-1.5 bg-accent-primary/10 border border-accent-primary/30 text-accent-primary text-xs rounded-md font-medium hover:bg-accent-primary/20 transition-colors" data-astro-cid-eo3wme6m> CLAUDE.md sensitive-path rules forcing a security review on the diff </span><span class="inline-flex items-center px-3 py-1.5 bg-accent-primary/10 border border-accent-primary/30 text-accent-primary text-xs rounded-md font-medium hover:bg-accent-primary/20 transition-colors" data-astro-cid-eo3wme6m> Agent-assisted log reconstruction and device-width measurement </span><span class="inline-flex items-center px-3 py-1.5 bg-accent-primary/10 border border-accent-primary/30 text-accent-primary text-xs rounded-md font-medium hover:bg-accent-primary/20 transition-colors" data-astro-cid-eo3wme6m> Default-off feature flags with written removal conditions </span><span class="inline-flex items-center px-3 py-1.5 bg-accent-primary/10 border border-accent-primary/30 text-accent-primary text-xs rounded-md font-medium hover:bg-accent-primary/20 transition-colors" data-astro-cid-eo3wme6m> Postmortem committed to the repo as the spec’s own source document </span> </div> </div>  </div> </div> <!-- Main Content --> <div class="xl:col-span-3" data-astro-cid-eo3wme6m> <!-- Prose styling for MDX content --> <article class="project-content" data-astro-cid-eo3wme6m> <h2 id="the-problem">The problem</h2>
+<p>qpIQ captures buyers at an open home: they scan a QR code on a sign, register in one tap, and answer seven questions in under 90 seconds. The agent gets a ranked call list on Monday and a vendor-ready report. All of it depends on one moment — a stranger’s phone reading a code off a sign, once, in a room they are about to leave.</p>
+<p>On a Saturday morning in August the product ran its first proper trial with a live agent. It captured <strong>zero buyers</strong>. No registration, no survey, no report. The open produced nothing.</p>
+<p>What came back was: <em>“the buyer tried opening the QR code but the link had expired.”</em></p>
+<p>That sentence was false in every part. The link had not expired — the join token from that morning still returned a live registration page the next day. The agent had not seen the error himself; it was relayed. And the word “expired” came from our own not-found page, which asserts it as a default without checking. <strong>A wrong symptom is more expensive than no symptom</strong>, because it points diagnosis at a bug that does not exist. It cost a working day.</p>
+<p>Two things had failed, and only one of them was in the code.</p>
+<h2 id="the-diagnosis">The diagnosis</h2>
+<p>Three requests reached the join route during the open. All three 404’d, and none of them came from the QR code.</p>
+<p>That last part is not an inference from telemetry — it is a property of the format. QR decoding is all-or-nothing: Reed–Solomon error correction either reconstructs the exact payload or fails outright. There is no partial decode, no truncation, no appended text. Whatever phone the buyer used, <strong>a successful scan would have delivered the URL perfectly</strong>. So both malformed URLs came from somewhere else, and the only other place the address appears is the sign’s own words.</p>
+<p>Decoded, the first request was the complete, correct join URL, then a newline, then <em>“Takes 10 seconds — your details go to the agent, never the owner.”</em> — the reassurance line printed directly beneath it. A two-line text capture. The second and third were the same URL one character short: the final <code>b</code> of the UUID, gone.</p>
+<p>Nobody typed anything. That 35-character string is <strong>exactly the first rendered line of the link</strong> as the page draws it.</p>
+<p>The on-screen fallback renders the URL at 14px with <code>word-break: break-all</code> and centred text, so it wraps mid-string. Measured in a browser with the product’s own markup, stylesheet and typeface at a 430px viewport, the final character lands alone on line two. And phones run text detection in the same viewfinder as QR detection: iOS Live Text and Google Lens both surface a detected URL as a tappable link whether or not a code is present, and <strong>Apple’s data detector terminates a URL at a line break</strong>. A URL wrapped onto two lines becomes a tappable link containing only the first line. One tap. No copying, no typing, no human error to blame.</p>
+<p>The URL wraps on effectively every phone below about 440px; the one-character orphan was just the case that made the pattern legible.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Viewport</th><th>Devices</th><th>Characters dropped by a line-wise capture</th></tr></thead><tbody><tr><td>375</td><td>iPhone SE / 8 / mini</td><td>8</td></tr><tr><td>390</td><td>iPhone 12 / 13 / 14</td><td>6</td></tr><tr><td>402</td><td>iPhone 16 Pro</td><td>5</td></tr><tr><td>414</td><td>iPhone 11 Pro Max / 8 Plus</td><td>3</td></tr><tr><td><strong>428 / 430</strong></td><td><strong>Pro Max and Plus class</strong></td><td><strong>1</strong></td></tr><tr><td>440</td><td>iPhone 16 Pro Max</td><td>no wrap</td></tr></tbody></table>
+<p>The link needs a 436px viewport to fit on one line. Printed at 12pt across A4 it has about 49% width headroom, so <strong>the printed sign never wraps</strong> — which relocates the defect, because the agent had said he intended to show the code from his phone rather than print the sign. If the buyer read text off the agent’s display, the number of characters lost was set by the agent’s screen width. That yields a prediction the reconstruction can lose: only the Max/Plus class drops exactly one character.</p>
+<p>The whole chain, and the honest gap in it:</p>
+<div class="mermaid-container" data-astro-cid-6vqylkyd> <pre class="mermaid" data-astro-cid-6vqylkyd>flowchart TD
+  A[&quot;The QR did not scan&lt;br/&gt;— reason unrecorded, still open&quot;] --&gt; B[&quot;Fallback offers the URL as readable text,&lt;br/&gt;with body copy directly beneath&quot;]
+  B --&gt; C[&quot;A camera or cursor takes that text.&lt;br/&gt;The capture runs past the URL into the sentence,&lt;br/&gt;or stops dead at the line break&quot;]
+  C --&gt; D[&quot;resolveJoinToken does an exact document lookup.&lt;br/&gt;Anything not byte-identical misses&quot;]
+  D --&gt; E[&quot;notFound() renders: &#39;This link isn&#39;t valid&lt;br/&gt;or may have expired&#39; — a claim nobody checked&quot;]
+  E --&gt; F[&quot;&#39;Expired&#39; is relayed back as the symptom.&lt;br/&gt;Diagnosis chases an expiry bug for a working day&quot;]
+  A --&gt; G[&quot;No event records a join-page view&lt;br/&gt;or a failed token&quot;]
+  G --&gt; H[&quot;Nothing surfaces in the console, the stats page,&lt;br/&gt;or the daily digest. The failure is silent&quot;]
+</pre> </div> <script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  
+  // Initialize mermaid if not already done
+  if (!window.mermaidInitialized) {
+    window.mermaidInitialized = true;
+    mermaid.initialize({ 
+      startOnLoad: true, 
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#1a2234',
+        primaryColor: '#f59e0b',
+        primaryTextColor: '#f9fafb',
+        primaryBorderColor: '#f59e0b',
+        secondaryColor: '#fbbf24',
+        secondaryTextColor: '#d1d5db',
+        tertiaryColor: '#111827',
+        tertiaryTextColor: '#9ca3af',
+        lineColor: 'rgba(255, 255, 255, 0.2)',
+        textColor: '#d1d5db',
+        mainBkg: '#1a2234',
+        secondBkg: '#111827',
+        border1: 'rgba(245, 158, 11, 0.3)',
+        border2: 'rgba(251, 191, 36, 0.2)',
+        arrowheadColor: '#f59e0b',
+        fontFamily: 'Manrope, -apple-system, BlinkMacSystemFont, sans-serif',
+        fontSize: '16px'
+      },
+      flowchart: {
+        nodeSpacing: 50,
+        rankSpacing: 60,
+        curve: 'basis',
+        padding: 20
+      },
+      gantt: {
+        titleTopMargin: 25,
+        barHeight: 30,
+        barGap: 8,
+        topPadding: 50,
+        leftPadding: 100,
+        gridLineStartPadding: 35,
+        fontSize: 14,
+        sectionFontSize: 14,
+        numberSectionStyles: 4
+      }
+    });
+  }
+
+  // Modal setup
+  const MODAL_ID = 'mermaid-modal';
+  if (!document.getElementById(MODAL_ID)) {
+    const modal = document.createElement('div');
+    modal.id = MODAL_ID;
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 9999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    `;
+    
+    modal.innerHTML = `
+      <div style="position: relative; width: 95%; height: 95%; display: flex; justify-content: center; align-items: center;">
+        <button id="mermaid-modal-close" style="
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: none;
+          border: none;
+          color: white;
+          font-size: 2rem;
+          cursor: pointer;
+          z-index: 10001;
+          padding: 10px;
+          line-height: 1;
+        ">&times;</button>
+        <div id="mermaid-modal-content" style="width: 100%; height: 100%; overflow: auto; display: flex; justify-content: center; align-items: center;"></div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    const closeBtn = document.getElementById('mermaid-modal-close');
+    const content = document.getElementById('mermaid-modal-content');
+    
+    const closeModal = () => {
+      modal.style.opacity = '0';
+      setTimeout(() => {
+        modal.style.display = 'none';
+        content.innerHTML = '';
+      }, 300);
+    };
+    
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.parentElement === modal) {
+        closeModal();
+      }
+    });
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        closeModal();
+      }
+    });
+  }
+
+  // Attach click handlers
+  // We use a timeout to ensure mermaid has rendered the SVGs
+  setTimeout(() => {
+    document.querySelectorAll('.mermaid-container').forEach(container => {
+      if (container.dataset.hasClickHandler) return;
+      container.dataset.hasClickHandler = 'true';
+      
+      container.addEventListener('click', () => {
+        const modal = document.getElementById(MODAL_ID);
+        const content = document.getElementById('mermaid-modal-content');
+        const svg = container.querySelector('svg');
+        
+        if (svg && modal && content) {
+          const clonedSvg = svg.cloneNode(true);
+          clonedSvg.style.maxWidth = '100%';
+          clonedSvg.style.maxHeight = '100%';
+          clonedSvg.style.height = 'auto';
+          clonedSvg.style.width = 'auto';
+          clonedSvg.removeAttribute('height');
+          clonedSvg.removeAttribute('width');
+          
+          content.innerHTML = '';
+          content.appendChild(clonedSvg);
+          
+          modal.style.display = 'flex';
+          // Force reflow
+          modal.offsetHeight;
+          modal.style.opacity = '1';
+        }
+      });
+    });
+  }, 1000);
+</script> 
+<p>Seven candidate causes were checked and cleared with evidence: not an expiry (the token still resolves), not the QR image (re-encoded and independently decoded correctly at every raster size down to one pixel per module), not the token, campaign or signup cap, not a preview-environment link, not the deployment (the same build served three other join tokens the day before, two through to completed registrations), not the on-screen code size (~60mm physically, comfortable at arm’s length), not scrolled out of view.</p>
+<p>Which leaves the part that actually cost the trial, and the part the logs cannot answer: <strong>why the code failed to scan in the first place.</strong> Every remaining candidate — specular glare off a glossy screen, auto-brightness dimming exactly when ambient light is highest, screen-to-camera moiré, OLED flicker banding, auto-lock on a propped phone — is specific to displaying the code on a screen rather than on paper. That question is still open, is written up as open, and the fixes below are explicit about not claiming to have answered it.</p>
+<h2 id="architecture--why">Architecture &amp; why</h2>
+<ul>
+<li>
+<p><strong>Decision: an entry path with no link in it at all — an 8-digit code the agent says out loud, typed by the buyer at a short spoken address.</strong> <em>Alternative rejected:</em> the obvious set of fixes — shorten the URL, forgive the whitespace, stop lying in the error copy. <em>Why:</em> every failure that morning had one shape, which is that something rendered an address, a phone read it imperfectly, and the buyer got a 404. Each of those fixes makes that shape less likely and <strong>none of them removes it, because every one of them still has a link in it.</strong> A spoken code has no artefact in the middle for a camera, a text detector, or a line break to corrupt. It also degrades in exactly the right direction: it works when the screen is glare-blown, when the phone has auto-locked, when the buyer’s camera app is uncooperative, and when the agent never printed a sign — which is the entire list of open candidates for why the code didn’t scan. The open question stays open; this stops it mattering as much.</p>
+</li>
+<li>
+<p><strong>Decision: eight digits, not six, and not alphanumeric.</strong> <em>Alternative rejected:</em> a 6-character alphanumeric code, the familiar shape from SMS verification. <em>Why:</em> two independent reasons, and neither is aesthetic. The code’s hardest requirement is surviving being said across a busy room, and <code>B</code>/<code>P</code>/<code>T</code>/<code>D</code>/<code>E</code>/<code>G</code>/<code>V</code>/<code>Z</code> are mutually confusable in speech while any alphanumeric set adds “letter O or zero” — digits are unambiguous spoken and get the buyer a numeric keypad. Length is the security decision: <strong>a globally-resolvable code is searchable by everyone at once, unlike an SMS code, which is 6 digits only because it is bound to one identity, making its effective search space one.</strong> With ~50 opens live simultaneously, 6 digits means an attacker expects roughly 20,000 guesses to land on a real one — an hour of scripted traffic. Eight digits needs ~2,000,000, which is uninteresting before rate limiting even applies. Two extra digits buy about 100× for the cost of saying four more syllables. Stored as a string, never a number, because a leading zero is significant and parsing to an integer silently destroys 10% of the code space.</p>
+</li>
+<li>
+<p><strong>Decision: rate-limit failed resolutions, never successful ones.</strong> <em>Alternative rejected:</em> an IP-keyed limit on all resolutions of the new, deliberately lower-entropy address. <em>Why:</em> the obvious implementation reintroduces the exact failure being fixed. A real open home puts many buyers on one carrier NAT, so limiting all resolutions throttles precisely the busy open the product exists to serve. Enumeration produces overwhelmingly failures; genuine buyers produce successes, so a buyer who scans and lands is never limited no matter how many share their IP. This needed a second pass in production, because the miss budget was still masking genuine hits behind a shared NAT for up to ten minutes: the read-only page has no side effect to protect and stopped masking hits at all, while the mutating signup action still opts in, since a resolution there ends in a real write.</p>
+</li>
+<li>
+<p><strong>Decision: the resolution path becomes tolerant of transport damage without becoming fuzzy, and stops claiming the link expired.</strong> <em>Alternative rejected:</em> prefix or edit-distance matching, which would have recovered all three failed requests. <em>Why:</em> the route now normalises what arrives — first whitespace-delimited segment, trimmed, case-folded, trailing punctuation stripped — then performs the same exact lookup as before. That recovers the first request verbatim and deliberately <strong>not</strong> the other two: a truncated token is a different token, and a system that resolves a wrong address to a right one is worse than one that 404s honestly. The error copy is the smallest change here and caused the largest share of the wasted time — the page asserted a specific cause it had not checked, that assertion was relayed as the reported symptom, and the investigation started from it. Non-disclosure is preserved, so unknown, mistyped and purged addresses stay indistinguishable, but the page now offers code entry as a recovery path rather than being a dead end.</p>
+</li>
+<li>
+<p><strong>Decision: refuse to switch the capture channel to SMS.</strong> <em>Alternative rejected:</em> abandoning QR entry after it failed its first live trial. <em>Why:</em> the two are not substitutes, and treating them as such misreads the product. There is no SMS gateway here — the control builds a deep link that opens the <em>agent’s own</em> Messages app, and it only exists once a buyer’s name and mobile are already in the console. QR is how identity gets <strong>in</strong>; SMS is how the survey link goes <strong>out</strong> to someone already captured. Switching means the agent hand-types every buyer during the busiest thirty minutes of their week, which is the exact work the QR was built to remove. The trial did not show the approach was wrong. It showed the fallback around it was unguarded.</p>
+</li>
+<li>
+<p><strong>Decision: a shorter payload buys higher error correction, and both axes improve at once.</strong> <em>Alternative rejected:</em> leaving the encoder alone, which the first change had listed as an explicit non-goal because the QR image was verified to decode correctly. <em>Why:</em> that verification established “correct under ideal conditions”, which is a different claim from “robust in a lit room at arm’s length” — and every open candidate for the scan failure is a form of damage to the captured image, which is what error correction buys. Meanwhile the sign was still encoding the 55-character UUID URL when the new 27-character code URL reached the same page. Measured with the project’s own encoder, the short payload at level Q needs 29 modules against the long payload’s 33 at level M, so at the same rendered size it delivers <strong>two-thirds more error correction and an 11% larger module simultaneously.</strong> The trade-off the encoder’s own comment described — that a lower level keeps the grid coarser and more scannable at distance — stops applying, because the payload shrank faster than the level grew.</p>
+</li>
+<li>
+<p><strong>Decision: three PII-free arrival events, so the three failure modes stop producing identical silence.</strong> <em>Alternative rejected:</em> a client-side analytics SDK or a log-drain vendor. <em>Why:</em> “nobody scanned”, “people scanned and abandoned the form”, and “people typed a truncated URL and hit a not-found” were indistinguishable — the system logged success and nothing else, which is why diagnosis needed a human reconstructing a morning from raw request logs. One detail decided the design: <strong>a join token is shared by every buyer at an open</strong>, so the existing one-event-per-token-per-hour throttle would have collapsed thirty real scans into one and destroyed the signal. These use a bounded window carrying an elapsed count instead. The attempted token on the unresolved path is attacker-controlled and is never stored, and both events are classified as scanner-inflated context, excluded from every funnel denominator.</p>
+</li>
+</ul>
+<h2 id="evals--validation">Evals / validation</h2>
+<p>The diagnosis is the artefact that had to be validated first, because everything downstream inherits its errors. It rests on four independent lines of evidence: deduplicated production request logs across five days, an independent re-encode and decode of the join URL at multiple raster sizes, browser measurement of the sign’s own markup and typeface across eight device widths, and a control group — three tokens served successfully by the same deployment the day before, two through to completed registrations. Two operational notes went into the write-up because they cost real time: the log CLI returns each record roughly 100 times and caps at about 50 unique rows per call regardless of the limit flag, so you deduplicate on ID and page backwards; and three requests dated the following day were diagnostic fetches made while investigating, not user traffic. <strong>An investigation that mistakes its own footprints for evidence reaches a confident wrong answer.</strong></p>
+<p>The changes went through the repo’s normal gates rather than an expedited path. The security review was required and treated as substantive: this introduces a <strong>deliberately lower-entropy address for a public unauthenticated endpoint</strong>, so the review question was whether code length, the failed-resolution limiter, the per-open signup cap and the bounded validity window together keep enumeration uninteresting, and separately whether the new normalisation could widen resolution beyond exact match. A guessed code yields a registration page showing an address and agent name that are already public listing data; the real exposure is spam registrations, which the existing cap bounds.</p>
+<p>Both behavioural changes shipped behind default-off flags with <strong>written removal conditions</strong>. The code on the sign stays flagged until one open confirms buyers registered through it; the alert thresholds stay flagged until two consecutive weeks where every raised alert was a real capture failure and no real failure went unraised. Telemetry itself was deliberately not flagged — it is additive, PII-free, and useless if it only starts recording once someone remembers to enable it.</p>
+<p>The alerting was then tuned against the incident that motivated it. The first threshold would not have caught a single-open zero-capture, so the floor came down until it would, and the unresolved-address count was windowed to 24 hours after an all-time counter proved unreadable as a signal. Both are cases of the same thing: an alert that exists but does not fire is worse than no alert, because it reads as an all-clear.</p>
+<h2 id="outcome">Outcome</h2>
+<ul>
+<li><strong>The failure produced a spoken entry path that has no link in it</strong>, alongside the QR and the written address. Three ways in, one of which cannot be corrupted by a camera, a text detector, or a line wrap, because nothing passes between the two devices.</li>
+<li><strong>The QR payload went from 55 characters to 27</strong>, which paid for error correction rising from level M (~15% recovery) to level Q (~25%) <em>and</em> an 11% larger module at the same rendered size — both axes improved by one change. Explicitly not claimed as a diagnosis of the original scan failure; it raises the margin against the whole class of causes rather than identifying which one fired.</li>
+<li><strong>A capture failure is now visible within a day instead of reconstructed from request logs.</strong> The three failure modes that previously produced identical silence are separable, and four threshold conditions on the existing daily job raise an alert without failing the run — scoped to the digest’s window so an open is assessed the day after it locks and cannot re-alert forever.</li>
+<li><strong>One working day was lost to a sentence in a not-found page</strong> that asserted a cause nobody had checked. That is the finding I would keep if I could keep only one.</li>
+</ul>
+<blockquote>
+<p>The root cause of the scan failure is still open, and the postmortem says so in its own heading. What the incident actually produced was a conclusion that outlived it: every failure that morning had the same shape, and every fix that kept a link in the middle would have left that shape intact. The engineering judgement was recognising that the fix had to remove the artefact rather than improve it — and being willing to say, in writing, that we shipped four changes without ever answering the question that cost us the trial.</p>
+</blockquote> </article> <!-- Metrics Display --> <div class="mt-16 relative" data-astro-cid-eo3wme6m> <!-- Glow background --> <div class="absolute inset-0 bg-gradient-accent opacity-5 blur-3xl rounded-2xl" data-astro-cid-eo3wme6m></div> <div class="relative bg-gradient-to-br from-bg-elevated to-bg-secondary border border-border-medium rounded-2xl p-8 md:p-12" data-astro-cid-eo3wme6m> <h2 class="text-3xl font-display font-bold text-text-primary mb-10" data-astro-cid-eo3wme6m>Impact & results</h2> <div class="grid md:grid-cols-3 gap-8" data-astro-cid-eo3wme6m> <div class="text-center group" data-astro-cid-eo3wme6m> <div class="text-5xl md:text-6xl font-display font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform duration-300" data-astro-cid-eo3wme6m> 0 </div> <div class="text-sm text-text-tertiary uppercase tracking-wide font-semibold" data-astro-cid-eo3wme6m> Buyers captured on the first live trial </div> </div><div class="text-center group" data-astro-cid-eo3wme6m> <div class="text-5xl md:text-6xl font-display font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform duration-300" data-astro-cid-eo3wme6m> 3 </div> <div class="text-sm text-text-tertiary uppercase tracking-wide font-semibold" data-astro-cid-eo3wme6m> Join requests during the open — all 404, none from the QR </div> </div><div class="text-center group" data-astro-cid-eo3wme6m> <div class="text-5xl md:text-6xl font-display font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform duration-300" data-astro-cid-eo3wme6m> 55 → 27 </div> <div class="text-sm text-text-tertiary uppercase tracking-wide font-semibold" data-astro-cid-eo3wme6m> QR payload characters, which bought error correction M → Q </div> </div> </div> </div> </div> </div> <!-- Right sidebar - Table of Contents --> <div class="xl:col-span-1 hidden xl:block" data-astro-cid-eo3wme6m> <nav class="toc-nav" aria-label="Table of Contents"> <div class="toc-header"> <h3 class="toc-title">On this page</h3> </div> <div class="toc-content"> <!-- Content will be populated by client-side script --> </div> </nav>   </div> </div> </div> </section> <!-- Navigation Footer --> <section class="py-12 border-t border-border-subtle" data-astro-cid-eo3wme6m> <div class="max-w-7xl mx-auto px-6" data-astro-cid-eo3wme6m> <div class="flex flex-col sm:flex-row justify-between items-center gap-6" data-astro-cid-eo3wme6m> <a href="/#work" class="group inline-flex items-center text-text-secondary hover:text-accent-primary transition-colors" data-astro-cid-eo3wme6m> <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-eo3wme6m> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" data-astro-cid-eo3wme6m></path> </svg>
+Back to All Projects
+</a> <a href="/#contact" class="group inline-flex items-center px-6 py-3 bg-gradient-accent text-bg-primary rounded-lg font-semibold hover:shadow-xl hover:shadow-accent-primary/20 transition-all duration-300 hover:-translate-y-0.5" data-astro-cid-eo3wme6m>
+Let's work together
+<svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-eo3wme6m> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" data-astro-cid-eo3wme6m></path> </svg> </a> </div> </div> </section> </main> <footer class="relative bg-bg-secondary border-t border-border-subtle" data-astro-cid-sz7xmlte> <!-- Subtle top glow --> <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-accent-primary/30 to-transparent" data-astro-cid-sz7xmlte></div> <div class="max-w-7xl mx-auto px-6 py-16" data-astro-cid-sz7xmlte> <div class="grid md:grid-cols-3 gap-12 mb-12" data-astro-cid-sz7xmlte> <!-- Brand Column --> <div data-astro-cid-sz7xmlte> <h3 class="font-display text-2xl font-bold text-text-primary mb-3" data-astro-cid-sz7xmlte>
+Luke Panaccio
+</h3> <p class="text-text-secondary leading-relaxed" data-astro-cid-sz7xmlte>
+I build production AI systems and make them usable. Years as an educator taught me to build for the person on the other end, so the systems actually get used.
+</p> </div> <!-- Quick Links Column --> <div data-astro-cid-sz7xmlte> <h4 class="text-sm font-bold text-accent-primary uppercase tracking-wider mb-4" data-astro-cid-sz7xmlte>
+Quick Links
+</h4> <ul class="space-y-3" data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte> <a href="/#work" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+Projects
+</a> </li> <li data-astro-cid-sz7xmlte> <a href="//about/" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+About
+</a> </li> <li data-astro-cid-sz7xmlte> <a href="/#contact" class="group inline-flex items-center text-text-secondary hover:text-text-primary transition-colors" data-astro-cid-sz7xmlte> <span class="w-0 h-px bg-accent-primary group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2" data-astro-cid-sz7xmlte></span>
+Contact
+</a> </li> </ul> </div> <!-- Connect Column --> <div data-astro-cid-sz7xmlte> <h4 class="text-sm font-bold text-accent-primary uppercase tracking-wider mb-4" data-astro-cid-sz7xmlte>
+Connect
+</h4> <div class="flex space-x-3" data-astro-cid-sz7xmlte> <a href="https://www.linkedin.com/in/luke-p-b444b124b/" target="_blank" rel="noopener noreferrer" class="group p-3 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300 hover:scale-110" aria-label="LinkedIn" data-astro-cid-sz7xmlte> <div class="text-text-secondary group-hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg> </div> </a><a href="https://github.com/lukpan" target="_blank" rel="noopener noreferrer" class="group p-3 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300 hover:scale-110" aria-label="GitHub" data-astro-cid-sz7xmlte> <div class="text-text-secondary group-hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> </div> </a><a href="mailto:lukepanaccio@gmail.com" target="_blank" rel="noopener noreferrer" class="group p-3 rounded-lg bg-bg-elevated border border-border-subtle hover:border-accent-primary hover:bg-bg-hover transition-all duration-300 hover:scale-110" aria-label="Email" data-astro-cid-sz7xmlte> <div class="text-text-secondary group-hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> </div> </a> </div> <!-- Email CTA --> <a href="mailto:lukepanaccio@gmail.com" class="group mt-6 inline-flex items-center text-sm font-semibold text-text-secondary hover:text-accent-primary transition-colors" data-astro-cid-sz7xmlte> <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-sz7xmlte> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" data-astro-cid-sz7xmlte></path> </svg>
+lukepanaccio@gmail.com
+</a> </div> </div> <!-- Bottom Bar --> <div class="pt-8 border-t border-border-subtle" data-astro-cid-sz7xmlte> <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-text-tertiary" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>
+&copy; 2026 Luke Panaccio. All rights reserved.
+</p> <p class="text-xs" data-astro-cid-sz7xmlte>
+Built with <span class="text-accent-primary" data-astro-cid-sz7xmlte>Astro</span> · Designed with purpose · AI-assisted development
+</p> </div> </div> </div> </footer>   </body></html>  

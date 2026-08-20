@@ -1,0 +1,87 @@
+---
+layout: '../../layouts/ProjectLayout.astro'
+title: 'An eval harness for a UI that asserts nothing'
+tagline: 'A weekly agent walks the product at two viewports and judges it from what it captured. The harness makes no assertions — one that fails on an assertion only teaches you what its author already knew.'
+description: 'A UI has no test that catches “this dead-ends” or “this is unreadable on a phone”. I built a walkthrough harness that drives every flow, captures a screenshot, page text, console errors and every confirm dialog after each step, and asserts nothing — a scheduled Claude Code loop reads the artifacts and forms the judgement. It survives a sandbox that kills every process it started every few minutes by keeping all state on disk, and it is designed around the failure mode that matters in evals: the silent pass.'
+client: 'qpIQ'
+role: 'Technical Co-Founder'
+timeline: 'Aug 2026'
+audience: 'Teams building evals for things a unit test cannot express, and running them unattended'
+tools: ['TypeScript', 'Playwright', 'Firebase Emulator Suite', 'Next.js App Router', 'Firestore', 'Node.js']
+agenticStack: ['Scheduled Claude Code loop — weekly UX review, stateless between runs', 'Artifact-based judgement pass (screenshots, page text, console errors) rather than assertions', 'Per-run caps and backpressure on generative output', 'Deterministic ISO-week rotation replacing persisted loop state', 'Snapshot/resume sandbox execution with on-disk checkpointing', 'OpenSpec change proposals for every finding that became work']
+heroImage: '/images/ux-harness-hero.svg'
+demoLink: 'https://qpiq.app'
+metrics:
+  - label: 'Findings from one scan, batched into 8 issues by shared mechanism'
+    value: '37'
+  - label: 'Sandbox teardowns measured in 90 minutes — every run survives them'
+    value: '5'
+  - label: 'Assertions in the harness'
+    value: '0'
+---
+
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+## The problem
+
+There is no unit test for *"this dead-ends"*, *"this control is below the readable floor on a phone"*, or *"this confirmation is redundant and the agent will stop reading it"*. Those defects only surface when a real user hits them, and this product's users are real-estate agents working phone-first, mid-open-home, with no patience and no support channel. A defect that costs thirty seconds on a Saturday is a defect that ends the pilot.
+
+So qpIQ runs a weekly Claude Code loop whose job is to walk the product and report friction. The checklist is a large canonical flows-and-actions document rather than a hardcoded journey list, so the loop's coverage grows and shrinks with the doc automatically.
+
+Twice, that loop failed — and both times for the same reason, which had nothing to do with judgement. **The loop runs in a snapshot/resume sandbox: between turns the environment manager tears the task down and resumes it under a fresh PID, and every process the session started dies with it** — emulators, the JVM behind Firestore, the dev server, the browser connection. One run measured five rebuilds in 90 minutes, none lasting more than about 13 minutes and one under six. An earlier run finished its rotation only by abandoning the browser connector entirely and scripting Chromium directly.
+
+That gave the problem two halves. An eval that cannot survive its own runtime produces nothing. And an eval for *"is this good"* cannot be expressed as a pass/fail, so whatever survives has to hand a judgement to something that can make one.
+
+## Architecture & why
+
+<MermaidDiagram diagram={`flowchart TD
+    UP["ux:up — idempotent bring-up<br/>adopts what is listening, starts only what is missing<br/>emulators + dev server + a known fixture"] --> W
+    W["ux:walk — drives the assigned rotation section<br/>phone 390px and desktop 1280px"]
+    W --> S["Per step: screenshot · page text · console errors<br/>failed requests · every confirm dialog met"]
+    S --> MF["Manifest rewritten after every unit<br/>report.md regenerated on disk"]
+    MF -->|"sandbox teardown, fresh PID"| UP
+    MF --> RPT["report.md — evidence, with each flow's<br/>'Watch for' question attached"]
+    RPT --> J["Claude Code loop reads the artifacts<br/>and forms the judgement"]
+    J --> CAP["Capped output: 3 friction issues max,<br/>2 doc-drift PRs max, per run"]
+    CAP --> GATE["Owner-approved label → the same<br/>two-gate delivery pipeline as any change"]
+`} />
+
+- **Decision: all state lives on disk, never in the process.** *Alternative rejected:* the agent driving the browser live through a connector across dozens of sequential tool calls — the natural way to do this, and what the first two attempts did. *Why:* the filesystem is precisely what the sandbox *does* preserve across a teardown. Every step's evidence is written immediately, the manifest is rewritten after every unit, and re-running skips whatever already finished. A six-minute window still lands three or four units; four such windows finish a rotation. Nothing is held in memory that a SIGKILL would cost. The teardown went from the thing that killed the loop to a normal event the loop's own brief describes as expected and not escalation-worthy.
+
+- **Decision: the harness captures and never asserts.** *Alternative rejected:* expectations in the flows, which is what every browser-testing framework is built to encourage. *Why:* **a harness that fails on an assertion teaches you what its author already knew, and this one exists to surface what nobody has looked at yet.** A step's only job is to get the app into a state worth looking at; the reviewing agent reads the artifacts and forms the judgement, which is the half of this work actually worth an LLM's attention. The corollary is that steps must be tolerant — the helpers record a miss and carry on rather than throwing, because a control that moved or was renamed is a *finding* (usually documentation drift), not a broken script. A weekly loop whose script snaps the first time a button label changes is a loop that reports on the script instead of the product.
+
+- **Decision: every flow declares who walks it — agent, admin, or anonymous.** *Alternative rejected:* one signed-in session for the whole walk. *Why:* the surfaces differ by who is asking, and getting this wrong produces the worst possible eval result, which is a confident green. The admin section is permission-gated and returns not-found to anyone else, so walking it as the ordinary agent would capture a stack of identical 404 screenshots and mark them done. The sign-in flows only exist for someone signed *out*, so they cannot be walked by a session at all.
+
+- **Decision: prove the session live before every unit, and record a unit that ends signed out as failed, never done.** *Why:* this is not defensive coding, it is a real bug the harness hit and now guards. Bring-up sets the test agent's password, which stamps a token-validity cutoff at one-second granularity — an ID token minted inside that same second is rejected for the whole life of the resulting cookie. The symptom is a run that signs in "successfully" and then screenshots the sign-in page from top to bottom, unit after unit, and reports a clean rotation. **An eval that cannot detect its own silent pass is worse than no eval**, because it converts an unknown into a false all-clear.
+
+- **Decision: dialogs are accepted explicitly, per step.** *Why:* the browser driver dismisses dialogs by default, which silently turns every confirm-gated action in this app into a no-op. The flow looks like it ran and nothing happened — the same silent-pass shape, arriving through a library default rather than a race.
+
+- **Decision: refuse to start unless both emulator hosts are set, the project ID is a demo project, and the app URL is loopback.** *Alternative rejected:* the standing instruction already in the loop's brief that says staging or emulator only, never production. *Why:* the harness signs in with a shared password and mutates everything it walks. Pointing it at anything real must be **impossible, not merely discouraged** — a prompt-level rule is a norm the agent restates to itself, and this is the one place where a bad run is unrecoverable.
+
+- **Decision: bring-up adopts anything already listening and never kills a process it did not start.** *Why:* a second emulator launch would take the port from the first *and its data with it*, silently destroying the fixture the run depends on. It also has to find a JVM for the Firestore emulator when one isn't on the path, because the common install is keg-only — a portability detail that is the difference between the loop working on the box it actually runs on and not.
+
+- **Decision: the four-week rotation is computed from the ISO week number, so no state persists between firings.** *Alternative rejected:* walking the whole checklist weekly, or persisting a cursor somewhere. *Why:* the flows document is far too large to walk in full on a weekly cadence credibly, and every loop in this system is stateless between runs by design. The week number is a deterministic function of the date, so a rotation needs no memory at all — the loop computes today's assignment and looks it up in a table that is canonical in the docs, not in the code.
+
+- **Decision: each flow carries a `watchFor` line lifted verbatim from the checklist's own "Watch for" note.** *Why:* the artifacts reach the reviewer with the question already attached. A screenshot with no question attached is a screenshot the reviewer has to invent a reason to care about.
+
+## Evals / validation
+
+The awkward question for a harness like this is how you validate the thing that does the validating. Three ways, none of them clever:
+
+**Resume is tested by killing it.** A run is SIGKILLed twenty seconds in, brought back up, and re-run — it prints how many units it is skipping and continues. A resume also re-signs in and re-resolves the fixture IDs from scratch, because bring-up rebuilds the test agent and its campaign and open IDs change with it; caching those in the manifest would produce a run that resumes cleanly against records that no longer exist.
+
+**Known gaps are written down rather than smoothed over.** Two of the four rotation sections are scripted and two are not, and the harness says so when asked for an unscripted one rather than silently walking the wrong one. One flow's phone pass intermittently misses the first tap because a panel renders a beat late — the second tap lands and both are captured, and that is recorded as a known intermittent rather than retried until green. One control moved behind a feature flag and its locator hasn't caught up, so it is recorded as a miss. A harness whose known-gaps section is empty is a harness nobody has looked at closely.
+
+**The loop's brief is written against its own failure modes**, because the agent reading the artifacts is the component most able to produce a plausible wrong answer. If a section isn't scripted, that is the honest state of the harness and not a clean run: say which flows you actually reached, and never report unwalked flows as clean. If the stack cannot come up *at all* — as distinct from being torn down mid-walk, which is expected and resumable — that is an escalation with a real diagnosis attached and the tail of the logs, not a suggestion, and not a quiet run with nothing found. Generative output is capped at three friction issues and two documentation-drift PRs per run, and sits under the same backpressure as every other loop, so a bad week produces less noise rather than more.
+
+## Outcome
+
+- **One scan produced 37 findings across eight themes.** They were batched into eight issues **by shared mechanism rather than by severity**, because the binding constraint downstream is not authoring effort but pull-request count — the implementation pipeline runs one agent PR in flight at a time, so every batch costs a label, a review and a merge. Thirty-seven findings as thirty-seven fixes is a month of owner attention; as eight it is a week.
+
+- **The batching changed the order of the work, and that was the highest-leverage decision in the whole exercise.** The contrast and type-scale guardrails were scheduled last, alongside a manual sweep. They were moved first, ahead of it — because the same defect had already been found and swept by eye four separate times, and each sweep held only until the next batch of work landed. Landing machine guards first is what makes the fifth sweep mechanical and a sixth unnecessary.
+
+- **That guard work found the failure mode underneath the recurrence.** One pair was live-failing on a real surface at 4.43:1 against a 4.5:1 floor. Six more were held off only by hand-written warning comments duplicated across five files, carrying measured figures — and **every figure in them was stale**, because the palette had been replaced once and a token lightened three times since they were written, and nothing re-measured them. Two were worse than stale: one file steps its type to escape a failure the current tokens no longer produce, and one pair now sits at exactly 4.50:1, on the line, where a one-point change decides it. Thirteen raw font-size literals shadowed tokens exactly. The conclusion is one sentence long: **a comment cannot fail.** The fix turns the prose into assertions that resolve the palette from source on every run, following a model that already existed in the repo for the email templates and had simply never been extended to the app's own surfaces.
+
+- **The harness is about 2,100 lines across the driver, the bring-up, the fixtures and two scripted sections**, covering 13 flows at two viewports, with a cold start of roughly 35 seconds including the fixture rebuild. It contains zero assertions, and that is the design, not an omission.
+
+> The transferable part is not the browser automation. It is that this is an eval for a property no test can express, run unattended by an agent, and every serious design decision in it is aimed at the same failure: the silent pass. Wrong identity, dismissed dialogs, a rejected session token, an unscripted section reported as clean — each one produces green artifacts and a confident all-clear. The assertions were the easy thing to leave out. Making the harness incapable of quietly succeeding was the work.
