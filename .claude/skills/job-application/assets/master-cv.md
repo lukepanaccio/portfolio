@@ -116,6 +116,14 @@ Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Rese
   attempt buried in an issue has no path to production. Diagnosed a same-run merge-conflict pattern
   in the archival loop, caused by parallel branches sharing one base, and redesigned it to chain
   branches sequentially, eliminating the conflict by construction.
+- `applied-AI` `devex` `platform` Built an eval harness for a property no assertion can express: a
+  weekly scheduled agent walks the product at two viewports and judges it from captured artifacts
+  (screenshots, page text, console errors) rather than from assertions, because a test that fails on
+  an assertion only teaches you what its author already knew. Designed around the silent pass, with
+  per-run caps and backpressure on generative output, a deterministic ISO-week rotation replacing
+  persisted loop state, and on-disk checkpointing that survives a sandbox killing every process it
+  starts (5 teardowns in 90 minutes, every run recovered). One scan produced 37 findings, batched
+  into 8 issues by shared mechanism.
 - `security` `platform` Built the three-layer authorisation chain isolating each tenant's data on a
   deny-all datastore, where Firestore rules deny every client read and write so authz lives entirely
   in application code — plus an end-to-end suite that forges nothing, minting real session cookies
@@ -249,7 +257,7 @@ Pull 2–3 per application from `portfolio-index.md`, which carries the per-proj
 whether the artefact is actually linkable. Do not list projects here that the letter doesn't use.
 
 Independently verifiable (public repo or live product): AbletonMCP PR #106 · qpiq.app ·
-marcus-aurelius-bot.fly.dev · docs.commercetools.com/docs/learning · this portfolio (86 commits).
+storipro.ai · docs.commercetools.com/docs/learning · this portfolio (86 commits).
 
 ---
 

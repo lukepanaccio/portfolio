@@ -117,7 +117,7 @@ const files = {
 
 <!-- 2-3 pieces maximum, from assets/portfolio-index.md.
      CHECK THE \`Presentable\` FIELD. Most repos are private; for those the case study is the
-     artefact. Publicly verifiable: AbletonMCP PR #106, qpiq.app, marcus-aurelius-bot.fly.dev,
+     artefact. Publicly verifiable: AbletonMCP PR #106, qpiq.app, storipro.ai,
      docs.commercetools.com/docs/learning. -->
 
 ### 1.

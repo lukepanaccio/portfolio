@@ -277,7 +277,7 @@ caught inflating is worse than not having the number.
 | Geocoding backlog recovered | 5.8% → 47% (1,625 rows) | storipro | Run comparison |
 | Whole-dataset geocoding coverage | 96.7% → 98.3% (~110K records) | storipro | DB query |
 | AbletonMCP contribution | +612 / −0, 13/13 tests, PR #106 | Open source | Public PR |
-| Voice AI response latency | <1s | Marcus Aurelius | Measured; live demo |
+| Voice AI response latency | <1s | Marcus Aurelius | Measured on the production deployment, now retired; session recording in the case study |
 | Second Brain pages / sources / clusters | 100 (0 hand-written) / 66 / 7 | Personal | Repo counts |
 | qpIQ codebase | 298 commits, ~25.7k LOC TS, 29 test files | Solo-built | Git history |
 | commercetools 12-month git history | 82 commits, ~+36,100 / −16,000 | Verified from git | Git log |
@@ -303,7 +303,6 @@ Regenerate with `npm run jobs:index` after editing `portfolio-judgements.md` or 
 | AbletonMCP PR #106 — public repo, upstream PR, 13 tests | https://github.com/lukepanaccio/ableton-mcp |
 | qpIQ — live product | https://qpiq.app |
 | storipro — live product (branded "Stori") | https://storipro.ai |
-| Marcus Aurelius — live voice demo | https://marcus-aurelius-bot.fly.dev |
 | commercetools learning platform — shipped work | https://docs.commercetools.com/docs/learning |
 | This portfolio — 21 case studies | https://www.lukepanaccio.com |
 
@@ -313,6 +312,11 @@ themselves are a different matter: qpIQ and storipro both have public product pa
 directly wherever those companies come up, not just the case study. For those, link the case study
 too, since it carries the architecture and reasoning the product page doesn't show. If a role probes
 deeply, the `marcus` and `brain` repos are the two worth making reviewable.
+
+**Marcus Aurelius is case-study-only as of Aug 2026** — the hosted demo at `marcus-aurelius-bot.fly.dev`
+no longer resolves and every direct link to it has been removed from this repo. The case study still
+carries a full session recording, so the project is presentable; it just isn't a live artefact any
+more. Never cite it as something a stranger can go and click.
 
 ---
 

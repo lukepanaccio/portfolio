@@ -22,7 +22,7 @@
 | [Developer Essentials learning path](#developer-essentials-learning-path) | commercetools | technical curriculum for developers, in two languages, ending in a real challenge | learning · devex |
 | [Firestore security rules + emulator suite](#firestore-security-rules-emulator-suite) | storipro | closing a live privilege-escalation path and proving it stays closed | security · platform |
 | [Geocoding accuracy campaign](#geocoding-accuracy-campaign) | storipro | diagnosing a metric that lies, then actually moving the number | platform · applied-AI · founding |
-| [Marcus Aurelius: AI-powered Stoic mentor](#marcus-aurelius-ai-powered-stoic-mentor) | Personal Project | real-time voice AI, latency-constrained, shipped and running | applied-AI · forward-deployed |
+| [Marcus Aurelius: AI-powered Stoic mentor](#marcus-aurelius-ai-powered-stoic-mentor) | Personal Project | real-time voice AI, latency-constrained, shipped and measured in production | applied-AI · forward-deployed |
 | [Modular learning path ecosystem](#modular-learning-path-ecosystem) | commercetools | architecting a content system that scales across roles over three years | learning · devex |
 | [Per-agent isolation on a deny-all datastore](#per-agent-isolation-on-a-deny-all-datastore) | qpIQ | authorisation design when the datastore enforces nothing and every decision is application code | security · platform · founding |
 | [AI grading & evaluation system](#ai-grading-evaluation-system) | An Australian University (Internal Tool) | shipping a real LLM tool to a real client with privacy and honesty constraints | applied-AI · forward-deployed |
@@ -244,11 +244,11 @@
 - **Timeline:** 3-4 weeks (November 2025)
 - **Stack:** OpenAI Realtime API · HeyGen Interactive Avatar · Pipecat Framework · Python/FastAPI
 - **Numbers:** **<1s** Response Latency · **4-6 min** Average Session
-- **Links:** [demo](https://marcus-aurelius-bot.fly.dev) · [case study](https://www.lukepanaccio.com/projects/marcus-aurelius)
-- **Proves:** real-time voice AI, latency-constrained, shipped and running
+- **Links:** [case study](https://www.lukepanaccio.com/projects/marcus-aurelius)
+- **Proves:** real-time voice AI, latency-constrained, shipped and measured in production
 - **Best for:** applied-AI · forward-deployed
 - **One-liner:** A Stoic mentor that teaches by Socratic questioning over real-time voice with a photorealistic avatar, holding sub-second response latency with explicit cognitive-load management.
-- **Presentable:** yes — live demo at marcus-aurelius-bot.fly.dev; repo private
+- **Presentable:** case study only — the hosted demo has been retired and the repo is private; the case study carries a full session recording
 
 > Making ancient philosophy accessible through real-time conversational AI with a photorealistic avatar
 

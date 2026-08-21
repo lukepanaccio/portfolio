@@ -156,7 +156,8 @@ one-liner from `portfolio-index.md`, and anything that needs fixing first.
 **Check the `Presentable` field before recommending anything.** Most repos are private — qpIQ,
 storipro, Marcus, Second Brain — and for those the case study is the artefact, not the source. The
 publicly verifiable set is small and worth spending deliberately: AbletonMCP PR #106, qpiq.app,
-marcus-aurelius-bot.fly.dev, docs.commercetools.com/docs/learning.
+storipro.ai, docs.commercetools.com/docs/learning. (The Marcus Aurelius demo was retired in Aug 2026
+and is case-study-only now.)
 
 ## Step 7 — Produce the sendable files
 

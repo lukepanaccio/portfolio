@@ -172,10 +172,10 @@ Role-family vocabulary for `best-for`: `forward-deployed` · `applied-AI` · `pl
 
 ## marcus-aurelius
 
-- proves: real-time voice AI, latency-constrained, shipped and running
+- proves: real-time voice AI, latency-constrained, shipped and measured in production
 - best-for: applied-AI · forward-deployed
 - one-liner: A Stoic mentor that teaches by Socratic questioning over real-time voice with a photorealistic avatar, holding sub-second response latency with explicit cognitive-load management.
-- presentable: yes — live demo at marcus-aurelius-bot.fly.dev; repo private
+- presentable: case study only — the hosted demo has been retired and the repo is private; the case study carries a full session recording
 
 ## second-brain-knowledge-base
 
