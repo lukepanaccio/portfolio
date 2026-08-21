@@ -128,74 +128,163 @@ function toHtml(md) {
   md = md.replace(/<!--[\s\S]*?-->/g, '');
   const out = [];
   let inList = false;
+  let para = null;   // buffered paragraph lines
+  let item = null;   // buffered list-item lines
+
+  // Blocks are buffered rather than emitted line by line, because these documents
+  // are hard-wrapped at ~100 characters: a wrapped bullet continues on an indented
+  // line and a paragraph runs over several lines. Emitting per line turned every
+  // wrapped bullet into a single-item list followed by loose paragraphs, and split
+  // every paragraph into one <p> per source line. Join on a space, per markdown —
+  // a single newline is not a line break.
+  const flushPara = () => {
+    if (para) { out.push(`<p>${inline(para.join(' '))}</p>`); para = null; }
+  };
+  const flushItem = () => {
+    if (item) { out.push(`<li>${inline(item.join(' '))}</li>`); item = null; }
+  };
   const closeList = () => {
+    flushItem();
     if (inList) { out.push('</ul>'); inList = false; }
   };
 
   for (const line of md.split(/\r?\n/)) {
     const t = line.trim();
 
-    if (!t) { closeList(); continue; }
+    if (!t) { flushPara(); closeList(); continue; }
 
-    if (/^(---|___|\*\*\*)$/.test(t)) { closeList(); out.push('<hr>'); continue; }
+    if (/^(---|___|\*\*\*)$/.test(t)) { flushPara(); closeList(); out.push('<hr>'); continue; }
 
     const h = /^(#{1,4})\s+(.*)$/.exec(t);
     if (h) {
+      flushPara();
       closeList();
-      const level = h[1].length;
-      out.push(`<h${level}>${inline(h[2])}</h${level}>`);
+      out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`);
       continue;
     }
 
     const li = /^[-*+]\s+(.*)$/.exec(t);
     if (li) {
+      flushPara();
+      flushItem();
       if (!inList) { out.push('<ul>'); inList = true; }
-      out.push(`<li>${inline(li[1])}</li>`);
+      item = [li[1]];
       continue;
     }
 
-    closeList();
-    out.push(`<p>${inline(t)}</p>`);
+    // A continuation line belongs to whichever block is open.
+    if (item) { item.push(t); continue; }
+    (para ||= []).push(t);
   }
+
+  flushPara();
   closeList();
   return out.join('\n');
 }
 
 /* ── print stylesheet ────────────────────────────────────────────────────────
- * One column. Standard headings. Real text. Nothing decorative that a parser
- * could mistake for content or drop on the floor.
+ * The design budget is spent on typography, colour and whitespace only. Every
+ * lever used here (font, size, weight, tracking, text colour, hairline borders)
+ * is invisible to a parser, because an ATS extracts the text layer and throws
+ * the presentation away. What it CANNOT survive is structure: multiple columns,
+ * tables, text boxes, header/footer margin boxes, and information carried in an
+ * image. None of those appear below, and none should be added.
+ *
+ * Rules are drawn with CSS borders rather than background fills, so the output
+ * is correct with Chromium's printBackground:false — no ink-heavy bands, and no
+ * dependence on a background-printing setting we don't control downstream.
+ *
+ * Charter is a text serif designed to hold up at small sizes and low resolution,
+ * which is what a CV actually is; Avenir Next carries the name and the section
+ * headings. Both fall back through standard system faces, and the face is
+ * embedded in the PDF either way, so the reader sees what we set.
  */
+// A CV is scanned; a letter is read. They want different measures, so the page
+// geometry and body size differ - a letter gets wider side margins (prose at a
+// 100-character measure is tiring) and slightly larger, more open type.
+const isLetter = /cover-?letter/i.test(basename(srcPath));
+
+const ACCENT = '#1f3b57';   // deep slate: section headings and list markers
+const INK    = '#1a1d21';   // body text
+const MUTED  = '#5c6672';   // dates, employers, contact details
+const RULE   = '#d2d8de';   // hairlines
+
 const CSS = `
-  @page { size: A4; margin: 16mm 16mm 18mm; }
+  @page { size: A4; margin: ${isLetter ? '16mm 24mm 18mm' : '15mm 16mm 16mm'}; }
   * { box-sizing: border-box; }
   body {
-    font: 10.5pt/1.45 Georgia, "Times New Roman", serif;
-    color: #111; margin: 0; max-width: 100%;
+    font: ${isLetter ? '10.5pt/1.6' : '10pt/1.5'} Charter, Georgia, "Times New Roman", serif;
+    color: ${INK}; margin: 0; max-width: 100%;
+    -webkit-font-smoothing: antialiased;
+    /* Ligatures are baked into the PDF's text layer, so an "fi" pair can extract as
+       U+FB01 and turn "certification" into a string the requisition will not match.
+       The ATS sanitiser normalises the SOURCE; this closes the same hole at render
+       time. Off everywhere: at these sizes it costs nothing to look at. */
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+    text-rendering: optimizeSpeed;
   }
+
+  /* Name block: name, accent rule, contact details beneath. */
   h1 {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 19pt; margin: 0 0 2pt; letter-spacing: -0.01em;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 21pt; font-weight: 600; letter-spacing: 0.005em;
+    color: ${INK};
+    margin: 0 0 5pt; padding-bottom: 6pt;
+    border-bottom: 1.5pt solid ${ACCENT};
   }
+  /* Contact block: authored as a list directly under the name so each detail keeps
+     its own line (a single newline inside a paragraph is not a line break). The
+     markers are removed - these are contact details, not bullet points. */
+  h1 + ul {
+    list-style: none; padding-left: 0; margin: 0 0 2pt;
+  }
+  /* On a letter the block after the contact details is the date line, which needs
+     air; on a CV it is an h2, which brings its own margin. */
+  h1 + ul + p { margin-top: 13pt; }
+  h1 + ul li,
+  h1 + p {
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8.6pt; line-height: 1.5; color: ${MUTED};
+    letter-spacing: 0.01em; margin-bottom: 1.5pt; padding-left: 0;
+  }
+
+  /* Section headings: small, wide-tracked, accent, hairline beneath. */
   h2 {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 11.5pt; text-transform: uppercase; letter-spacing: 0.08em;
-    margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 0.6pt solid #999;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9pt; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    color: ${ACCENT};
+    margin: 15pt 0 6pt; padding-bottom: 3pt;
+    border-bottom: 0.5pt solid ${RULE};
     break-after: avoid;
   }
+
+  /* Role headings, and the dates/employer line that follows one. */
   h3 {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 11pt; margin: 11pt 0 1pt; break-after: avoid;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 10.5pt; font-weight: 600; color: ${INK};
+    margin: 11pt 0 1pt; break-after: avoid;
   }
-  h4 { font-size: 10.5pt; margin: 8pt 0 1pt; font-weight: normal; font-style: italic; }
-  p { margin: 0 0 6pt; orphans: 2; widows: 2; }
-  ul { margin: 3pt 0 8pt; padding-left: 15pt; }
-  li { margin-bottom: 3.5pt; orphans: 2; widows: 2; }
-  a { color: #111; text-decoration: none; border-bottom: 0.4pt solid #bbb; }
-  code { font-family: "SF Mono", Menlo, monospace; font-size: 9.5pt; }
-  hr { border: 0; border-top: 0.5pt solid #ccc; margin: 12pt 0; }
+  h3 + p {
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8.6pt; color: ${MUTED}; letter-spacing: 0.015em;
+    margin: 0 0 5pt; break-after: avoid;
+  }
+  h3 + p strong { font-weight: 600; color: #3d4753; }
+  h4 { font-size: 10pt; margin: 8pt 0 1pt; font-weight: normal; font-style: italic; color: #3d4753; }
+
+  p { margin: 0 0 ${isLetter ? '9pt' : '6pt'}; orphans: 2; widows: 2; }
+  ul { margin: 4pt 0 8pt; padding-left: 14pt; }
+  /* A bullet split across a page break reads as sloppy, and these are short enough
+     that keeping each one whole costs a little slack at the foot of a page. */
+  li { line-height: 1.42; margin-bottom: 4.5pt; padding-left: 2pt; break-inside: avoid; }
+  li::marker { color: ${ACCENT}; }
+
+  a { color: ${ACCENT}; text-decoration: none; }
+  code { font-family: "SF Mono", Menlo, monospace; font-size: 9pt; }
+  hr { border: 0; border-top: 0.5pt solid ${RULE}; margin: 12pt 0; }
   strong { font-weight: 700; }
-  h1 + ul { margin-top: 6pt; }
-  h1 + ul li { margin-bottom: 1.5pt; }
 `;
 
 // PDF title metadata: prefer the document's own H1 (e.g. "Luke Panaccio") over the
@@ -211,6 +300,13 @@ const html = `<!doctype html><html lang="en-AU"><head><meta charset="utf-8">
 
 const outPath = join(dirname(srcPath), `${outName || basename(srcPath, '.md')}.pdf`);
 const debugHtml = outPath.replace(/\.pdf$/, '.html');
+
+// --html also writes the intermediate HTML, for previewing a stylesheet change
+// without printing to PDF first. The HTML is a build artefact, not a deliverable.
+if (args.includes('--html')) {
+  writeFileSync(debugHtml, html);
+  console.log(`  wrote ${basename(debugHtml)} (--html)`);
+}
 
 let chromium;
 try {

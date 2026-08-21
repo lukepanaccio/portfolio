@@ -69,4 +69,10 @@ Two versions of the same argument in different tones is not a choice; it's a for
 - Address a named person if findable; "Dear Hiring Team" if not. Never "To Whom It May Concern."
 - No headers, no bullet points, unless the application portal is clearly parsing plain text.
 - Match file naming to the CV (`Lastname-Firstname-CoverLetter-Company.pdf`).
+- **Open the sendable letter with the same letterhead as the CV** - an `# Luke Panaccio` heading and
+  a short contact list - then the date, the `Re:` line and the salutation. `render-doc.mjs` styles
+  that block identically in both documents, so the CV and the letter arrive looking like one set
+  rather than two unrelated files. The renderer also detects `cover-letter` in the filename and
+  switches to letter geometry (wider side margins, slightly larger and more open type), because
+  prose at a CV's measure is tiring to read.
 - If there's a portal text box rather than an upload, tighten to 200 words — nobody scrolls a text box.

@@ -48,6 +48,11 @@ at all.
 - **Learning-leaning (current-field roles):** Learning systems architect who builds the platform as
   well as the curriculum — 9 learning paths, 40+ modules, and the AI pipelines that keep them
   current.
+  > **For Head-of and Lead titles**, this line used straight reads as "senior instructional
+  > designer" and invites a down-level. Keep the learning spine, but make the **systems and
+  > commercial** half load-bearing: not *I design courses*, but *I build the machine that produces
+  > the education, keeps it from going stale as you ship, and reports what it did to adoption*.
+  > See `_private/strategy.md` for the gap this positioning is steering around.
 
 ---
 
@@ -57,13 +62,9 @@ at all.
 **2022 – present** · B2B composable-commerce platform · Instructional Designer 2022–2025, promoted
 to Senior Instructional Designer January 2026
 
-> **Use the official title.** "Customer Enablement Systems Architect" was a positioning label, not an
-> org-chart title, and it is retired. It cleared no screen it was meant to clear: for enablement and
-> L&D roles the official title is the better keyword and is what a reference check confirms, and for
-> engineering roles "Customer Enablement" reads as a non-engineering function anyway, so it bought
-> nothing while putting an unverifiable claim at the top of a CV whose whole argument is that every
-> line is defensible. Where extra scope is needed, put it in the meta line (e.g. "docs-as-code
-> platform and AI automation for the developer learning platform"), never in the title.
+> **Use the official title.** Where extra scope needs stating, put it in the meta line (e.g.
+> "docs-as-code platform and AI automation for the developer learning platform") or in a bullet,
+> never in the title itself. Rationale and history in `_private/strategy.md`.
 
 Full bullet inventory. 12-month git history: 82 commits, ~+36,100 / −16,000 lines across
 docs-as-code, frontend, and AI automation.
