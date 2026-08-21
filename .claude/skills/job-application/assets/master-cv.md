@@ -53,8 +53,17 @@ at all.
 
 ## Experience
 
-### Customer Enablement Systems Architect — commercetools
-**2022 – present** · B2B composable-commerce platform
+### Senior Instructional Designer — commercetools
+**2022 – present** · B2B composable-commerce platform · Instructional Designer 2022–2025, promoted
+to Senior Instructional Designer January 2026
+
+> **Use the official title.** "Customer Enablement Systems Architect" was a positioning label, not an
+> org-chart title, and it is retired. It cleared no screen it was meant to clear: for enablement and
+> L&D roles the official title is the better keyword and is what a reference check confirms, and for
+> engineering roles "Customer Enablement" reads as a non-engineering function anyway, so it bought
+> nothing while putting an unverifiable claim at the top of a CV whose whole argument is that every
+> line is defensible. Where extra scope is needed, put it in the meta line (e.g. "docs-as-code
+> platform and AI automation for the developer learning platform"), never in the title.
 
 Full bullet inventory. 12-month git history: 82 commits, ~+36,100 / −16,000 lines across
 docs-as-code, frontend, and AI automation.
