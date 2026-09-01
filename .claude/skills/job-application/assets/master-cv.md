@@ -119,8 +119,8 @@ Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Rese
 
 - `applied-AI` `platform` `security` Designed and operate a nine-loop autonomous delivery system —
   backlog triage, a daily owner runsheet, daily reliability and security monitoring, weekly
-  maintenance and UX review, and daily spec archival — feeding an implementation pipeline of 28
-  canonical capability specs and 26 changes shipped spec-first. Every consequential action (merging
+  maintenance and UX review, and daily spec archival — feeding an implementation pipeline of 31
+  canonical capability specs and 33 changes shipped spec-first. Every consequential action (merging
   code, promoting work, touching main) is blocked by a structural GitHub mechanism — branch
   protection, an owner-only label — rather than by agent good behaviour, so a prompt-injection
   attempt buried in an issue has no path to production. Diagnosed a same-run merge-conflict pattern
@@ -143,7 +143,7 @@ Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Rese
   scoping on token URLs, fail-closed authz throughout (unset config denies), revocation-aware
   cookies, and 404-never-403 so responses don't disclose which resources exist.
 - `applied-AI` `platform` Built a spec-driven system where WHEN/THEN requirements are canonical and
-  coding agents work as deltas against them — 28 capability specs, 26 changes shipped spec-first,
+  coding agents work as deltas against them — 31 capability specs, 33 changes shipped spec-first,
   per-PR preview environments structurally unable to touch production, and two archive bugs caught
   that would have silently deleted live requirements. Reviewing a 60-line spec delta beats reviewing
   the 2,000-line diff it produced.

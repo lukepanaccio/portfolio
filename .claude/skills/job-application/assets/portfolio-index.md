@@ -257,7 +257,7 @@
 - **Slug:** `modular-learning-paths`
 - **Title:** Modular learning path ecosystem
 - **Client:** commercetools
-- **Role:** Lead Instructional Designer & Learning Architect
+- **Role:** Instructional Designer & Learning Architect
 - **Timeline:** 3 years (2022-2025, ongoing)
 - **Stack:** Next.js · MDX · TypeScript · React · Moodle Integration · Learning API
 - **Numbers:** **9** Learning Paths · **~60h** Total Content · **2** Personas Served
@@ -385,11 +385,11 @@
 - **Timeline:** 2026
 - **Stack:** OpenSpec · Claude Code · GitHub Actions · Vercel preview deployments · Firebase · TypeScript
 - **Agentic stack:** OpenSpec propose/apply/archive skills · Path-scoped rules (auto-loading on file match) · CLAUDE.md project memory · Claude Code GitHub Action (@claude) · Automated PR review workflow · Per-PR preview environments · Scheduled maintenance loops · Three fixed human approval gates
-- **Numbers:** **24** Canonical capability specs kept as the source of truth · **13** Changes shipped spec-first and archived · **2** Silent-drop archive bugs caught before shipping
+- **Numbers:** **24** Canonical capability specs at the end of the first 12 days · **13** Changes shipped spec-first and archived, first 12 days · **2** Silent-drop archive bugs caught before shipping
 - **Links:** [case study](https://www.lukepanaccio.com/projects/spec-driven-agentic-development)
 - **Proves:** designing a review process that scales when agents write more code than a human can read
 - **Best for:** applied-AI · founding · platform
-- **One-liner:** I made requirements the reviewable artefact rather than the diff — 24 canonical specs, 13 changes shipped spec-first, and two archive bugs caught that would have silently deleted live requirements.
+- **One-liner:** I made requirements the reviewable artefact rather than the diff — 24 canonical specs and 13 changes shipped spec-first in the first 12 days, since grown to 31 and 33, and two archive bugs caught that would have silently deleted live requirements.
 - **Presentable:** link case study only — qpIQ repo is private
 
 > Reviewing a 2,000-line agent diff is theatre. Reviewing the 60-line spec delta that produced it is real.

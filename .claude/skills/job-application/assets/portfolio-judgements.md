@@ -34,7 +34,7 @@ Role-family vocabulary for `best-for`: `forward-deployed` · `applied-AI` · `pl
 
 - proves: designing a review process that scales when agents write more code than a human can read
 - best-for: applied-AI · founding · platform
-- one-liner: I made requirements the reviewable artefact rather than the diff — 24 canonical specs, 13 changes shipped spec-first, and two archive bugs caught that would have silently deleted live requirements.
+- one-liner: I made requirements the reviewable artefact rather than the diff — 24 canonical specs and 13 changes shipped spec-first in the first 12 days, since grown to 31 and 33, and two archive bugs caught that would have silently deleted live requirements.
 - presentable: link case study only — qpIQ repo is private
 
 ## multi-tenant-isolation

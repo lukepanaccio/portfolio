@@ -23,6 +23,10 @@ In rough order of fit:
 4. **Developer-experience / developer-education engineering** — docs-as-code platform work,
    DevRel-adjacent.
 5. **Product / full-stack engineer**, mid-level, strongest at AI or dev-tooling companies.
+6. **AI transformation / workforce reinvention** at a platform vendor or consultancy — deploying the
+   agent systems *and* building the adoption architecture that makes them persist. The one category
+   where the unusual combination below is the job description rather than a differentiator to argue
+   for; surfaced by the Microsoft Frontier ad, 2026-09-01.
 
 Level: reads **mid-level**, above entry on systems thinking, security judgment and AI-workflow
 design. Role breadth — platform team, co-founder seat, client delivery, deep independent portfolio —
@@ -96,7 +100,7 @@ told properly beats four mentioned in passing.
   maintenance, UX review, spec archival, plus event-driven implementation) where every loop treats
   issue and PR text as data, never instructions, and the two human gates are structural — enforced
   by GitHub branch protection and an owner-only label — not by agent good behaviour.
-- **Outcome:** 28 canonical capability specs, 26 changes shipped spec-first and archived, and two
+- **Outcome:** 31 canonical capability specs, 33 changes shipped spec-first and archived, and two
   archive bugs caught that would have silently deleted live requirements. The weekly security loop
   later caught a live process gap of its own — a previously-merged PR's "no review needed" claim had
   quietly addressed only two of five required risk categories — and the fix was verified by
@@ -264,10 +268,11 @@ caught inflating is worse than not having the number.
 | Privilege-escalation paths left open | 0 | storipro | Emulator suite |
 | Mutating actions proven denied | 16, writing 0 bytes | qpIQ isolation suite | E2E suite, real session cookies |
 | Auth layers | 3 | qpIQ | Architecture |
-| Canonical capability specs | 28 | qpIQ spec-driven system | OpenSpec repo |
-| Changes shipped spec-first | 26 | qpIQ | Archived changes |
+| Canonical capability specs | 31 | qpIQ spec-driven system | OpenSpec repo; 24 at the end of the first 12 days |
+| Changes shipped spec-first | 33 | qpIQ | Archived changes; 13 in the first 12 days |
 | Silent-drop archive bugs caught | 2 | qpIQ | Rule file "known gaps" |
 | Autonomous delivery loops | 9 | qpIQ dev-delivery-pipeline | docs/dev-automation.md |
+| PRs merged through the two-gate pipeline | 115, zero gate breaches | qpIQ dev-delivery-pipeline | GitHub PR history; the number that answers "scaled" rather than "built" |
 | Restore drill, backup to scratch DB | ~13 min, verified record-by-record | qpIQ data-durability | Dated backup runbook log |
 | Security-review categories a claim must address | 5 of 5 (was silently 2 of 5) | qpIQ review rubric fix | REVIEW.md / CLAUDE.md, regression-checked against the original PR |
 | Bug-pipeline test lines (~1.3:1) | ~1,900 | storipro | Repo count |
