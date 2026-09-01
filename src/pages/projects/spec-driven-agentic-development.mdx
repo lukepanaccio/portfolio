@@ -11,9 +11,9 @@ tools: ['OpenSpec', 'Claude Code', 'GitHub Actions', 'Vercel preview deployments
 agenticStack: ['OpenSpec propose/apply/archive skills', 'Path-scoped rules (auto-loading on file match)', 'CLAUDE.md project memory', 'Claude Code GitHub Action (@claude)', 'Automated PR review workflow', 'Per-PR preview environments', 'Scheduled maintenance loops', 'Three fixed human approval gates']
 heroImage: '/images/qpiq-specdriven-hero.svg'
 metrics:
-  - label: 'Canonical capability specs kept as the source of truth'
+  - label: 'Canonical capability specs at the end of the first 12 days'
     value: '24'
-  - label: 'Changes shipped spec-first and archived'
+  - label: 'Changes shipped spec-first and archived, first 12 days'
     value: '13'
   - label: 'Silent-drop archive bugs caught before shipping'
     value: '2'
@@ -38,7 +38,7 @@ Across 12 days this repo took **146 commits** — roughly a fifth of them author
     B --> PV["Per-PR preview<br/><i>refuses to boot against prod project</i>"]
     CI --> G3{"Gate 3 — owner merges<br/>agents never push to main"}
     PV --> G3
-    G3 --> AR["Archive: fold deltas into<br/>the 24 canonical specs"]
+    G3 --> AR["Archive: fold deltas into<br/>the canonical specs"]
     AR -.->|"amended with what<br/>ACTUALLY happened"| I
 `} />
 
@@ -66,9 +66,9 @@ The honest test of a system like this is whether it catches its own failures, an
 
 ## Outcome
 
-- **24 canonical capability specs and 13 changes shipped spec-first and archived**, in 12 days, by one person working with agents — where the reviewable unit was a spec delta rather than a diff.
+- **24 canonical capability specs and 13 changes shipped spec-first and archived**, in the first 12 days, by one person working with agents — where the reviewable unit was a spec delta rather than a diff. The set has since grown to 31 specs and 33 archived changes; the figures here are the window this piece describes, not a ceiling.
 - **Two requirement-deleting bugs caught before they reached the source of truth**, and converted into rules that apply to every future archive rather than lessons that applied once.
 - **No preview deployment can reach production data** — enforced by a boot-time refusal and a single email guard, so it holds for code nobody has written yet.
-- **Three human gates, never bypassed**, with the expensive one (spec approval) placed where a person's judgment is worth the most and their reading time is worth the least.
+- **Three human gates, never bypassed**, with the expensive one (spec approval) placed where a person's judgment is worth the most and their reading time is worth the least. The spec-approval gate was later folded into the merge review once it turned out to be duplicating it, leaving the two structural gates the delivery pipeline runs on today.
 
 > Built solo. Roughly 28 of the 146 commits are agent-authored; the specs, the architectural decisions, the gates and the review are mine — which is the claim this piece is actually making. The system is not "the agent built it." It is that agent output is only as trustworthy as the artifact you make it accountable to.
