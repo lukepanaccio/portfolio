@@ -61,6 +61,13 @@ If it's running long, the cut is almost always in older roles and in bullets tha
 
 Before sending, verify:
 
+- [ ] Written with real markdown headings — `# Luke Panaccio` for the letterhead, `## Section` for
+      CV sections, `### Role, Company` for each role, a bulleted contact list under the name — not
+      flattened into prose paragraphs. The renderer's typography (Charter body, Avenir Next
+      headings, slate-accent letterhead) only applies to actual heading elements; a flat document
+      prints as unstyled text. Copy the structure from an existing `02-cv.md` rather than
+      rewriting from scratch. `jobs:pdf` now warns if no headings are found, but check before
+      rendering, not after.
 - [ ] Top three bullets of the most recent role map to the ad's top three must-haves
 - [ ] The ad's core terminology appears at least once, truthfully
 - [ ] Nothing on the page is irrelevant to this specific role

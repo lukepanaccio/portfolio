@@ -95,6 +95,11 @@ if (/<!--/.test(raw)) {
 if (/^\s*\|.*\|\s*$/m.test(raw)) {
   warnings.push('contains a markdown table — tables are ATS-hostile (strict parsers scramble or drop them) and this renderer does not lay them out. Rewrite the rows as plain lines or bullets.');
 }
+if (!/^#{1,4}\s+\S/m.test(raw)) {
+  warnings.push('no markdown headings (#, ##, ###) found — the typography redesign (Charter body, Avenir Next headings, slate-accent letterhead) only applies to real heading elements. A document authored as flat paragraphs prints as plain, unstyled text with no letterhead or section styling. Use `# Luke Panaccio` for the name/contact block, `## Section` for CV sections (Profile, Experience, Skills, Education), and `### Role, Company` for each role — copy the structure from an existing 02-cv.md or 03-cover-letter.md rather than writing prose.');
+} else if (!/^#\s+\S/m.test(raw)) {
+  warnings.push('no top-level `# ` heading found — the letterhead (name, then a contact-detail bullet list) needs one at the very top of the document, e.g. `# Luke Panaccio`.');
+}
 
 /* Sanitise, then report. Silent normalisation would hide a real change to the
  * document from the person about to send it, so the count is surfaced. */
