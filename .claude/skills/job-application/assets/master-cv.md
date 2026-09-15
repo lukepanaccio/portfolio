@@ -147,6 +147,12 @@ Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Rese
   per-PR preview environments structurally unable to touch production, and two archive bugs caught
   that would have silently deleted live requirements. Reviewing a 60-line spec delta beats reviewing
   the 2,000-line diff it produced.
+- `forward-deployed` `platform` `founding` Diagnosed a live trial that captured zero buyers where the
+  customer's reported symptom ("the link had expired") was false in every part: reconstructed the
+  morning from production request logs to a URL wrapping mid-string and a phone text detector that
+  terminates at the line break, rejected the three obvious fixes because each one still had a link in
+  it, and shipped a spoken 8-digit entry path plus telemetry separating three failure modes that had
+  been producing identical silence. QR payload 55 to 27 characters, buying error correction M to Q.
 - `forward-deployed` `founding` Ran a field pilot inside a real agent's Saturday open home — 7
   questions on a buyer's phone in under 90 seconds, no login, producing a ranked call list and a
   vendor-ready report. Refused the features that would have made the data untrustworthy and
@@ -165,6 +171,31 @@ Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Rese
   required risk categories. Rewrote the review rubric so an exemption claim must positively address
   all five, then re-checked the original PR's claim against the new rule to confirm it would now
   correctly fail.
+
+### Diagnostic maths practice system (solo build, in progress) — maths-diagnostic
+**Aug 2026 – present** · Working name; private repo
+
+Python 3.14 · uv · pytest · Playwright · Supabase/Postgres · Next.js. ~17,900 lines of Python across
+109 files, 61 test files, 95 commits. **No users yet** — the stated bar is that it must survive six
+consecutive weeks of real use by an adult who is busy, tired and unpaid. Never describe it as shipped.
+
+- `applied-AI` `platform` Built the mathematical core in Python: an exact-rational solver on
+  `Fraction` arithmetic with float literals and `float()` calls banned from the answer path by a
+  gate, a misconception taxonomy tagged against the published state curriculum, item generation, PDF
+  render and print QA.
+- `applied-AI` A language model proposes candidate items and gets no vote on whether they are right:
+  every banked answer is independently recomputed by the solver, and anything that disagrees is
+  discarded rather than repaired in place, so no model output reaches a child unchecked by a
+  deterministic oracle.
+- `platform` `devex` Built a falsifier that breaks a staged copy of the repository 16 ways nightly
+  and requires the gate claiming to guard each defect to be the one that objects, carrying a
+  deliberately harmless control mutation that must survive so a falsifier reporting phantom catches
+  is itself caught. 16 registered gates, all green, under a ratchet where gates may only grow and
+  escape hatches may only shrink, plus a 13-incident known-failure corpus. A gate that has never
+  failed is not a gate.
+- `platform` `security` Designed for Australian data residency from the start (Supabase
+  `australia-southeast1`, compute in Sydney), with no child-facing surface at all as an architectural
+  property rather than a setting.
 
 ### Technical Co-Founder — storipro (Stori Ventures)
 **Feb 2026 – present**
@@ -277,9 +308,9 @@ Grouped by honest depth. The distinction is load-bearing — overclaiming here i
 technical conversation.
 
 **Built production systems with**
-TypeScript · Python · Next.js (App Router) · React · Node.js · Astro · MDX · Firestore ·
+Python · TypeScript · Next.js (App Router) · React · Node.js · Astro · MDX · Firestore ·
 Firebase Auth & Admin SDK · Vercel · GitHub Actions · Claude API · MCP (server & tool development) ·
-Vitest · Jest · pytest · Playwright · Stripe · Resend · Git/GitHub
+Vitest · Jest · pytest · Playwright · Stripe · Resend · uv · ruff · Supabase/Postgres · Git/GitHub
 
 **Working knowledge**
 FastAPI · Fly.io · SQLite · Git LFS · GraphQL · RAML · OAuth 2.0 · Tailwind · Firebase Emulator

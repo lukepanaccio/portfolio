@@ -49,7 +49,7 @@ that is exactly what developer-facing AI companies need.
 
 ## Proof stories
 
-Ten stories. Each survives fifteen minutes of questioning. Pick one primary per letter — one story
+Eleven stories. Each survives fifteen minutes of questioning. Pick one primary per letter — one story
 told properly beats four mentioned in passing.
 
 ### Story: the $138 silent charge
@@ -221,6 +221,34 @@ told properly beats four mentioned in passing.
   keep if I could keep only one is that a working day went to a sentence in an error page that
   asserted a cause nobody had checked.
 
+### Story: the gate that had never failed
+
+- **Context:** A system I'm building generates maths practice for one child at a time, where the
+  non-negotiable is that the answer key is never wrong; one bad answer and the adult stops trusting
+  the product permanently. A language model proposes the items, so a deterministic solver
+  independently recomputes every answer against exact rational arithmetic and anything that
+  disagrees is discarded rather than repaired in place. That much is ordinary.
+- **My action:** The real problem was one level up. Sixteen gates were green, and green says nothing
+  about whether a gate is actually wired to the thing it claims to guard: a gate can have a perfectly
+  good predicate and a test that never reaches the real data, and both are green while nothing is
+  guarded. So I built a falsifier that breaks a staged copy of the repository sixteen ways and, for
+  each defect, requires the specific gate claiming to guard against it to be the one that objects. It
+  carries a deliberately harmless control mutation that must survive, so a falsifier reporting
+  phantom catches is itself caught; it refuses to run against a tree that is already red; and it uses
+  a hard oracle with no model calls, so it is deterministic and free. It runs nightly rather than on
+  the critical path.
+- **Outcome:** 16 registered gates, all green, held by a ratchet where gates may only grow and escape
+  hatches may only shrink, plus a 13-incident known-failure corpus. ~17,900 lines of Python across
+  109 files and 61 test files, in 95 commits over 8 days.
+- **Proves:** verification design for systems where a model produces the content; the instinct to ask
+  whether the check itself is checking anything, which is the same instinct as never letting a model
+  grade its own work, arrived at independently for the third time in this portfolio.
+- **Follow-up I'd get:** *"Has it caught anything?"* — the falsifier's own mutations, by construction,
+  and one real gap: R-01 was a workflow passing while checking nothing, one level up, which is why
+  the falsifier exists at all. The honest limit is that this system has no users yet. The bar I wrote
+  for it is that it must survive six consecutive weeks of real use by an adult who is busy, tired and
+  unpaid, and it has not been tested against that.
+
 ### Story: 0 → 9 learning paths
 
 - **Context:** commercetools had no structured enablement. Developers, architects and business
@@ -287,6 +315,11 @@ caught inflating is worse than not having the number.
 | qpIQ codebase | 298 commits, ~25.7k LOC TS, 29 test files | Solo-built | Git history |
 | commercetools 12-month git history | 82 commits, ~+36,100 / −16,000 | Verified from git | Git log |
 | Buyer survey completion time | 7 questions, <90s, no login | qpIQ field pilot | Field use |
+| Registered gates, all green | 16 | maths-diagnostic | `docs/gates.lock`; verified by a full run 2026-09-01 |
+| Falsifier mutations run nightly | 16 (incl. 1 control that must survive) | maths-diagnostic | `scripts/falsify.py` |
+| Known-failure corpus | 13 incidents | maths-diagnostic | One file per incident, R-01 to R-15 |
+| Python in the current build | ~17,900 lines, 109 files, 61 test files | maths-diagnostic | Repo counts, excluding venv |
+| Commits in 8 days | 95 | maths-diagnostic, 25 Aug to 1 Sep 2026 | Git log |
 | 3 Steps Away | 150 students, 3 schools, 97% completion | 2019–2022 | Programme records |
 | Educators managed | 30+ | Emmaus College | Role scope |
 | Dialogue sessions facilitated | 200+ | Tony Blair Institute | Programme records |
@@ -311,7 +344,8 @@ Regenerate with `npm run jobs:index` after editing `portfolio-judgements.md` or 
 | commercetools learning platform — shipped work | https://docs.commercetools.com/docs/learning |
 | This portfolio — 21 case studies | https://www.lukepanaccio.com |
 
-**Not linkable (source only)** — qpIQ, storipro, Marcus and Second Brain **repos** are private, and
+**Not linkable (source only)** — qpIQ, storipro, Marcus, Second Brain and **maths-diagnostic**
+**repos** are private, and
 commercetools work is internal, so none of those can be handed over as code. The live products
 themselves are a different matter: qpIQ and storipro both have public product pages worth including
 directly wherever those companies come up, not just the case study. For those, link the case study
