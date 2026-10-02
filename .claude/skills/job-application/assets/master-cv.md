@@ -106,15 +106,19 @@ docs-as-code, frontend, and AI automation.
   and engineering decisions pre-launch.
 - `learning` `leadership` Designed curriculum using Zone of Proximal Development, scenario-based
   learning and cognitive load theory, reducing time-to-competency for developers.
-- `leadership` Established frameworks connecting learning effectiveness to product adoption and
-  support-deflection metrics.
+- `leadership` Designing a measurement framework connecting learning completion to product-adoption
+  signals (time-to-first-order) and per-learner support-ticket volume against baseline; in progress.
 - `learning` `leadership` Led end-to-end design and rollout of the public-facing digital learning
   platform for SaaS customers and partners.
 
 ### Technical Co-Founder — qpIQ
 **Feb 2026 – present** · B2B SaaS for Australian real-estate agents · https://qpiq.app
 
-Solo-built: 298 commits, ~25.7k LOC TypeScript, 29 test files plus an end-to-end isolation suite.
+**No paying customers.** Pilot/trial users only — the field pilot and live trial are validation
+work, not revenue. Never write "paying customer," "paying client," or imply revenue for this
+product in a sent document.
+
+Solo-owned, built with coding agents (decisions and review are mine; I do not hand-write code): 298 commits, ~25.7k LOC TypeScript, 29 test files plus an end-to-end isolation suite.
 Next.js App Router · TypeScript · Firestore · Firebase Auth · Vercel · Resend · GitHub Actions.
 
 - `applied-AI` `platform` `security` Designed and operate a nine-loop autonomous delivery system —
@@ -200,13 +204,18 @@ consecutive weeks of real use by an adult who is busy, tired and unpaid. Never d
 ### Technical Co-Founder — storipro (Stori Ventures)
 **Feb 2026 – present**
 
+**No paying customers.** The Stripe integration is real-money production infrastructure (the $138
+incident below involved an actual card charge), but that is billing-system maturity, not a signed
+paying customer base. Never write "paying customer," "paying client," or imply revenue for this
+product in a sent document.
+
 - `platform` `security` Took a founder's billing prototype to real-money production after a stale
   test-mode customer ID silently charged a card $138 with nothing recorded in the system: root-caused
   the incident, locked the data layer so zero billing fields are client-tamperable, built a
-  self-healing webhook recovery path, and wrote 142 test cases from zero (Vitest + Playwright).
+  self-healing webhook recovery path, and directed and reviewed 142 test cases built from zero (Vitest + Playwright).
 - `security` Closed a live privilege-escalation path where any logged-in user could grant themselves
   the top paid tier or pad their credit balance from the browser before any Stripe webhook ran —
-  locked ~19 server-owned fields and wrote 59 rules tests (61 assertions) running against the
+  locked ~19 server-owned fields and directed and reviewed 59 rules tests (61 assertions) running against the
   shipped rules in the Firebase emulator.
 - `applied-AI` `platform` Built a GitHub-native agentic pipeline where a labelled issue triggers a
   constrained headless Claude Code run that writes files and deterministic CI owns every git
@@ -227,14 +236,17 @@ consecutive weeks of real use by an adult who is busy, tired and unpaid. Never d
   actually the shape of the addresses — a cleaner recovered 47% of the failing backlog and lifted
   whole-dataset coverage from 96.7% to 98.3% across ~110K records.
 
-### Full-stack Developer (client engagement) — Australian University
-**October 2025** · 1 month
+### Paper Grader — self-initiated tool for my own marking (unpaid side project)
+**October 2025 – present** · **Corrected 2026-10-02: unpaid and self-initiated, NOT a paid client
+engagement and not a "Full-stack Developer" role. Never describe it as client or contract work.**
 
-- `applied-AI` `forward-deployed` Built a CLI tool using the Claude API to grade reflective-writing
-  submissions against a rubric, with privacy-preserving anonymisation, consistency controls, and —
-  the design decision that mattered — a mechanism that flags any judgment it can't substantiate
-  against the paper rather than asserting it. 125+ papers graded, 60–80 hours saved per semester,
-  $0.14–0.18 per paper. Python · pdfplumber · mammoth · python-docx.
+- `applied-AI` Built a CLI tool using the Claude API to make my own grading of reflective-writing
+  submissions more efficient: graded against a rubric, with privacy-preserving anonymisation,
+  consistency controls, and — the design decision that mattered — a mechanism that flags any
+  judgment it can't substantiate against the paper rather than asserting it. 125+ papers graded,
+  an estimated 60–80 hours saved per semester (estimate), $0.14–0.18 per paper. Recently extended
+  to enter the grades into the learning management system automatically, using the Claude in
+  Chrome extension. Python · pdfplumber · mammoth · python-docx.
 
 ### Open-Source Contributor — AbletonMCP
 **Q2 2026**
@@ -255,10 +267,12 @@ consecutive weeks of real use by an adult who is busy, tired and unpaid. Never d
 - `learning` Designed multimodal blended experiences integrating asynchronous digital content
   (video, podcasts) with synchronous facilitation, plus a three-step critical-thinking framework and
   full brand identity.
-- `leadership` Navigated stakeholder relationships across legal professionals, investors and
-  corporate executives.
-- `founding` Applied an ROI mindset to build sustainable learning products in a resource-constrained
-  startup.
+- `leadership` `founding` Handled startup fundamentals as co-founder — company formation, IP
+  protection for the brand and framework, a board of corporate-background advisors, and investor
+  conversations through personal networks that ultimately went nowhere; self-funded instead.
+- `founding` Applied an ROI mindset through build-vs-buy calls — used off-the-shelf tools (Zoom,
+  Mighty Networks, Squarespace) instead of custom-built infrastructure to keep the bootstrapped
+  startup sustainable.
 
 ### Educational Leadership & Curriculum Design
 **2011 – 2021**
@@ -333,7 +347,8 @@ authoring · agentic content-maintenance pipelines
 
 **Instructional design**
 Learning objectives · Socratic method · Zone of Proximal Development · cognitive load theory ·
-scenario-based assessment · persona-aware content · Moodle · Articulate 360 · H5P · Canvas
+scenario-based assessment · persona-aware content · Moodle · Articulate 360 · H5P · Canvas ·
+accessibility (WCAG colour-contrast checking in UI and diagram designs, routine practice)
 
 **Practice**
 Spec-driven development · test-backed delivery · PR-and-merge workflow · AI-orchestrated pipelines ·

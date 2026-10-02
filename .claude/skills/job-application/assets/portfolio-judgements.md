@@ -116,10 +116,10 @@ Role-family vocabulary for `best-for`: `forward-deployed` · `applied-AI` · `pl
 
 ## paper-grader
 
-- proves: shipping a real LLM tool to a real client with privacy and honesty constraints
-- best-for: applied-AI · forward-deployed
-- one-liner: A CLI that grades reflective writing against a rubric for an Australian university — anonymised before it leaves the machine, and it flags any judgment it can't back up against the paper rather than asserting it. 125+ papers, 60–80 hours saved a semester, $0.14–0.18 each.
-- presentable: link case study only — client tool, repo private
+- proves: building a real LLM tool for my own workflow under privacy and honesty constraints (unpaid, self-initiated; NOT client delivery, corrected 2026-10-02)
+- best-for: applied-AI
+- one-liner: A CLI I built to make my own grading of reflective writing more efficient — anonymised before it leaves the machine, and it flags any judgment it can't back up against the paper rather than asserting it. 125+ papers, an estimated 60–80 hours saved a semester, $0.14–0.18 each; recently extended to enter grades into the LMS using the Claude in Chrome extension.
+- presentable: link case study only — repo private. The public page still calls it a university "client" tool: do not rely on that wording
 
 ## ai-authoring-system
 

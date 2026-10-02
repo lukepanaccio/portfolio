@@ -28,7 +28,7 @@ In rough order of fit:
    where the unusual combination below is the job description rather than a differentiator to argue
    for; surfaced by the Microsoft Frontier ad, 2026-09-01.
 
-Level: reads **mid-level**, above entry on systems thinking, security judgment and AI-workflow
+Level: about eighteen months of software engineering (since mid-2025; corrected 2026-10-02, do not state a longer tenure). Reads **mid-level on judgement**, above entry on systems thinking, security judgment and AI-workflow
 design. Role breadth — platform team, co-founder seat, client delivery, deep independent portfolio —
 strengthens the case beyond a pure-solo profile.
 
@@ -58,8 +58,8 @@ told properly beats four mentioned in passing.
   test-mode customer ID silently charged a customer's card $138 with no record created anywhere in
   the system.
 - **My action:** Root-caused the incident, locked the data layer so zero billing fields are
-  client-tamperable, built a self-healing webhook recovery path, and wrote 142 test cases from zero
-  (Vitest + Playwright).
+  client-tamperable, built a self-healing webhook recovery path, and directed and reviewed 142 test
+  cases built from zero (Vitest + Playwright).
 - **Outcome:** $138 → $0 unrecorded. 142 tests where there had been none.
 - **Proves:** taking someone else's prototype to production; incident response; the instinct to fix
   the class of bug rather than the instance.
@@ -87,7 +87,7 @@ told properly beats four mentioned in passing.
 
 ### Story: moving the review upstream of the diff
 
-- **Context:** In 12 days one repo took 146 commits, roughly a fifth authored by a coding agent, in
+- **Context:** In 12 days one repo took 146 commits, roughly a fifth authored by a coding agent (the documented commit-author share only: Luke states he does not hand-write code, he reads, reviews and decides at the architectural level, so never present the rest as hand-written), in
   a product with live PII and authorisation entirely in application code. An agent can produce a
   plausible thousand-line PR in minutes; one person cannot review a thousand plausible lines in
   minutes, and *plausible* is the failure mode.
@@ -143,19 +143,24 @@ told properly beats four mentioned in passing.
 
 ### Story: the grader that admits what it can't prove
 
-- **Context:** An Australian university needed reflective-writing submissions graded against a
-  rubric. Faculty were spending 60–80 hours a semester on it, and student data couldn't leave in the
-  clear.
+- **Status (corrected 2026-10-02):** an unpaid, self-initiated side project, built to make my own
+  marking work easier. It is NOT a paid client engagement and has no client; never say "client",
+  "paid" or "engagement" about it.
+- **Context:** Grading reflective-writing submissions against a rubric took 60–80 hours a semester
+  (my estimate), and student data couldn't leave in the clear.
 - **My action:** Built a Python CLI on the Claude API with privacy-preserving anonymisation before
   anything leaves the machine, consistency controls across submissions, and — the design decision
   that matters — a mechanism that flags any judgment it cannot substantiate against the text of the
   paper rather than asserting it.
-- **Outcome:** 125+ papers graded, 60–80 hours saved per semester, $0.14–0.18 per paper.
-- **Proves:** shipping an LLM tool to a real client under real constraints; designing for calibrated
-  uncertainty instead of confident output.
+- **Outcome:** 125+ papers graded, an estimated 60–80 hours saved per semester, $0.14–0.18 per
+  paper. It worked very well, and I recently extended it to enter the grades into the learning
+  management system automatically using the Claude in Chrome extension.
+- **Proves:** building an LLM tool for my own real workflow under real privacy constraints;
+  designing for calibrated uncertainty instead of confident output. It does NOT prove client
+  delivery, deadlines or stakeholder management.
 - **Follow-up I'd get:** *"Would you let it grade unsupervised?"* — no, and it isn't built to.
-  It produces a defensible first pass with its uncertain judgments marked, which is what the faculty
-  member actually needed.
+  It produces a defensible first pass with its uncertain judgments marked, which is what I
+  actually need as the marker.
 
 ### Story: closing the loop in someone else's codebase
 
@@ -261,9 +266,30 @@ told properly beats four mentioned in passing.
   score 88/100. Plus 60% efficiency gains from the automation layer, reclaiming 400+ hours annually.
 - **Proves:** architecting a content system that scales across roles and survives three years;
   owning a dense technical domain.
-- **Follow-up I'd get:** *"How do you know it worked?"* — adoption and support-deflection
-  frameworks, which I established. Honest caveat: those are programme-level metrics, not a
-  controlled study, and I'd present them that way.
+- **Follow-up I'd get:** *"How do you know it worked?"* — I'm designing a measurement framework that
+  checks learners against product-adoption signals (time-to-first-order) and support-ticket volume
+  per learner against the account average. Honest caveat: it's still being built, not a finished or
+  controlled study — the claim is the design, not a validated result.
+
+### Story: bootstrapping 3 Steps Away
+
+- **Context:** I co-founded 3 Steps Away in 2019, a social-justice education startup, with a
+  colleague. It ran self-funded for three years — no outside capital ever closed.
+- **My action:** I handled the founder mechanics alongside the curriculum work: incorporated the
+  company, protected IP for the brand and the See-Think-Act framework, and brought on a board of
+  corporate-background advisors. Investor conversations through personal networks never converted,
+  so the operating discipline was build-vs-buy — off-the-shelf tools (Zoom, Mighty Networks,
+  Squarespace, Canva) instead of custom infrastructure, which also let us pivot fast when the
+  pandemic forced a switch from in-person programming and a planned book to remote synchronous
+  cohorts without a rebuild.
+- **Outcome:** 150 students across 3 partner schools, 97% completion rate, 3 years of operation
+  (2019-2022), entirely self-funded.
+- **Proves:** founder-level range beyond the instructional-design work — company formation, IP,
+  board relationships, and cost discipline under real constraints, not just programme design.
+- **Follow-up I'd get:** *"Did you raise money?"* — no; investor conversations through networks
+  didn't convert, so the ROI mindset was build-vs-buy discipline rather than chasing funding to
+  cover higher costs. Honest caveat: never validated whether outside capital would have scaled the
+  model faster — the company wound down after 3 years.
 
 ---
 
@@ -285,8 +311,8 @@ caught inflating is worse than not having the number.
 | Gold-set false-passes at threshold | 0 of 10 (2 adversarial) | Authoring system evals | Calibration run |
 | Prompts consolidated | 18 → agents + skills | Authoring system | Before/after |
 | Duplicated lines removed | ~2,660 across 8 API domains | SSOT programme (5-person) | Git diff; 1 microsite sunset |
-| Papers graded | 125+ | Paper Grader, university client | Run logs |
-| Time saved per semester | 60–80 hrs | Paper Grader | Faculty estimate — present as an estimate |
+| Papers graded | 125+ | Paper Grader (unpaid self-initiated project) | Run logs |
+| Time saved per semester | 60–80 hrs | Paper Grader | Luke's own estimate — present as an estimate |
 | Cost per paper | $0.14–0.18 | Paper Grader | API billing |
 | Billing tests authored from zero | 142 | storipro Stripe | Vitest + Playwright suites |
 | Silent double-billing recovered | $138 → $0 | storipro Stripe | Incident root-cause |
@@ -312,7 +338,7 @@ caught inflating is worse than not having the number.
 | AbletonMCP contribution | +612 / −0, 13/13 tests, PR #106 | Open source | Public PR |
 | Voice AI response latency | <1s | Marcus Aurelius | Measured on the production deployment, now retired; session recording in the case study |
 | Second Brain pages / sources / clusters | 100 (0 hand-written) / 66 / 7 | Personal | Repo counts |
-| qpIQ codebase | 298 commits, ~25.7k LOC TS, 29 test files | Solo-built | Git history |
+| qpIQ codebase | 298 commits, ~25.7k LOC TS, 29 test files | Solo-owned, built with coding agents (Luke reviews and decides; does not hand-write code) | Git history |
 | commercetools 12-month git history | 82 commits, ~+36,100 / −16,000 | Verified from git | Git log |
 | Buyer survey completion time | 7 questions, <90s, no login | qpIQ field pilot | Field use |
 | Registered gates, all green | 16 | maths-diagnostic | `docs/gates.lock`; verified by a full run 2026-09-01 |
