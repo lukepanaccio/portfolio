@@ -17,3 +17,9 @@ intake briefs/
 
 # Strategy/working doc (private)
 portfolio-reframing-guide.md
+
+# Private job-search tooling (kept local; moved out of the public repo 2026-10-16)
+.claude/skills/job-application/
+.claude/skills/job-sweep/
+.claude/commands/apply.md
+CLAUDE.local.md
